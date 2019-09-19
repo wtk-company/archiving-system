@@ -196,9 +196,9 @@
     <Compile Include="HelperClasses\DepartmentsID.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201909171858527_IntialModel.cs" />
-    <Compile Include="Migrations\201909171858527_IntialModel.Designer.cs">
-      <DependentUpon>201909171858527_IntialModel.cs</DependentUpon>
+    <Compile Include="Migrations\201909190419007_ddd.cs" />
+    <Compile Include="Migrations\201909190419007_ddd.Designer.cs">
+      <DependentUpon>201909190419007_ddd.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -964,8 +964,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909171858527_IntialModel.resx">
-      <DependentUpon>201909171858527_IntialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909190419007_ddd.resx">
+      <DependentUpon>201909190419007_ddd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

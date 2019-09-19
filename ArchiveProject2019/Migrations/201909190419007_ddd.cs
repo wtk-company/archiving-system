@@ -3,7 +3,7 @@ namespace ArchiveProject2019.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class IntialModel : DbMigration
+    public partial class ddd : DbMigration
     {
         public override void Up()
         {
