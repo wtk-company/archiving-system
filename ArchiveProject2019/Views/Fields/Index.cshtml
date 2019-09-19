@@ -1,0 +1,307 @@
+﻿@model IEnumerable<ArchiveProject2019.Models.Field>
+@using ArchiveProject2019.Models
+@{
+    ViewBag.Title = "حقول النموذج";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    ApplicationDbContext db = new ApplicationDbContext();
+}
+
+@Html.Partial("_StartView")
+
+
+
+@if (ViewBag.Msg != null)
+{
+
+ 
+    if (ViewBag.Msg == "CreateError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
+     
+        </div>
+    }
+
+
+    if (ViewBag.Msg == "CreateSuccess")
+    {
+        <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية الإضافة بنجاح
+        </div>
+    }
+
+
+    if (ViewBag.Msg == "EditSuccess")
+    {
+        <div class="alert alert-success enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية تعديل البيانات بنجاح
+        </div>
+    }
+
+    if (ViewBag.Msg == "EditError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
+
+        </div>
+    }
+
+
+    if (ViewBag.Msg == "DeleteError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لايمكن القيام بعمليةالحذف، العمليةغير مسموحة
+
+        </div>
+    }
+
+    if (ViewBag.Msg == "EditCannot")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لا يمكن القيام بعملية التعديل ، العمليةغير ممكنة مع الأسف
+
+        </div>
+    }
+
+
+
+    if (ViewBag.Msg == "DeleteSuccess")
+    {
+        <div class="alert alert-danger enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية الحذف بنجاح
+
+
+        </div>
+    }
+
+
+
+}
+<p>
+    <button id="btnNewModel" title="إضافة حقل جديد للنموذج" class="btn btn-default">أضافة حقل</button>
+    <button id="btnRefreshModel"  title="تحديث الصفحة" class="btn btn-default glyphicon glyphicon-refresh"></button>
+    <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-default">عودة لقائمةالنماذج  <i class="glyphicon glyphicon-backward"></i></a>
+
+
+</p>
+<table id="form" class="table table-striped table-bordered table-hover dt" style="text-align:center">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.IsRequired)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </th>
+
+            <th>العمليات المتاحة</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsRequired)
+                </td>
+                <td>
+                   @switch(item.Type)
+                   {
+                       case "file":
+                           @:ملف
+
+                           break;
+
+                       case "bool":
+                        @:حقل منطقي
+
+                           break;
+
+
+                       case "float":
+                        @:حقل رقمي
+
+                           break;
+
+
+                       case "date":
+                        @:تاريخ
+
+                           break;
+
+                       case "text":
+                        @:حقل نصي
+
+                           break;
+                       case "phone":
+                        @:رقم هاتف
+
+                           break;
+                       case "email":
+                        @:بريد ألكتروني
+
+        break;
+
+
+}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+
+                <td>
+                    @if (item.Values.Count()==0)
+                    {
+                        <button data-form-id="@item.Id" title="تعديل الحقل" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
+
+                    <button data-form-id="@item.Id" title=" حذف الحقل المحدد" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                    }
+                    <button data-form-id="@item.Id" title="تفاصيل الحقل" class="btn-link js-Details  btn-xs  glyphicon glyphicon-book"></button>
+            
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
+
+
+
+@Html.Partial("_LastView")
+
+
+
+@* Create Model Start *@
+<div class="modal fade" tabindex="-1" id="NewModal"
+     data-keyboard="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4  id="changeText" class="modal-title">القائمة الفرعية</h4>
+            </div>
+            <div class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
+
+            </div>
+        </div>
+    </div>
+</div>
+@* Create Model End *@
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $("#btnNewModel").on("click", function () {
+
+        $("#changeText").text("القائمة الفرعية - إضافة حقل جديد");
+                       var url = '@Url.Action("Create", "Fields")'
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+      $("#btnRefreshModel").on("click", function () {
+
+                       window.location.replace('@Url.Action("Index","Fields",new { Id = Convert.ToInt32(Session["Form_Id"]),msg="none" })');
+
+
+                   });
+
+
+
+
+    $("#form").on("click", ".js-Edit", function () {
+        $("#changeText").text("القائمة الفرعية - تعديل حقل معين");
+
+                       var url = '@Url.Action("Edit", "Fields")';
+                       url = url + '/' + $(this).attr("data-form-id");
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+    $("#form").on("click", ".js-delete", function () {
+
+        $("#changeText").text("القائمة الفرعية - حذف حقل معين");
+
+                       var url = '@Url.Action("Delete", "Fields")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+    
+
+
+
+    $("#form").on("click", ".js-Details", function () {
+        $("#changeText").text("القائمة الفرعية - تفاصيل حقل معين");
+
+                       var url = '@Url.Action("Details", "Fields")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+ 
+
+</script>

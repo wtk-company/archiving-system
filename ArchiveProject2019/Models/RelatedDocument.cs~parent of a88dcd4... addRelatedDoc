@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Web;
+
+namespace ArchiveProject2019.Models
+{
+    public class RelatedDocument
+    {
+        [Key]
+        public int Id { get; set; }
+
+
+        [Display(Name = "رقم الوثيقة")]
+        public int DocId { get; set; }
+
+
+        [Display(Name = "رقم الوثيقةالمرتبطة ")]
+        public int RelatedDocId { get; set; }
+
+
+        [Display(Name = " أنشأ بواسطة ")]
+        public string CreatedById { set; get; }
+        [ForeignKey("CreatedById")]
+        public ApplicationUser CreatedBy { set; get; }
+        
+        
+        // Relate with Document Table
+        [Display(Name = "اسم الوثيقة")]
+        public int DocumentNumber { get; set; }
+        public Document Docuemnt { get; set; }
+    }
+}

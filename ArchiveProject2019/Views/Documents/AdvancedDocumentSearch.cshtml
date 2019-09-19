@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "بحث متعدد الخصائص";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+<style>
+    .form-control {
+        margin: 5px;
+        height: 40px;
+        border-radius: 0;
+        width: 100%;
+    }
+</style>
+
+@*_______Search Section start_________*@
+
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace }))
+{
+    <row>
+        <!-- Search Document Number -->
+        <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
+            <input class="form-control" type="text" placeholder="رقم الوثيقة" name="DocNum" id="DocNum">
+        </div>
+
+        <!-- Search Document Description -->
+        <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
+            <input class="form-control" type="text" placeholder="وصف الوثيقة" name="DocDescription" id="DocDescription">
+        </div>
+
+        <!-- Search Document Kind -->
+        <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
+            <input class="form-control" type="text" placeholder="نوع الوثيقة" name="DocKind" id="DocKind">
+        </div>
+        
+        <!-- Search Document Party -->
+        <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
+            <input class="form-control" type="text" placeholder="جهة الوثيقة" name="DocParty" id="DocParty">
+        </div>
+
+        <!-- Search Document First Date -->
+        <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
+            <input class="form-control" type="text" onfocusin="(this.type='date')" onfocusout="(this.type='text')" placeholder="من تاريخ الوثيقة" name="DocFirstDate" id="DocFirstDate">
+        </div>
+
+        <!-- Search Document End Date -->
+        <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
+            <input class="form-control" type="text" onfocusin="(this.type='date')" onfocusout="(this.type='text')" placeholder="الى تاريخ الوثيقة" name="DocEndDate" id="DocEndDate">
+        </div>
+    </row>
+    <row>
+        <!-- Search Result Count -->
+        <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0" style="margin-right: -10px;margin-left: 12px;">
+            <select name="RetrievalCount" id="RetrievalCount" class="form-control">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+
+        <!-- Search Document Subject -->
+        <div class="col-md-12 md-form active-pink active-pink-2 mb-3 mt-0">
+            <input class="form-control" type="text" placeholder="موضوع الوثيقة" name="DocSubject" id="DocSubject">
+        </div>
+
+        <!-- Submit form -->
+        <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
+            <input type="submit" id="#search_btn" value="بحث عن الوثيقة" class="btn btn-info" />
+        </div>
+    </row>
+}
+@*_______Search Section end_________*@
+
+<br />
+<br />
+<div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0" style="margin-bottom:20px;">
+    <a href="@Url.Action("index","Documents")" class="btn btn-default"> قائمة الوثائق <i class="glyphicon glyphicon-backward"></i></a>
+</div>
+
+
+    <div id="SearchResult" style="margin-bottom:40px;">
+    </div>
+
+    <div class="button" style="margin-bottom:30px;" id="more_data"></div>
+
+    <style>
+        .more_data {
+            background: #fdd415;
+            color: #012f5c;
+            display: inline-block;
+            padding: 16px 40px;
+            background: #012f5c;
+            color: #fff;
+            text-transform: capitalize;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        #RetrievalCount {
+            margin-right: 15px;
+        }
+    </style>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(window).submit(function () {
+            $('.button').html('<button type="button" id="more_data" class="more_data">المزيد من البيانات >></button>');
+        });
+
+        var DN = $('#DocNum').value;
+        var DS = $('#DocSubject').value;
+        var DK = $('#DocKind').value;
+        var DP = $('#DocParty').value;
+        var DD = $('#DocDescription').value;
+        var DFD = $('#DocFirstDate').value; 
+        var DED = $('#DocEndDate').value;
+        var RC = $('#RetrievalCount').val();
+        var RecordCount = 0;
+
+        $("#RetrievalCount").on('change', function () {
+            RC = $(this).val();
+        });
+
+
+
+        $("#more_data").on("click", function () {
+
+            console.log(RecordCount);
+            $.ajax({
+                url: '/Documents/AdvancedDocumentSearch',
+                type: 'POST',
+                data: { RecordCount: RecordCount, RetrievalCount: RC, DocNum: DN, DocSubject: DS, DocKind: DK, DocParty: DP, DocDescription : DD, DocFirstDate: DFD,DocEndDate: DED},
+                //
+                success: function (data) {
+                    $("#SearchResult").append(data);
+                    RecordCount++;
+                    $('.just-first-header').not(':first').css("visibility", "collapse");
+                }
+            });
+        });
+    </script>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

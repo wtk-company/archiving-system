@@ -1,0 +1,28 @@
+﻿@model ArchiveProject2019.Models.Document
+
+@{
+    ViewBag.Title = "تحرير ارتباط الوثيقة";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+
+
+<div>
+
+    <dl class="dl-horizontal">
+
+        تأكيد ازالة ارتباط الوثيقة ؟
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف وثيقة" class="btn btn-danger" />
+
+        </div>
+    }
+</div>

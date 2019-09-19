@@ -1,0 +1,154 @@
+﻿@model ArchiveProject2019.Models.Document
+@using ArchiveProject2019.Models
+@{
+    ViewBag.Title = "تفاصيل الوثيقة";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    ApplicationDbContext db = new ApplicationDbContext();
+
+}
+<style>
+
+
+    td, dd {
+        margin:20px;
+    }
+
+
+       
+
+</style>
+
+
+@Html.Partial("_StartView")
+<a href="@Url.Action("index","Documents")" class="btn btn-default">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
+
+<div>
+  
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FormId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Form.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocumentNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Kind)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Kind)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Party)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Party)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocumentDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FileUrl)
+        </dt>
+        <dd>
+       @*<input type="submit" value="Download" />*@
+            @Html.ActionLink(" فتح الملف", "ShowPdf", "Documents", new { fileUrl = Model.FileUrl }, new { @class = "glyphicon glyphicon-open btn btn-primary" })
+             | 
+            @Html.ActionLink(" تنزيل الملف", "Download", "Documents", new { fileUrl = Model.FileUrl }, new { @class = "glyphicon glyphicon-download btn btn-success" })
+            
+            
+
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+
+        <dd style="overflow:auto;border:1px solid #ef7979;padding:10px">
+            @Html.Raw(Model.Notes)
+        </dd>
+
+        <hr />
+
+        @{
+
+            var Fields = db.Fields.Where(f => f.FormId == Model.FormId).ToList();
+            var values = db.Values.Where(a=>a.DocumentNumber==Model.Id);
+            foreach(var v in values)
+            {
+                <dt>
+                    @v.Field.Name
+                </dt>
+               
+                if(!v.Field.Type.Equals("file"))
+                {
+                    <dd>
+
+                  @v.FieldValue
+                    </dd>
+                }
+                else
+                {
+                    <dd>
+
+                    <button>Here for show</button><button>Here for Download</button>
+                    </dd>
+                }
+
+            }
+
+
+        }
+
+    </dl>
+</div>
+
+@Html.Partial("_LastView")

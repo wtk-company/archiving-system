@@ -1,0 +1,125 @@
+﻿@model IEnumerable<ArchiveProject2019.Models.Permission>
+@using ArchiveProject2019.Models
+@{
+    ViewBag.Title = "اضافةالصلاحيات للأدوار";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+
+
+
+@using (Html.BeginForm())
+{
+
+
+            <!-- start project list -->
+
+    <div class="form-horizontal">
+        <div class="form-group">
+
+            @if (Model.Count()==0)
+            {
+
+                <div class="alert alert-warning" style="text-align:center;font-size:larger">
+                    <span class="glyphicon glyphicon-bell">
+
+                    </span> لا يوجد أي صلاحيات متوفرة
+                </div>
+            }
+            @foreach (Permission item in Model)
+            {
+                <div class="col-md-3 col-sm-12 col-xs-12 ">
+                    <input   style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer"  type="checkbox" value="@item.Id" name="Sel" />
+                    <label>
+                        @item.Name
+                    </label>
+                </div>
+
+
+            }
+
+        </div>
+
+
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-6">
+                @Html.Hidden("RoleId", (string)ViewBag.RoleId)
+
+
+
+@if (Model.Count() != 0)
+{
+
+    <div style="display:inline-block">
+        <label>
+
+            <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" id="checkAll" type="checkbox">تحديدالكل/عدم تحديد
+
+        </label>
+    </div>
+}
+<br />
+               
+            
+               
+            </div>
+
+        </div>
+
+
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+            <input type="submit" value=" إضافةالصلاحيات" class="btn btn-primary" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+
+
+
+
+    </div>
+}
+
+
+@section scripts{
+    <script>
+
+
+
+
+    $(document).ready(function () {
+
+
+        $("#checkAll").click(function () {
+
+            $("input[name='Sel']").prop("checked", this.checked);
+
+
+            $("input[name='Sel']").click(function () {
+
+
+                if ($("input[name='Sel']").length == $("input[name='Sel']:checked").length) {
+                    $("#checkAll").prop("checked", "checked");
+                }
+                else {
+                    $("#checkAll").removeAttr("checked");
+
+                }
+
+            });
+
+
+        });
+
+        
+
+    });
+
+    </script>
+}

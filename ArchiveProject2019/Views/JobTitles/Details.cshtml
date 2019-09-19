@@ -1,0 +1,161 @@
+﻿@model ArchiveProject2019.Models.JobTitle
+
+@{
+    ViewBag.Title = "تفاصيل المسمى الوظيفي";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+    <div>
+
+        <dl class="dl-horizontal">
+           
+    
+           
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Symbol)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Symbol)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.MaximumMember)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MaximumMember)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TypeOfDisplayForm)
+            </dt>
+    
+            <dd>
+                @switch (Model.TypeOfDisplayForm.ToString())
+                {
+
+                    case "0":
+                        @:النمط العادي
+                        break;
+
+                    case "1":
+                        @:القسم الحالي والفروع في أول مستوى
+                        break;
+
+                    case "2":
+                        @:القسم الحالي والفروع جميعها
+                        break;
+
+                    case "3":
+                        @:القسم الحالي ونفس الاقسام من الرئيسي
+                        break;
+
+                    case "4":
+                        @:القسم الحالي والقسم الرئيسي الخاص به
+                        break;
+
+                    case "5":
+                        @:النمط الكامل
+                        break;
+
+                }
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TypeOfDisplayDocument)
+            </dt>
+
+
+            <dd>
+               @switch (Model.TypeOfDisplayDocument.ToString())
+               {
+
+                   case "0":
+                    @:النمط العادي
+                        break;
+
+                   case "1":
+                    @:القسم الحالي والفروع في أول مستوى
+                        break;
+
+                   case "2":
+                    @:القسم الحالي والفروع جميعها
+                        break;
+
+                   case "3":
+                    @:القسم الحالي ونفس الاقسام من الرئيسي
+                        break;
+
+                   case "4":
+                    @:القسم الحالي والقسم الرئيسي الخاص به
+                        break;
+
+                   case "5":
+                    @:النمط الكامل
+                        break;
+
+               }
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </dt>
+
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedAt)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedById)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy.FullName)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </dt>
+
+
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedAt)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedById)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedBy.FullName)
+            </dd>
+
+
+        </dl>
+    </div>
+
+
+<div class="modal-footer justify-content-center" style="margin-top:50px">
+
+    <button type="button" title="إغلاق النافذة" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+</div>
+
+
+@section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+}

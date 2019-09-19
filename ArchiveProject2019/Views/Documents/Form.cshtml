@@ -1,0 +1,16 @@
+﻿@model ArchiveProject2019.ViewModel.DocFromsViewModel
+
+@{
+    ViewBag.Title = "قائمة النماذج";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<p>
+    @for (int i = 0; i < Model.Froms.Count; i++)
+    {
+
+        <a  href="@Url.Action("Create","Documents", new {id = Model.Froms[i].Id, docId = Model.DocId })" title="اضافة لهذا النموذج" class="btn btn-default"><i class="glyphicon glyphicon-plus-sign">  </i>@Model.Froms[i].Name</a>
+
+    }
+
+</p>

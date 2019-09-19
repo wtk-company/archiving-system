@@ -1,0 +1,127 @@
+﻿@model ArchiveProject2019.Models.JobTitle
+
+@{
+    ViewBag.Title = "تعديل مسمى وظيفي ";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+    @Html.HiddenFor(a=>a.Id)
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Symbol, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Symbol, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Symbol, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MaximumMember, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MaximumMember, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MaximumMember, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+  
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TypeOfDisplayForm, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+
+                @Html.DropDownListFor(model => Model.TypeOfDisplayForm, new List<SelectListItem>() {
+     new SelectListItem(){Value="0",Text="النمط العادي",Selected=(Model.TypeOfDisplayDocument==0?true:false) } ,
+           new SelectListItem(){Value="1",Text="القسم الحالي والفروع",Selected=(Model.TypeOfDisplayDocument==1?true:false) },
+           new SelectListItem(){Value="2",Text="القسم الحالي والفروع جميعها" ,Selected=(Model.TypeOfDisplayDocument==2?true:false) } ,
+           new SelectListItem(){Value="3",Text=" القسم الحالي ونفس الاقسام من الرئيسي",Selected=(Model.TypeOfDisplayDocument==3?true:false)  },
+           new SelectListItem(){Value="4",Text=" القسم الحالي والقسم الرئيسي الخاص به " ,Selected=(Model.TypeOfDisplayDocument==4?true:false) },
+           new SelectListItem(){Value="5",Text="النمط الكامل",Selected=(Model.TypeOfDisplayDocument==5?true:false)  }
+
+
+               },
+
+
+
+
+           "اختيار نمط معين", new { @style = "padding:4px", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TypeOfDisplayForm, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TypeOfDisplayDocument, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+
+                @Html.DropDownListFor(model => Model.TypeOfDisplayDocument, new List<SelectListItem>() {
+           new SelectListItem(){Value="0",Text="النمط العادي",Selected=(Model.TypeOfDisplayDocument==0?true:false) } ,
+           new SelectListItem(){Value="1",Text="القسم الحالي والفروع",Selected=(Model.TypeOfDisplayDocument==1?true:false) },
+           new SelectListItem(){Value="2",Text="القسم الحالي والفروع جميعها" ,Selected=(Model.TypeOfDisplayDocument==2?true:false) } ,
+           new SelectListItem(){Value="3",Text=" القسم الحالي ونفس الاقسام من الرئيسي",Selected=(Model.TypeOfDisplayDocument==3?true:false)  },
+           new SelectListItem(){Value="4",Text=" القسم الحالي والقسم الرئيسي الخاص به " ,Selected=(Model.TypeOfDisplayDocument==4?true:false) },
+           new SelectListItem(){Value="5",Text="النمط الكامل",Selected=(Model.TypeOfDisplayDocument==5?true:false)  }
+
+
+               },
+
+
+
+
+           "اختيار نمط معين", new { @style = "padding:4px", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TypeOfDisplayDocument, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+            <input title="تعديل  مسمى وظيفي" type="submit" value="تعديل  مسمى وظيفي" class="btn btn-success" />
+            <button type="button" title="اغلاق النافذة" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+
+
+
+
+    </div>
+}
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

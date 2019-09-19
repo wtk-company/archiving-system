@@ -1,0 +1,75 @@
+﻿@model List<ArchiveProject2019.ViewModel.GroupUserViewModel>
+
+@{
+    ViewBag.Title = "إضافة مستخدمين للمجموعة";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+<style>
+
+    input[type="checkbox"] {
+
+        width:20px;
+        height:20px;
+    }
+</style>
+
+@Html.Partial("_StartView")
+<a href="@Url.Action("Index","Groups")" class="btn btn-default">عودة لقائمةالمجموعات  <i class="glyphicon glyphicon-backward"></i></a>
+
+
+@using (Html.BeginForm("Create", "UsersGroups", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+    
+    <table id="form" class="table table-striped table-bordered table-hover dt" style="text-align:center">
+        <thead>
+            <tr>
+                <th>
+                    اسم المستخدم الثلاثي
+                </th>
+                <th>
+                    اسم المستخدم 
+                </th>
+                <th>
+                    إضافة كعضو جديد
+                </th>
+             
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    @Html.HiddenFor(model => Model[i].GroupId)
+                    @Html.HiddenFor(model => Model[i].UserId)
+                    <td>
+                        @Html.DisplayFor(model => Model[i].FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => Model[i].UserName)
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(model => Model[i].IsGroupMember)
+                    </td>
+                  
+                </tr>
+                
+
+            }
+        </tbody>
+    </table>
+   
+    <div class="form-group">
+      
+            <input title="إضافة المستخدمين للمجموعة" type="submit" value="إضافة المستخدمين" class="btn btn-primary" />
+        
+    </div>
+    
+}
+
+@Html.Partial("_LastView")
+
+
+
+

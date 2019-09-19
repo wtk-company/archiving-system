@@ -1,0 +1,83 @@
+﻿@model ArchiveProject2019.Models.PermissionRole
+
+@{
+    ViewBag.Title = "إزالة الصلاحية";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+<h3>هل أنت متأكد من عملية إزالة الصلاحية ؟</h3>
+<div>
+
+    <dl class="dl-horizontal">
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.PermissionId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Permission.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoleId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Is_Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Is_Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Updatedat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Updatedat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy.FullName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+            <input type="submit" value=" إزالة الصلاحية" class="btn btn-danger" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+
+    }
+</div>

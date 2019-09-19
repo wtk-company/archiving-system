@@ -1,0 +1,221 @@
+﻿@model IEnumerable<ArchiveProject2019.Models.FormGroup>
+
+@{
+    ViewBag.Title = "إعدادات نماذج المجموعات";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+
+@Html.Partial("_StartView")
+
+
+
+
+
+@if (ViewBag.Msg != null)
+{
+
+
+
+    if (ViewBag.Msg == "CreateError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لم يتم إضافة أي مجموعة للنموذج، يرجى تحديد مجموعات
+
+        </div>
+    }
+
+
+
+    if (ViewBag.Msg == "CreateSuccess")
+    {
+        <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية الإضافة بنجاح
+        </div>
+    }
+
+
+    if (ViewBag.Msg == "EditSuccess")
+    {
+        <div class="alert alert-success enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية تعديل حالة التفعيل بنجاح
+        </div>
+    }
+
+  
+
+
+    if (ViewBag.Msg == "DeleteSuccess")
+    {
+        <div class="alert alert-danger enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية إزالةالقسم من النموذج بنجاح
+
+
+        </div>
+    }
+
+
+
+}
+
+<p>
+    <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-default">عودة لقائمةالنماذج  <i class="glyphicon glyphicon-backward"></i></a>
+
+    <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
+
+</p>
+<table id="form" class="table table-striped table-bordered table-hover dt" style="text-align:center">
+
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Form.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Is_Active)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Updatedat)
+            </th>
+
+            <th>
+
+                العمليات المتاحة
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Group.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Form.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Is_Active)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updatedat)
+                </td>
+
+                <td>
+                    <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-active btn-xs btn-link"><span class="glyphicon glyphicon-check"></span></button>
+                    <button data-form-id="@item.Id" title="إزالة المجموعة" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button data-form-id="@item.Id" title=" تفاصيل اسناد المجموعة للنموذج" class="js-details btn-xs btn-link"><span class="glyphicon glyphicon-book"></span></button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+
+</table>
+
+
+@Html.Partial("_LastView")
+
+
+@* Create Model Start *@
+<div class="modal fade" tabindex="-1" id="NewModal"
+     data-keyboard="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 id="changeText" class="modal-title">القائمة الفرعية</h4>
+            </div>
+            <div class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
+
+            </div>
+        </div>
+    </div>
+</div>
+@* Create Model End *@
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+
+
+
+      $("#btnRefreshModel").on("click", function () {
+
+                       window.location.replace('@Url.Action("Index", "FormGroups", new { Id = Session["Form_Id"],msg="none" })');
+
+
+                   });
+
+
+
+
+    $("#form").on("click", ".js-active", function () {
+        $("#changeText").text("القائمة الفرعية - تعديل حالة التفعيل ");
+
+                       var url = '@Url.Action("Edit", "FormGroups")';
+                       url = url + '/' + $(this).attr("data-form-id");
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+    $("#form").on("click", ".js-delete", function () {
+
+        $("#changeText").text("القائمة الفرعية - إزالة مجموعة معين  ");
+
+                       var url = '@Url.Action("Delete", "FormGroups")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+
+        $("#form").on("click", ".js-details", function () {
+
+        $("#changeText").text("القائمة الفرعية - تفاصيل اضافة المجموعة للنموذج   ");
+
+                       var url = '@Url.Action("Details", "FormGroups")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+
+
+
+
+
+</script>
+

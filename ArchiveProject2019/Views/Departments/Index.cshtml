@@ -1,0 +1,425 @@
+﻿@model IEnumerable<ArchiveProject2019.Models.Department>
+@using ArchiveProject2019.Models
+@using ArchiveProject2019.HelperClasses
+@{
+    ViewBag.Title = "قائمة الأقسام";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+<style>
+.just-padding {
+    padding: 15px;
+}
+
+.list-group.list-group-root {
+    padding: 0;
+    overflow: hidden;
+}
+
+.list-group.list-group-root .list-group {
+    margin-bottom: 0;
+}
+
+.list-group.list-group-root .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+}
+
+.list-group.list-group-root > .list-group-item:first-child {
+    border-top-width: 0;
+}
+
+.list-group.list-group-root > .list-group > .list-group-item {
+    padding-right: 35px;
+}
+
+.list-group.list-group-root > .list-group > .list-group > .list-group-item {
+    padding-right: 60px;
+}
+.list-group.list-group-root > .list-group >.list-group > .list-group > .list-group-item {
+    padding-right: 75px;
+}
+.list-group.list-group-root > .list-group >.list-group >.list-group > .list-group > .list-group-item {
+    padding-right: 90px;
+}
+
+.list-group.list-group-root > .list-group >.list-group >.list-group >.list-group > .list-group > .list-group-item {
+    padding-right:105px;
+}
+
+.list-group.list-group-root > .list-group >.list-group >.list-group >.list-group >.list-group > .list-group > .list-group-item {
+    padding-right: 120px;
+}
+
+.list-group-item .glyphicon {
+    margin-left: 10px;
+}
+
+</style>
+
+
+
+
+@Html.Partial("_StartView")
+
+
+
+@if (ViewBag.Msg != null)
+{
+
+
+    if (ViewBag.Msg == "CreateError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
+    
+        </div>
+    }
+
+
+
+    if (ViewBag.Msg == "CreateSuccess")
+    {
+        <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية الإضافة بنجاح
+        </div>
+    }
+
+
+    if (ViewBag.Msg == "EditSuccess")
+    {
+        <div class="alert alert-success enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية تعديل البيانات بنجاح
+        </div>
+    }
+
+    if (ViewBag.Msg == "EditError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
+
+        </div>
+    }
+
+    if (ViewBag.Msg == "DeleteError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            العمليةغير متاحة  ، لا يمكن القيام بعمليةالحذف
+        </div>
+    }
+    if (ViewBag.Msg == "DeleteSuccess")
+    {
+        <div class="alert alert-danger enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية الحذف بنجاح
+
+
+        </div>
+    }
+
+
+
+}
+
+
+
+<p>
+    <button id="btnNewModel" class="btn btn-default" title="إضافة قسم جديد">إضافة قسم جديد</button>
+    <button id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh" title="تحديث الصفحة"></button>
+
+</p>
+
+
+
+    <div id="form" class="just-padding">
+
+        <div class="list-group list-group-root well">
+
+            @*Departmet witout child *@
+
+            @if (Model.Count() == 0)
+            {
+
+                <p style="text-align:center;padding:20px;">لا يوجد أي سجلات</p>
+            }
+
+            @foreach (var element in Model)
+        {
+            //One element just 
+
+
+
+            if (element.ParentId == null)
+            {
+                if (element.ParentId == null && element.ChildDepartment.Count() <= 0)
+                {
+
+                        <a href="#" class="list-group-item">
+
+                            <i class="glyphicon glyphicon-paperclip"></i>@element.Name
+                            
+                        </a>
+                        <div style="padding:10px;height:40px;background-color:white">
+                            <button style="float:left;" data-form-id="@element.Id" title="تعديل اسم القسم" class="btn btn-default js-Edit  btn-xs">تعديل القسم</button>
+                            <button style="float:left;" data-form-id="@element.Id" title="إضافة قسم فرعي" class="btn btn-primary js-Add  btn-xs">إضافة قسم فرعي</button>
+                            @if (CheckDelete.CheckDepertmentDelete(element.Id) ==  true)
+                        {
+
+                                <button style="float:left" data-form-id="@element.Id" title="حذف قسم معين" class="js-delete btn-xs btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                        }
+                            <a style="float:left;" class="btn btn-success btn-xs" title="عرض المستخدمين الحاليين للقسم" href="@Url.Action("DepartmentUsers","Departments",new { id=element.Id})">المستخدمين</a>
+                            <button style="float:left" data-form-id="@element.Id" title="تفاصيل القسم" class="js-details btn-xs btn btn-default">تفاصيل</button>
+
+
+                        </div>
+                }
+
+                else
+                {
+
+                        @multiElement(element);
+                    }
+                }
+
+
+
+
+            }
+
+
+        </div>
+
+
+        @helper printSingle(Department dep)
+        {
+
+
+
+
+
+
+
+    <a href="#" class="list-group-item">
+
+        <i class="glyphicon glyphicon-paperclip"></i>@dep.Name
+
+
+
+    </a>
+        <div style="padding:10px;height:40px;background-color:white">
+            <button style="float:left;" data-form-id="@dep.Id" title="تعديل اسم القسم" class="btn btn-default js-Edit  btn-xs">تعديل القسم</button>
+            <button style="float:left;" data-form-id="@dep.Id" title="إضافة قسم فرعي" class="btn btn-primary js-Add  btn-xs">إضافة قسم فرعي</button>
+          @if (CheckDelete.CheckDepertmentDelete(dep.Id) == true)
+          {
+                <button style="float:left" data-form-id="@dep.Id" title="حذف قسم معين" class="js-delete btn-xs btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+            }
+            <a style="float:left;" class="btn btn-success btn-xs" title="عرض المستخدمين الحاليين للقسم" href="@Url.Action("DepartmentUsers","Departments",new { id=dep.Id})">المستخدمين</a>
+            <button style="float:left" data-form-id="@dep.Id" title="تفاصيل القسم" class="js-details btn-xs btn btn-default">تفاصيل</button>
+
+        </div>
+
+
+
+
+
+}
+
+
+
+
+        @helper multiElement(Department dep)
+ {
+
+if(dep.ParentId!=null && dep.ChildDepartment.Count()==0)
+{
+        @printSingle(dep);
+}
+
+//Super Father
+if ((dep.ParentId == null && dep.ChildDepartment.Count()>0)||(dep.ParentId !=null && dep.ChildDepartment.Count()>0))
+{
+        @:<a href="#@dep.Id" class="list-group-item" data-toggle="collapse">
+            @:<i class="glyphicon glyphicon-chevron-down"></i>@dep.Name
+            @:
+        @:</a>
+
+
+        <div style="padding:10px;height:40px;background-color:white;vertical-align:central">
+            <button style="float:left;" data-form-id="@dep.Id" title="تعديل اسم القسم" class="btn btn-default js-Edit  btn-xs">تعديل القسم</button>
+            <button style="float:left;" data-form-id="@dep.Id" title="إضافة قسم فرعي" class="btn btn-primary js-Add  btn-xs">إضافة قسم فرعي</button>
+           @if (CheckDelete.CheckDepertmentDelete(dep.Id) == true)
+           {
+
+                <button style="float:left" data-form-id="@dep.Id" title="حذف" class="js-delete btn-xs btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+            }
+            <a style="float:left;" class="btn btn-success btn-xs" title="عرض المستخدمين الحاليين للقسم"  href="@Url.Action("DepartmentUsers","Departments",new { id=dep.Id})">المستخدمين</a>
+            <button style="float:left" data-form-id="@dep.Id" title="تفاصيل القسم" class="js-details btn-xs btn btn-default">تفاصيل</button>
+
+        </div>
+
+        @:<div class="list-group collapse" id="@dep.Id">
+
+
+    foreach(Department d in dep.ChildDepartment)
+    {
+
+            @multiElement(d);
+    }
+
+    @:</div>
+            }
+
+
+}
+
+    </div>
+
+
+@Html.Partial("_LastView")
+
+
+@* Create Model Start *@
+<div class="modal fade" tabindex="-1" id="NewModal"
+     data-keyboard="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 id="changeText" class="modal-title"></h4>
+            </div>
+            <div  class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@* Create Model End *@
+
+@section scripts{
+    <script>
+
+
+        $(function () {
+
+            $('.list-group-item').on('click', function () {
+                $('.glyphicon', this)
+                  .toggleClass('glyphicon-chevron-up')
+                  .toggleClass('glyphicon-chevron-down');
+            });
+
+        });
+
+
+
+        $("#btnNewModel").on("click", function () {
+
+            var url = '@Url.Action("Create", "Departments")'
+            $("#changeText").text("القائمة الفرعية-إضافة قسم جديد");
+            url = url + '/0/0';
+            $("#partialPlaceHolder").load(url, function () {
+                $('#NewModal').modal('show');
+            });
+
+        });
+
+        $("#btnRefreshModel").on("click", function () {
+
+            window.location.replace('@Url.Action("Index","Departments",new { Id = "none" })');
+
+
+        });
+
+
+
+
+        $("#form").on("click", ".js-Edit", function () {
+
+            async: false;
+            $("#changeText").text("القائمة الفرعية- تعديل قسم معين");
+
+            var url = '@Url.Action("Edit", "Departments")';
+            url = url + '/' + $(this).attr("data-form-id");
+
+            $("#partialPlaceHolder").load(url, function () {
+                $('#NewModal').modal('show');
+            });
+
+        }
+
+        );
+
+
+
+
+        $("#form").on("click", ".js-Add", function () {
+
+            async: false;
+            $("#changeText").text("القائمة الفرعية- إضافة قسم فرعي جديد ");
+
+            var url = '@Url.Action("Create", "Departments")';
+            url = url + '/0/' + $(this).attr("data-form-id");
+
+            $("#partialPlaceHolder").load(url, function () {
+                $('#NewModal').modal('show');
+            });
+
+        }
+
+       );
+
+
+
+        $("#form").on("click", ".js-delete", function () {
+            $("#changeText").text("القائمة الفرعية- حذف قسم معين");
+
+            var url = '@Url.Action("Delete", "Departments")';
+            url = url + '/' + $(this).attr("data-form-id");
+
+            $("#partialPlaceHolder").load(url, function () {
+                $('#NewModal').modal('show');
+            });
+
+        });
+
+
+
+           $("#form").on("click", ".js-details", function () {
+            $("#changeText").text("القائمة الفرعية- تفاصيل قسم معين");
+
+            var url = '@Url.Action("Details", "Departments")';
+            url = url + '/' + $(this).attr("data-form-id");
+
+            $("#partialPlaceHolder").load(url, function () {
+                $('#NewModal').modal('show');
+            });
+
+        });
+
+    </script>
+  
+    
+    }
+
+
+
+
+
+
+

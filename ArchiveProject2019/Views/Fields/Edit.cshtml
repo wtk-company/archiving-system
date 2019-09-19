@@ -1,0 +1,92 @@
+﻿@model ArchiveProject2019.Models.Field
+
+@{
+    ViewBag.Title = "تعديل حقل";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+      
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.FormId)
+
+
+
+        @Html.HiddenFor(model => model.CreatedById)
+        @Html.HiddenFor(model => model.CreatedAt)
+
+
+
+
+
+
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsRequired, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsRequired)
+                    @Html.ValidationMessageFor(model => model.IsRequired, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @* @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })*@
+
+
+                @Html.DropDownListFor(model => Model.Type, new List<SelectListItem>() { new SelectListItem(){Value="float",Text="حقل رقمي"},
+           new SelectListItem(){Value="file",Text="ملف" },
+                  new SelectListItem() { Text="بريد إلكتروني",Value="email"},
+           new SelectListItem() { Text="رقم هاتف",Value="phone"},
+           new SelectListItem(){Value="bool" ,Text="حقل منطقي"},
+            new SelectListItem(){Value="date" ,Text="تاريخ"},
+           new SelectListItem() { Value = "text", Text = " حقل نصي" }}, "اختيار نوع معين", new { @style = "padding:4px",@class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+       
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+            <input type="submit" title=" تعديل الحقل" value=" تعديل الحقل" class="btn btn-success" />
+            <button type="button" title="إغلاق النافذة" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

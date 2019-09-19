@@ -1,0 +1,62 @@
+﻿@model ArchiveProject2019.Models.RoleViewModel
+
+@{
+    ViewBag.Title = "حذف دور معين";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+
+<h3>هل أنت متأكد من عمليةالحذف.؟</h3>
+<div>
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedByFullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedByFullName)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedByFullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedByFullName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("RoleId", (string)ViewBag.RoleId)
+     
+
+
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+            <input type="submit"  title="حذف الدورالمحدد" value="حذف الدور" class="btn btn-danger" /> 
+
+            <button type="button"  title="اغلاق النافذة" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+
+
+    }
+</div>

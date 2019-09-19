@@ -1,0 +1,210 @@
+﻿@model ArchiveProject2019.Models.EditProfileViewModel
+@using ArchiveProject2019.Models
+@{
+    ViewBag.Title = " تعديل بيانات المستخدم";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+
+    List<GroupSelected> GS;
+
+}
+
+
+@Html.Partial("_StartView")
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+      
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+
+        @if (Model.Role.Equals("Master"))
+        {
+            <div class="form-group">
+            @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("Role", null, new { @class = "form-control", style = "padding:2px",disabled="disabled" })
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+        @Html.HiddenFor(a=>Model.Role)
+        }
+
+        else
+        {
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Role", null, new { @class = "form-control", style = "padding:2px" })
+                    @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+
+
+                </div>
+            </div>
+        }
+
+
+
+        @{
+
+            GS = new List<GroupSelected>();
+            GS = (List<GroupSelected>)ViewBag.Groups;
+
+       
+        }
+
+
+
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+       
+
+
+ 
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.DepartmentID, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepartmentID", null, "اختر القسم",
+
+       new { @class = "form-control", style = "padding:2px" })
+                @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.JobTitleId, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("JobTitleId", null, "اختر المسمى الوظيفي",
+
+       new { @class = "form-control", style = "padding:2px" })
+                @Html.ValidationMessageFor(model => model.JobTitleId, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+
+
+      
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(a => Model.Gender, new List<SelectListItem>() {
+
+
+
+           new SelectListItem() { Text="ذكر",Value="Male"},
+           new SelectListItem() { Text="أنثى",Value="Female"}
+       }
+
+
+       , new { @class = "form-control", style = "padding:2px" })
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+
+        @if (!Model.Role.Equals("Master"))
+        {
+        <div class="form-group">
+            @Html.Label("المجموعات", new { @class = "col-md-2 control-label" })
+            <div class="col-md-10" style="overflow:auto;height:100px">
+                @if (GS.Count() <= 0)
+                {
+
+                    <div class="alert alert-warning" style="text-align:center;font-size:larger">
+                        <span class="glyphicon glyphicon-bell">
+
+                        </span> لا يوجد أي مجموعات متوفره
+                    </div>
+                }
+                else
+                {
+
+                    <div class="checkbox">
+                        <label><input id="checkAll" type="checkbox">تحديدالكل/عدم تحديد</label>
+                    </div>
+                    <hr />
+                    foreach (GroupSelected G in GS)
+                    {
+
+                        if (G.Selected == true)
+                        {
+                            <div class="checkbox">
+                                <label><input name="Groups" type="checkbox" checked value="@G.Id">@G.Name</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="checkbox">
+                                <label><input name="Groups" type="checkbox" value="@G.Id">@G.Name</label>
+                            </div>
+                        }
+
+
+
+
+                    }
+
+
+
+                }
+
+            </div>
+        </div>
+
+        }
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="تعديل البيانات" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+@Html.Partial("_LastView")
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

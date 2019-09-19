@@ -1,0 +1,88 @@
+﻿@model ArchiveProject2019.Models.FormDepartment
+
+@{
+    ViewBag.Title = "تفاصيل القسم ";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+
+<div>
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FormId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Form.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepartmentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Department.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Is_Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Is_Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy.FullName)
+        </dd>
+
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Updatedat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Updatedat)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy.FullName)
+        </dd>
+
+
+
+
+    </dl>
+
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+
+            <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+
+    
+</div>
