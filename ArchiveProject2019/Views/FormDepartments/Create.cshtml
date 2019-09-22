@@ -16,13 +16,7 @@
     <p>
        
         <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-default">عودة لقائمةالنماذج  <i class="glyphicon glyphicon-backward"></i></a>
-        <div style="display:inline-block">
-            <label>
-
-                <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" id="checkAll" type="checkbox">تحديدالكل/عدم تحديد
-
-            </label>
-        </div> 
+       
 </p>
       
         @Html.Hidden("FormIdValue", (int)ViewBag.FormIdValue)
@@ -31,10 +25,10 @@
 
             <thead>
                 <tr>
-                    <th>
+                    <th style="text-align:right">
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
-                    <th>
+                    <th >
 
                         اختر القسم
                     </th>
@@ -46,7 +40,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
+                        <td style="text-align:right">
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
@@ -60,7 +54,15 @@
         </table>
 
         <div class="form-group">
+            <div style="display:inline-block">
+                <label>
+
+                    <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" id="checkAll" type="checkbox">تحديدالكل/عدم تحديد
+
+                </label>
+            </div> 
             <div class="col-md-offset-2 col-md-10">
+
                 <input type="submit" class="btn btn-primary" value="إضافة الاقسام للنموذج" />
             </div>
         </div>

@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<ArchiveProject2019.Models.Field>
 @using ArchiveProject2019.Models
+@using ArchiveProject2019.HelperClasses
 @{
     ViewBag.Title = "حقول النموذج";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -196,7 +197,7 @@
                 </td>
 
                 <td>
-                    @if (item.Values.Count()==0)
+                    @if (CheckDelete.checkFieldsDelete(item.Id)==true)
                     {
                         <button data-form-id="@item.Id" title="تعديل الحقل" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
 

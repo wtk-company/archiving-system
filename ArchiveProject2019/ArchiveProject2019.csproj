@@ -171,6 +171,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConcernedPartiesController.cs" />
+    <Compile Include="Controllers\DocumentDepartmentsController.cs" />
+    <Compile Include="Controllers\DocumentGroupsController.cs" />
     <Compile Include="Controllers\DocumentKindsController.cs" />
     <Compile Include="Controllers\FormDepartmentsController.cs" />
     <Compile Include="Controllers\FormGroupsController.cs" />
@@ -196,9 +198,9 @@
     <Compile Include="HelperClasses\DepartmentsID.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201909190419007_ddd.cs" />
-    <Compile Include="Migrations\201909190419007_ddd.Designer.cs">
-      <DependentUpon>201909190419007_ddd.cs</DependentUpon>
+    <Compile Include="Migrations\201909212053043_documentOp.cs" />
+    <Compile Include="Migrations\201909212053043_documentOp.Designer.cs">
+      <DependentUpon>201909212053043_documentOp.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201909201221481_TypeOfMail.cs" />
     <Compile Include="Migrations\201909201221481_TypeOfMail.Designer.cs">
@@ -215,6 +217,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ConcernedParty.cs" />
+    <Compile Include="Models\DocumentDepartment.cs" />
+    <Compile Include="Models\DocumentGroup.cs" />
     <Compile Include="Models\DocumentKind.cs" />
     <Compile Include="Models\Form.cs" />
     <Compile Include="Models\CheckFileFormatting.cs" />
@@ -963,6 +967,12 @@
     <Content Include="Views\FormGroups\Create.cshtml" />
     <Content Include="Views\FormGroups\Edit.cshtml" />
     <Content Include="Views\Home\IndexTR.cshtml" />
+    <Content Include="Views\DocumentDepartments\Index.cshtml" />
+    <Content Include="Views\DocumentDepartments\Create.cshtml" />
+    <Content Include="Views\DocumentDepartments\Delete.cshtml" />
+    <Content Include="Views\DocumentGroups\Index.cshtml" />
+    <Content Include="Views\DocumentGroups\Create.cshtml" />
+    <Content Include="Views\DocumentGroups\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -980,8 +990,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909190419007_ddd.resx">
-      <DependentUpon>201909190419007_ddd.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909212053043_documentOp.resx">
+      <DependentUpon>201909212053043_documentOp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201909201221481_TypeOfMail.resx">
       <DependentUpon>201909201221481_TypeOfMail.cs</DependentUpon>

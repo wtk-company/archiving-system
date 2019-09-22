@@ -56,11 +56,11 @@
 
                     @Html.DropDownListFor(model => Model.TypeOfDisplayForm, new List<SelectListItem>() {
            new SelectListItem(){Value="0",Text="النمط العادي" } ,
-           new SelectListItem(){Value="1",Text="القسم الحالي والفروع في أول مستوى"},
-           new SelectListItem(){Value="2",Text="القسم الحالي والفروع جميعها" } ,
-           new SelectListItem(){Value="3",Text=" القسم الحالي ونفس الاقسام من الرئيسي" },
-           new SelectListItem(){Value="4",Text=" القسم الحالي والقسم الرئيسي الخاص به " },
-           new SelectListItem(){Value="5",Text="القسم الحالي وجميع الاقسام الابناء " }
+           new SelectListItem(){Value="1",Text="القسم الحالي || الفروع المستوى الأول"},
+           new SelectListItem(){Value="2",Text="القسم الحالي || جميع الفروع" } ,
+           new SelectListItem(){Value="3",Text=" القسم الحالي || الأقسام الموازية " },
+           new SelectListItem(){Value="4",Text=" القسم الحالي|| القسم الرئيسي " },
+           new SelectListItem(){Value="5",Text="القسم الحالي || جميع الأقسام الرئيسية   " }
 
 
                },
@@ -102,12 +102,12 @@
 
 
                     @Html.DropDownListFor(model => Model.TypeOfDisplayDocument, new List<SelectListItem>() {
-           new SelectListItem(){Value="0",Text="النمط العادي" } ,
-           new SelectListItem(){Value="1",Text="القسم الحالي والفروع"},
-           new SelectListItem(){Value="2",Text="القسم الحالي والفروع جميعها" } ,
-           new SelectListItem(){Value="3",Text=" القسم الحالي ونفس الاقسام من الرئيسي" },
-           new SelectListItem(){Value="4",Text=" القسم الحالي والقسم الرئيسي الخاص به " },
-           new SelectListItem(){Value="5",Text=" القسم الحالي وجميع الاقسام الابناء" }
+         new SelectListItem(){Value="0",Text="النمط العادي" } ,
+           new SelectListItem(){Value="1",Text="القسم الحالي || الفروع المستوى الأول"},
+           new SelectListItem(){Value="2",Text="القسم الحالي || جميع الفروع" } ,
+           new SelectListItem(){Value="3",Text=" القسم الحالي || الأقسام الموازية " },
+           new SelectListItem(){Value="4",Text=" القسم الحالي|| القسم الرئيسي " },
+           new SelectListItem(){Value="5",Text="القسم الحالي || جميع الأقسام الرئيسية   " }
 
 
                },

@@ -121,6 +121,32 @@ namespace ArchiveProject2019.HelperClasses
 
         }
 
+        public static bool checkFormDelete(int id)
+        {
+            Form f = db.Forms.Find(id);
+            //Documents:
 
+            List<Document> docs = db.Documents.Where(a => a.FormId == id).ToList();
+            if(docs.Count()>0)
+            {
+                return false;
+
+            }
+            return true;
+
+        }
+
+        public static bool checkFieldsDelete(int id)
+        {
+            List<Value> values = db.Values.Where(a => a.FieldId == id).ToList();
+
+            if(values.Count()>0)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
     }
 }

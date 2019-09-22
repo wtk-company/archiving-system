@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
+using ArchiveProject2019.HelperClasses;
 
 namespace ArchiveProject2019.Controllers
 {
@@ -232,7 +233,7 @@ namespace ArchiveProject2019.Controllers
             }
          
 
-            if(field.Values.Count()>0)
+            if(CheckDelete.checkFieldsDelete(id.Value)==false)
             {
                 return RedirectToAction("index", new { Id = Convert.ToInt32(Session["Form_Id"]), msg = "DeleteError" });
 

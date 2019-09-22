@@ -17,9 +17,108 @@ namespace ArchiveProject2019.HelperClasses
      
 
 
+
+
+
+        public static string CreateDepartmentDisplay(int id)
+        {
+            string DepartmentName = "";
+
+            List<string> DepartmentsName = new List<string>();
+            ApplicationDbContext db = new ApplicationDbContext();
+          
+            IEnumerable<Department> departments = db.Departments.ToList();
+            Department dep = db.Departments.Find(id);
+            
+                if (dep.ParentId == null)
+                {
+
+                return dep.Name;
+                }
+
+                else
+                {
+
+                    Department DepartmentFirst = new Department();
+                    Department DepartmentScond = new Department();
+
+                    Department DepartmentThird = new Department();
+
+                    Department DepartmentFourth = new Department();
+
+
+
+
+                  
+                    //First Parent:
+                    DepartmentFirst = db.Departments.Find(dep.ParentId.Value);
+                    DepartmentsName.Add(DepartmentFirst.Name);
+
+              
+                //Second Parent:
+                if (DepartmentFirst.ParentId != null)
+                    {
+
+                        DepartmentScond = db.Departments.Find(DepartmentFirst.ParentId.Value);
+                          DepartmentsName.Add(DepartmentScond.Name);
+
+
+                }
+
+
+                //Third Parent:
+                if (DepartmentScond.ParentId != null)
+                    {
+
+                        DepartmentThird = db.Departments.Find(DepartmentScond.ParentId.Value);
+                          DepartmentsName.Add(DepartmentThird.Name);
+
+
+
+                }
+
+
+                //Fourth Parent
+                if (DepartmentThird.ParentId != null)
+                    {
+
+                        DepartmentFourth = db.Departments.Find(DepartmentThird.ParentId.Value);
+                    DepartmentsName.Add(DepartmentFourth.Name);
+
+
+
+                }
+
+               
+
+                 
+                }
+
+                DepartmentsName.Reverse();
+
+                foreach (string s in DepartmentsName)
+            {
+                DepartmentName = DepartmentName  + s+ " >> ";
+            }
+
+            DepartmentName = DepartmentName + dep.Name;
+
+
+
+            return DepartmentName;
+
+    }
+
+
+
+
+
+
         public static List<DepartmentListDisplay> CreateDepartmentListDisplay()
         {
 
+
+            List<string> DepartmentsName;
             ApplicationDbContext db = new ApplicationDbContext();
             List<DepartmentListDisplay> DepartmentCheckBoxList = new List<DepartmentListDisplay>();
             IEnumerable<Department> departments = db.Departments.ToList();
@@ -40,7 +139,7 @@ namespace ArchiveProject2019.HelperClasses
 
                 else
                 {
-
+                    DepartmentsName=new List<string>();
                     Department DepartmentFirst = new Department();
                     Department DepartmentScond = new Department();
 
@@ -51,16 +150,18 @@ namespace ArchiveProject2019.HelperClasses
 
 
 
-                    string DepartmentNam = "";
+                    string DepartmentName = "";
                     //First Parent:
                     DepartmentFirst = db.Departments.Find(dep.ParentId.Value);
-                    DepartmentNam = DepartmentFirst.Name;
+                    DepartmentsName.Add(DepartmentFirst.Name);
+                   // DepartmentNam = DepartmentFirst.Name;
                     //Second Parent:
                     if (DepartmentFirst.ParentId != null)
                     {
 
                         DepartmentScond = db.Departments.Find(DepartmentFirst.ParentId.Value);
-                        DepartmentNam = DepartmentNam + " >>" + DepartmentScond.Name;
+                        DepartmentsName.Add(DepartmentScond.Name);
+
 
 
                     }
@@ -71,7 +172,8 @@ namespace ArchiveProject2019.HelperClasses
                     {
 
                         DepartmentThird = db.Departments.Find(DepartmentScond.ParentId.Value);
-                        DepartmentNam = DepartmentNam + " >> " + DepartmentThird.Name;
+                        DepartmentsName.Add(DepartmentThird.Name);
+
 
 
                     }
@@ -82,34 +184,37 @@ namespace ArchiveProject2019.HelperClasses
                     {
 
                         DepartmentFourth = db.Departments.Find(DepartmentThird.ParentId.Value);
-                        DepartmentNam = DepartmentNam + " >> " + DepartmentFourth.Name;
+                        DepartmentsName.Add(DepartmentFourth.Name);
+
 
 
                     }
 
-                    DepartmentNam = DepartmentNam + " >> " + dep.Name;
+                    DepartmentsName.Reverse();
+
+                    foreach (string s in DepartmentsName)
+                    {
+                        DepartmentName = DepartmentName + s + " >> ";
+                    }
+
+                    DepartmentName = DepartmentName + dep.Name;
 
                     DepartmentCheckBox = new DepartmentListDisplay
                     {
                         Id = dep.Id,
-                        Name = DepartmentNam
+                        Name = DepartmentName
 
                     };
                 }
-
+           
 
                 DepartmentCheckBoxList.Add(DepartmentCheckBox);
 
             }
 
-            return DepartmentCheckBoxList.OrderBy(a=>a.Name).ToList();
+            return DepartmentCheckBoxList.OrderBy(a => a.Name).ToList();
 
         }
-
-
-
-
-
 
     }
 }

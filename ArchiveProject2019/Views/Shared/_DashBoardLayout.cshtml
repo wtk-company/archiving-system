@@ -7,7 +7,7 @@
     <link rel="icon" href="~/Content/DashBoard/build/images/favicon.ico" type="image/ico" />
     <title>ARCHIVE SYS-@ViewBag.Title </title>
 
-    <style type="text/css">
+    @*<style type="text/css">
         .modall {
             position: fixed;
             top: 0;
@@ -33,7 +33,7 @@
             z-index: 999;
         }
        
-    </style>
+    </style>*@
     @Styles.Render("~/Content/DashBoardCss")
 
 </head>
@@ -42,18 +42,11 @@
 <body class="nav-md">
 
 
-    <div class="loadingg" align="center">
-        <p>
-            <b>
-
-            جارِ التحميل، يرجى الإنتظار...
-            </b>
-        </p> 
-        <br />
-        <br />
+    @*<div class="loadingg" align="center">
+        
         
         <img src="~/Content/Loader.gif" style="width:100px;height:100px;opacity:0.8" />
-    </div>
+    </div>*@
 
 
     <div id="mainid" class="container body">
@@ -115,24 +108,32 @@
                                 <li class="@(ViewBag.Current == "Forms" ? "current-page" : "")">
                                     <a href="@Url.Action("Index","Forms")"><i class="fa fa-clone"></i>النماذج <span class="fa"></span></a>
                                 </li>
-                                <li class="@(ViewBag.Current == "Document" ? "current-page" : "")">
-                                    @*<a><i class="fa fa-table"></i> الوثائق <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li ><a href="@Url.Action("Form","Documents")">إضافة وثيقة</a></li>
-                                            <li><a href="@Url.Action("Index", "Documents")">الوثائق</a></li>
-                                        </ul>*@
+                              
 
-                                    <a href="@Url.Action("Index","Documents")"><i class="fa fa-table"></i>الوثائق <span class="fa"></span></a>
+
+
+                                <li class="@(ViewBag.Current == "Document" ? "current-page" : "")">
+                                    <a><i class="fa fa-table"></i>الوثائق <span class="fa fa-chevron-down"></span></a>
+
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("Index","Documents")"> <span class="fa fa-newspaper-o"></span>وثائقي</a></li>
+                                        <li><a href="@Url.Action("AdvancedDocumentSearch", "Documents")"><span class="fa fa-search"></span>البحث المتقدم</a></li>
+                                        
+
+                                    </ul>
 
                                 </li>
+
+
+
 
                                 <li class="@(ViewBag.Current == "Users" ? "current-page" : "")">
                                     <a><i class="fa fa-user"></i>المستخدمين <span class="fa fa-chevron-down"></span></a>
 
                                     <ul class="nav child_menu">
-                                        <li><a href="@Url.Action("Index","Users")">المستخدمين</a></li>
-                                        <li><a href="@Url.Action("Register", "Users")">إضافة مستخدم جديد</a></li>
-                                        <li><a href="@Url.Action("ChangeProfile","Users")"> تعديل حسابي</a></li>
+                                        <li><a href="@Url.Action("Index","Users")"><span class="fa fa-male"></span>المستخدمين </a></li>
+                                        <li><a href="@Url.Action("Register", "Users")"><span class="fa fa-plus"></span>إضافة مستخدم جديد</a></li>
+                                        <li><a href="@Url.Action("ChangeProfile","Users")"><span class="fa fa-edit"></span> تعديل حسابي</a></li>
 
                                     </ul>
 
@@ -154,64 +155,7 @@
 
                             </ul>
                         </div>
-                        @*<div class="menu_section">
-                                <h3>به صورت زنده</h3>
-                                <ul class="nav side-menu">
-                                    <li>
-                                        <a><i class="fa fa-bug"></i> صفحات اضافی <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="e_commerce.html">تجارت الکترونیک</a></li>
-                                            <li><a href="projects.html">پروژه ها</a></li>
-                                            <li><a href="project_detail.html">جزئیات پروژه</a></li>
-                                            <li><a href="contacts.html">اطلاعات تماس</a></li>
-                                            <li><a href="profile.html">نمایه</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <i class="fa fa-windows"></i> افزودنیهای پیشنهاد شده <span class="fa fa-chevron-down"></span>
-                                        </a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="page_403.html">403 ارور</a></li>
-                                            <li><a href="page_404.html">404 ارور</a></li>
-                                            <li><a href="page_500.html">500 ارور</a></li>
-                                            <li><a href="plain_page.html">صفحه ساده</a></li>
-                                            <li><a href="login.html">صفحه ورود</a></li>
-                                            <li><a href="pricing_tables.html">جداول قیمت</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <i class="fa fa-sitemap"></i> منو چند سطحی <span class="fa fa-chevron-down"></span>
-                                        </a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="#level1_1">سطح یک</a>
-                                            <li>
-                                                <a>سطح یک<span class="fa fa-chevron-down"></span></a>
-                                                <ul class="nav child_menu">
-                                                    <li class="sub_menu">
-                                                        <a href="level2.html">سطح دو</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#level2_1">سطح دو</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#level2_2">سطح دو</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="#level1_2">سطح یک</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="fa fa-laptop"></i> صفحه مقصد <span class="label label-success pull-left">به زودی</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>*@
+                      
                     </div>
                     <!-- /sidebar menu -->
                     <!-- /menu footer buttons -->
@@ -335,20 +279,20 @@
             <!-- /top navigation -->
             <!-- /header content -->
             <!-- page content -->
-            <div class="right_col" role="main">
+            <div class="right_col" role="main"  style="min-height:700px">
 
-                <div>
-                <div class="clearfix"></div>
-                <div  id="pagecontentDiv"  class="row">
-
+         
+           
+                <div class="row">
+                 
 
                     @RenderBody()
-
-
-
-
                 </div>
-                </div>
+
+
+
+
+                
 
                 @*<footer>
                     <div class="pull-left">
@@ -364,7 +308,10 @@
             <!-- footer content -->
             <footer class="hidden-print">
                 <div class="pull-left">
-                    Gentelella - قالب پنل مدیریت بوت استرپ <a href="https://colorlib.com">Colorlib</a> | پارسی شده توسط <a href="https://morteza-karimi.ir">مرتضی کریمی</a>
+                    <p>
+
+                     WTK Solutions &copy;  |  @DateTime.Now.ToShortDateString() 
+                    </p>
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -389,7 +336,7 @@
 
 
     </div>
-    <script type="text/javascript">
+    @*<script type="text/javascript">
          var modal, loading;
          function ShowProgress() {
              modal = document.createElement("DIV");
@@ -404,21 +351,21 @@
          };
 
          ShowProgress()
-    </script>
+    </script>*@
 
     <!-- Keep the Page Content Here.-->
 
-    <script type="text/javascript">
+    @*<script type="text/javascript">
          window.onload = function () {
              setTimeout(function () {
                  document.body.removeChild(modal);
                  loading.style.display = "none";
               
-             }, 600); //Delay just used for example and must be set to 0.
+             }, 600);
 
-             //
+             
          };
-    </script>
+    </script>*@
     @Scripts.Render("~/Content/DashBoardjs")
 </body>
 </html>
@@ -457,6 +404,8 @@
             }
         });
 
+
+
         $(".enterRemove").click(function () {
 
             $(this).hide(600);
@@ -472,10 +421,14 @@
     thead tr th {
         text-align: center;
     }
-    .container{
-        height:100%;
-    }
+
+    
+    /*.container{
+        height:640px;
+    }*/
     /*.col-sm-6 {
         width: 30%;
     }*/
+
+    
 </style>

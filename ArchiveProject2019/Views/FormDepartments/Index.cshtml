@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<ArchiveProject2019.Models.FormDepartment>
-
+@using ArchiveProject2019.HelperClasses
 @{
     ViewBag.Title = "إعدادات نماذج الأقسام";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -99,9 +99,7 @@
             </th>
            
           
-            <th>
-                @Html.DisplayNameFor(model => model.Updatedat)
-            </th>
+           
            
             <th>
 
@@ -116,8 +114,8 @@
       @foreach (var item in Model)
       {
           <tr>
-              <td>
-                  @Html.DisplayFor(modelItem => item.Department.Name)
+              <td style="text-align:right">
+                  @DepartmentListDisplay.CreateDepartmentDisplay(item.DepartmentId)
               </td>
               <td>
                   @Html.DisplayFor(modelItem => item.Form.Name)
@@ -126,9 +124,7 @@
                   @Html.DisplayFor(modelItem => item.Is_Active)
               </td>
              
-              <td>
-                  @Html.DisplayFor(modelItem => item.Updatedat)
-              </td>
+             
             
               <td>
                   <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-active btn-xs btn-link"><span class="glyphicon glyphicon-check"></span></button>
