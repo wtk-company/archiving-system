@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
+using ArchiveProject2019.HelperClasses;
 
 namespace ArchiveProject2019.Controllers
 {
@@ -141,7 +142,7 @@ namespace ArchiveProject2019.Controllers
             }
             
             IEnumerable<Document> Documents = _context.Documents.Where(a => a.FormId == id);
-            if(Documents.Count()>0)
+            if(CheckDelete.checkFormDelete(id.Value)==false)
             {
                 return RedirectToAction("Index", new { Id = "DeleteError" });
 

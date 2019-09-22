@@ -162,6 +162,8 @@ namespace ArchiveProject2019.Models
         public DbSet<FormDepartment> FormDepartments { set; get; }
         public DbSet<FormGroup> FormGroups { set; get; }
 
+        public DbSet<DocumentDepartment> DocumentDepartments { set; get; }
+        public DbSet<DocumentGroup> DocumentGroups { set; get; }
 
 
 

@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<ArchiveProject2019.Models.Form>
 @using ArchiveProject2019.Models
 @using Microsoft.AspNet.Identity;
+@using ArchiveProject2019.HelperClasses
 
 @{
     ViewBag.Title = "فورمات الوثائق";
@@ -101,6 +102,9 @@
             </th>
    
 
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
            
 
             <th>
@@ -108,6 +112,9 @@
             </th>
           
 
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedById)
+            </th>
 
 
             
@@ -127,36 +134,66 @@
 
              
           
-                
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
 
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
 
-               
+                <td>
+                    @Html.DisplayFor(odelItem => item.UpdatedBy.FullName)
+                </td>
+
                
                 <td>
                     <button data-form-id="@item.Id" title="تعديل اسم النموذج" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
 
-                    @if (item.Documents.Count() <= 0)
+                    @if (CheckDelete.checkFormDelete(item.Id)==true)
                     {
                         <button data-form-id="@item.Id" title="حذف النموذج المحدد" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
                     }
-                    
-                    @Html.ActionLink("االحقول","Index",new {controller="Fields",Id=item.Id})||
-                    @Html.ActionLink(" الأقسام", "Index", new { controller = "FormDepartments", Id = item.Id})||
-                    @Html.ActionLink(" إضافة أقسام", "Create", new { controller = "FormDepartments", Id = item.Id })||
-                    @Html.ActionLink(" المجموعات", "Index", new { controller = "FormGroups", Id = item.Id})||
 
 
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            خيارات إضافية
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+
+                                <a href="@Url.Action("Index","Fields",new { id=item.Id})" title="الحقول الخاصة بالنموذج" class="btn-link btn-sm">الحقول الخاصة بالنموذج</a>
+
+                            </li>
+                            <li>
+
+                                <a href="@Url.Action("Create","FormDepartments",new { id=item.Id})" title="إضافة أقسام" class="btn-link  btn-sm">إضافة أقسام</a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="@Url.Action("Index","FormDepartments",new { id=item.Id})" title="الأقسام المتوفرة" class="btn-link  btn-sm"> الأقسام المتوفرة</a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="@Url.Action("Create","FormGroups",new { id=item.Id})" title="إضافة مجموعات للنموذج" class="btn-link  btn-sm">إضافة مجموعات</a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="@Url.Action("Index","FormGroups",new { id=item.Id})" title=" المجموعات الخاصة للنموذج" class="btn-link  btn-sm">المجموعات المتوفرة</a>
+
+                            </li>
 
 
-
-
-                    @Html.ActionLink(" اضافة المجموعات", "Create", new { controller = "FormGroups", Id = item.Id })
-
-
-
+                        </ul>
+                    </div>
 
 
 

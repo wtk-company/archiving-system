@@ -143,6 +143,39 @@
                     <a href="@Url.Action("GetRelatedDocument","Documents",new { id=item.Id})" title="عرض الوثائق المرتبطة" class="btn-link btn-xs  glyphicon glyphicon-folder-open"></a> |
                     <a href="@Url.Action("Relate","Documents",new { id=item.Id})" title="ربط وثائق" class="btn-link js-Details  btn-xs  glyphicon glyphicon-share-alt"></a> |
                     <a href="@Url.Action("Details","Documents",new { id=item.Id})"  title="تفاصيل" class="btn-link js-Details  btn-xs  glyphicon glyphicon-book"></a> 
+
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            خيارات إضافية
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+
+                                <a href="@Url.Action("Create","DocumentDepartments",new { id=item.Id})" title="إضافة الاقسام للوثيقة" class="btn-link btn-sm">إضافة اقسام للوثيقة</a>
+
+                            </li>
+                            <li>
+
+                                <a href="@Url.Action("Index","DocumentDepartments",new { id=item.Id})" title="الاقسام الخاصة بالوثيقة" class="btn-link  btn-sm"> الأقسام الخاصة بالوثيقة </a>
+
+                            </li>
+
+                            <li>
+
+                                <a href="@Url.Action("Create","DocumentGroups",new { id=item.Id})" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة مجموعات للوثيقة</a>
+
+                            </li>
+                          
+                            <li>
+
+                                <a href="@Url.Action("Index","DocumentGroups",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> المجموعات الخاصة بالوثيقة </a>
+
+                            </li>
+                        </ul>
+                    </div>
+                   
+
                 </td>
             </tr>
         }
