@@ -36,6 +36,33 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.TypeOfMail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeOfMail)
+        </dd>
+
+        @if (Model.TypeOfMail == "وارد")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.MailingNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MailingNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MailingDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MailingDate)
+            </dd>
+        }
+
+        <dt>
             @Html.DisplayNameFor(model => model.Party)
         </dt>
 

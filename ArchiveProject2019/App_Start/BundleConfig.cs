@@ -31,6 +31,7 @@ namespace ArchiveProject2019
 
 
             bundles.Add(new StyleBundle("~/Content/DashBoardCss").Include(
+              
               //Data Tabel Css :
               "~/Content/DataTables/css/dataTables.bootstrap.css",
               //Bootstrap:
@@ -51,13 +52,8 @@ namespace ArchiveProject2019
               
               //Custom Theme Style
               "~/Content/DashBoard/build/css/custom.min.css",
-              "~/Content/bootstrap-multiselect.css"
-           
-
-
-
-
-
+              // Cutom Chosen
+              "~/Content/chosen.css"
 
              ));
 
@@ -94,10 +90,11 @@ namespace ArchiveProject2019
                "~/Content/DashBoard/vendors/iCheck/icheck.min.js",
                //DataTables:
                "~/Scripts/DataTables/jquery.dataTables.min.js",
-               "~/Scripts/DataTables/dataTables.bootstrap.js"
-            
-               
+               "~/Scripts/DataTables/dataTables.bootstrap.js",
 
+               // Cutom Chosen
+               "~/Scripts/chosen.jquery.min.js",
+               "~/Scripts/chosen.proto.min.js"
 
 
               ));

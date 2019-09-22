@@ -7,15 +7,9 @@
 
 }
 <style>
-
-
     td, dd {
-        margin:20px;
+        margin: 20px;
     }
-
-
-       
-
 </style>
 
 
@@ -23,7 +17,7 @@
 <a href="@Url.Action("index","Documents")" class="btn btn-default">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
 
 <div>
-  
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.FormId)
@@ -48,7 +42,7 @@
         <dd>
             @Html.DisplayFor(model => model.Kind)
         </dd>
-        
+
         <dt>
             @Html.DisplayNameFor(model => model.Party)
         </dt>
@@ -73,6 +67,33 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.TypeOfMail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypeOfMail)
+        </dd>
+
+        @if (Model.TypeOfMail == "وارد")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.MailingNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MailingNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MailingDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MailingDate)
+            </dd>
+        }
+
+        <dt>
             @Html.DisplayNameFor(model => model.DocumentDate)
         </dt>
 
@@ -83,12 +104,12 @@
             @Html.DisplayNameFor(model => model.FileUrl)
         </dt>
         <dd>
-       @*<input type="submit" value="Download" />*@
+            @*<input type="submit" value="Download" />*@
             @Html.ActionLink(" فتح الملف", "ShowPdf", "Documents", new { fileUrl = Model.FileUrl }, new { @class = "glyphicon glyphicon-open btn btn-primary" })
-             | 
+            |
             @Html.ActionLink(" تنزيل الملف", "Download", "Documents", new { fileUrl = Model.FileUrl }, new { @class = "glyphicon glyphicon-download btn btn-success" })
-            
-            
+
+
 
         </dd>
 
@@ -121,25 +142,25 @@
         @{
 
             var Fields = db.Fields.Where(f => f.FormId == Model.FormId).ToList();
-            var values = db.Values.Where(a=>a.DocumentNumber==Model.Id);
-            foreach(var v in values)
+            var values = db.Values.Where(a => a.Document_id == Model.Id);
+            foreach (var v in values)
             {
                 <dt>
                     @v.Field.Name
                 </dt>
-               
-                if(!v.Field.Type.Equals("file"))
+
+                if (!v.Field.Type.Equals("file"))
                 {
                     <dd>
 
-                  @v.FieldValue
+                        @v.FieldValue
                     </dd>
                 }
                 else
                 {
                     <dd>
 
-                    <button>Here for show</button><button>Here for Download</button>
+                        <button>Here for show</button><button>Here for Download</button>
                     </dd>
                 }
 

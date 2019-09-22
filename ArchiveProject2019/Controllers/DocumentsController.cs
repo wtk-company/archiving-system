@@ -69,15 +69,19 @@ namespace ArchiveProject2019.Controllers
             }
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", document.DepartmentId);
             ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Name", "Name");
-
             ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
+            ViewBag.TypeMail = new List<SelectListItem>()
+            {
+                new SelectListItem { Text="اختر نوع البريد", Value = null},
+                new SelectListItem { Text="وارد", Value="وارد"},
+                new SelectListItem { Text="صادر", Value="صادر" },
+                new SelectListItem { Text="داخلي", Value="داخلي" },
+                new SelectListItem { Text="ارشيف", Value="ارشيف" },
+            };
 
             DocumentFieldsValuesViewModel myModel = new DocumentFieldsValuesViewModel();
             myModel.Document = document;
 
-            //values and fields:
-            //List<Value> Values = new List<Value>();
-            //Values = document.Values.ToList();
             var Fields = _context.Fields.Include(c => c.Form).Where(f => f.FormId == document.FormId).ToList();
             List<Value> Values = new List<Value>();
             Values = document.Values.ToList();
@@ -103,10 +107,28 @@ namespace ArchiveProject2019.Controllers
 
             bool Status = true;
 
+            // Check your mail type selection
+            if (viewModel.Document.TypeOfMail == null)
+            {
+                ModelState.AddModelError("Document.TypeOfMail", "اختر نوع بريد الورود");
+                Status = false;
+            }
 
-            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
-            ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Name", "Name");
-            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
+            // Check that the mail number is entered
+            if (viewModel.Document.MailingNumber == null && viewModel.Document.TypeOfMail == "وارد")
+            {
+                ModelState.AddModelError("Document.MailingNumber", "ادخل رقم ورود البريد");
+                Status = false;
+            }
+
+            // Check that the mail date is entered
+            if (viewModel.Document.MailingDate == null && viewModel.Document.TypeOfMail == "وارد")
+            {
+                ModelState.AddModelError("Document.MailingDate", "ادخل تاريخ ورود البريد");
+                Status = false;
+            }
+
+
             //الملف الأساسي
 
 
@@ -120,8 +142,6 @@ namespace ArchiveProject2019.Controllers
                 {
                     Status = false;
                     ModelState.AddModelError("Document.FileUrl", "صيغة الملف المحمل غير مدعومة أعد الإدخال مرة أخرى");
-
-
                 }
 
                 else
@@ -242,8 +262,21 @@ namespace ArchiveProject2019.Controllers
                             Status = false;
                         }
                     }
+
                 }
             }
+
+            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
+            ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Name", "Name");
+            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
+            ViewBag.TypeMail = new List<SelectListItem>()
+            {
+                new SelectListItem { Text="اختر نوع البريد", Value = null},
+                new SelectListItem { Text="وارد", Value="وارد"},
+                new SelectListItem { Text="صادر", Value="صادر" },
+                new SelectListItem { Text="داخلي", Value="داخلي" },
+                new SelectListItem { Text="ارشيف", Value="ارشيف" },
+            };
 
             //Status Model=false{status==false}
             if (Status == false)
@@ -378,7 +411,6 @@ namespace ArchiveProject2019.Controllers
                 var value = new Value
                 {
                     FieldId = field.Id,
-
                 };
                 Values.Add(value);
             }
@@ -399,7 +431,14 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name");
             ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Name", "Name");
             ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
-
+            ViewBag.TypeMail = new List<SelectListItem>()
+            {
+                new SelectListItem { Text="اختر نوع البريد", Value = null},
+                new SelectListItem { Text="وارد", Value="وارد"},
+                new SelectListItem { Text="صادر", Value="صادر" },
+                new SelectListItem { Text="داخلي", Value="داخلي" },
+                new SelectListItem { Text="ارشيف", Value="ارشيف" },
+            };
             return View(myModel);
         }
 
@@ -413,9 +452,29 @@ namespace ArchiveProject2019.Controllers
 
             bool Status = true;
 
+            // Check your mail type selection
+            if (viewModel.Document.TypeOfMail == null)
+            {
+                ModelState.AddModelError("Document.TypeOfMail", "اختر نوع بريد الورود");
+                Status = false;
+            }
+
+            // Check that the mail number is entered
+            if (viewModel.Document.MailingNumber == null && viewModel.Document.TypeOfMail == "وارد")
+            {
+                ModelState.AddModelError("Document.MailingNumber", "ادخل رقم ورود البريد");
+                Status = false;
+            }
+
+            // Check that the mail date is entered
+            if (viewModel.Document.MailingDate == null && viewModel.Document.TypeOfMail == "وارد")
+            {
+                ModelState.AddModelError("Document.MailingDate", "ادخل تاريخ ورود البريد");
+                Status = false;
+            }
+
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
             //الملف الأساسي
-
             if (UploadFile == null)
             {
                 ModelState.AddModelError("Document.FileUrl", "يجب إختيار ملف");
@@ -462,7 +521,6 @@ namespace ArchiveProject2019.Controllers
 
                     if ((!FVVM.Fields[i].Type.Equals("file")) && FVVM.Fields[i].IsRequired && FVVM.Values[i].FieldValue == null)
                     {
-
                         ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب إدخال قيمة الحقل، لا يمكن أن يكون فارغ");
                         Status = false;
                     }
@@ -600,9 +658,6 @@ namespace ArchiveProject2019.Controllers
                             Status = false;
                         }
                     }
-
-
-
                 }
 
 
@@ -610,7 +665,19 @@ namespace ArchiveProject2019.Controllers
 
             }//End if 
 
-            //Status Model=false{status==false}
+            // ViewBags must be returned before return instruction
+            ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Name", "Name");
+            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
+            ViewBag.TypeMail = new List<SelectListItem>()
+            {
+                new SelectListItem { Text="اختر نوع البريد", Value = null},
+                new SelectListItem { Text="وارد", Value="وارد"},
+                new SelectListItem { Text="صادر", Value="صادر" },
+                new SelectListItem { Text="داخلي", Value="داخلي" },
+                new SelectListItem { Text="ارشيف", Value="ارشيف" },
+            };
+
+            //Status Model = false{status==false}
             if (Status == false)
             {
                 return View(viewModel);
@@ -622,6 +689,7 @@ namespace ArchiveProject2019.Controllers
                 viewModel.Document.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 viewModel.Document.CreatedById = User.Identity.GetUserId();
                 viewModel.Document.FormId = viewModel.Document.FormId;
+
                 _context.Documents.Add(viewModel.Document);
                 _context.SaveChanges();
 
@@ -640,6 +708,7 @@ namespace ArchiveProject2019.Controllers
                     }
                 }
 
+                // Relate Document
                 var docId = viewModel.DocId;
                 if (docId != -1)
                 {
@@ -656,9 +725,6 @@ namespace ArchiveProject2019.Controllers
 
                 return RedirectToAction("Index", new { id = viewModel.Document.Id });
             }
-            ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Name", "Name");
-            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
-
             return View(viewModel);
         }
         // End Create

@@ -35,6 +35,7 @@ namespace ArchiveProject2019.Models
         // Relate with Document Table
         [Display(Name = "اسم الوثيقة")]
         public int Document_id { get; set; }
+        [ForeignKey("Document_id")]
         public Document Docuemnt { get; set; }
     }
 }

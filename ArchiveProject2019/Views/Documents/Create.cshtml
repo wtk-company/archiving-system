@@ -18,19 +18,47 @@
 {
     @Html.AntiForgeryToken()
 
-    
+
 
     <div class="form-horizontal">
-      
+
 
         @Html.HiddenFor(a => Model.Document.FormId)
         @Html.HiddenFor(a => Model.DocId)
+        
         <div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.DepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLE" })
+                <div class="col-md-10" >
+                    @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
                     @Html.ValidationMessageFor(model => model.Document.DepartmentId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Document.TypeOfMail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Document.TypeOfMail, new SelectList(ViewBag.TypeMail, "Value", "Text"), htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLETypeOfMail" })
+                    @Html.ValidationMessageFor(model => model.Document.TypeOfMail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="takeMail">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Document.MailingNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Document.MailingNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="takeMail">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Document.MailingDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
+                    @Html.ValidationMessageFor(model => model.Document.MailingDate, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -38,7 +66,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.Kind, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.Kind, ViewBag.kinds as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLE" })
+                    @Html.DropDownListFor(model => model.Document.Kind, ViewBag.kinds as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Document.Kind, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -47,7 +75,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.Party, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.Party, ViewBag.partyies as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLE" })
+                    @Html.DropDownListFor(model => model.Document.Party, ViewBag.partyies as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Document.Party, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -87,7 +115,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Document.DocumentDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Document.DocumentDate,"{0:dd/MM/yyyy}", new { @class = "form-control",@type="date" } )
+                @Html.TextBoxFor(model => model.Document.DocumentDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
                 @Html.ValidationMessageFor(model => model.Document.DocumentDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -96,98 +124,80 @@
             @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Document.FileUrl, new { htmlAttributes = new { @class = "form-control" } })*@
-                <input   type="file" name="UploadFile"   />
-             
+                <input type="file" name="UploadFile" />
+
                 @Html.ValidationMessageFor(model => model.Document.FileUrl, "", new { @class = "text-danger" })
             </div>
-            
-
         </div>
 
-       
-        <div class="form-group"  >
-        
-
+        <div class="form-group">
             @Html.LabelFor(model => model.Document.Notes, htmlAttributes: new { @id = "NoteId", @class = "control-label col-md-2 glyphicon glyphicon-arrow-up" })
             <div id="NoteSlide" class="col-md-10">
                 @*<textarea class="ckeditor" name="Notes"></textarea>*@
 
-                @Html.TextAreaFor(model => model.Document.Notes,new {@id="ck", @class = "ckeditor" })
+                @Html.TextAreaFor(model => model.Document.Notes, new { @id = "ck", @class = "ckeditor" })
                 @Html.ValidationMessageFor(model => model.Document.Notes, "", new { @class = "text-danger" })
             </div>
         </div>
-      
 
-        
+
+
         @for (int i = 0; i < Model.FieldsValues.Values.Count; i++)
         {
-        <div class="form-group">
-            <div class="control-label col-md-2">
-                @Model.FieldsValues.Fields[i].Name
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    @Model.FieldsValues.Fields[i].Name
+                </div>
+
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.Values[i].FieldValue, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @switch (Model.FieldsValues.Fields[i].Type)
+                    {
+                        case "bool":
+                            @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "true")@:نعم
+                            @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "false")@:لا
+
+                            break;
+
+
+                        case "float":
+                        case "text":
+                        case "phone":
+                        case "email":
+                            @*@Model.FieldsValues.Fields[i].IsRequired*@
+                            @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control" })
+                            break;
+
+
+                        case "file":
+                            @*@Model.FieldsValues.Fields[i].IsRequired*@
+                            <input type="file" name="FieldFile" />
+
+                            break;
+
+                        case "date":
+                            @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control", @type = "date" })
+                            break;
+
+                            @*@Html.RadioButton(Model.Values[i].FieldValue,"نعم")
+                                @Html.RadioButton(Model.Values[i].FieldValue, "لا")*@
+
+                            //break;
+                    }
+                    @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
+                </div>
+
             </div>
+            
+            <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
 
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.Values[i].FieldValue, new { htmlAttributes = new { @class = "form-control" } })*@
-                @switch (Model.FieldsValues.Fields[i].Type)
-                {
-                    case "bool":
-                        @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "true")@:نعم
-                        @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "false")@:لا
-
-                        break;
-
-
-                    case "float":
-                    case "text":
-                    case "phone":
-                    case "email":
-                        @*@Model.FieldsValues.Fields[i].IsRequired*@
-                        @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control" })
-                        break;
-
-
-                    case "file":
-                        @*@Model.FieldsValues.Fields[i].IsRequired*@
-                        <input type="file" name="FieldFile" />
-
-                        break;
-
-                    case "date":
-                        @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control",@type="date"})
-                                        break;
-
-                        @*@Html.RadioButton(Model.Values[i].FieldValue,"نعم")
-                        @Html.RadioButton(Model.Values[i].FieldValue, "لا")*@
-
-                        //break;
-                }
-                                @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
-                            </div>
-
-
-
-
-                        </div>
-
-
-
-
-
-                        <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
-
-                        @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
+            @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
             @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
 
 
-        @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
-        @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
+            @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
+            @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
         }
-
-                       
-
-   
-
-
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -201,23 +211,44 @@
 
 
 
-@Html.Partial("_LastView")
-
-
-
-
+                @Html.Partial("_LastView")
 
 
 @section Scripts {
-      @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
+
 
     <script>
-    
+        $(function () {
+            $(".chosen-select").chosen({
+                placeholder_text_single: "حدد من النتائج",
+                rtl: true,
+                no_results_text: "لا يوجد نتائج!"
+            });
+        });
+
+        $(function () {
+            var TypeOfMail = $("#TOGGLETypeOfMail");
+
+            if (TypeOfMail.val() == "وارد") {
+                $(".takeMail").show(300);
+            } else {
+                $(".takeMail").hide(300);
+            }
+
+            TypeOfMail.change(function () {
+                if ($(this).val() == "وارد") {
+                    $(".takeMail").show(300);
+                } else {
+                    $(".takeMail").hide(300);
+                }
+            });
+        });
+
+
 
         $("#NoteId").click(function () {
-
             $("#NoteSlide").slideToggle(300);
-
-                    });
+        });
     </script>
 }
