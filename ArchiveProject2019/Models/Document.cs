@@ -31,6 +31,15 @@ namespace ArchiveProject2019.Models
         public string Kind { get; set; }
 
 
+        [Display(Name = "نوع البريد")]
+        public string TypeOfMail { get; set; }
+
+        [Display(Name = "رقم البريد")]
+        public string MailingNumber { get; set; }
+
+        [Display(Name = "تاريخ البريد")]
+        public string MailingDate { get; set; }
+
         [Display(Name = "الجهة")]
         public string Party { get; set; }
 
@@ -73,6 +82,7 @@ namespace ArchiveProject2019.Models
         [Display(Name ="القسم")]
         [Required(ErrorMessage ="يجب إختيار القسم")]
         public int DepartmentId { get; set; }
+        [ForeignKey("DepartmentId")]
         public Department Department { get; set; }
 
 
@@ -80,6 +90,7 @@ namespace ArchiveProject2019.Models
         [Display(Name = "اسم النموذج")]
         [Required(ErrorMessage ="يجب إختيار النموذج")]
         public int FormId { get; set; }
+        [ForeignKey("FormId")]
         public Form Form { get; set; }
 
         

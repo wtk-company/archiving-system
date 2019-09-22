@@ -39,6 +39,33 @@
         </div>
         <div>
             <div class="form-group">
+                @Html.LabelFor(model => model.Document.TypeOfMail, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Document.TypeOfMail, new SelectList(ViewBag.TypeMail, "Value", "Text"), htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLETypeOfMail" })
+                    @Html.ValidationMessageFor(model => model.Document.TypeOfMail, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="takeMail">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Document.MailingNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Document.MailingNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="takeMail">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Document.MailingDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
+                    @Html.ValidationMessageFor(model => model.Document.MailingDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
                 @Html.LabelFor(model => model.Document.Kind, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.Document.Kind, ViewBag.kinds as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLE" })
@@ -223,15 +250,35 @@
 
     <script>
 
-
-        $("#NoteId").click(function () {
-
-            $("#NoteSlide").slideToggle(300);
-
+        $(function () {
+            $(".chosen-select").chosen({
+                placeholder_text_single: "حدد من النتائج",
+                rtl: true,
+                no_results_text: "لا يوجد نتائج!"
+            });
         });
 
+        $(function () {
+            var TypeOfMail = $("#TOGGLETypeOfMail");
 
+            if (TypeOfMail.val() == "وارد") {
+                $(".takeMail").show(300);
+            } else {
+                $(".takeMail").hide(300);
+            }
 
-       
+            TypeOfMail.change(function () {
+                if ($(this).val() == "وارد") {
+                    $(".takeMail").show(300);
+                } else {
+                    $(".takeMail").hide(300);
+                }
+            });
+        });
+
+        $("#NoteId").click(function () {
+            $("#NoteSlide").slideToggle(300);
+        });
+        
     </script>
 }

@@ -26,14 +26,8 @@ namespace ArchiveProject2019.Models
         // Relate with User Table For Create By.
         [Display(Name = " أنشأ بواسطة ")]
         public string CreatedById { set; get; }
-
-
-
-
-
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
-
 
 
         [Display(Name = "تاريخ آخر تعديل ")]
@@ -41,13 +35,13 @@ namespace ArchiveProject2019.Models
         public string UpdatedAt { get; set; }
         [Display(Name = "آخر تعديل  بواسطة ")]
 
-        public string UpdatedById { set; get; }
 
+        public string UpdatedById { set; get; }
         [ForeignKey("UpdatedById")]
         public ApplicationUser UpdatedBy { set; get; }
 
 
 
-        public ICollection<Document> Documents { set; get; }
+        //public ICollection<Document> Documents { set; get; }
     }
 }
