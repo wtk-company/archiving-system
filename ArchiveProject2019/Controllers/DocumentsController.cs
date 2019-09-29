@@ -109,7 +109,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit(DocumentFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
+        public ActionResult Edit(DocumentFieldsValuesViewModel viewModel, HttpPostedFileBase[]UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
         {
 
             ViewBag.Current = "Document";
