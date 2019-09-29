@@ -201,9 +201,10 @@
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201909271934384_ah.cs" />
-    <Compile Include="Migrations\201909271934384_ah.Designer.cs">
-      <DependentUpon>201909271934384_ah.cs</DependentUpon>
+    <Compile Include="Migrations\201909241456073_InitialModel.cs" />
+    <Compile Include="Migrations\201909241456073_InitialModel.Designer.cs">
+      <DependentUpon>201909241456073_InitialModel.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -985,8 +986,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+
     <EmbeddedResource Include="Migrations\201909271934384_ah.resx">
       <DependentUpon>201909271934384_ah.cs</DependentUpon>
+
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

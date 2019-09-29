@@ -24,6 +24,7 @@
 
 
         @Html.HiddenFor(a => Model.Document.FormId)
+        @Html.HiddenFor(a => Model.Document.Name)
         @Html.HiddenFor(a => Model.DocId)
         
         <div>
@@ -124,8 +125,7 @@
             @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Document.FileUrl, new { htmlAttributes = new { @class = "form-control" } })*@
-                <input type="file" name="UploadFile" />
-
+                <input type="file" name="UploadFile" multiple />
                 @Html.ValidationMessageFor(model => model.Document.FileUrl, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -140,63 +140,61 @@
             </div>
         </div>
 
-
-
-        @for (int i = 0; i < Model.FieldsValues.Values.Count; i++)
+        @if (Model.FieldsValues != null)
         {
-            <div class="form-group">
-                <div class="control-label col-md-2">
-                    @Model.FieldsValues.Fields[i].Name
+            for (int i = 0; i < Model.FieldsValues.Values.Count; i++)
+            {
+                <div class="form-group">
+                    <div class="control-label col-md-2">
+                        @Model.FieldsValues.Fields[i].Name
+                    </div>
+                    <div class="col-md-10">
+                        @*@Html.EditorFor(model => model.Values[i].FieldValue, new { htmlAttributes = new { @class = "form-control" } })*@
+                        @switch (Model.FieldsValues.Fields[i].Type)
+                        {
+                            case "bool":
+                                @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "true")@:نعم
+                                @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "false")@:لا
+
+                                break;
+
+
+                            case "float":
+                            case "text":
+                            case "phone":
+                            case "email":
+                                @*@Model.FieldsValues.Fields[i].IsRequired*@
+                                @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control" })
+                                break;
+
+
+                            case "file":
+                                @*@Model.FieldsValues.Fields[i].IsRequired*@
+                                <input type="file" name="FieldFile" />
+
+                                break;
+
+                            case "date":
+                                @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control", @type = "date" })
+                                break;
+
+                                @*@Html.RadioButton(Model.Values[i].FieldValue,"نعم")
+                                    @Html.RadioButton(Model.Values[i].FieldValue, "لا")*@
+
+                                //break;
+                        }
+                        @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
+                    </div>
                 </div>
+                
+                <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
 
-                <div class="col-md-10">
-                    @*@Html.EditorFor(model => model.Values[i].FieldValue, new { htmlAttributes = new { @class = "form-control" } })*@
-                    @switch (Model.FieldsValues.Fields[i].Type)
-                    {
-                        case "bool":
-                            @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "true")@:نعم
-                            @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "false")@:لا
+                @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
 
-                            break;
-
-
-                        case "float":
-                        case "text":
-                        case "phone":
-                        case "email":
-                            @*@Model.FieldsValues.Fields[i].IsRequired*@
-                            @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control" })
-                            break;
-
-
-                        case "file":
-                            @*@Model.FieldsValues.Fields[i].IsRequired*@
-                            <input type="file" name="FieldFile" />
-
-                            break;
-
-                        case "date":
-                            @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control", @type = "date" })
-                            break;
-
-                            @*@Html.RadioButton(Model.Values[i].FieldValue,"نعم")
-                                @Html.RadioButton(Model.Values[i].FieldValue, "لا")*@
-
-                            //break;
-                    }
-                    @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
-                </div>
-
-            </div>
-            
-            <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
-
-            @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
-            @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
-
-
-            @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
-            @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
+                @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
+                @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
+                @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
+            }
         }
 
         <div class="form-group">
