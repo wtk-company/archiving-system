@@ -137,7 +137,7 @@ namespace ArchiveProject2019.Models
         public DbSet<PermissionRole> PermissionRoles { get; set; }
 
         public DbSet<JobTitle> JobTitles { set; get; }
-        public DbSet<TypeOfMail> TypeOfMails { set; get; }
+     
 
 
 

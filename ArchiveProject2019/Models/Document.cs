@@ -97,11 +97,6 @@ namespace ArchiveProject2019.Models
 
 
 
-        [Display(Name = "نوع البريد")]
-        [Required(ErrorMessage = "يجب إختيار نوع البريد")]
-        public int TypeOfMailId { get; set; }
-        [ForeignKey("TypeOfMailId")]
-        public TypeOfMail typeOfMail { get; set; }
         //Collections:
         public ICollection<Value> Values { set; get; }
         //public ICollection<DocumentKind> DocumentKinds { set; get; }
