@@ -7,13 +7,14 @@ using System.Web;
 
 namespace ArchiveProject2019.Models
 {
-    public class Form
+    public class TypeOfMail
     {
+
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="يجب إدخال اسم الفورم")]
-        [Display(Name = "اسم فورم الوثيقة")]
+        [Required(ErrorMessage = "يجب إدخال  النوع")]
+        [Display(Name = "نوع البريد")]
         [StringLength(maximumLength: 50, MinimumLength = 4, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 3")]
 
         public string Name { get; set; }
@@ -29,17 +30,24 @@ namespace ArchiveProject2019.Models
         public ApplicationUser CreatedBy { set; get; }
 
 
+        public int Type { set; get; }
 
+
+        //Update Informations:
 
         [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
-     
+        [Display(Name = "آخر تعديل  بواسطة ")]
+
+        public string UpdatedById { set; get; }
+
+        [ForeignKey("UpdatedById")]
+        public ApplicationUser UpdatedBy { set; get; }
 
 
         // Collections
-        public ICollection<Field> Fields { set; get; }
+  
         public ICollection<Document> Documents { set; get; }
-
     }
 }

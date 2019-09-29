@@ -174,6 +174,7 @@
     <Compile Include="Controllers\DocumentDepartmentsController.cs" />
     <Compile Include="Controllers\DocumentGroupsController.cs" />
     <Compile Include="Controllers\DocumentKindsController.cs" />
+    <Compile Include="Controllers\ErrorControllerController.cs" />
     <Compile Include="Controllers\FormDepartmentsController.cs" />
     <Compile Include="Controllers\FormGroupsController.cs" />
     <Compile Include="Controllers\FormsController.cs" />
@@ -196,23 +197,13 @@
     <Compile Include="HelperClasses\CheckJobTitleDepartment.cs" />
     <Compile Include="HelperClasses\DepartmentListDisplay.cs" />
     <Compile Include="HelperClasses\DepartmentsID.cs" />
+    <Compile Include="HelperClasses\TypeOfMailsController.cs" />
+    <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201909212053043_documentOp.cs" />
-    <Compile Include="Migrations\201909212053043_documentOp.Designer.cs">
-      <DependentUpon>201909212053043_documentOp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909201221481_TypeOfMail.cs" />
-    <Compile Include="Migrations\201909201221481_TypeOfMail.Designer.cs">
-      <DependentUpon>201909201221481_TypeOfMail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909221835484_ValueDocuemnt.cs" />
-    <Compile Include="Migrations\201909221835484_ValueDocuemnt.Designer.cs">
-      <DependentUpon>201909221835484_ValueDocuemnt.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909221858027_RemovePartyIdAndDocKindId.cs" />
-    <Compile Include="Migrations\201909221858027_RemovePartyIdAndDocKindId.Designer.cs">
-      <DependentUpon>201909221858027_RemovePartyIdAndDocKindId.cs</DependentUpon>
+    <Compile Include="Migrations\201909271934384_ah.cs" />
+    <Compile Include="Migrations\201909271934384_ah.Designer.cs">
+      <DependentUpon>201909271934384_ah.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -238,6 +229,7 @@
     <Compile Include="Models\PermissionsControls.cs" />
     <Compile Include="Models\RelatedDocument.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
+    <Compile Include="Models\TypeOfMail.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Models\Value.cs" />
     <Compile Include="Models\View.cs" />
@@ -973,10 +965,13 @@
     <Content Include="Views\DocumentGroups\Index.cshtml" />
     <Content Include="Views\DocumentGroups\Create.cshtml" />
     <Content Include="Views\DocumentGroups\Delete.cshtml" />
+    <Content Include="Views\ErrorController\HttpNotFoundError.cshtml" />
+    <Content Include="Views\ErrorController\BadRequestError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\TypeOfMails\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -990,17 +985,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909212053043_documentOp.resx">
-      <DependentUpon>201909212053043_documentOp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909201221481_TypeOfMail.resx">
-      <DependentUpon>201909201221481_TypeOfMail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909221835484_ValueDocuemnt.resx">
-      <DependentUpon>201909221835484_ValueDocuemnt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909221858027_RemovePartyIdAndDocKindId.resx">
-      <DependentUpon>201909221858027_RemovePartyIdAndDocKindId.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909271934384_ah.resx">
+      <DependentUpon>201909271934384_ah.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

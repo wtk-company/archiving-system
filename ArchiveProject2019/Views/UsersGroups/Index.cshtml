@@ -14,7 +14,7 @@
 </style>
 
 @Html.Partial("_StartView")
-<a href="@Url.Action("Index","Groups")" class="btn btn-default">عودة لقائمةالمجموعات  <i class="glyphicon glyphicon-backward"></i></a>
+<a href="@Url.Action("Index","Groups")" class="btn btn-warning">عودة لقائمةالمجموعات </a>
 
 
 @using (Html.BeginForm("Create", "UsersGroups", FormMethod.Post))
@@ -26,13 +26,19 @@
         <thead>
             <tr>
                 <th>
-                    اسم المستخدم الثلاثي
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().FullName)
+
+
                 </th>
                 <th>
-                    اسم المستخدم 
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().UserName)
+
+                   
                 </th>
                 <th>
-                    إضافة كعضو جديد
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().IsGroupMember)
+
+                    
                 </th>
              
             </tr>

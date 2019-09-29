@@ -77,8 +77,8 @@
 
 }
 <p>
-    <button id="btnNewModel" class="btn btn-default">أضافة مستخدم جديد</button>
-    <button id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
+    <button title="إضافة مستخدم جديد" id="btnNewModel" class="btn btn-primary">أضافة مستخدم جديد</button>
+    <button title="تحديث المحتوى" id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
 
@@ -95,6 +95,10 @@
             </th>
             
             <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+
+            <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
 
@@ -104,7 +108,10 @@
            
 
 
-            <th></th>
+            <th>
+
+                @Html.DisplayName("العمليات المتاحة")
+            </th>
         </tr>
     </thead>
 
@@ -124,7 +131,9 @@
 
                 </td>
 
-              
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
              
                 <td>
                     @Html.DisplayFor(modelItem => item.FullName)
@@ -195,7 +204,7 @@
 
     $("#form").on("click", ".js-Details", function () {
 
-        $("#changeText").text("القائمة الفرعية- معلومات مستخدم معين");
+        $("#changeText").text("معلومات مستخدم معين");
 
         var url = '@Url.Action("Details", "Users")';
         url = url + '/' + $(this).attr("data-form-id");
@@ -213,7 +222,7 @@
 
     $("#form").on("click", ".js-Delete", function () {
 
-        $("#changeText").text("القائمة الفرعية- حذف مستخدم معين");
+        $("#changeText").text("حذف مستخدم معين");
 
         var url = '@Url.Action("Delete", "Users")';
         url = url + '/' + $(this).attr("data-form-id");

@@ -24,9 +24,7 @@ namespace ArchiveProject2019.Controllers
         }
         public ActionResult Index(string Id="none")
         {
-            int d = db.Users.Find(this.User.Identity.GetUserId()).DepartmentId.Value;
-
-            DepartmentsID.GetDepartmentIdAndAllLevelChild(d);
+            
             ViewBag.Current = "Roles";
 
             if (!Id.Equals("none"))
@@ -38,10 +36,6 @@ namespace ArchiveProject2019.Controllers
             {
                 ViewBag.Msg = null;
             }
-
-            //Just roles for This Users:
-            //string Uid = this.User.Identity.GetUserId();
-            //IEnumerable<ApplicationRoles> roles = manger.Roles.Where(a=>a.CreatedById.Equals(Uid));
             IEnumerable<ApplicationRoles> roles = manger.Roles.Where(a=>!a.Name.Equals("Master")).ToList();
             List<RoleViewModel> Roles = new List<RoleViewModel>();
             RoleViewModel roleViewModel;
@@ -53,7 +47,6 @@ namespace ArchiveProject2019.Controllers
                 roleViewModel.UpdatedAt = R.UpdatedAt;
                 roleViewModel.CreatedAt = R.CreatedAt;
                 roleViewModel.CreatedByFullName = db.Users.Find(R.CreatedById).FullName;
-                roleViewModel.UpdatedByFullName = string.IsNullOrEmpty(R.UpdatedById) ? " " : db.Users.Find(R.UpdatedById).FullName;
 
                 Roles.Add(roleViewModel);
             }
@@ -99,7 +92,8 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            return View(RoleView);
+            return RedirectToAction("Index");
+
 
         }
 
@@ -154,7 +148,7 @@ namespace ArchiveProject2019.Controllers
 
                 AppRole.Name = RoleView.Name;
                 AppRole.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                AppRole.UpdatedById = this.User.Identity.GetUserId();
+              
                 db.Entry(AppRole).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
@@ -162,9 +156,9 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            ViewBag.RoleId = RoleId;
-            return View(RoleView);
-            
+            return RedirectToAction("Index");
+
+
 
         }
 
@@ -197,7 +191,6 @@ namespace ArchiveProject2019.Controllers
                 CreatedAt=AppRole.CreatedAt,
                 UpdatedAt=AppRole.UpdatedAt,
                CreatedByFullName = db.Users.Find(AppRole.CreatedById).FullName,
-          UpdatedByFullName = string.IsNullOrEmpty(AppRole.UpdatedById) ? " " : db.Users.Find(AppRole.UpdatedById).FullName
 
 
 

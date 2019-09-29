@@ -73,12 +73,7 @@ namespace ArchiveProject2019.Models
         [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
-        [Display(Name = "آخر تعديل  بواسطة ")]
-
-        public string UpdatedById { set; get; }
-
-        //[ForeignKey("UpdatedById")]
-        //public ApplicationUser UpdatedBy { set; get; }
+      
 
 
 
@@ -111,13 +106,6 @@ namespace ArchiveProject2019.Models
 
         //Update Details:
 
-        [Display(Name = " آخر تعديل بواسطة ")]
-        public string UpdatedById { set; get; }
-
-
-
-        [ForeignKey("UpdatedById")]
-        public ApplicationUser UpdatedBy { set; get; }
 
 
 
@@ -149,7 +137,9 @@ namespace ArchiveProject2019.Models
         public DbSet<PermissionRole> PermissionRoles { get; set; }
 
         public DbSet<JobTitle> JobTitles { set; get; }
-  
+        public DbSet<TypeOfMail> TypeOfMails { set; get; }
+
+
 
         public DbSet<Group> Groups { set; get; }
 

@@ -1,20 +1,20 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿
 
-@{ 
+@{
     Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
- 
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>خطأ داخلي في التطبيق</title>
+    <title>Error 404</title>
     @Styles.Render("~/Content/DashBoardCss")
 
- 
+
 </head>
 
 <body class="nav-md">
@@ -24,8 +24,8 @@
             <div class="col-md-12">
                 <div class="col-middle">
                     <div class="text-center">
-                        <h1 class="error-number">خطأ</h1>
-                        <h2>حدث خطأ داخلي في التطبيق</h2>
+                        <h1 class="error-number">404 !!</h1>
+                        <h2>خطأ في المصدر الذي تبحث عنه</h2>
                         <hr />
 
                         <div class="mid_center">
@@ -36,7 +36,7 @@
                                 <a id="anch" style="" class="btn btn-danger " title="الذهاب للقائمة الرئيسية" href="#">عرض رسالة الخطأ</a>
 
                             </h3>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
         <!-- footer content -->
     </div>
 
-   
+
 </body>
 @Scripts.Render("~/Content/DashBoardjs")
 
@@ -57,11 +57,11 @@
 
         $("#anch").click(function () {
 
-            alert('@Model.Exception.Message');
+            alert('The resource you are looking for has been removed, had its name changed, or is temporarily unavailable');
         });
 
     });
 
-  
-    
+
+
 </script>

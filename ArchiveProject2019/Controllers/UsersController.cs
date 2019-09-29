@@ -35,6 +35,7 @@ namespace ArchiveProject2019.Controllers
         {
             //Role
             ViewBag.Current = "Users";
+            ViewBag.GroupList = new SelectList(db.Groups.ToList(), "Id", "Name");
 
             ViewBag.Role = new SelectList(db.Roles.Where(a=>!a.Name.Equals("Master")).ToList(), "Name","Name");
 
@@ -44,7 +45,6 @@ namespace ArchiveProject2019.Controllers
 
 
 
-            ViewBag.Groups = db.Groups.ToList();
 
 
 
@@ -69,7 +69,8 @@ namespace ArchiveProject2019.Controllers
             ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name");
 
             ViewBag.Role = new SelectList(db.Roles.Where(a => !a.Name.Equals("Master")).ToList(), "Name", "Name",model.Role);
-            ViewBag.Groups = db.Groups.ToList();
+    
+            ViewBag.GroupList = new SelectList(db.Groups.ToList(), "Id", "Name");
 
 
             if (ModelState.IsValid)
@@ -163,13 +164,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-            //GROUPS aND Departments:
-
-            ViewBag.Groups = db.Groups.ToList();
-
       
-
-            // If we got this far, something failed, redisplay form
 
             return View(model);
         }
@@ -338,14 +333,33 @@ namespace ArchiveProject2019.Controllers
      
                 Id=user.Id,
                 Gender=user.Gender,
-                JobTitleId=user.JobTitleId.Value,
-                DepartmentID=user.DepartmentId.Value
+                JobTitleId= user.JobTitleId==null?0:user.JobTitleId.Value,
+                DepartmentID=user.DepartmentId==null?0: user.DepartmentId.Value
 
             };
             
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name",EProfile.Role);
 
-            ViewBag.Groups = GroupSelected.UserGroups(id);
+            List<int> SelectedGroups = new List<int>();
+            SelectedGroups = db.UsersGroups.Where(a => a.UserId.Equals(id)).Select(a=>a.GroupId).ToList();
+            SelectListItem sl;
+            List<SelectListItem> ListSl = new List<SelectListItem>();
+            foreach(var G in db.Groups.ToList())
+            {
+                sl = new SelectListItem()
+                {
+
+                    Text = G.Name,
+                    Value = G.Id.ToString(),
+                    Selected = SelectedGroups.DefaultIfEmpty().Contains(G.Id) ? true : false
+                };
+
+                ListSl.Add(sl);
+
+            }
+            ViewBag.Groups = ListSl;
+
+
             ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name",EProfile.DepartmentID);
             ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name",EProfile.JobTitleId);
 
@@ -358,6 +372,30 @@ namespace ArchiveProject2019.Controllers
         public ActionResult Edit( EditProfileViewModel EProfile, IEnumerable<string> Groups)
         {
             ViewBag.Current = "Users";
+
+            ViewBag.Role = new SelectList(db.Roles.ToList(), "Id", "Name", EProfile.Role);
+
+            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name", EProfile.DepartmentID);
+            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name", EProfile.JobTitleId);
+
+            List<int> SelectedGroups = new List<int>();
+            SelectedGroups = db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id)).Select(a => a.GroupId).ToList();
+            SelectListItem sl;
+            List<SelectListItem> ListSl = new List<SelectListItem>();
+            foreach (var G in db.Groups.ToList())
+            {
+                sl = new SelectListItem()
+                {
+
+                    Text = G.Name,
+                    Value = G.Id.ToString(),
+                    Selected = SelectedGroups.DefaultIfEmpty().Contains(G.Id) ? true : false
+                };
+
+                ListSl.Add(sl);
+
+            }
+            ViewBag.Groups = ListSl;
             bool x = true;
             ApplicationUser user = null;
             if (ModelState.IsValid)
@@ -373,14 +411,17 @@ namespace ArchiveProject2019.Controllers
 
 
 
-                
 
-                if (CheckJobTitleDepartment.CheckJobTitleDepartmentCreateUser(EProfile.DepartmentID, EProfile.JobTitleId,EProfile.Id) == false)
+                if (!EProfile.Role.Equals("Master"))
                 {
+                    if (CheckJobTitleDepartment.CheckJobTitleDepartmentCreateUser(EProfile.DepartmentID, EProfile.JobTitleId, EProfile.Id) == false)
+                    {
 
-                    ModelState.AddModelError("JobTitleId", "عددالأعضاء للقسم بالنسبة للمسمى الوظيفي وصل للحد الأعظمي");
-                    x = false;
+                        ModelState.AddModelError("JobTitleId", "عددالأعضاء للقسم بالنسبة للمسمى الوظيفي وصل للحد الأعظمي");
+                        x = false;
+                    }
                 }
+               
 
                 if (!string.IsNullOrEmpty(EProfile.Email))
                 {
@@ -394,13 +435,73 @@ namespace ArchiveProject2019.Controllers
 
                 }
 
+                if(x==false)
+                {
+                    return View(EProfile);
+                }
                 user.FullName = EProfile.FullName;
                 user.Email = EProfile.Email;
                 user.Gender = EProfile.Gender;     
                 user.RoleName = EProfile.Role;
                 user.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                user.UpdatedById = this.User.Identity.GetUserId();
+            
                 db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                //Add User To Groups
+
+                //
+                List<string> SelectedUserGroups = new List<string>();
+                SelectedUserGroups = db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id)).Select(a => a.GroupId.ToString()).ToList();
+                if (Groups != null)
+                {
+                    UserGroup UserGroup = null;
+                    List<string> ExpectGroups = new List<string>();
+                    ExpectGroups = SelectedUserGroups.Except(Groups).ToList();
+                    foreach (string User_Group_Id in Groups)
+                    {
+
+
+                        if (SelectedUserGroups.Contains(User_Group_Id))
+                        {
+
+                            continue;
+                        }
+                        UserGroup = new UserGroup()
+                        {
+
+                            UserId = user.Id,
+                            GroupId = Convert.ToInt32(User_Group_Id),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
+
+                        db.UsersGroups.Add(UserGroup);
+                    }
+
+
+                    UserGroup deleteUserGroup;
+                    foreach(string s in ExpectGroups)
+                    {
+                        deleteUserGroup = db.UsersGroups.Where(a=>a.UserId.Equals(EProfile.Id)&&a.GroupId.ToString().Equals(s)).SingleOrDefault();
+
+                        db.UsersGroups.Remove(deleteUserGroup);
+
+
+                    }
+                        db.SaveChanges();
+
+                }
+
+                else
+                {
+                    foreach (UserGroup ug in db.UsersGroups.Where(a=>a.UserId.Equals(EProfile.Id)))
+                    {
+                        db.UsersGroups.Remove(ug);
+
+                    }
+
+                    db.SaveChanges();
+
+                }
 
                 db.SaveChanges();
 
@@ -414,18 +515,12 @@ namespace ArchiveProject2019.Controllers
 
 
 
-            ViewBag.Groups = GroupSelected.UserGroups(EProfile.Id);
-
-       
 
 
 
 
 
-            ViewBag.Role = new SelectList(db.Roles.ToList(), "Id", "Name", EProfile.Role);
 
-            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name", EProfile.DepartmentID);
-            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name", EProfile.JobTitleId);
 
 
             return View(EProfile);

@@ -31,7 +31,7 @@ namespace ArchiveProject2019.Controllers
             {
                 ViewBag.Msg = null;
             }
-            var jobTitles = db.JobTitles.Include(j => j.CreatedBy).Include(j => j.UpdatedBy);
+            var jobTitles = db.JobTitles.Include(j => j.CreatedBy);
             return View(jobTitles.ToList());
         }
 
@@ -44,7 +44,7 @@ namespace ArchiveProject2019.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobTitle jobTitle = db.JobTitles.Include(a => a.CreatedBy).Include(a => a.UpdatedBy).SingleOrDefault(a=>a.Id==id);
+            JobTitle jobTitle = db.JobTitles.Include(a => a.CreatedBy).SingleOrDefault(a=>a.Id==id);
             if (jobTitle == null)
             {
                 return HttpNotFound();
@@ -146,7 +146,7 @@ namespace ArchiveProject2019.Controllers
                 }
 
                 jobTitle.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                jobTitle.UpdatedById = this.User.Identity.GetUserId();
+            
                 db.Entry(jobTitle).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { Id = "EditSuccess" });

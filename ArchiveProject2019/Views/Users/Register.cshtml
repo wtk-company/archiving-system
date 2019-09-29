@@ -4,15 +4,13 @@
     ViewBag.Title = "تسجيل مستخدم جديد";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 
-    List<Group> GS;
+
 
 
 
 }
   
-@*<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
 
-<script src="~/Scripts/bootstrap-multiselect.js"></script>*@
 
 
 
@@ -42,15 +40,7 @@
    
 
 
-        @{
-
-            GS = new List<Group>();
-            GS = (List<Group>)ViewBag.Groups;
-
         
-
-        }
-
 
        
 
@@ -172,58 +162,40 @@
             </div>
         </div>
 
+        @if (((SelectList)ViewBag.GroupList).Count() <= 0)
+{
         <div class="form-group">
             @Html.Label("المجموعات", new { @class = "col-md-2 control-label" })
             <div class="col-md-10" style="overflow:auto;height:150px">
-                @if (GS.Count() <= 0)
-                {
+               
 
                     <div class="alert alert-warning" style="text-align:center;font-size:larger">
                         <span class="glyphicon glyphicon-bell">
 
                         </span> لا يوجد أي مجموعات متوفره
                     </div>
-                }
-                else
-                {
-
-                    <div style="display:inline-block">
-                        <label>
-
-
-                            <input id="checkAll" type="checkbox" style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer">
-
-
-                            تحديدالكل / عدم تحديد
-
-
-                        </label>
-                        
-                        
-                    </div>
-                    <hr />
-                    foreach (Group G in GS)
-                    {
-                        <div style="display:inline-block">
-
-                            <label>
-
-
-                                <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" name="Groups" type="checkbox" value="@G.Id">
-                                @G.Name
-                            </label>
-                        </div>
-
-
-
-                    }
-
-
-
-                }
+                
+               
 
             </div>
         </div>
+        }
+
+        else
+        {
+
+
+            <div>
+                <div class="form-group">
+                    @Html.Label("المجموعات", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("Groups", (SelectList)ViewBag.GroupList, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+                    </div>
+                </div>
+            </div>
+
+        }
+
 
 
 
@@ -242,44 +214,29 @@
 @Html.Partial("_LastView")
 
   @section Scripts {
-
+@Scripts.Render("~/bundles/jqueryval")
     <script>
 
-
-                $(document).ready(function () {
-
-
-                    $("#checkAll").click(function () {
-
-                        $("input[name='Groups']").prop("checked", this.checked);
+        
 
 
-                        $("input[name='Groups']").click(function () {
-
-
-                            if ($("input[name='Groups']").length == $("input[name='Groups']:checked").length) {
-                                $("#checkAll").prop("checked", "checked");
-                            }
-                            else {
-                                $("#checkAll").removeAttr("checked");
-
-                            }
-
-                        });
-
-
-                    });
-
-
-
-
-
-
-
-
-
+       
+            $(function () {
+                $(".chosen-select").chosen({
+                    
+                    rtl: true,
+                    no_results_text: "لا يوجد نتائج!"
                 });
+            });
+
+      
+
+
+
+      
 
     </script>
   
       }
+
+

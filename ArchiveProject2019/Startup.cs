@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using ArchiveProject2019.Models;
 using System;
 using System.Collections.Generic;
+using ArchiveProject2019.HelperClasses;
 
 [assembly: OwinStartupAttribute(typeof(ArchiveProject2019.Startup))]
 namespace ArchiveProject2019
@@ -28,6 +29,7 @@ namespace ArchiveProject2019
             CreateMasterRole();
 
             CreateMasterUser();
+            CreateTypeOfMail();
         }
 
         public void CreateMasterRole()
@@ -120,6 +122,29 @@ namespace ArchiveProject2019
             }
 
 
+        }
+
+
+        public void CreateTypeOfMail()
+        {
+            TypeOfMail type;
+            foreach(string s in TypeOfMailStartup.GetTypes())
+            {
+
+                if (db.TypeOfMails.Any(a=>a.Name.Equals(s))==false)
+                {
+                    type = new TypeOfMail()
+                    {
+
+                        Name = s,
+                        Type = 0,
+                        CreatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")
+                };
+                    db.TypeOfMails.Add(type);
+                }
+               
+            }
+            db.SaveChanges();
         }
     }
 

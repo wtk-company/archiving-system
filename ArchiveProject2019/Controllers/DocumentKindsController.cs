@@ -34,7 +34,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             ViewBag.Current = "DocumentKind";
-            var DocKinds = _context.DocumentKinds.Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy).ToList();
+            var DocKinds = _context.DocumentKinds.Include(a=>a.CreatedBy).ToList();
             return View(DocKinds.ToList());
         }
 
@@ -71,7 +71,8 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            return View(DocumentKind);
+            return RedirectToAction("Index");
+
         }
 
         // GET: DocumentKinds/Edit/5
@@ -104,14 +105,15 @@ namespace ArchiveProject2019.Controllers
             {
 
                 kinds.UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                kinds.UpdatedById = User.Identity.GetUserId();
+          
                 _context.Entry(kinds).State = EntityState.Modified;
                 _context.SaveChanges();
 
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
             }
 
-            return View(kinds);
+            return RedirectToAction("Index");
+
         }
 
         // GET: ConcernedPartys/Delete/5

@@ -46,7 +46,7 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
             Session["Form_Id"] = Id;
-            var formDepartments = db.FormDepartments.Where(a => a.FormId == Id).Include(f => f.CreatedBy).Include(f => f.Department).Include(f => f.Form).Include(f => f.UpdatedBy);
+            var formDepartments = db.FormDepartments.Where(a => a.FormId == Id).Include(f => f.CreatedBy).Include(f => f.Department).Include(f => f.Form);
             return View(formDepartments.ToList());
         }
 
@@ -58,7 +58,7 @@ namespace ArchiveProject2019.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             FormDepartment formDepartment = db.FormDepartments.Include(a => a.CreatedBy)
-                .Include(a => a.UpdatedBy).Include(a => a.Department).Include(a => a.Form)
+                .Include(a => a.Department).Include(a => a.Form)
                 .SingleOrDefault(a=>a.Id==id);
             if (formDepartment == null)
             {
@@ -147,10 +147,11 @@ namespace ArchiveProject2019.Controllers
                
             }
 
-         
 
 
-            return View();
+
+            return RedirectToAction("Index");
+
         }
 
         // GET: FormDepartments/Edit/5
@@ -170,9 +171,6 @@ namespace ArchiveProject2019.Controllers
             return View(formDepartment);
         }
 
-        // POST: FormDepartments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Edit(int Id)
@@ -197,7 +195,7 @@ namespace ArchiveProject2019.Controllers
             {
                 formDepartment.Is_Active = true;
             }
-            formDepartment.UpdatedById = this.User.Identity.GetUserId();
+           
                 db.Entry(formDepartment).State = EntityState.Modified;
                 db.SaveChanges();
             return RedirectToAction("Index", new { @id =Form_Id , @msg = "EditSuccess" });

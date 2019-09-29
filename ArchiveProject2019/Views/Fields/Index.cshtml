@@ -100,9 +100,9 @@
 
 }
 <p>
-    <button id="btnNewModel" title="إضافة حقل جديد للنموذج" class="btn btn-default">أضافة حقل</button>
+    <button id="btnNewModel" title="إضافة حقل جديد للنموذج" class="btn btn-primary">أضافة حقل</button>
     <button id="btnRefreshModel"  title="تحديث الصفحة" class="btn btn-default glyphicon glyphicon-refresh"></button>
-    <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-default">عودة لقائمةالنماذج  <i class="glyphicon glyphicon-backward"></i></a>
+    <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-warning">عودة لقائمةالنماذج </a>
 
 
 </p>
@@ -131,7 +131,11 @@
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
 
-            <th>العمليات المتاحة</th>
+            <th>
+                @Html.DisplayName("العمليات المتاحة")
+
+
+            </th>
         </tr>
     </thead>
 
@@ -244,7 +248,7 @@
 <script>
     $("#btnNewModel").on("click", function () {
 
-        $("#changeText").text("القائمة الفرعية - إضافة حقل جديد");
+        $("#changeText").text("إضافة حقل جديد");
                        var url = '@Url.Action("Create", "Fields")'
 
         $("#partialPlaceHolder").load(url, function () {
@@ -264,7 +268,7 @@
 
 
     $("#form").on("click", ".js-Edit", function () {
-        $("#changeText").text("القائمة الفرعية - تعديل حقل معين");
+        $("#changeText").text("تعديل حقل معين");
 
                        var url = '@Url.Action("Edit", "Fields")';
                        url = url + '/' + $(this).attr("data-form-id");
@@ -277,7 +281,7 @@
 
     $("#form").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية - حذف حقل معين");
+        $("#changeText").text("حذف حقل معين");
 
                        var url = '@Url.Action("Delete", "Fields")';
                        url = url + '/' + $(this).attr("data-form-id") ;
@@ -292,7 +296,7 @@
 
 
     $("#form").on("click", ".js-Details", function () {
-        $("#changeText").text("القائمة الفرعية - تفاصيل حقل معين");
+        $("#changeText").text("تفاصيل حقل معين");
 
                        var url = '@Url.Action("Details", "Fields")';
                        url = url + '/' + $(this).attr("data-form-id") ;

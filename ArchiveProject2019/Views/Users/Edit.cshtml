@@ -4,7 +4,6 @@
     ViewBag.Title = " تعديل بيانات المستخدم";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 
-    List<GroupSelected> GS;
 
 }
 
@@ -53,14 +52,6 @@
 
 
 
-        @{
-
-            GS = new List<GroupSelected>();
-            GS = (List<GroupSelected>)ViewBag.Groups;
-
-       
-        }
-
 
 
 
@@ -89,34 +80,36 @@
         </div>
 
 
-
+@if (!Model.Role.Equals("Master"))
+{
         <div class="form-group">
             @Html.LabelFor(m => m.DepartmentID, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.DropDownList("DepartmentID", null, "اختر القسم",
 
-       new { @class = "form-control", style = "padding:2px" })
+new { @class = "form-control", style = "padding:2px" })
                 @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
 
 
             </div>
         </div>
+}
 
-
-
+@if (!Model.Role.Equals("Master"))
+{
         <div class="form-group">
             @Html.LabelFor(m => m.JobTitleId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.DropDownList("JobTitleId", null, "اختر المسمى الوظيفي",
 
-       new { @class = "form-control", style = "padding:2px" })
+new { @class = "form-control", style = "padding:2px" })
                 @Html.ValidationMessageFor(model => model.JobTitleId, "", new { @class = "text-danger" })
 
 
             </div>
         </div>
 
-
+}
 
       
 
@@ -143,52 +136,42 @@
 
         @if (!Model.Role.Equals("Master"))
         {
-        <div class="form-group">
-            @Html.Label("المجموعات", new { @class = "col-md-2 control-label" })
-            <div class="col-md-10" style="overflow:auto;height:100px">
-                @if (GS.Count() <= 0)
-                {
 
-                    <div class="alert alert-warning" style="text-align:center;font-size:larger">
-                        <span class="glyphicon glyphicon-bell">
 
-                        </span> لا يوجد أي مجموعات متوفره
+            if (((List<SelectListItem>)ViewBag.Groups).Count() <= 0)
+            {
+                <div class="form-group">
+                    @Html.Label("المجموعات", new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10" style="overflow:auto;height:150px">
+
+
+                        <div class="alert alert-warning" style="text-align:center;font-size:larger">
+                            <span class="glyphicon glyphicon-bell">
+
+                            </span> لا يوجد أي مجموعات متوفره
+                        </div>
+
+
+
                     </div>
-                }
-                else
-                {
+                </div>
+            }
 
-                    <div class="checkbox">
-                        <label><input id="checkAll" type="checkbox">تحديدالكل/عدم تحديد</label>
+            else
+            {
+
+
+                <div>
+                    <div class="form-group">
+                        @Html.Label("المجموعات", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("Groups", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+                        </div>
                     </div>
-                    <hr />
-                    foreach (GroupSelected G in GS)
-                    {
+                </div>
 
-                        if (G.Selected == true)
-                        {
-                            <div class="checkbox">
-                                <label><input name="Groups" type="checkbox" checked value="@G.Id">@G.Name</label>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="checkbox">
-                                <label><input name="Groups" type="checkbox" value="@G.Id">@G.Name</label>
-                            </div>
-                        }
+            }
 
-
-
-
-                    }
-
-
-
-                }
-
-            </div>
-        </div>
 
         }
 
@@ -205,6 +188,29 @@
 @Html.Partial("_LastView")
 
 
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+
+
+
+
+            $(function () {
+                $(".chosen-select").chosen({
+                    placeholder_text_single: "حدد من النتائج",
+                    rtl: true,
+                    no_results_text: "لا يوجد نتائج!"
+                });
+            });
+
+
+
+
+
+
+
+    </script>
+
 }

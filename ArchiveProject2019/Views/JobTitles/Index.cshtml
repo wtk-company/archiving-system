@@ -103,7 +103,7 @@
 
 
 <p>
-    <button id="btnNewModel" title="إضافة مسمى جديد" class="btn btn-default">أضافة مسمى جديد</button>
+    <button id="btnNewModel" title="إضافة مسمى جديد" class="btn btn-primary">أضافة مسمى جديد</button>
     <button title="تحديث القائمة" id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
@@ -127,11 +127,11 @@
            
        
             <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
+                @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
             <th>
-
-                العمليات المتاحة
+                @Html.DisplayName("العمليات المتاحة")
+                
             </th>
         </tr>
 
@@ -158,7 +158,7 @@
            
              
                 <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
                   
@@ -208,7 +208,7 @@
       $("#btnNewModel").on("click", function () {
 
 
-        $("#changeText").text("القائمة الفرعية- إضافة دور جديد");
+        $("#changeText").text("إضافة دور جديد");
         var url = '@Url.Action("Create", "JobTitles")';
 
         $("#partialPlaceHolder").load(url, function () {
@@ -229,7 +229,7 @@
 
       $("#form").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية-   حذف مسمى وظيفي");
+        $("#changeText").text("حذف مسمى وظيفي");
 
         var url = '@Url.Action("Delete", "JobTitles")';
         url = url + '/' + $(this).attr("data-form-id") ;
@@ -244,7 +244,7 @@
 
 
     $("#form").on("click", ".js-Edit", function () {
-        $("#changeText").text("القائمة الفرعية - تعديل  المسمى الوظيفي");
+        $("#changeText").text("تعديل  المسمى الوظيفي");
 
                        var url = '@Url.Action("Edit", "jobTitles")';
                        url = url + '/' + $(this).attr("data-form-id");
@@ -259,7 +259,7 @@
 
       $("#form").on("click", ".js-Details", function () {
 
-        $("#changeText").text("القائمة الفرعية- تفاصيل المسمى الوظيفي");
+        $("#changeText").text("تفاصيل المسمى الوظيفي");
 
         var url = '@Url.Action("Details", "JobTitles")';
         url = url + '/' + $(this).attr("data-form-id") ;

@@ -62,13 +62,7 @@
             @Html.DisplayFor(model => model.Updatedat)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedById)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedBy.FullName)
-        </dd>
+       
 
     </dl>
 
@@ -77,8 +71,8 @@
 
         <div class="modal-footer justify-content-center" style="margin-top:50px">
 
-            <input type="submit" value=" تعديل الحالة" class="btn btn-success" />
-            <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+            <input title="تعديل حالة التفعيل" type="submit" value=" تعديل الحالة" class="btn btn-success" />
+            <button title="اغلاق النافذة"  type="button" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
         </div>
 
     }

@@ -80,7 +80,7 @@ namespace ArchiveProject2019.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Field field = db.Fields.Include(s=>s.Form).Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy).FirstOrDefault(a=>a.Id==id);
+            Field field = db.Fields.Include(s=>s.Form).Include(a=>a.CreatedBy).FirstOrDefault(a=>a.Id==id);
             if (field == null)
             {
                 return HttpNotFound();
@@ -136,7 +136,8 @@ namespace ArchiveProject2019.Controllers
             }
 
 
-            return View(field);
+                return RedirectToAction("Index");
+
         }
 
         // GET: Fields/Edit/5
@@ -201,13 +202,14 @@ namespace ArchiveProject2019.Controllers
                 field.FormId = Convert.ToInt32(Session["Form_Id"]);
 
                 field.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                field.UpdatedById = User.Identity.GetUserId();
+                
                 db.Entry(field).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index",new { Id = Convert.ToInt32(Session["Form_Id"]),msg="EditSuccess" });
             }
-        
-            return View(field);
+
+            return RedirectToAction("Index");
+
         }
 
         // GET: Fields/Delete/5

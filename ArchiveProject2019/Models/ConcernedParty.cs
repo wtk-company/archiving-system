@@ -15,6 +15,8 @@ namespace ArchiveProject2019.Models
 
         [Required(ErrorMessage = "يجب إدخال اسم الجهة")]
         [Display(Name = "اسم الجهة")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
+
         public string Name { get; set; }
 
 
@@ -36,10 +38,7 @@ namespace ArchiveProject2019.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
 
-        [Display(Name = "آخر تعديل  بواسطة ")]
-        public string UpdatedById { set; get; }
-        [ForeignKey("UpdatedById")]
-        public ApplicationUser UpdatedBy { set; get; }
+        
 
 
 

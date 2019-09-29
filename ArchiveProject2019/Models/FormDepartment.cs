@@ -50,11 +50,6 @@ namespace ArchiveProject2019.Models
         [Display(Name = "تاريخ أخر تحديث")]
         public string Updatedat { get; set; }
 
-        //Users Control:
-        [Display(Name = " تم التعديل بواسطة ")]
-        public string UpdatedById { set; get; }
-
-        [ForeignKey("UpdatedById")]
-        public ApplicationUser UpdatedBy { set; get; }
+       
     }
 }

@@ -45,7 +45,7 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
             Session["Form_Id"] = Id;
-            var formGroups = db.FormGroups.Where(a => a.FormId == Id).Include(f => f.CreatedBy).Include(f => f.Group).Include(f => f.Form).Include(f => f.UpdatedBy);
+            var formGroups = db.FormGroups.Where(a => a.FormId == Id).Include(f => f.CreatedBy).Include(f => f.Group).Include(f => f.Form);
             return View(formGroups.ToList());
         }
 
@@ -57,7 +57,7 @@ namespace ArchiveProject2019.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             FormGroup formGroup = db.FormGroups.Include(a => a.CreatedBy)
-                .Include(a => a.UpdatedBy).Include(a => a.Group).Include(a => a.Form)
+             .Include(a => a.Group).Include(a => a.Form)
                 .SingleOrDefault(a => a.Id == id);
             if (formGroup == null)
             {
@@ -149,8 +149,8 @@ namespace ArchiveProject2019.Controllers
 
 
 
+            return RedirectToAction("Index");
 
-            return View();
         }
 
         // GET: FormDepartments/Edit/5
@@ -197,7 +197,7 @@ namespace ArchiveProject2019.Controllers
             {
                 formGroup.Is_Active = true;
             }
-            formGroup.UpdatedById = this.User.Identity.GetUserId();
+         
             db.Entry(formGroup).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index", new { @id = Form_Id, @msg = "EditSuccess" });

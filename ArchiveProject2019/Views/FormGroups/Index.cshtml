@@ -70,7 +70,7 @@
 }
 
 <p>
-    <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-default">عودة لقائمةالنماذج  <i class="glyphicon glyphicon-backward"></i></a>
+    <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-warning">عودة لقائمةالنماذج </a>
 
     <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
@@ -91,12 +91,14 @@
 
 
             <th>
-                @Html.DisplayNameFor(model => model.Updatedat)
+                @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
 
             <th>
+                @Html.DisplayName("العمليات المتاحة")
 
-                العمليات المتاحة
+
+
             </th>
         </tr>
 
@@ -118,7 +120,7 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.Updatedat)
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
 
                 <td>
@@ -174,7 +176,7 @@
 
 
     $("#form").on("click", ".js-active", function () {
-        $("#changeText").text("القائمة الفرعية - تعديل حالة التفعيل ");
+        $("#changeText").text("تعديل حالة التفعيل ");
 
                        var url = '@Url.Action("Edit", "FormGroups")';
                        url = url + '/' + $(this).attr("data-form-id");
@@ -187,7 +189,7 @@
 
     $("#form").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية - إزالة مجموعة معين  ");
+        $("#changeText").text("إزالة مجموعة معين  ");
 
                        var url = '@Url.Action("Delete", "FormGroups")';
                        url = url + '/' + $(this).attr("data-form-id") ;
@@ -201,7 +203,7 @@
 
         $("#form").on("click", ".js-details", function () {
 
-        $("#changeText").text("القائمة الفرعية - تفاصيل اضافة المجموعة للنموذج   ");
+        $("#changeText").text("تفاصيل اضافة المجموعة للنموذج ");
 
                        var url = '@Url.Action("Details", "FormGroups")';
                        url = url + '/' + $(this).attr("data-form-id") ;

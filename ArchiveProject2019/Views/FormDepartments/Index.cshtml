@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ArchiveProject2019.Models.FormDepartment>
 @using ArchiveProject2019.HelperClasses
 @{
-    ViewBag.Title = "إعدادات نماذج الأقسام";
+    ViewBag.Title = "الأقسام الخاصة بالنموذج";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
@@ -79,7 +79,7 @@
 }
 
 <p>
-    <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-default">عودة لقائمةالنماذج  <i class="glyphicon glyphicon-backward"></i></a>
+    <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-warning">عودة لقائمةالنماذج  </a>
 
     <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
@@ -102,8 +102,8 @@
            
            
             <th>
-
-                العمليات المتاحة
+                @Html.DisplayName("العمليات المتاحة")
+                
             </th>
         </tr>
 
@@ -179,7 +179,7 @@
 
 
     $("#form").on("click", ".js-active", function () {
-        $("#changeText").text("القائمة الفرعية - تعديل حقل معين");
+        $("#changeText").text("تعديل حقل معين");
 
                        var url = '@Url.Action("Edit", "FormDepartments")';
                        url = url + '/' + $(this).attr("data-form-id");
@@ -192,7 +192,7 @@
 
     $("#form").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية - إزالة قسم معين  ");
+        $("#changeText").text("إزالة قسم معين ");
 
                        var url = '@Url.Action("Delete", "FormDepartments")';
                        url = url + '/' + $(this).attr("data-form-id") ;
@@ -206,7 +206,7 @@
 
         $("#form").on("click", ".js-details", function () {
 
-        $("#changeText").text("القائمة الفرعية - تفاصيل اضافة القسم للنموذج   ");
+        $("#changeText").text(" تفاصيل اضافة القسم للنموذج");
 
                        var url = '@Url.Action("Details", "FormDepartments")';
                        url = url + '/' + $(this).attr("data-form-id") ;

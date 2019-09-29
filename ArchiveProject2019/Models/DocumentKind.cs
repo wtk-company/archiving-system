@@ -14,6 +14,8 @@ namespace ArchiveProject2019.Models
 
 
         [Required(ErrorMessage = "يجب إدخال نوع الوثيقة")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
+
         [Display(Name = "نوع الوثيقة")]
         public string Name { get; set; }
         
@@ -33,12 +35,7 @@ namespace ArchiveProject2019.Models
         [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
-        [Display(Name = "آخر تعديل  بواسطة ")]
-
-
-        public string UpdatedById { set; get; }
-        [ForeignKey("UpdatedById")]
-        public ApplicationUser UpdatedBy { set; get; }
+       
 
 
 

@@ -58,14 +58,14 @@
                     </div>
                     <div class="clearfix"></div>
                     <!-- menu profile quick info -->
-                    <div class="profile clearfix">
+                    <div class="profile clearfix" style="border-bottom:solid 1px white;padding-bottom:15px">
                         <div class="profile_pic">
 
                             <img src="~/Content/DashBoard/build/images/user.png" alt="User Image" class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
                             <span>أهلاً بك</span>
-                            @*<h2>@Html.Action("UserFullName","Users")</h2>*@
+                            <h2>@Html.Action("UserFullName","Users")</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -361,7 +361,7 @@
                  document.body.removeChild(modal);
                  loading.style.display = "none";
               
-             }, 600);
+             }, 400);
 
              
          };
@@ -405,6 +405,7 @@
         });
 
 
+
         $(".enterRemove").click(function () {
 
             $(this).hide(600);
@@ -419,6 +420,10 @@
 <style>
     thead tr th {
         text-align: center;
+    }
+    thead {
+        background-color: #34495e;
+        color: white;
     }
 
     

@@ -59,7 +59,7 @@
 }
 
 <p>
-    <a title="عودة لقائمة الوثائق" href="@Url.Action("index","Documents")" class="btn btn-default">عودة لقائمة الوثائق  <i class="glyphicon glyphicon-backward"></i></a>
+    <a title="عودة لقائمة الوثائق" href="@Url.Action("index","Documents")" class="btn btn-warning">عودة لقائمة الوثائق</a>
 
     <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
@@ -85,8 +85,8 @@
 
 
             <th>
-
-                العمليات المتاحة
+                @Html.DisplayName("العمليات المتاحة")
+                
             </th>
         </tr>
 
@@ -167,7 +167,7 @@
 
     $("#form").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية - إزالة مجموعة معينة  ");
+        $("#changeText").text("إزالة مجموعة معينة");
 
                        var url = '@Url.Action("Delete", "DocumentGroups")';
                        url = url + '/' + $(this).attr("data-form-id") ;

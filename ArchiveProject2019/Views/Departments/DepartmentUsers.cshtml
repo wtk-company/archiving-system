@@ -10,7 +10,7 @@
 
 
 <p>
-    <a title="عودة لقائمة الأقسام" href="@Url.Action("index","Departments")" class="btn btn-default">عودة لقائمة الاقسام  <i class="glyphicon glyphicon-backward"></i></a>
+    <a title="عودة لقائمة الأقسام" href="@Url.Action("index","Departments")" class="btn btn-warning">عودة لقائمة الاقسام</a>
 
 
 </p>
@@ -25,6 +25,9 @@
             </th>
 
             <th>
+                @Html.DisplayName("اسم المستخدم")
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
 
@@ -34,7 +37,11 @@
 
 
 
-            <th></th>
+            <th>
+                @Html.DisplayName("تفاصيل المستخدم")
+
+
+            </th>
         </tr>
     </thead>
 
@@ -57,6 +64,10 @@
 
 
                 <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+
+                <td>
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
 
@@ -68,7 +79,6 @@
 
                 <td>
                     <button data-form-id="@item.Id" title="تفاصيل المستخدم" class="btn-link js-Details  btn-xs  glyphicon glyphicon-book"></button>
-                    <a href="@Url.Action("Edit","Users",new { id=item.Id})" title="تعديل المستخدم" class="btn-link js-Edit  btn-xs  "><span class="glyphicon glyphicon-edit"></span></a>
 
 
                 </td>
@@ -106,7 +116,7 @@
 
     $("#form").on("click", ".js-Details", function () {
 
-        $("#changeText").text("القائمة الفرعية- معلومات مستخدم معين");
+        $("#changeText").text("معلومات المستخدم");
 
         var url = '@Url.Action("Details", "Users")';
         url = url + '/' + $(this).attr("data-form-id");

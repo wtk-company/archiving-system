@@ -89,7 +89,7 @@
 
 }
 <p>
-    <button id="btnNewModel" title="إضافة نموذج جديد" class="btn btn-default">أضافة نموذج</button>
+    <button id="btnNewModel" title="إضافة نموذج جديد" class="btn btn-primary">أضافة نموذج</button>
     <button id="btnRefreshModel"title="تحديث الصفحة" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
@@ -108,18 +108,19 @@
            
 
             <th>
+                @Html.DisplayNameFor(model => model.CreatedById)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
-          
-
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedById)
-            </th>
+     
 
 
             
             <th>
-                العمليات المتاحة
+
+                @Html.DisplayName("العمليات المتاحة")
+                
             </th>
         </tr>
     </thead>
@@ -137,14 +138,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
-
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
 
-                <td>
-                    @Html.DisplayFor(odelItem => item.UpdatedBy.FullName)
-                </td>
+                
 
                
                 <td>
@@ -240,7 +241,7 @@
     $("#btnNewModel").on("click", function () {
 
 
-        $("#changeText").text("القائمة الفرعية- إضافة نموذج جديد");
+        $("#changeText").text("إضافة نموذج جديد");
         var url = '@Url.Action("Create", "Forms")'
 
         $("#partialPlaceHolder").load(url, function () {
@@ -261,7 +262,7 @@
 
     $("#form").on("click", ".js-Edit", function () {
 
-        $("#changeText").text("القائمة الفرعية- تعديل نموذج معين");
+        $("#changeText").text(" تعديل نموذج معين");
 
         var url = '@Url.Action("Edit", "Forms")';
         url = url + '/' + $(this).attr("data-form-id");
@@ -274,7 +275,7 @@
 
     $("#form").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية- حذف نموذج معين");
+        $("#changeText").text("حذف نموذج معين");
 
         var url = '@Url.Action("Delete", "Forms")';
         url = url + '/' + $(this).attr("data-form-id") ;

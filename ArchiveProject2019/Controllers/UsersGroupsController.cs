@@ -66,6 +66,12 @@ namespace ArchiveProject2019.Controllers
         {
             ViewBag.Current = "UsersGroup";
 
+            if(viewModel==null)
+            {
+       return RedirectToAction("ShowUsersGroup", new { Id = Convert.ToInt32(Session["GroupId"]), msg = "CreateError" });
+
+
+            }
             if (ModelState.IsValid)
             {
                 for (int i = 0; i < viewModel.Count(); i++)
@@ -85,10 +91,13 @@ namespace ArchiveProject2019.Controllers
 
                     _context.UsersGroups.Add(UserGroup);
                     _context.SaveChanges();
+                    return RedirectToAction("ShowUsersGroup", new { Id = Convert.ToInt32(Session["GroupId"]), msg = "CreateSuccess" });
+
+
                 }
             }
 
-            return RedirectToAction("Index", "Groups", new { Id = "CreateSuccess" });
+            return RedirectToAction("Index", "Groups");
         }
 
         public ActionResult ShowUsersGroup(int? Id,string msg="none")

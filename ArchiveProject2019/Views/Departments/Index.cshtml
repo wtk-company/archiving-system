@@ -140,7 +140,7 @@
 
 
 <p>
-    <button id="btnNewModel" class="btn btn-default" title="إضافة قسم جديد">إضافة قسم جديد</button>
+    <button id="btnNewModel" class="btn btn-primary" title="إضافة قسم جديد">إضافة قسم جديد</button>
     <button id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh" title="تحديث الصفحة"></button>
 
 </p>
@@ -331,7 +331,7 @@ if ((dep.ParentId == null && dep.ChildDepartment.Count()>0)||(dep.ParentId !=nul
         $("#btnNewModel").on("click", function () {
 
             var url = '@Url.Action("Create", "Departments")'
-            $("#changeText").text("القائمة الفرعية-إضافة قسم جديد");
+            $("#changeText").text("إضافة قسم جديد");
             url = url + '/0/0';
             $("#partialPlaceHolder").load(url, function () {
                 $('#NewModal').modal('show');
@@ -351,8 +351,8 @@ if ((dep.ParentId == null && dep.ChildDepartment.Count()>0)||(dep.ParentId !=nul
 
         $("#form").on("click", ".js-Edit", function () {
 
-            async: false;
-            $("#changeText").text("القائمة الفرعية- تعديل قسم معين");
+        
+            $("#changeText").text("تعديل قسم معين");
 
             var url = '@Url.Action("Edit", "Departments")';
             url = url + '/' + $(this).attr("data-form-id");
@@ -370,8 +370,7 @@ if ((dep.ParentId == null && dep.ChildDepartment.Count()>0)||(dep.ParentId !=nul
 
         $("#form").on("click", ".js-Add", function () {
 
-            async: false;
-            $("#changeText").text("القائمة الفرعية- إضافة قسم فرعي جديد ");
+            $("#changeText").text("إضافة قسم فرعي جديد");
 
             var url = '@Url.Action("Create", "Departments")';
             url = url + '/0/' + $(this).attr("data-form-id");
@@ -387,7 +386,7 @@ if ((dep.ParentId == null && dep.ChildDepartment.Count()>0)||(dep.ParentId !=nul
 
 
         $("#form").on("click", ".js-delete", function () {
-            $("#changeText").text("القائمة الفرعية- حذف قسم معين");
+            $("#changeText").text("حذف قسم معين");
 
             var url = '@Url.Action("Delete", "Departments")';
             url = url + '/' + $(this).attr("data-form-id");
@@ -401,7 +400,7 @@ if ((dep.ParentId == null && dep.ChildDepartment.Count()>0)||(dep.ParentId !=nul
 
 
            $("#form").on("click", ".js-details", function () {
-            $("#changeText").text("القائمة الفرعية- تفاصيل قسم معين");
+            $("#changeText").text("تفاصيل قسم معين");
 
             var url = '@Url.Action("Details", "Departments")';
             url = url + '/' + $(this).attr("data-form-id");

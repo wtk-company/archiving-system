@@ -83,10 +83,10 @@
 }
 
 <p>
-    <button id="btnNewModel" class="btn btn-default">أضافة صلاحيات الممكنة للدور</button>
+    <button title="إضافة الصلاحيات للدور" id="btnNewModel" class="btn btn-primary">أضافة صلاحيات الممكنة للدور</button>
 
-    <a href="@Url.Action("index","Roles")" class="btn btn-default">عودة لقائمة الأدوار  <i class="glyphicon glyphicon-backward"></i></a>
-    <button id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
+    <a title="عودة لقائمة الأدوار الرئيسية" href="@Url.Action("index","Roles")" class="btn btn-warning">عودة لقائمة الأدوار  </a>
+    <button title="تحديث المحتوى" id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
 <table id="form" class="table table-striped table-bordered table-hover dt" style="text-align:center">
@@ -114,7 +114,8 @@
             </th>
 
             <th>
-                العمليات المتاحة
+                @Html.DisplayName("العمليات المتاحة")
+                
             </th>
         </tr>
     </thead>
@@ -181,7 +182,7 @@
 <script>
     $("#btnNewModel").on("click", function () {
 
-        $("#changeText").text("القائمة الفرعية - إضافة الصلاحيات للأدوار");
+        $("#changeText").text("إضافة الصلاحيات للأدوار");
                        var url = '@Url.Action("Create", "PermissionRoles")'
 
         $("#partialPlaceHolder").load(url, function () {
@@ -201,7 +202,7 @@
 
 
     $("#form").on("click", ".js-active", function () {
-        $("#changeText").text("القائمة الفرعية - تعديل حقل معين");
+        $("#changeText").text("تعديل حقل معين");
 
                        var url = '@Url.Action("Active", "PermissionRoles")';
                        url = url + '/' + $(this).attr("data-form-id");
@@ -214,7 +215,7 @@
 
     $("#form").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية - إزالة صلاحية  ");
+        $("#changeText").text("إزالة صلاحية");
 
                        var url = '@Url.Action("Delete", "PermissionRoles")';
                        url = url + '/' + $(this).attr("data-form-id") ;

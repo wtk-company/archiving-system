@@ -29,14 +29,34 @@
         <div class="alert alert-success enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell"></span>
             تمت عملية تعديل حالة المستخدم بنجاح
-        </div>  
+        </div>
     }
 
 
+    if (ViewBag.Msg == "CreateError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لم يتم إضافة أي مستخدم للمجموعة ، يرجى تحديد مستخدمين
+
+        </div>
+    }
+
+    if (ViewBag.Msg == "CreateSuccess")
+    {
+        <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية الإضافة بنجاح
+        </div>
+    }
 
 }
 
-<a href="@Url.Action("Index","Groups")" class="btn btn-default">عودة لقائمةالمجموعات  <i class="glyphicon glyphicon-backward"></i></a>
+<a href="@Url.Action("Index","Groups")" class="btn btn-warning">عودة لقائمةالمجموعات</a>
 
 <table id="UsersGroup" class="table table-striped table-bordered table-hover dt" style="text-align:center">
     <thead>
@@ -89,7 +109,8 @@
                    
                     <button data-UsersGroup-id="@item.Id" title="إزاله من المجموعة" class="btn btn-link js-delete  btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
                     <button data-UsersGroup-id="@item.Id" title="التفاصيل" class="btn btn-link js-details  btn-xs"><span class="glyphicon glyphicon-book"></span></button>
-                    <button data-UsersGroup-id="@item.UserId" title="تفاصيل المستخدم" class="btn-link js-DetailsUser  btn-xs  glyphicon glyphicon-user"></button>
+                    <button data-UsersGroup-id="@item.UserId" title="تفاصيل المستخدم" class="btn btn-link js-DetailsUser  btn-xs"><span class="glyphicon glyphicon-user"></span></button>
+
 
 
                 </td>
@@ -144,7 +165,7 @@
 
     $("#UsersGroup").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية- إزالة مستخدم من المجموعة");
+        $("#changeText").text("إزالة مستخدم من المجموعة");
 
         var url = '@Url.Action("Delete", "UsersGroups")';
         url = url + '/' + $(this).attr("data-UsersGroup-id") ;
@@ -161,7 +182,7 @@
 
     $("#UsersGroup").on("click", ".js-details", function () {
 
-        $("#changeText").text("القائمة الفرعية- تفاصيل مستخدم من المجموعة");
+        $("#changeText").text(" تفاصيل مستخدم من المجموعة");
 
         var url = '@Url.Action("Details", "UsersGroups")';
         url = url + '/' + $(this).attr("data-UsersGroup-id") ;
@@ -176,7 +197,7 @@
 
     $("#UsersGroup").on("click", ".js-DetailsUser", function () {
 
-        $("#changeText").text("القائمة الفرعية- معلومات مستخدم معين");
+        $("#changeText").text(" معلومات مستخدم معين");
 
         var url = '@Url.Action("Details", "Users")';
         url = url + '/' + $(this).attr("data-UsersGroup-id");

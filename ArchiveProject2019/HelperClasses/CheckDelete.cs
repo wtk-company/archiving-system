@@ -12,13 +12,7 @@ namespace ArchiveProject2019.HelperClasses
 
         public static bool CheckDepertmentDelete(int id) {
 
-            //Documents:
-            //IEnumerable<Document> Documents = db.Documents.Where(a => a.DepartmentId == id);
-            //if (Documents.Count() > 0) {
-
-            //    return false;
-            //}
-
+           
 
          
               IEnumerable<ApplicationUser> users = db.Users.Where(a => a.DepartmentId == id);
@@ -38,11 +32,7 @@ namespace ArchiveProject2019.HelperClasses
 
 
 
-            //check fORMS:
-            if(db.FormDepartments.Where(a=>a.DepartmentId==id).Count()>0)
-            {
-                return false;
-            }
+           
            
             return true;
 
@@ -83,12 +73,7 @@ namespace ArchiveProject2019.HelperClasses
 
             }
 
-            if(db.FormGroups.Where(a=>a.GroupId==id).Count()>0)
-            {
-                return false;
-            }
-
-
+           
 
 
             return true;

@@ -21,6 +21,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
+       
         public ActionResult IndexTR()
         {
             return View();

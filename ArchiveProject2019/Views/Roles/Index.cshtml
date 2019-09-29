@@ -88,7 +88,7 @@
 
 }
 <p>
-    <button id="btnNewModel" title="إضافة دور جديد" class="btn btn-default">أضافة دور جديد</button>
+    <button id="btnNewModel" title="إضافة دور جديد" class="btn btn-primary">أضافة دور جديد</button>
     <button title="تحديث القائمة" id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
@@ -113,14 +113,14 @@
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedByFullName)
-            </th>
+       
 
 
             
             <th>
-                العمليات المتاحة
+
+                @Html.DisplayName("العمليات المتاحة")
+                
             </th>
         </tr>
     </thead>
@@ -142,10 +142,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedByFullName)
-                </td>
-
+              
 
                 <td>
                      <button data-form-id="@item.Id" title="تعديل اسم الدور" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
@@ -192,7 +189,7 @@
     $("#btnNewModel").on("click", function () {
 
 
-        $("#changeText").text("القائمة الفرعية- إضافة دور جديد");
+        $("#changeText").text("إضافة دور جديد");
         var url = '@Url.Action("Create", "Roles")';
 
         $("#partialPlaceHolder").load(url, function () {
@@ -213,7 +210,7 @@
 
     $("#form").on("click", ".js-Edit", function () {
 
-        $("#changeText").text("القائمة الفرعية- تعديل دور معين");
+        $("#changeText").text(" تعديل دور معين");
 
         var url = '@Url.Action("Edit", "Roles")';
         url = url + '/' + $(this).attr("data-form-id");
@@ -226,7 +223,7 @@
 
     $("#form").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية- حذف دور معين");
+        $("#changeText").text("حذف دور معين");
 
         var url = '@Url.Action("Delete", "Roles")';
         url = url + '/' + $(this).attr("data-form-id") ;

@@ -34,7 +34,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             ViewBag.Current = "ConcernedParty";
-            var parties = _context.ConcernedParties.Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy).ToList();
+            var parties = _context.ConcernedParties.Include(a=>a.CreatedBy).ToList();
             return View(parties.ToList());
         }
 
@@ -70,8 +70,8 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
 
             }
+            return RedirectToAction("Index");
 
-            return View(ConcernedParty);
         }
 
         public ActionResult Edit(int? id)
@@ -101,13 +101,15 @@ namespace ArchiveProject2019.Controllers
 
             if (ModelState.IsValid)
             {
+                party .UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 _context.Entry(party).State = EntityState.Modified;
+
                 _context.SaveChanges();
 
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
             }
 
-            return RedirectToAction("Index", new { Id = "EditError" });
+            return RedirectToAction("Index");
         }
 
         // GET: ConcernedPartys/Delete/5

@@ -21,13 +21,20 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.CreatedAt)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.CreatedAt)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.UpdatedAt)
         </dt>
@@ -45,7 +52,7 @@
         <div class="modal-footer justify-content-center" style="margin-top:50px">
 
             <input type="submit" title="حذف مجموعة" value="حذف مجموعة" class="btn btn-danger" />
-            <button type="button" title="إغلاق النافذة" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+            <button type="button" title="إغلاق النافذة" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
 
 
         </div>

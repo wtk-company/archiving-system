@@ -31,7 +31,8 @@ namespace ArchiveProject2019
 
 
             bundles.Add(new StyleBundle("~/Content/DashBoardCss").Include(
-              
+              // Cutom Chosen
+              "~/Content/chosen.css",
               //Data Tabel Css :
               "~/Content/DataTables/css/dataTables.bootstrap.css",
               //Bootstrap:
@@ -51,9 +52,8 @@ namespace ArchiveProject2019
               "~/Content/DashBoard/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css",
               
               //Custom Theme Style
-              "~/Content/DashBoard/build/css/custom.min.css",
-              // Cutom Chosen
-              "~/Content/chosen.css"
+              "~/Content/DashBoard/build/css/custom.min.css"
+             
 
              ));
 
@@ -62,10 +62,12 @@ namespace ArchiveProject2019
 
 
             bundles.Add(new ScriptBundle("~/Content/DashBoardjs").Include(
-              //Jquerey
-              //"~/Content/DashBoard/vendors/jquery/dist/jquery.min.js",
-              //"~/Scripts/jquery-1.10.2.min.js",
-            
+               //Jquerey
+               //"~/Content/DashBoard/vendors/jquery/dist/jquery.min.js",
+               //"~/Scripts/jquery-1.10.2.min.js",
+               // Cutom Chosen
+               "~/Scripts/chosen.jquery.min.js",
+               "~/Scripts/chosen.proto.min.js",
               "~/Scripts/jquery-{version}.js",
               "~/Scripts/jquery.unobtrusive-ajax.min.js",
 
@@ -90,11 +92,9 @@ namespace ArchiveProject2019
                "~/Content/DashBoard/vendors/iCheck/icheck.min.js",
                //DataTables:
                "~/Scripts/DataTables/jquery.dataTables.min.js",
-               "~/Scripts/DataTables/dataTables.bootstrap.js",
+               "~/Scripts/DataTables/dataTables.bootstrap.js"
 
-               // Cutom Chosen
-               "~/Scripts/chosen.jquery.min.js",
-               "~/Scripts/chosen.proto.min.js"
+              
 
 
               ));

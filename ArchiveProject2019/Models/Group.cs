@@ -14,10 +14,9 @@ namespace ArchiveProject2019.Models
 
         [Required(ErrorMessage = "يجب إدخال اسم المجموعة")]
         [Display(Name = "اسم المجموعة")]
+        [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
+
         public string Name { get; set; }
-
-      
-
 
         [Required(ErrorMessage = "يجب إدخال الوصف")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "طول الوصف يجب أن يكون على الأقل 3 محارف")]
@@ -46,12 +45,7 @@ namespace ArchiveProject2019.Models
         [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
-        [Display(Name = "آخر تعديل  بواسطة ")]
-
-        public string UpdatedById { set; get; }
-
-        [ForeignKey("UpdatedById")]
-        public ApplicationUser UpdatedBy { set; get; }
+     
 
         public ICollection<UserGroup> UsersGroup { set; get; }
     }

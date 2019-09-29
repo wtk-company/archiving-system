@@ -47,7 +47,7 @@ namespace ArchiveProject2019.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Department department = db.Departments.Include(a => a.CreatedBy).Include(a=>a.UpdatedBy).SingleOrDefault(a=>a.Id==id);
+            Department department = db.Departments.Include(a => a.CreatedBy).SingleOrDefault(a=>a.Id==id);
             if(department==null)
             {
                 return HttpNotFound();
@@ -144,8 +144,9 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
             }
 
-          
-            return View(department);
+
+            return RedirectToAction("Index");
+
         }
 
         // Edit Department:
@@ -199,13 +200,14 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(department).State = EntityState.Modified;
-                department.UpdatedById = User.Identity.GetUserId();
+                
                 department.UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 db.SaveChanges();
                 return RedirectToAction("Index",new { Id = "EditSuccess" });
             }
-         
-            return View(department);
+
+            return RedirectToAction("Index");
+
         }
 
         //Delete Department:

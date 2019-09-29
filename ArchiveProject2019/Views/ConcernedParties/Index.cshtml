@@ -84,7 +84,7 @@
 
 }
 <p>
-    <button id="btnNewModel" title="إضافة جهةجديدة" class="btn btn-default">أضافة جهة جديدة</button>
+    <button id="btnNewModel" title="إضافة جهةجديدة" class="btn btn-primary">أضافة جهة جديدة</button>
     <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
@@ -107,13 +107,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedById)
-            </th>
+          
 
 
             <th>
-                العمليات المتاحة
+                @Html.DisplayName("العمليات المتاحة")
+
             </th>
         </tr>
     </thead>
@@ -137,9 +136,8 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedBy.FullName)
-                </td>
+
+
                 <td>
                     <button data-ConcernedParty-id="@item.Id" title="تعديل" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> |
                     <button data-ConcernedParty-id="@item.Id" title="حذف" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
@@ -180,7 +178,7 @@
     $("#btnNewModel").on("click", function () {
 
 
-        $("#changeText").text("القائمة الفرعية- إضافة  جهة جديدة");
+        $("#changeText").text("إضافة  جهة جديدة");
         var url = '@Url.Action("Create", "ConcernedParties")'
 
         $("#partialPlaceHolder").load(url, function () {
@@ -201,7 +199,7 @@
 
     $("#group").on("click", ".js-Edit", function () {
 
-        $("#changeText").text("القائمة الفرعية- تعديل جهة معينة");
+        $("#changeText").text(" تعديل جهة معينة");
 
         var url = '@Url.Action("Edit", "ConcernedParties")';
         url = url + '/' + $(this).attr("data-ConcernedParty-id");
@@ -214,7 +212,7 @@
 
     $("#group").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية- حذف جهة معينة");
+        $("#changeText").text("حذف جهة معينة");
 
         var url = '@Url.Action("Delete", "ConcernedParties")';
         url = url + '/' + $(this).attr("data-ConcernedParty-id") ;

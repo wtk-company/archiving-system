@@ -35,7 +35,7 @@ namespace ArchiveProject2019.Controllers
             }
             string UID = this.User.Identity.GetUserId();
             ViewBag.Current = "Forms";
-            var forms = _context.Forms.Include(a=>a.CreatedBy).Include(a=>a.Documents).Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy);
+            var forms = _context.Forms.Include(a => a.CreatedBy).Include(a => a.Documents).Include(a => a.CreatedBy);
             return View(forms.ToList());
         }
 
@@ -73,7 +73,7 @@ namespace ArchiveProject2019.Controllers
             }
 
 
-            return View(form);
+            return RedirectToAction("Index");
         }
 
         // GET: Forms/Edit/5
@@ -115,13 +115,14 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
                 form.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                form.UpdatedById = User.Identity.GetUserId();
+
                 _context.Entry(form).State = EntityState.Modified;
                 _context.SaveChanges();
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
             }
 
-            return View(form);
+            return RedirectToAction("Index");
+
         }
 
         // GET: Forms/Delete/5
@@ -135,7 +136,7 @@ namespace ArchiveProject2019.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Form form = _context.Forms.Include(a=>a.Fields).Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy).SingleOrDefault(a=>a.Id==id);
+            Form form = _context.Forms.Include(a=>a.Fields).Include(a=>a.CreatedBy).SingleOrDefault(a=>a.Id==id);
             if (form == null)
             {
                 return HttpNotFound();

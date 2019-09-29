@@ -15,7 +15,7 @@
 
     <p>
        
-        <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-default">عودة لقائمةالنماذج  <i class="glyphicon glyphicon-backward"></i></a>
+        <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-warning">عودة لقائمةالنماذج </a>
        
 </p>
       
@@ -29,8 +29,8 @@
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
                     <th >
-
-                        اختر القسم
+                        @Html.DisplayName(" اختر القسم")
+                       
                     </th>
                 </tr>
             </thead>
@@ -63,7 +63,7 @@
             </div> 
             <div class="col-md-offset-2 col-md-10">
 
-                <input type="submit" class="btn btn-primary" value="إضافة الاقسام للنموذج" />
+                <input title="إضافةالاقسام للنموذج"  type="submit" class="btn btn-primary" value="إضافة الاقسام للنموذج" />
             </div>
         </div>
         }

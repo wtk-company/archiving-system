@@ -54,7 +54,7 @@ namespace ArchiveProject2019.Controllers
             Session["Role_Id"] = role.Id;
 
             //Permission Role Informations:
-            var permissionRoles = db.PermissionRoles.Where(a=>a.RoleId.Equals(Id)).Include(p => p.Permission).Include(p => p.Role).Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy);
+            var permissionRoles = db.PermissionRoles.Where(a=>a.RoleId.Equals(Id)).Include(p => p.Permission).Include(p => p.Role).Include(a=>a.CreatedBy);
             return View(permissionRoles.ToList());
         }
 
@@ -150,7 +150,7 @@ namespace ArchiveProject2019.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            PermissionRole permissionRole = db.PermissionRoles.Include(a => a.Role).Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy).FirstOrDefault(a=>a.Id==id);
+            PermissionRole permissionRole = db.PermissionRoles.Include(a => a.Role).Include(a=>a.CreatedBy).FirstOrDefault(a=>a.Id==id);
             if (permissionRole == null)
             {
                 return HttpNotFound();
@@ -179,7 +179,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             PermissionRole.Updatedat = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-            PermissionRole.UpdatedById = this.User.Identity.GetUserId();
+            
             db.Entry(PermissionRole).State = EntityState.Modified;
 
             db.SaveChanges();
@@ -218,7 +218,7 @@ namespace ArchiveProject2019.Controllers
         {
             ViewBag.Current = "Roles";
 
-            PermissionRole permissionRole = db.PermissionRoles.Include(a => a.Role).Include(a => a.CreatedBy).Include(a => a.UpdatedBy).FirstOrDefault(a => a.Id == id);
+            PermissionRole permissionRole = db.PermissionRoles.Include(a => a.Role).Include(a => a.CreatedBy).FirstOrDefault(a => a.Id == id);
             db.PermissionRoles.Remove(permissionRole);
             db.SaveChanges();
             return RedirectToAction("Index", new { @id = Session["Role_Id"].ToString(), @msg = "DeleteSuccess" });

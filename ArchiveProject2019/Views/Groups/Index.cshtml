@@ -85,8 +85,8 @@
 
 }
 <p>
-    <button id="btnNewModel" class="btn btn-default">أضافة مجموعة</button>
-    <button id="btnRefreshModel"  title="تحديث الصفحة" class="btn btn-default glyphicon glyphicon-refresh"></button>
+    <button  title="إضافة مجموعة جديدة" id="btnNewModel" class="btn btn-primary">أضافة مجموعة</button>
+    <button  id="btnRefreshModel"  title="تحديث الصفحة" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
 <table id="group" class="table table-striped table-bordered table-hover dt" style="text-align:center">
@@ -101,8 +101,14 @@
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
 
+
+
             <th>
-                العمليات المتاحة
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </th>
+            <th>
+                @Html.DisplayName("العمليات المتاحة")
+                
             </th>
         </tr>
     </thead>
@@ -118,6 +124,10 @@
 
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
 
                 <td>
@@ -189,7 +199,7 @@
     $("#btnNewModel").on("click", function () {
 
 
-        $("#changeText").text("القائمة الفرعية- إضافة مجموعة جديد");
+        $("#changeText").text("إضافة مجموعة جديد");
         var url = '@Url.Action("Create", "Groups")'
 
         $("#partialPlaceHolder").load(url, function () {
@@ -210,7 +220,7 @@
 
     $("#group").on("click", ".js-Edit", function () {
 
-        $("#changeText").text("القائمة الفرعية- تعديل مجموعة معين");
+        $("#changeText").text("تعديل مجموعة معينة");
 
         var url = '@Url.Action("Edit", "Groups")';
         url = url + '/' + $(this).attr("data-group-id");
@@ -223,7 +233,7 @@
 
     $("#group").on("click", ".js-delete", function () {
 
-        $("#changeText").text("القائمة الفرعية- حذف مجموعة معين");
+        $("#changeText").text("حذف مجموعة معينة");
 
         var url = '@Url.Action("Delete", "Groups")';
         url = url + '/' + $(this).attr("data-group-id") ;
@@ -238,7 +248,7 @@
 
 
     $("#group").on("click", ".js-Details", function () {
-        $("#changeText").text("القائمة الفرعية - تفاصيل  المجموعة");
+        $("#changeText").text("تفاصيل  المجموعة");
 
                        var url = '@Url.Action("Details", "Groups")';
                        url = url + '/' + $(this).attr("data-group-id") ;
