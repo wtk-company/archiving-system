@@ -198,21 +198,9 @@
     <Compile Include="HelperClasses\DepartmentsID.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201909212053043_documentOp.cs" />
-    <Compile Include="Migrations\201909212053043_documentOp.Designer.cs">
-      <DependentUpon>201909212053043_documentOp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909201221481_TypeOfMail.cs" />
-    <Compile Include="Migrations\201909201221481_TypeOfMail.Designer.cs">
-      <DependentUpon>201909201221481_TypeOfMail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909221835484_ValueDocuemnt.cs" />
-    <Compile Include="Migrations\201909221835484_ValueDocuemnt.Designer.cs">
-      <DependentUpon>201909221835484_ValueDocuemnt.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909221858027_RemovePartyIdAndDocKindId.cs" />
-    <Compile Include="Migrations\201909221858027_RemovePartyIdAndDocKindId.Designer.cs">
-      <DependentUpon>201909221858027_RemovePartyIdAndDocKindId.cs</DependentUpon>
+    <Compile Include="Migrations\201909241456073_InitialModel.cs" />
+    <Compile Include="Migrations\201909241456073_InitialModel.Designer.cs">
+      <DependentUpon>201909241456073_InitialModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -990,17 +978,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909212053043_documentOp.resx">
-      <DependentUpon>201909212053043_documentOp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909201221481_TypeOfMail.resx">
-      <DependentUpon>201909201221481_TypeOfMail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909221835484_ValueDocuemnt.resx">
-      <DependentUpon>201909221835484_ValueDocuemnt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909221858027_RemovePartyIdAndDocKindId.resx">
-      <DependentUpon>201909221858027_RemovePartyIdAndDocKindId.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201909241456073_InitialModel.resx">
+      <DependentUpon>201909241456073_InitialModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
