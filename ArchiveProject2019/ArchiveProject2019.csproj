@@ -201,10 +201,16 @@
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
+<<<<<<< Updated upstream
     <Compile Include="Migrations\201909241456073_InitialModel.cs" />
     <Compile Include="Migrations\201909241456073_InitialModel.Designer.cs">
       <DependentUpon>201909241456073_InitialModel.cs</DependentUpon>
 
+=======
+    <Compile Include="Migrations\201909291836318_afdsfdf.cs" />
+    <Compile Include="Migrations\201909291836318_afdsfdf.Designer.cs">
+      <DependentUpon>201909291836318_afdsfdf.cs</DependentUpon>
+>>>>>>> Stashed changes
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -986,10 +992,15 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< Updated upstream
 
     <EmbeddedResource Include="Migrations\201909271934384_ah.resx">
       <DependentUpon>201909271934384_ah.cs</DependentUpon>
 
+=======
+    <EmbeddedResource Include="Migrations\201909291836318_afdsfdf.resx">
+      <DependentUpon>201909291836318_afdsfdf.cs</DependentUpon>
+>>>>>>> Stashed changes
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
