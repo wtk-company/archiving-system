@@ -13,6 +13,7 @@ using System.IO;
 using System.Net;
 using ArchiveProject2019.HelperClasses;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace ArchiveProject2019.Controllers
 {
@@ -27,15 +28,13 @@ namespace ArchiveProject2019.Controllers
         public ActionResult Form()
         {
             ViewBag.Current = "Document";
-            
-            DocFromsViewModel viewModel = new DocFromsViewModel() {
+
+            DocFromsViewModel viewModel = new DocFromsViewModel()
+            {
 
                 DocId = -1,
                 Froms = UsersDepartmentAndGroupsForms.GetUsersForms(this.User.Identity.GetUserId())
             };
-          
-
-          
 
             return View(viewModel);
         }
@@ -54,6 +53,7 @@ namespace ArchiveProject2019.Controllers
         }
 
         [HttpGet]
+        // Edit Document
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "Document";
@@ -62,11 +62,13 @@ namespace ArchiveProject2019.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Document document = _context.Documents.Include(a => a.Department).Include(a => a.Values).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
             if (document == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", document.DepartmentId);
             ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Name", "Name");
             ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
@@ -78,9 +80,7 @@ namespace ArchiveProject2019.Controllers
                 new SelectListItem { Text="داخلي", Value="داخلي" },
                 new SelectListItem { Text="ارشيف", Value="ارشيف" },
             };
-
-            DocumentFieldsValuesViewModel myModel = new DocumentFieldsValuesViewModel();
-            myModel.Document = document;
+            
 
             var Fields = _context.Fields.Include(c => c.Form).Where(f => f.FormId == document.FormId).ToList();
             List<Value> Values = new List<Value>();
@@ -91,7 +91,16 @@ namespace ArchiveProject2019.Controllers
                 Values = Values
             };
 
-            myModel.FieldsValues = viewModel;
+            var urls = document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
+            var existfiles = Enumerable.Repeat(true, urls.Length).ToList();
+            
+            DocumentFieldsValuesViewModel myModel = new DocumentFieldsValuesViewModel()
+            {
+                Document = document,
+                FieldsValues = viewModel,
+                ExistFiles = existfiles,
+            };
+
             return View(myModel);
         }
 
@@ -100,7 +109,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit(DocumentFieldsValuesViewModel viewModel, HttpPostedFileBase UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
+        public ActionResult Edit(DocumentFieldsValuesViewModel viewModel, HttpPostedFileBase[] UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
         {
 
             ViewBag.Current = "Document";
@@ -108,7 +117,7 @@ namespace ArchiveProject2019.Controllers
             bool Status = true;
 
             // Check your mail type selection
-            if (viewModel.Document.TypeOfMail == null)
+           if (viewModel.Document.TypeOfMail == null)
             {
                 ModelState.AddModelError("Document.TypeOfMail", "اختر نوع بريد الورود");
                 Status = false;
@@ -127,43 +136,7 @@ namespace ArchiveProject2019.Controllers
                 ModelState.AddModelError("Document.MailingDate", "ادخل تاريخ ورود البريد");
                 Status = false;
             }
-
-
-            //الملف الأساسي
-
-
-            if (UploadFile != null)
-            {
-
-                //Image Extentions:
-                bool ImageExtention = CheckFileFormatting.PermissionFile(UploadFile);
-
-                if (ImageExtention == false)
-                {
-                    Status = false;
-                    ModelState.AddModelError("Document.FileUrl", "صيغة الملف المحمل غير مدعومة أعد الإدخال مرة أخرى");
-                }
-
-                else
-                {
-                    //Save File In Uploads
-                    string FileName = Path.GetFileName(UploadFile.FileName);
-                    //Save In DB:
-                    viewModel.Document.Name = FileName;
-
-                    string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                    string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
-                    UploadFile.SaveAs(path);
-
-                    //Save In Db:
-                    viewModel.Document.FileUrl = "~/Uploads/" + s1;
-
-                }
-
-
-            }
-            // End else
-
+            
             FieldsValuesViewModel FVVM = new FieldsValuesViewModel();
             FVVM = viewModel.FieldsValues;
 
@@ -286,6 +259,83 @@ namespace ArchiveProject2019.Controllers
 
             if (ModelState.IsValid)
             {
+                
+                var urls = viewModel.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                var url = "";
+                var fileNames = viewModel.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                var fileName = "";
+
+                for (int i = 0; i < viewModel.ExistFiles.Count; i++)
+                {
+
+                    if (i < urls.Length)
+                    {
+                        if (viewModel.ExistFiles[i]) // true
+                        {
+                            if (UploadFile[i] != null)
+                            {
+                                // remove old file from server
+                                var oldPath = Request.MapPath("~/Uploads/" + urls[i]);
+                                if (System.IO.File.Exists(oldPath))
+                                {
+                                    System.IO.File.Delete(oldPath);
+                                }
+
+                                //Save File In Uploads
+                                string FileName = Path.GetFileName(UploadFile[i].FileName);
+                                //Save In DB:
+                                viewModel.Document.Name = FileName;
+
+                                string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
+                                string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
+                                UploadFile[i].SaveAs(path);
+
+                                url += s1 + "_##_";
+                                fileName += FileName + "_##_";
+                            }
+                            else
+                            {
+                                url += urls[i] + "_##_";
+                                fileName += fileNames[i] + "_##_";
+
+                            }
+                        }
+                        else
+                        {
+                            // remove old file from server
+                            var oldPath = Request.MapPath("~/Uploads/" + urls[i]);
+                            if (System.IO.File.Exists(oldPath))
+                            {
+                                System.IO.File.Delete(oldPath);
+                            }
+                        }
+                    }
+                    else if (viewModel.ExistFiles[i] && UploadFile[i] != null)
+                    {
+                        //Save File In Uploads
+                        string FileName = Path.GetFileName(UploadFile[i].FileName);
+                        //Save In DB:
+                        viewModel.Document.Name = FileName;
+
+                        string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
+                        string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
+                        UploadFile[i].SaveAs(path);
+
+                        url += s1 + "_##_";
+                        fileName += FileName + "_##_";
+                    }
+                }
+                if (url.Length > 0)
+                {
+                    viewModel.Document.FileUrl = url.Substring(0, url.Length-4);
+                    viewModel.Document.Name = fileName.Substring(0, fileName.Length - 4);
+                }
+                else
+                {
+                    viewModel.Document.FileUrl = "";
+                    viewModel.Document.Name = "";
+                }
+
                 //Document Details:
                 viewModel.Document.FormId = viewModel.Document.FormId;
                 _context.Entry(viewModel.Document).State = EntityState.Modified;
@@ -446,7 +496,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create(DocumentFieldsValuesViewModel viewModel, HttpPostedFileBase UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
+        public ActionResult Create(DocumentFieldsValuesViewModel viewModel, HttpPostedFileBase[] UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
         {
             ViewBag.Current = "Document";
 
@@ -474,39 +524,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
-            //الملف الأساسي
-            if (UploadFile == null)
-            {
-                ModelState.AddModelError("Document.FileUrl", "يجب إختيار ملف");
-                Status = false;
-            }
-            //اختبار صيغةالملف المحمل
-            else
-            {
-                //Image Extentions:
-                bool ImageExtention = CheckFileFormatting.PermissionFile(UploadFile);
-
-                if (ImageExtention == false)
-                {
-                    Status = false;
-                    ModelState.AddModelError("Document.FileUrl", "صيغة الملف المحمل غير مدعومة أعد الإدخال مرة أخرى");
-                }
-                else
-                {
-                    //Save File In Uploads
-                    string FileName = Path.GetFileName(UploadFile.FileName);
-                    //Save In DB:
-                    viewModel.Document.Name = FileName;
-
-                    string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                    string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
-                    UploadFile.SaveAs(path);
-
-                    //Save In Db:
-                    viewModel.Document.FileUrl = "~/Uploads/" + s1;
-                }
-            }//End else
-
+            
             FieldsValuesViewModel FVVM = new FieldsValuesViewModel();
             FVVM = viewModel.FieldsValues;
 
@@ -556,11 +574,6 @@ namespace ArchiveProject2019.Controllers
                 }
 
 
-
-
-
-
-
                 //أختبار صيغة كل ملف من الملفات
 
 
@@ -596,7 +609,7 @@ namespace ArchiveProject2019.Controllers
                                 //Save In Server
 
                                 string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                                string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
+                                string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
                                 FieldFile.ElementAt(j).SaveAs(path);
 
                                 //Save In Db:
@@ -685,6 +698,35 @@ namespace ArchiveProject2019.Controllers
 
             if (ModelState.IsValid)
             {
+                // Save Multiple Files Into Hard Disk Driver(HDD)
+                foreach (HttpPostedFileBase file in UploadFile)
+                {
+                    //Image Extentions:
+                    bool ImageExtention = CheckFileFormatting.PermissionFile(file);
+
+                    if (ImageExtention == false)
+                    {
+                        Status = false;
+                        ModelState.AddModelError("Document.FileUrl", "صيغة الملف المحمل غير مدعومة أعد الإدخال مرة أخرى");
+                        return View(viewModel);
+                    }
+                    else
+                    {
+                        //Save File In Uploads
+                        string FileName = Path.GetFileName(file.FileName);
+
+                        string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
+                        string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
+                        file.SaveAs(path);
+
+                        viewModel.Document.Name += FileName + "_##_";
+                        viewModel.Document.FileUrl += s1 + "_##_";
+                    }
+                }
+                // Cut last split string
+                viewModel.Document.Name = viewModel.Document.Name.Substring(0, viewModel.Document.Name.Length - 4);
+                viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
+
                 //Document Details:
                 viewModel.Document.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 viewModel.Document.CreatedById = User.Identity.GetUserId();
@@ -795,55 +837,37 @@ namespace ArchiveProject2019.Controllers
         {
             ViewBag.Current = "Document";
 
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             var document = _context.Documents.Include(a => a.Form)
                 .Include(a => a.Department).Include(a => a.CreatedBy)
                 .FirstOrDefault(a => a.Id == id);
+
             if (document == null)
             {
                 return HttpNotFound();
             }
-            //Cannot Details:
-            //string UID = this.User.Identity.GetUserId();
-            //if (!document.CreatedById.Equals(UID))
-            //{
-            //    return RedirectToAction("Index", new { Id = "PermissionError" });
-
-            //}
-
 
             return View(document);
         }
 
 
-        public FileResult Download(string fileUrl)
+        public FileResult Download(string fileName)
         {
-            string serverPath = Server.MapPath("~");
-            serverPath = serverPath.Replace(@"\", "/");
-
-            string filePath = serverPath + fileUrl.Substring(2);
-
+            string filePath = Server.MapPath("~/Uploads/").Replace(@"\", "/") + fileName;
             byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-            string fileName = fileUrl.Substring(10);
+
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
 
-        public ActionResult ShowPdf(string fileUrl)
+        public ActionResult ShowPdf(string fileName)
         {
-            string serverPath = Server.MapPath("~");
-            serverPath = serverPath.Replace(@"\", "/");
+            string filePath = Server.MapPath("~/Uploads/").Replace(@"\", "/") + fileName;
 
-            string filePath = serverPath + fileUrl.Substring(2);
-
-
-            var fileStream = new FileStream(filePath,
-                                             FileMode.Open,
-                                             FileAccess.Read
-                                           );
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
             // Images
             if (filePath.EndsWith("jpeg") || filePath.EndsWith("JPEG"))
@@ -889,7 +913,7 @@ namespace ArchiveProject2019.Controllers
             string DocSubject, string DocKind, string DocParty, string DocDescription, string DocFirstDate, string DocEndDate)
         {
             List<Document> documents = null;
-            
+
             if (RecordCount == null)
             {
                 documents = _context.Documents.OrderByDescending(d => d.DocumentDate)
