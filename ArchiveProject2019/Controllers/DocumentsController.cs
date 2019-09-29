@@ -496,7 +496,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create(DocumentFieldsValuesViewModel viewModel, HttpPostedFileBase[] UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
+        public ActionResult Create(DocumentFieldsValuesViewModel viewModel,IEnumerable< HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
         {
             ViewBag.Current = "Document";
 
@@ -689,7 +689,11 @@ namespace ArchiveProject2019.Controllers
                 new SelectListItem { Text="داخلي", Value="داخلي" },
                 new SelectListItem { Text="ارشيف", Value="ارشيف" },
             };
-
+            if(UploadFile.ElementAt(0)==null)
+            {
+                Status = false;
+                ModelState.AddModelError("Document.FileUrl", "يجب إدخال ملفات ");
+            }
             //Status Model = false{status==false}
             if (Status == false)
             {
