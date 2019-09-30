@@ -1,20 +1,19 @@
 ﻿
-
-@{
+@{ 
     Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+ 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Error 404</title>
+    <title> صلاحيات غير متوفرة </title>
     @Styles.Render("~/Content/DashBoardCss")
 
-
+ 
 </head>
 
 <body class="nav-md">
@@ -24,19 +23,17 @@
             <div class="col-md-12">
                 <div class="col-middle">
                     <div class="text-center">
-                        <h1 class="error-number">404 !!!</h1>
-                        <h2>خطأ في المصدر الذي تبحث عنه</h2>
+                        <h1 style="color:red" class="error-number">Access Denied</h1>
+                        <h2> لا تملك الصلاحية من أجل الوصول للعملية</h2>
                         <hr />
 
                         <div class="mid_center">
                             <h3>
 
                                 <a style="" class="btn btn-success " title="الذهاب للقائمة الرئيسية" href="@Url.Action("Index","Home")">الذهاب للقائمة الرئيسية</a>
-                                <br />
-                                <a id="anch" style="" class="btn btn-danger " title="الذهاب للقائمة الرئيسية" href="#">عرض رسالة الخطأ</a>
 
                             </h3>
-
+                            
                         </div>
                     </div>
                 </div>
@@ -46,22 +43,6 @@
         <!-- footer content -->
     </div>
 
-
+   
 </body>
-@Scripts.Render("~/Content/DashBoardjs")
-
 </html>
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        $("#anch").click(function () {
-
-            alert('The resource you are looking for has been removed, had its name changed, or is temporarily unavailable');
-        });
-
-    });
-
-
-
-</script>

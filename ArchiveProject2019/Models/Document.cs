@@ -28,12 +28,18 @@ namespace ArchiveProject2019.Models
         public string Subject { get; set; }
 
 
+
+
         [Display(Name = "النوع")]
-        public string Kind { get; set; }
+        [Required(ErrorMessage ="يجب إختيار النوع")]
+        public int KindId { set; get; }
+
+        [ForeignKey("KindId")]
+
+        public DocumentKind documentKind { set; get; }
 
 
-        [Display(Name = "نوع البريد")]
-        public string TypeOfMail { get; set; }
+        
 
         [Display(Name = "رقم البريد")]
         public string MailingNumber { get; set; }
@@ -94,8 +100,10 @@ namespace ArchiveProject2019.Models
         [ForeignKey("FormId")]
         public Form Form { get; set; }
 
-
-
+        [Display(Name = "نوع البريد")]
+        [Required(ErrorMessage = "يجب إختيار نوع البريد")]
+        public int TypeMailId { set; get; }
+        public TypMail TypeMail { set; get; }
 
         //Collections:
         public ICollection<Value> Values { set; get; }

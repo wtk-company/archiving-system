@@ -15,7 +15,11 @@
 
 
 @Html.Partial("_StartView")
+<p>
 
+    <a title="عودة لقائمة  المستخدمين" href="@Url.Action("index","Users")" class="btn btn-warning">عودة لقائمة المستخدمين  </a>
+
+</p>
 @using (Html.BeginForm())
 {
 

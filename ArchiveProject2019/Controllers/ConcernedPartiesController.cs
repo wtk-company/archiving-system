@@ -80,13 +80,14 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
 
             ConcernedParty party = _context.ConcernedParties.Find(id);
             if (party == null)
             {
-                return HttpNotFound();
+            return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
             return View(party);
@@ -120,13 +121,15 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
 
             ConcernedParty party = _context.ConcernedParties.Find(id);
             if (party == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
             return View(party);

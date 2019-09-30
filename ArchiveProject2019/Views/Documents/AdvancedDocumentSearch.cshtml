@@ -19,6 +19,14 @@
 
 @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace }))
 {
+
+@Html.Partial("_StartView")
+    <div>
+        <a href="@Url.Action("index","Documents")" class="btn btn-warning">  عودة إلى قائمة الوثائق </a>
+    </div>
+    <br />
+    <br />
+
     <row>
         <!-- Search Document Number -->
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
@@ -32,7 +40,13 @@
 
         <!-- Search Document Kind -->
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
-            <input class="form-control" type="text" placeholder="نوع الوثيقة" name="DocKind" id="DocKind">
+         @*   <input class="form-control" type="text" placeholder="نوع الوثيقة" name="DocKind" id="DocKind">*@
+            @Html.DropDownList("DocKind", ViewBag.Kinds as SelectList,"اختر نوع الوثيقة",new { @class="form-control"})
+        </div>
+
+
+        <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
+            @Html.DropDownList("EmailType", ViewBag.EmailTypes as SelectList, "اختر نوع البريد", new { @class = "form-control" })
         </div>
         
         <!-- Search Document Party -->
@@ -72,13 +86,13 @@
         </div>
     </row>
 }
+
+
+@Html.Partial("_LastView")
 @*_______Search Section end_________*@
 
 <br />
 <br />
-<div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0" style="margin-bottom:20px;">
-    <a href="@Url.Action("index","Documents")" class="btn btn-default"> قائمة الوثائق <i class="glyphicon glyphicon-backward"></i></a>
-</div>
 
 
     <div id="SearchResult" style="margin-bottom:40px;">

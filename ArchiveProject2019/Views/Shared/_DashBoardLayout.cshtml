@@ -105,6 +105,10 @@
                                     <a href="@Url.Action("Index","ConcernedParties")"><i class="fa fa-paper-plane-o"></i>الجهات المعنية <span class="fa"></span></a>
 
                                 </li>
+                                <li class="@(ViewBag.Current == "TypeMails" ? "current-page" : "")">
+                                    <a href="@Url.Action("Index","TypeMails")"><i class="fa fa-envelope-o"></i>أنواع البريد <span class="fa"></span></a>
+
+                                </li>
                                 <li class="@(ViewBag.Current == "Forms" ? "current-page" : "")">
                                     <a href="@Url.Action("Index","Forms")"><i class="fa fa-clone"></i>النماذج <span class="fa"></span></a>
                                 </li>

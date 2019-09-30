@@ -10,12 +10,12 @@ using System.Web.Mvc;
 
 namespace ArchiveProject2019.Controllers
 {
-    public class DocumentKindsController : Controller
+    public class TypeMailsController : Controller
     {
-        
+
         private ApplicationDbContext _context;
 
-        public DocumentKindsController()
+        public TypeMailsController()
         {
             _context = new ApplicationDbContext();
         }
@@ -33,28 +33,28 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
 
-            ViewBag.Current = "DocumentKind";
-            var DocKinds = _context.DocumentKinds.Include(a=>a.CreatedBy).ToList();
-            return View(DocKinds.ToList());
+            ViewBag.Current = "TypeMails";
+            var TypeMails = _context.TypeMails.Include(a => a.CreatedBy).ToList();
+            return View(TypeMails.ToList());
         }
-
-        
 
         public ActionResult Create()
         {
 
-            ViewBag.Current = "DocumentKinds";
+            ViewBag.Current = "TypeMails";
 
             return View();
         }
 
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] DocumentKind DocumentKind)
+        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] TypMail TypeMail)
         {
-            ViewBag.Current = "DocumentKinds";
+            ViewBag.Current = "TypeMails";
 
-            if (_context.DocumentKinds.Any(a => a.Name.Equals(DocumentKind.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.TypeMails.Any(a => a.Name.Equals(TypeMail.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -62,10 +62,10 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
 
-                DocumentKind.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                DocumentKind.CreatedById = User.Identity.GetUserId();
+                TypeMail.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                TypeMail.CreatedById = User.Identity.GetUserId();
 
-                _context.DocumentKinds.Add(DocumentKind);
+                _context.TypeMails.Add(TypeMail);
                 _context.SaveChanges();
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
 
@@ -75,40 +75,43 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: DocumentKinds/Edit/5
+
+
         public ActionResult Edit(int? id)
         {
-            ViewBag.Current = "DocumentKind";
+            ViewBag.Current = "TypeMails";
 
             if (id == null)
             {
-                return RedirectToAction("BadRequestError", "ErrorController");
-
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            DocumentKind kinds = _context.DocumentKinds.Find(id);
-            if (kinds == null)
+            TypMail mail = _context.TypeMails.Find(id);
+            if (mail == null)
             {
-                return RedirectToAction("HttpNotFoundError", "ErrorController");
-
+                return HttpNotFound();
             }
 
-            return View(kinds);
+            return View(mail);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(DocumentKind kinds)
+   
+        public ActionResult Edit(TypMail mail)
         {
-            if (_context.ConcernedParties.Where(a => a.Id != kinds.Id).Any(a => a.Name.Equals(kinds.Name, StringComparison.OrdinalIgnoreCase)))
+
+            ViewBag.Current = "TypeMails";
+
+            if (_context.ConcernedParties.Where(a => a.Id != mail.Id).Any(a => a.Name.Equals(mail.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
             {
 
-                kinds.UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-          
-                _context.Entry(kinds).State = EntityState.Modified;
+                mail.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+                _context.Entry(mail).State = EntityState.Modified;
                 _context.SaveChanges();
 
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
@@ -118,38 +121,37 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: ConcernedPartys/Delete/5
+
+
         public ActionResult Delete(int? id)
         {
-            ViewBag.Current = "DocumentKind";
+            ViewBag.Current = "TypeMails";
 
 
             if (id == null)
             {
-                return RedirectToAction("BadRequestError", "ErrorController");
-
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            DocumentKind kind = _context.DocumentKinds.Find(id);
-            if (kind == null)
+            TypMail mail = _context.TypeMails.Find(id);
+            if (mail == null)
             {
-                return RedirectToAction("HttpNotFoundError", "ErrorController");
-
-
+                return HttpNotFound();
             }
 
-            return View(kind);
+            return View(mail);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult Confirm(int? id)
         {
-            ViewBag.Current = "DocumentKind";
+            ViewBag.Current = "TypeMails";
 
-            DocumentKind kind = _context.DocumentKinds.Find(id);
 
-            _context.DocumentKinds.Remove(kind);
+            TypMail mail = _context.TypeMails.Find(id);
+
+            _context.TypeMails.Remove(mail);
             _context.SaveChanges();
 
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
@@ -163,5 +165,7 @@ namespace ArchiveProject2019.Controllers
             }
             base.Dispose(disposing);
         }
+
+
     }
 }

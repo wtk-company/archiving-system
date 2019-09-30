@@ -139,7 +139,7 @@ namespace ArchiveProject2019.Models
         public DbSet<JobTitle> JobTitles { set; get; }
      
 
-
+        public DbSet<TypMail> TypeMails { set; get; }
 
         public DbSet<Group> Groups { set; get; }
 

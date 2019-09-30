@@ -10,6 +10,8 @@ using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using ArchiveProject2019.HelperClasses;
+using System.Web.Security;
+
 namespace ArchiveProject2019.Controllers
 {
     public class DepartmentsController : Controller
@@ -17,6 +19,8 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         //Get All Departments:
+      //  [AccessDeniedAuthorizeattribute(ActionName ="Asmi")]
+        //[AccessDeniedAuthorizeattribute(Roles = "xxx")]
         public ActionResult Index(string Id = "none")
         {
             ViewBag.Current = "Department";
@@ -44,13 +48,14 @@ namespace ArchiveProject2019.Controllers
         {
             if(id==null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
 
             Department department = db.Departments.Include(a => a.CreatedBy).SingleOrDefault(a=>a.Id==id);
             if(department==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
 
@@ -67,13 +72,15 @@ namespace ArchiveProject2019.Controllers
 
             if(Id==null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
 
             Department department = db.Departments.Find(Id);
             if(department==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
 
             }
             IEnumerable<ApplicationUser> Users = db.Users.Where(a=>a.DepartmentId==Id);
@@ -158,15 +165,17 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             Department department = db.Departments.Find(id);
             if (department == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
-            
-           
+
+
 
             return View(department);
         }
@@ -219,15 +228,17 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             Department department = db.Departments.Include(a => a.CreatedBy).SingleOrDefault(a=>a.Id==id);
             if (department == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
-           if(CheckDelete.CheckDepertmentDelete(id.Value)==false)
+            if (CheckDelete.CheckDepertmentDelete(id.Value)==false)
             {
                 return RedirectToAction("Index", new { Id = "DeleteError" });
 

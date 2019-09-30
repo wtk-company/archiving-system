@@ -25,8 +25,9 @@ namespace ArchiveProject2019.Controllers
 
             if (Id == null)
             {
-                //return to forms 
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+             
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
             //check Formis found:
@@ -34,7 +35,8 @@ namespace ArchiveProject2019.Controllers
             if (cat==null)
             {
 
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
 
             }
 
@@ -72,20 +74,23 @@ namespace ArchiveProject2019.Controllers
 
             if (Session["Form_Id"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
-        
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             Field field = db.Fields.Include(s=>s.Form).Include(a=>a.CreatedBy).FirstOrDefault(a=>a.Id==id);
             if (field == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
-           
+
 
             return View(field);
         }
@@ -97,10 +102,11 @@ namespace ArchiveProject2019.Controllers
 
             if (Session["Form_Id"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
-         
+
 
             return View();
         }
@@ -147,31 +153,28 @@ namespace ArchiveProject2019.Controllers
 
             if (Session["Form_Id"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
-          
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
 
 
             Field field = db.Fields.Include(s => s.Form).Include(a => a.Values).Include(a => a.CreatedBy).FirstOrDefault(a => a.Id == id);
             if (field == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
-            //Casnnot edit
+         
 
-            //if (!field.CreatedById.Equals(this.User.Identity.GetUserId()))
-            //{
-            //    return RedirectToAction("index", new { Id = Convert.ToInt32(Session["Form_Id"]), msg = "PermissionError" });
-
-            //}
-
-            if(field.Values.Count()>0)
+            if (field.Values.Count()>0)
             {
                 return RedirectToAction("index", new { Id = Convert.ToInt32(Session["Form_Id"]), msg = "EditCannot" });
 
@@ -219,23 +222,26 @@ namespace ArchiveProject2019.Controllers
 
             if (Session["Form_Id"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
 
-           
+
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             Field field = db.Fields.Include(s => s.Form).Include(a=>a.Values).Include(a => a.CreatedBy).FirstOrDefault(a => a.Id == id);
             if (field == null)
             {
-                return HttpNotFound();
-            }
-         
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
 
-            if(CheckDelete.checkFieldsDelete(id.Value)==false)
+            }
+
+
+            if (CheckDelete.checkFieldsDelete(id.Value)==false)
             {
                 return RedirectToAction("index", new { Id = Convert.ToInt32(Session["Form_Id"]), msg = "DeleteError" });
 

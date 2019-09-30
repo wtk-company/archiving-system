@@ -133,5 +133,48 @@ namespace ArchiveProject2019.HelperClasses
             return true;
 
         }
+
+
+        public static bool CheckTypeMaildelete(int id)
+        {
+
+            IEnumerable<Document> documents = db.Documents.Where(a => a.TypeMailId == id);
+            if (documents.Count() > 0)
+            {
+                return false;
+
+            }
+
+            TypMail mail = db.TypeMails.Find(id);
+            if(mail.Type!=0)
+            {
+                return false;
+            }
+
+
+
+
+            return true;
+        }
+
+
+        public static bool CheckTypeMailEdit(int id)
+        {
+
+           
+
+            TypMail mail = db.TypeMails.Find(id);
+            if (mail.Type != 0)
+            {
+                return false;
+            }
+
+
+
+
+            return true;
+        }
+
+
     }
 }

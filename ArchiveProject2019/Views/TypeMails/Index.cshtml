@@ -1,14 +1,11 @@
-﻿@model IEnumerable<ArchiveProject2019.Models.Form>
-@using ArchiveProject2019.Models
-@using Microsoft.AspNet.Identity;
+﻿@model IEnumerable<ArchiveProject2019.Models.TypMail>
 @using ArchiveProject2019.HelperClasses
 
-@{
-    ViewBag.Title = "فورمات الوثائق";
-    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
-    ApplicationDbContext db = new ApplicationDbContext();
-}
 
+@{
+    ViewBag.Title = "أنواع البريد";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
 
 @Html.Partial("_StartView")
 
@@ -17,7 +14,7 @@
 @if (ViewBag.Msg != null)
 {
 
-   
+
 
     if (ViewBag.Msg == "CreateError")
     {
@@ -26,7 +23,7 @@
 
             </span>
             لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
-     
+
         </div>
     }
 
@@ -63,7 +60,7 @@
 
     if (ViewBag.Msg == "EditError")
     {
-        <div class="alert alert-warning enterRemove"  style="text-align:center;font-size:larger">
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
 
             </span>
@@ -72,7 +69,7 @@
         </div>
     }
 
-   
+
     if (ViewBag.Msg == "DeleteSuccess")
     {
         <div class="alert alert-danger enterRemove" style="text-align:center;font-size:larger">
@@ -88,43 +85,35 @@
 
 
 }
-
-
-
 <p>
-    <button title="إضافة نموذج جديد" id="btnNewModel" class="btn btn-primary">أضافة نموذج</button>
-    <button id="btnRefreshModel" title="تحديث الصفحة" class="btn btn-default glyphicon glyphicon-refresh"></button>
+    <button id="btnNewModel" title="إضافة نوع جديد" class="btn btn-primary">أضافة نوع جديد</button>
+    <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
-
-<table id="form" class="table table-striped table-bordered table-hover dt" style="text-align:center">
+<table id="group" class="table table-striped table-bordered table-hover dt" style="text-align:center">
 
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-   
 
             <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
-           
 
             <th>
                 @Html.DisplayNameFor(model => model.CreatedById)
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
-     
 
 
-            
             <th>
-
                 @Html.DisplayName("العمليات المتاحة")
-                
+
             </th>
         </tr>
     </thead>
@@ -137,76 +126,34 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
 
-             
-          
+
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
                 </td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
 
-                
 
-               
                 <td>
-                    <button data-form-id="@item.Id" title="تعديل اسم النموذج" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
 
-                    @if (CheckDelete.checkFormDelete(item.Id)==true)
+                    @if (CheckDelete.CheckTypeMailEdit(item.Id))
                     {
-                        <button data-form-id="@item.Id" title="حذف النموذج المحدد" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+
+                    <button data-mail-id="@item.Id" title=" تعديل نوع معين" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> 
+
                     }
 
+                    @if(CheckDelete.CheckTypeMaildelete(item.Id))
+                    {
 
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            خيارات إضافية
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-
-                                <a href="@Url.Action("Index","Fields",new { id=item.Id})" title="الحقول الخاصة بالنموذج" class="btn-link btn-sm">الحقول الخاصة بالنموذج</a>
-
-                            </li>
-                            <li>
-
-                                <a href="@Url.Action("Create","FormDepartments",new { id=item.Id})" title="إضافة أقسام" class="btn-link  btn-sm">إضافة أقسام</a>
-
-                            </li>
-
-                            <li>
-
-                                <a href="@Url.Action("Index","FormDepartments",new { id=item.Id})" title="الأقسام المتوفرة" class="btn-link  btn-sm"> الأقسام المتوفرة</a>
-
-                            </li>
-
-                            <li>
-
-                                <a href="@Url.Action("Create","FormGroups",new { id=item.Id})" title="إضافة مجموعات للنموذج" class="btn-link  btn-sm">إضافة مجموعات</a>
-
-                            </li>
-
-                            <li>
-
-                                <a href="@Url.Action("Index","FormGroups",new { id=item.Id})" title=" المجموعات الخاصة للنموذج" class="btn-link  btn-sm">المجموعات المتوفرة</a>
-
-                            </li>
-
-
-                        </ul>
-                    </div>
-
-
-
-
-
-
-
-
+                    <button data-mail-id="@item.Id" title="حذف نوع معين" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                    }
 
                 </td>
             </tr>
@@ -223,7 +170,7 @@
 @Html.Partial("_LastView")
 
 @* Create Model Start *@
-<div class="modal fade" tabindex="-1" id="NewModal"
+<div class="modal fade" tabindex="-1" id="NewModel"
      data-keyboard="true" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -232,7 +179,7 @@
                 <h4 id="changeText" class="modal-title">القائمة الفرعية</h4>
             </div>
             <div class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
-                
+
             </div>
         </div>
     </div>
@@ -245,18 +192,21 @@
     $("#btnNewModel").on("click", function () {
 
 
-        $("#changeText").text("إضافة نموذج جديد");
-        var url = '@Url.Action("Create", "Forms")'
+        $("#changeText").text("إضافة  نوع معين");
+        var url = '@Url.Action("Create", "TypeMails")'
 
         $("#partialPlaceHolder").load(url, function () {
-            $('#NewModal').modal('show');
+            $('#NewModel').modal('show');
         });
 
     });
+
+
+
 
     $("#btnRefreshModel").on("click", function () {
 
-        window.location.replace('@Url.Action("Index","Forms",new { Id="none"})');
+        window.location.replace('@Url.Action("Index", "DocumentKinds", new { Id="none"})');
 
 
     });
@@ -264,31 +214,31 @@
 
 
 
-    $("#form").on("click", ".js-Edit", function () {
+    $("#group").on("click", ".js-Edit", function () {
 
-        $("#changeText").text(" تعديل نموذج معين");
+        $("#changeText").text("تعديل نوع بريد");
 
-        var url = '@Url.Action("Edit", "Forms")';
-        url = url + '/' + $(this).attr("data-form-id");
+        var url = '@Url.Action("Edit", "TypeMails")';
+        url = url + '/' + $(this).attr("data-mail-id");
 
         $("#partialPlaceHolder").load(url, function () {
-            $('#NewModal').modal('show');
+            $('#NewModel').modal('show');
         });
 
     });
 
-    $("#form").on("click", ".js-delete", function () {
+    $("#group").on("click", ".js-delete", function () {
 
-        $("#changeText").text("حذف نموذج معين");
+        $("#changeText").text("حذف نوع البريد");
 
-        var url = '@Url.Action("Delete", "Forms")';
-        url = url + '/' + $(this).attr("data-form-id") ;
+        var url = '@Url.Action("Delete", "TypeMails")';
+        url = url + '/' + $(this).attr("data-mail-id") ;
 
         $("#partialPlaceHolder").load(url, function () {
-            $('#NewModal').modal('show');
+            $('#NewModel').modal('show');
         });
 
     });
-   
+
 
 </script>

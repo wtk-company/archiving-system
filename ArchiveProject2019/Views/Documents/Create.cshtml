@@ -38,14 +38,14 @@
         </div>
         <div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Document.TypeOfMail, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Document.TypeMailId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.TypeOfMail, new SelectList(ViewBag.TypeMail, "Value", "Text"), htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLETypeOfMail" })
-                    @Html.ValidationMessageFor(model => model.Document.TypeOfMail, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model=>model.Document.TypeMailId,(SelectList)ViewBag.TypeMailId,"اختر نوع البريد", htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLETypeOfMail" })
+                    @Html.ValidationMessageFor(model => model.Document.TypeMailId, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
-        <div class="takeMail">
+        <div class="takeMail dispMail">
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="takeMail">
+        <div class="takeMail dispMail">
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -65,10 +65,10 @@
         </div>
         <div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Document.Kind, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Document.KindId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.Kind, ViewBag.kinds as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Document.Kind, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.Document.KindId, ViewBag.KindId as SelectList,"اختر نوع الوثيقة", htmlAttributes: new { style = "padding:2px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Document.KindId, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Document.Notes, htmlAttributes: new { @id = "NoteId", @class = "control-label col-md-2 glyphicon glyphicon-arrow-up" })
+            @Html.LabelFor(model => model.Document.Notes, htmlAttributes: new { @id = "NoteId",style="color:blue",title="انقر لإظهار خانة الملاحظة", @class = "control-label col-md-2 " })
             <div id="NoteSlide" class="col-md-10">
                 @*<textarea class="ckeditor" name="Notes"></textarea>*@
 
@@ -228,17 +228,15 @@
         $(function () {
             var TypeOfMail = $("#TOGGLETypeOfMail");
 
-            if (TypeOfMail.val() == "وارد") {
-                $(".takeMail").show(300);
-            } else {
-                $(".takeMail").hide(300);
+            if (TypeOfMail.val() == "1") {
+                $(".takeMail").removeClass("dispMail");
             }
 
             TypeOfMail.change(function () {
-                if ($(this).val() == "وارد") {
-                    $(".takeMail").show(300);
+                if ($(this).val() == "1") {
+                    $(".takeMail").slideDown(300);
                 } else {
-                    $(".takeMail").hide(300);
+                    $(".takeMail").slideUp(300);
                 }
             });
         });
@@ -246,7 +244,16 @@
 
 
         $("#NoteId").click(function () {
-            $("#NoteSlide").slideToggle(300);
+            $("#NoteSlide").slideToggle(400);
         });
     </script>
 }
+<style>
+
+    .dispMail {
+        display: none;
+    }
+    #NoteSlide{
+        display:none;
+    }
+</style>

@@ -29,7 +29,9 @@ namespace ArchiveProject2019
             CreateMasterRole();
 
             CreateMasterUser();
-          
+            CreateTypeOfMails();
+
+
         }
 
         public void CreateMasterRole()
@@ -124,6 +126,22 @@ namespace ArchiveProject2019
 
         }
 
+
+        public void CreateTypeOfMails()
+        {
+
+            IEnumerable<TypMail> Mails = TypeOfMailStartup.GetTypes();
+            foreach(TypMail m in Mails)
+            {
+                if(!db.TypeMails.Any(a=>a.Name.Equals(m.Name)))
+                {
+                    db.TypeMails.Add(m);
+                }
+
+            }
+
+            db.SaveChanges();
+        }
 
      
     }

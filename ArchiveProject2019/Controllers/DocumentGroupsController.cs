@@ -55,14 +55,16 @@ namespace ArchiveProject2019.Controllers
             if (Id == null)
             {
 
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
 
             Document document = db.Documents.Find(Id);
             if (document == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
 
@@ -137,12 +139,13 @@ namespace ArchiveProject2019.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             DocumentGroup documentGroup = db.DocumentGroups.Include(a => a.document).Include(a=>a.CreatedBy).Include(a => a.Group).SingleOrDefault(a => a.Id == id);
             if (documentGroup == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
             return View(documentGroup);
         }

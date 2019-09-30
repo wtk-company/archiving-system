@@ -23,6 +23,12 @@ namespace ArchiveProject2019.Controllers
             return View("Error");
         }
 
+        public ActionResult AccessDenied()
+        {
+            return View("AccessDeniedError");
+        }
+       
+
 
     }
 }

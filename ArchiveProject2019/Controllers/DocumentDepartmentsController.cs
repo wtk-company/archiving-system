@@ -24,14 +24,16 @@ namespace ArchiveProject2019.Controllers
             if (Id == null)
             {
 
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
 
             Document document = db.Documents.Find(Id);
             if (document == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
 
@@ -59,14 +61,16 @@ namespace ArchiveProject2019.Controllers
             if (Id == null)
             {
 
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
 
             Document document = db.Documents.Find(Id);
             if (document == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
 
@@ -143,12 +147,14 @@ namespace ArchiveProject2019.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             DocumentDepartment documentDepartment = db.DocumentDepartments.Include(a => a.Department).Include(a => a.Department).SingleOrDefault(a => a.Id == id);
             if (documentDepartment == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
             return View(documentDepartment);
         }
