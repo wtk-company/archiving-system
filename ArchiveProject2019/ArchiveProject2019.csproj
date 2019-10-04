@@ -205,11 +205,6 @@
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201910031327016_asmi.cs" />
-    <Compile Include="Migrations\201910031327016_asmi.Designer.cs">
-      <DependentUpon>201910031327016_asmi.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ConcernedParty.cs" />
     <Compile Include="Models\DocumentDepartment.cs" />
@@ -1001,11 +996,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910031327016_asmi.resx">
-      <DependentUpon>201910031327016_asmi.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
