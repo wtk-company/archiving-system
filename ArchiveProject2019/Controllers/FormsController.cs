@@ -86,12 +86,12 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             Form form = _context.Forms.Find(id);
             if (form == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
 
@@ -134,12 +134,12 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             Form form = _context.Forms.Include(a=>a.Fields).Include(a=>a.CreatedBy).SingleOrDefault(a=>a.Id==id);
             if (form == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
             
             IEnumerable<Document> Documents = _context.Documents.Where(a => a.FormId == id);

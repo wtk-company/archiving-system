@@ -77,7 +77,7 @@ namespace ArchiveProject2019.Controllers
             
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
 
             Group Group = _context.Groups.Find(id);
@@ -118,13 +118,13 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
 
             Group Group = _context.Groups.Find(id);
             if (Group == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
             if (CheckDelete.CheckGroupDelete(id.Value) == false)
             {
@@ -157,13 +157,13 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
 
             Group Group = _context.Groups.Include(async => async.CreatedBy).SingleOrDefault(a=>a.Id==id);
             if (Group == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
            
 

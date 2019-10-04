@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -171,6 +172,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConcernedPartiesController.cs" />
+    <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\DocumentDepartmentsController.cs" />
     <Compile Include="Controllers\DocumentGroupsController.cs" />
     <Compile Include="Controllers\DocumentKindsController.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Controllers\JobTitlesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PermissionRolesController.cs" />
+    <Compile Include="Controllers\PermissionsUsersController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TypeMailsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -202,9 +205,9 @@
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201909301510117_ahmad.cs" />
-    <Compile Include="Migrations\201909301510117_ahmad.Designer.cs">
-      <DependentUpon>201909301510117_ahmad.cs</DependentUpon>
+    <Compile Include="Migrations\201910031327016_asmi.cs" />
+    <Compile Include="Migrations\201910031327016_asmi.Designer.cs">
+      <DependentUpon>201910031327016_asmi.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -228,6 +231,7 @@
     <Compile Include="Models\Permission.cs" />
     <Compile Include="Models\PermissionRole.cs" />
     <Compile Include="Models\PermissionsControls.cs" />
+    <Compile Include="Models\PermissionsUser.cs" />
     <Compile Include="Models\RelatedDocument.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\TypMail.cs" />
@@ -241,6 +245,7 @@
     <Compile Include="ViewModel\FieldsValuesViewModel.cs" />
     <Compile Include="ViewModel\DocFromsViewModel.cs" />
     <Compile Include="ViewModel\GroupUserViewModel.cs" />
+    <Compile Include="ViewModel\Informations.cs" />
     <Compile Include="ViewModel\RelatedDocumentViewModel.cs" />
     <Compile Include="ViewModel\RelateDocumentsViewModel.cs" />
     <Compile Include="ViewModel\SearchViewModel.cs" />
@@ -249,6 +254,8 @@
   <ItemGroup>
     <Content Include="bin\ArchiveProject2019.dll" />
     <Content Include="bin\ArchiveProject2019.pdb" />
+    <Content Include="Content\bootstrap-arabic.css" />
+    <Content Include="Content\bootstrap-arabic.min.css" />
     <Content Include="Content\bootstrap-multiselect.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -494,6 +501,10 @@
     <Content Include="Content\DashBoard\vendors\iCheck\.bower.json" />
     <Content Include="Content\DashBoard\vendors\iCheck\bower.json" />
     <Content Include="Content\DashBoard\vendors\iCheck\icheck.jquery.json" />
+    <Content Include="fonts\DroidKufi-Regular.eot" />
+    <Content Include="fonts\DroidKufi-Regular.ttf" />
+    <Content Include="fonts\DroidKufi-Regular.woff" />
+    <Content Include="fonts\DroidKufi-Regular.woff2" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />
     <Content Include="Scripts\chosen.proto.min.js" />
@@ -973,10 +984,12 @@
     <Content Include="Views\TypeMails\Create.cshtml" />
     <Content Include="Views\TypeMails\Edit.cshtml" />
     <Content Include="Views\TypeMails\Delete.cshtml" />
+    <Content Include="Views\DashBoard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\PermissionsUsers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -990,8 +1003,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909301510117_ahmad.resx">
-      <DependentUpon>201909301510117_ahmad.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910031327016_asmi.resx">
+      <DependentUpon>201910031327016_asmi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -1026,8 +1039,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

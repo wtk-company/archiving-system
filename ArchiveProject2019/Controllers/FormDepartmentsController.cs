@@ -55,14 +55,16 @@ namespace ArchiveProject2019.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             FormDepartment formDepartment = db.FormDepartments.Include(a => a.CreatedBy)
                 .Include(a => a.Department).Include(a => a.Form)
                 .SingleOrDefault(a=>a.Id==id);
             if (formDepartment == null)
             {
-                return HttpNotFound();
+            return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
             return View(formDepartment);
         }
@@ -75,14 +77,16 @@ namespace ArchiveProject2019.Controllers
             if (Id == null)
             {
 
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
 
             Form form = db.Forms.Find(Id);
             if (form == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
 
@@ -159,12 +163,14 @@ namespace ArchiveProject2019.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             FormDepartment formDepartment = db.FormDepartments.Include(a => a.Department).Include(a => a.Form).SingleOrDefault(a => a.Id == id);
             if (formDepartment == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
 
@@ -179,7 +185,8 @@ namespace ArchiveProject2019.Controllers
             FormDepartment formDepartment = db.FormDepartments.Find(Id);
             if(formDepartment==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
 
 
             }
@@ -209,12 +216,14 @@ namespace ArchiveProject2019.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             FormDepartment formDepartment = db.FormDepartments.Include(a => a.Form).Include(a => a.Department).SingleOrDefault(a=>a.Id==id);
             if (formDepartment == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
             return View(formDepartment);
         }

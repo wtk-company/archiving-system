@@ -24,14 +24,16 @@ namespace ArchiveProject2019.Controllers
             if (Id == null)
             {
 
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
 
             Form form = db.Forms.Find(Id);
             if (form == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
 
@@ -54,14 +56,16 @@ namespace ArchiveProject2019.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             FormGroup formGroup = db.FormGroups.Include(a => a.CreatedBy)
              .Include(a => a.Group).Include(a => a.Form)
                 .SingleOrDefault(a => a.Id == id);
             if (formGroup == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
             return View(formGroup);
         }
@@ -74,14 +78,16 @@ namespace ArchiveProject2019.Controllers
             if (Id == null)
             {
 
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
 
             }
 
             Form form = db.Forms.Find(Id);
             if (form == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
 
@@ -158,12 +164,14 @@ namespace ArchiveProject2019.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
-           FormGroup formGroup = db.FormGroups.Include(a=>a.Group).Include(a=>a.Form).SingleOrDefault(a=>a.Id==id);
+            FormGroup formGroup = db.FormGroups.Include(a=>a.Group).Include(a=>a.Form).SingleOrDefault(a=>a.Id==id);
             if (formGroup == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
 
 
@@ -181,7 +189,8 @@ namespace ArchiveProject2019.Controllers
             FormGroup formGroup = db.FormGroups.Find(Id);
             if (formGroup == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
 
 
             }
@@ -211,12 +220,14 @@ namespace ArchiveProject2019.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
+
             }
             FormGroup formGroup = db.FormGroups.Include(a => a.Form).Include(a => a.Group).SingleOrDefault(a => a.Id == id);
             if (formGroup == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
             }
             return View(formGroup);
         }

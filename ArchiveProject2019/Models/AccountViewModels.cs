@@ -48,17 +48,19 @@ namespace ArchiveProject2019.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "يجب إدخال اسم المستخدم")]
+
         [Display(Name = "اسم المستخدم")]
        
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "يجب إدخال كلمة المرور ")]
+
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "كلمة المرور")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "تذكرني")]
         public bool RememberMe { get; set; }
     }
 
@@ -114,7 +116,7 @@ namespace ArchiveProject2019.Models
 
 
         [Required(ErrorMessage ="يجب إدخال كلمة السر")]
-        [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 2", MinimumLength =3 )]
+        [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 5", MinimumLength =6 )]
         [DataType(DataType.Password)]
         [Display(Name = "كلمة السر")]
         public string Password { get; set; }
@@ -189,13 +191,14 @@ namespace ArchiveProject2019.Models
 
 
         [Required(ErrorMessage = "يجب إدخال كلمة السر")]
-        [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 2", MinimumLength = 3)]
+        [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 5", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "كلمة السر الحالية")]
         public string OldPassword { get; set; }
 
         [Required(ErrorMessage = "يجب إدخال كلمة السر")]
         [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 5", MinimumLength = 6)]
+
         [DataType(DataType.Password)]
         [Display(Name = "كلمة السر الجديدة")]
         public string NewPassword { get; set; }

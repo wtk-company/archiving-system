@@ -60,13 +60,13 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
 
             Document document = _context.Documents.Include(a => a.Department).Include(a => a.Values).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
             if (document == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", document.DepartmentId);
@@ -761,12 +761,12 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             Document document = _context.Documents.Include(a => a.Department).Include(b => b.CreatedBy).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
             if (document == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             return View(document);
@@ -822,7 +822,7 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
 
             var document = _context.Documents.Include(a => a.Form)
@@ -831,7 +831,7 @@ namespace ArchiveProject2019.Controllers
 
             if (document == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             return View(document);

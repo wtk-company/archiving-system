@@ -24,10 +24,8 @@ namespace ArchiveProject2019
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-arabic.css",
                       "~/Content/site.css"));
-
-
 
 
             bundles.Add(new StyleBundle("~/Content/DashBoardCss").Include(

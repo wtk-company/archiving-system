@@ -42,12 +42,12 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             JobTitle jobTitle = db.JobTitles.Include(a => a.CreatedBy).SingleOrDefault(a=>a.Id==id);
             if (jobTitle == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
             return View(jobTitle);
         }
@@ -99,12 +99,12 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             JobTitle jobTitle = db.JobTitles.Find(id);
             if (jobTitle == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
             return View(jobTitle);
         }
@@ -163,12 +163,12 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             JobTitle jobTitle = db.JobTitles.Find(id);
             if (jobTitle == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
 

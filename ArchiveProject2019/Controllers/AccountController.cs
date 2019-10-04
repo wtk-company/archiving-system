@@ -82,14 +82,16 @@ namespace ArchiveProject2019.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("index","Departments");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("UserName", "المستخدم غير موجود، الرجاء أعد الإدخال");
+                    ModelState.AddModelError("Password", "المستخدم غير موجود، الرجاء أعد الإدخال");
+
                     return View(model);
             }
         }

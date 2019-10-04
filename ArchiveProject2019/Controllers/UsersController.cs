@@ -178,7 +178,7 @@ namespace ArchiveProject2019.Controllers
             ApplicationUser user = UserManager.FindById(Uid);
             if(user==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
             EditUserNameAndPassword ED = new EditUserNameAndPassword() {
@@ -272,13 +272,13 @@ namespace ArchiveProject2019.Controllers
 
             if (string.IsNullOrEmpty(id))
             {
-                return new  HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
             ApplicationUser User = UserManager.FindById(id);
             if(User==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
 
@@ -319,7 +319,7 @@ namespace ArchiveProject2019.Controllers
             ApplicationUser user = UserManager.FindById(id);
             if (user==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
 
@@ -405,7 +405,7 @@ namespace ArchiveProject2019.Controllers
                  user = UserManager.FindById(EProfile.Id);
                 if(user==null)
                 {
-                    return HttpNotFound();
+                    return RedirectToAction("HttpNotFoundError", "ErrorController");
 
                 }
 
@@ -540,7 +540,7 @@ namespace ArchiveProject2019.Controllers
             ApplicationUser user = UserManager.FindById(id);
             if(user==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
 
@@ -562,7 +562,7 @@ namespace ArchiveProject2019.Controllers
             ApplicationUser user = UserManager.FindById(Id);
             if (user == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
 

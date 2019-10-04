@@ -104,14 +104,14 @@ namespace ArchiveProject2019.Controllers
 
             if (string.IsNullOrEmpty(id))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
             ApplicationRoles AppRole = manger.Roles.FirstOrDefault(a=>a.Id.Equals(id));
 
             if(AppRole==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             RoleViewModel RVM = new RoleViewModel()
@@ -138,7 +138,7 @@ namespace ArchiveProject2019.Controllers
                 ApplicationRoles AppRole = manger.Roles.FirstOrDefault(a=>a.Id.Equals( RoleId));
                 if (AppRole == null)
                 {
-                    return HttpNotFound();
+                    return RedirectToAction("HttpNotFoundError", "ErrorController");
                 }
                 if (manger.Roles.Where(a =>! a.Id.Equals(RoleId)).Any(a => a.Name.Equals(RoleView.Name, StringComparison.OrdinalIgnoreCase)))
                 {
@@ -169,14 +169,14 @@ namespace ArchiveProject2019.Controllers
 
             if (string.IsNullOrEmpty(id))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
             ApplicationRoles AppRole = manger.Roles.FirstOrDefault(a => a.Id.Equals(id));
 
             if (AppRole == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             if(CheckDelete.CheckRoleDelete(id)==false)

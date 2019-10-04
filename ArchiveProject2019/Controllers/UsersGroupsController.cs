@@ -25,14 +25,14 @@ namespace ArchiveProject2019.Controllers
 
             if(Id==null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
 
             var Group = _context.Groups.Find(Id);
             if(Group==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             Session["GroupId"] = Id;
@@ -105,14 +105,14 @@ namespace ArchiveProject2019.Controllers
 
             if(Id==null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
 
             Group G = _context.Groups.Find(Id);
             if(G==null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             if (msg != "none")
@@ -136,14 +136,14 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null || Session["GroupId"]==null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
 
             var UsersGroups = _context.UsersGroups.Include(g => g.Group).Include(a => a.CreatedBy).Include(u => u.User).FirstOrDefault(a=>a.Id==id);
 
             if (UsersGroups == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
           
@@ -159,14 +159,14 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null || Session["GroupId"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
 
             UserGroup UserGroup = _context.UsersGroups.Find(id);
 
             if (UserGroup == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
          
@@ -185,14 +185,14 @@ namespace ArchiveProject2019.Controllers
 
             if (Id == null|| Session["GroupId"]==null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
 
             var UsersGroups = _context.UsersGroups.Include(g => g.Group).Include(u => u.User).Include(a => a.CreatedBy).FirstOrDefault(a => a.Id == Id);
 
             if (UsersGroups == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             return View(UsersGroups);
@@ -203,7 +203,7 @@ namespace ArchiveProject2019.Controllers
         {
             if(id==null|| Session["GroupId"]==null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
 
@@ -213,7 +213,7 @@ namespace ArchiveProject2019.Controllers
 
             if (UsersGroups == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             return View(UsersGroups);
@@ -226,7 +226,7 @@ namespace ArchiveProject2019.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
 
@@ -234,7 +234,7 @@ namespace ArchiveProject2019.Controllers
             UserGroup UsersGroups = _context.UsersGroups.Find(id);
             if (UsersGroups == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             _context.UsersGroups.Remove(UsersGroups);

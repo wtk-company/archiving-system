@@ -7,32 +7,29 @@ using System.Web;
 
 namespace ArchiveProject2019.Models
 {
-    public class DocumentGroup
+    public class PermissionsUser
     {
 
 
-
+       
         [Key]
         public int Id { get; set; }
-  
+        [Display(Name = "حالة التّفعيل")]
+        public bool Is_Active { get; set; }
+        [Display(Name = "الصلاحية")]
+        public int PermissionId { get; set; }
+        [Display(Name = "المستخدم")]
 
-        [Display(Name = "اسم الوثيقة")]
-        public int DocumentId { get; set; }
+        public string UserId { get; set; }
 
-        [ForeignKey("DocumentId")]
+        [ForeignKey("PermissionId")]
 
-        public virtual Document document { get; set; }
+        public virtual Permission Permission { get; set; }
 
-        [Display(Name = "اسم المجموعة")]
-        public int GroupId { set; get; }
+        [ForeignKey("UserId")]
 
-        [ForeignKey("GroupId")]
+        public virtual ApplicationUser User { get; set; }
 
-        public virtual Group Group { get; set; }
-
-
-        
-   
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
@@ -48,6 +45,8 @@ namespace ArchiveProject2019.Models
 
 
 
-    
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
+        [Display(Name = "تاريخ أخر تحديث")]
+        public string Updatedat { get; set; }
     }
 }

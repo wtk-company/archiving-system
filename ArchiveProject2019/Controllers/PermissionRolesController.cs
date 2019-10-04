@@ -24,7 +24,7 @@ namespace ArchiveProject2019.Controllers
             if (Id == null)
             {
                 
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
             RoleManager<ApplicationRoles> manger= new RoleManager<ApplicationRoles>(new RoleStore<ApplicationRoles>(db));
@@ -33,7 +33,7 @@ namespace ArchiveProject2019.Controllers
             if (role == null)
             {
                 
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
 
@@ -65,12 +65,12 @@ namespace ArchiveProject2019.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             PermissionRole permissionRole = db.PermissionRoles.Find(id);
             if (permissionRole == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
             return View(permissionRole);
         }
@@ -83,7 +83,7 @@ namespace ArchiveProject2019.Controllers
 
             if (Session["Role_Id"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
             //Permission For current role:
@@ -143,17 +143,17 @@ namespace ArchiveProject2019.Controllers
 
             if (Session["Role_Id"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             PermissionRole permissionRole = db.PermissionRoles.Include(a => a.Role).Include(a=>a.CreatedBy).FirstOrDefault(a=>a.Id==id);
             if (permissionRole == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
             //اختبار التفعيل من  قبل الشخص نفسه
 
@@ -195,17 +195,17 @@ namespace ArchiveProject2019.Controllers
 
             if (Session["Role_Id"] == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
             }
             PermissionRole permissionRole = db.PermissionRoles.Find(id);
             if (permissionRole == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             return View(permissionRole);
