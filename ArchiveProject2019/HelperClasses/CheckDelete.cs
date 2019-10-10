@@ -15,7 +15,7 @@ namespace ArchiveProject2019.HelperClasses
            
 
          
-              IEnumerable<ApplicationUser> users = db.Users.Where(a => a.DepartmentId == id);
+            IEnumerable<ApplicationUser> users = db.Users.Where(a => a.DepartmentId == id);
 
             if (users.Count() > 0)
             {
@@ -80,7 +80,7 @@ namespace ArchiveProject2019.HelperClasses
         }
 
 
-        //public static bool CheckDocumentKindsDelete(int id)
+        //public static bool CheckKindsDelete(int id)
         //{
 
         //    IEnumerable<int> Documents = db.Documents.Where(a => a.);
@@ -145,7 +145,7 @@ namespace ArchiveProject2019.HelperClasses
 
             }
 
-            TypMail mail = db.TypeMails.Find(id);
+            TypeMail mail = db.TypeMails.Find(id);
             if(mail.Type!=0)
             {
                 return false;
@@ -163,7 +163,7 @@ namespace ArchiveProject2019.HelperClasses
 
            
 
-            TypMail mail = db.TypeMails.Find(id);
+            TypeMail mail = db.TypeMails.Find(id);
             if (mail.Type != 0)
             {
                 return false;

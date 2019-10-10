@@ -8,15 +8,15 @@ namespace ArchiveProject2019.HelperClasses
 {
     public class TypeOfMailStartup
     {
-        public static List<TypMail> GetTypes()
+        public static List<TypeMail> GetTypes()
         {
 
-            return new List<TypMail>() {
+            return new List<TypeMail>() {
 
-                new TypMail(){Name="وارد",Type=1,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
-                new TypMail(){Name="صادر",Type=2,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
-                new TypMail(){Name="داخلي",Type=3,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
-                new TypMail(){Name="أرشيف",Type=4,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
+                new TypeMail(){Name="وارد",Type=1,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
+                new TypeMail(){Name="صادر",Type=2,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
+                new TypeMail(){Name="داخلي",Type=3,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
+                new TypeMail(){Name="أرشيف",Type=4,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
 
 
             };

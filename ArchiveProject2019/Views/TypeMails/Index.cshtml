@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ArchiveProject2019.Models.TypMail>
+﻿@model IEnumerable<ArchiveProject2019.Models.TypeMail>
 @using ArchiveProject2019.HelperClasses
 
 
@@ -206,7 +206,7 @@
 
     $("#btnRefreshModel").on("click", function () {
 
-        window.location.replace('@Url.Action("Index", "DocumentKinds", new { Id="none"})');
+        window.location.replace('@Url.Action("Index", "Kinds", new { Id="none"})');
 
 
     });

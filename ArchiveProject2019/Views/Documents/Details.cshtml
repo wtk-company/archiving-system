@@ -1,4 +1,4 @@
-﻿@model ArchiveProject2019.Models.Document
+﻿@model ArchiveProject2019.ViewModel.DocumentFieldsValuesViewModel
 @using ArchiveProject2019.Models
 @{
     ViewBag.Title = "تفاصيل الوثيقة";
@@ -14,100 +14,114 @@
 
 
 @Html.Partial("_StartView")
-<a href="@Url.Action("index", "Documents")" class="btn btn-default">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
+<a href="@Url.Action("index", "Document")" class="btn btn-default">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
 
 <div>
 
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.FormId)
+            @Html.DisplayNameFor(model => model.Document.FormId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Form.Name)
+            @Html.DisplayFor(model => model.Document.Form.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.DocumentNumber)
+            @Html.DisplayNameFor(model => model.Document.DocumentNumber)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DocumentNumber)
+            @Html.DisplayFor(model => model.Document.DocumentNumber)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Kind)
+            @Html.DisplayNameFor(model => model.Document.Kind.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Kind)
+            @Html.DisplayFor(model => model.Document.Kind.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Document.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Document.Subject)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Document.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Document.Description)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Party)
+            @Html.DisplayNameFor(model => model.Document.TypeMail.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Party)
+            @Html.DisplayFor(model => model.Document.TypeMail.Name)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Subject)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TypeOfMail)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TypeOfMail)
-        </dd>
-
-        @if (Model.TypeOfMail == "وارد")
+        @if (Model.Document.TypeMailId == 1)
         {
             <dt>
-                @Html.DisplayNameFor(model => model.MailingNumber)
+                @Html.DisplayNameFor(model => model.Document.MailingNumber)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.MailingNumber)
+                @Html.DisplayFor(model => model.Document.MailingNumber)
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.MailingDate)
+                @Html.DisplayNameFor(model => model.Document.MailingDate)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.MailingDate)
+                @Html.DisplayFor(model => model.Document.MailingDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Document.Party.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Document.Party.Name)
             </dd>
         }
 
         <dt>
-            @Html.DisplayNameFor(model => model.DocumentDate)
+            @Html.DisplayNameFor(model => model.Document.DocumentDate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DocumentDate)
+            @Html.DisplayFor(model => model.Document.DocumentDate)
         </dd>
-     
+
         <dt>
-            @Html.DisplayNameFor(model => model.FileUrl)
+            @Html.DisplayNameFor(model => model.Document.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Document.CreatedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Document.CreatedById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Document.CreatedBy.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Document.FileUrl)
         </dt>
         <dd>
             @{
-                var  urls = Model.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
-                var names = Model.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                var urls = Model.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                var names = Model.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
 
                 for (int i = 0; i < urls.Length; i++)
                 {
@@ -121,61 +135,32 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
+            @Html.DisplayNameFor(model => model.Document.Notes)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
+        <dd style="overflow:auto;border:2px solid #ef7979;padding:10px">
+            @Html.Raw(Model.Document.Notes)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedById)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy.FullName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
-
-        <dd style="overflow:auto;border:1px solid #ef7979;padding:10px">
-            @Html.Raw(Model.Notes)
-        </dd>
-
-        <hr />
-
-        @{
-
-            var Fields = db.Fields.Where(f => f.FormId == Model.FormId).ToList();
-            var values = db.Values.Where(a => a.Document_id == Model.Id);
-            foreach (var v in values)
-            {
-                <dt>
-                    @v.Field.Name
-                </dt>
-
-                if (!v.Field.Type.Equals("file"))
+        @foreach (var value in Model.Values)
+        {
+            <dt>
+                @value.Field.Name
+            </dt>
+            <dd>
+                @if (!value.Field.Type.Equals("file"))
                 {
-                    <dd>
-
-                        @v.FieldValue
-                    </dd>
+                    @value.FieldValue
                 }
                 else
                 {
-                    <dd>
-
-                        <button>Here for show</button><button>Here for Download</button>
-                    </dd>
+                    <button>Here for show</button>
+                    <button>Here for Download</button>
                 }
-
-            }
-
+            </dd>
 
         }
-
     </dl>
 </div>
 

@@ -1,4 +1,4 @@
-﻿@model ArchiveProject2019.ViewModel.DocumentFieldsValuesViewModel
+﻿@model ArchiveProject2019.ViewModel.DocumentDocIdFieldsValuesViewModel
 @using ArchiveProject2019.Models
 @{
     ViewBag.Title = "تعديل وثيقة ";
@@ -22,64 +22,62 @@
 
     <div class="form-horizontal">
 
-        @Html.HiddenFor(a=>Model.Document.Id)
+        @Html.HiddenFor(a => Model.Document.Id)
         @Html.HiddenFor(a => Model.Document.Name)
         @Html.HiddenFor(a => Model.Document.FormId)
-        @Html.HiddenFor(a=>a.Document.CreatedById)
+        @Html.HiddenFor(a => a.Document.CreatedById)
         @Html.HiddenFor(a => a.Document.CreatedAt)
-
+        @Html.HiddenFor(a => a.Document.TypeMailId)
 
         <div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.DepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLE" })
+                    @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
                     @Html.ValidationMessageFor(model => model.Document.DepartmentId, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
+
+        @*Start Take Mail*@
+        @if (Model.Document.TypeMail.Type == 1)
+        {
+            <div class="TakeMail">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Document.MailingNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Document.MailingNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="TakeMail">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Document.MailingDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
+                        @Html.ValidationMessageFor(model => model.Document.MailingDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="TakeMail">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Document.PartyId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Document.PartyId, new SelectList(ViewBag.Parties, "Value", "Text"), htmlAttributes: new { @class = "form-control chosen-select" })
+                        @Html.ValidationMessageFor(model => model.Document.PartyId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        }
+        @*End Take Mail*@
+
         <div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Document.TypeOfMail, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Document.KindId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.TypeOfMail, new SelectList(ViewBag.TypeMail, "Value", "Text"), htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLETypeOfMail" })
-                    @Html.ValidationMessageFor(model => model.Document.TypeOfMail, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="takeMail">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Document.MailingNumber, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Document.MailingNumber, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="takeMail">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Document.MailingDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
-                    @Html.ValidationMessageFor(model => model.Document.MailingDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.Kind, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.Kind, ViewBag.kinds as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLE" })
-                    @Html.ValidationMessageFor(model => model.Document.Kind, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.Party, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.Party, ViewBag.partyies as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLE" })
-                    @Html.ValidationMessageFor(model => model.Document.Party, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(model => model.Document.KindId, ViewBag.kinds as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
+                    @Html.ValidationMessageFor(model => model.Document.KindId, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -125,25 +123,24 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-               @Html.HiddenFor(model => model.Document.FileUrl)
+                @Html.HiddenFor(model => model.Document.FileUrl)
                 @{
                     var urls = Model.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
                     var names = Model.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
 
                     <div id="fileForm">
-                    @for (int i = 0; i < urls.Length; i++)
-                    {
-                        <div class="col-lg-6" id="fileForm__@i">
-                            <label style="margin-top: 30px;">@names[i]</label>
-                            <div class="input-group">
-                                <input type="file" class="form-control" hidden name="UploadFile[@i]" id="UploadFile[@i]" value="@urls[i]" title="@names[i]" />
-                                <span class="input-group-addon ">
-                                    @Html.CheckBoxFor(model => model.ExistFiles[i])
-                                </span>
-                            </div><!-- /input-group -->
-                        </div><!-- /.col-lg-6 -->
-                    }
-      
+                        @for (int i = 0; i < urls.Length; i++)
+                        {
+                            <div class="col-lg-6" id="fileForm__@i">
+                                <label style="margin-top: 30px;">@names[i]</label>
+                                <div class="input-group">
+                                    <input type="file" class="form-control" hidden name="UploadFile[@i]" id="UploadFile[@i]" value="@urls[i]" title="@names[i]" />
+                                    <span class="input-group-addon ">
+                                        @Html.CheckBoxFor(model => model.ExistFiles[i])
+                                    </span>
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        }
                         <div class="col-lg-6" id="btnNewField">
                             <label style="margin-top: 30px;">ملف جديد</label>
                             <div class="input-group">
@@ -152,7 +149,6 @@
                                 </span>
                             </div><!-- /input-group -->
                         </div><!-- /.col-lg-6 -->
-      
                     </div>
                 }
                 @Html.ValidationMessageFor(model => model.Document.FileUrl, "", new { @class = "text-danger" })
@@ -221,23 +217,17 @@
                         }
                         @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
                     </div>
-
-
-
-
                 </div>
 
                 <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
 
                 @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
                 @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
-
-
                 @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
                 @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
             }
         }
-        
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -246,34 +236,35 @@
         </div>
 
     </div>
-}
+                    }
 
 @Html.Partial("_LastView")
 
 @section Scripts {
+
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-        
-        function NewFile(fileSelector) {
-            var form = '<div class="col-lg-6" id="fileForm__' + fileSelector + '" >' +
-                            '<label style="margin-top: 30px;">اختر ملف</label>'+
-                            '<div class="input-group">' +
-                                '<input type="file" class="form-control" hidden name="UploadFile['+ fileSelector +']" id="UploadFile['+ fileSelector +']"  />' +
-                                '<span class="input-group-addon">' +
-                                    '<input checked="checked" id="ExistFiles_' + fileSelector + '_" name="ExistFiles[' + fileSelector +']" type="checkbox" value="true" >'+
-                                    '<input name= "ExistFiles[' + fileSelector +']" type= "hidden"  value="false">'+
-                                '</span>' +
-                            '</div>' +
-                '</div>' +
 
+        function NewFile(fileSelector) {
+            var form =
+                '<div class="col-lg-6" id="fileForm__' + fileSelector + '" >' +
+                '<label style="margin-top: 30px;">اختر ملف</label>' +
+                '<div class="input-group">' +
+                '<input type="file" class="form-control" hidden name="UploadFile[' + fileSelector + ']" id="UploadFile[' + fileSelector + ']"  />' +
+                '<span class="input-group-addon">' +
+                '<input checked="checked" id="ExistFiles_' + fileSelector + '_" name="ExistFiles[' + fileSelector + ']" type="checkbox" value="true" >' +
+                '<input name= "ExistFiles[' + fileSelector + ']" type= "hidden"  value="false">' +
+                '</span>' +
+                '</div>' +
+                '</div>' +
                 '<div class="col-lg-6" id="btnNewField">' +
-                        '<label style="margin-top: 30px;">ملف جديد</label>' +
-                        '<div class="input-group">' +
-                            '<span class="input-group-btn">' +
-                                '<button class="btn btn-primary" onclick="NewFile('+ ++fileSelector +')" type="button"><span class="glyphicon glyphicon-plus"></span></button>' +
-                            '</span>'+
-                        '</div>'+
+                '<label style="margin-top: 30px;">ملف جديد</label>' +
+                '<div class="input-group">' +
+                '<span class="input-group-btn">' +
+                '<button class="btn btn-primary" onclick="NewFile(' + ++fileSelector + ')" type="button"><span class="glyphicon glyphicon-plus"></span></button>' +
+                '</span>' +
+                '</div>' +
                 '</div>';
             document.getElementById("btnNewField").remove();
             $('#fileForm').append(form);
@@ -289,27 +280,28 @@
             });
         });
 
-        $(function () {
-            var TypeOfMail = $("#TOGGLETypeOfMail");
-
-            if (TypeOfMail.val() == "وارد") {
-                $(".takeMail").show(300);
-            } else {
-                $(".takeMail").hide(300);
-            }
-
-            TypeOfMail.change(function () {
-                if ($(this).val() == "وارد") {
-                    $(".takeMail").show(300);
-                } else {
-                    $(".takeMail").hide(300);
-                }
-            });
-        });
-
         $("#NoteId").click(function () {
             $("#NoteSlide").slideToggle(300);
         });
 
+//var form =
+//    '<div class="col-lg-6" id="fileForm__' + fileSelector + '" >' +
+//        '<label style="margin-top: 30px;">اختر ملف</label>' +
+//        '<div class="input-group">' +
+//            '<input type="file" class="form-control" hidden name="UploadFile[' + fileSelector + ']" id="UploadFile[' + fileSelector + ']"  />' +
+//            '<span class="input-group-addon">' +
+//                '<input checked="checked" id="ExistFiles_' + fileSelector + '_" name="ExistFiles[' + fileSelector + ']" type="checkbox" value="true" >' +
+//                '<input name= "ExistFiles[' + fileSelector + ']" type= "hidden"  value="false">' +
+//            '</span>' +
+//        '</div>' +
+//    '</div>' +
+//    '<div class="col-lg-6" id="btnNewField">' +
+//        '<label style="margin-top: 30px;">ملف جديد</label>' +
+//        '<div class="input-group">' +
+//            '<span class="input-group-btn">' +
+//                '<button class="btn btn-primary" onclick="NewFile(' + ++fileSelector + ')" type="button"><span class="glyphicon glyphicon-plus"></span></button>' +
+//            '</span>' +
+//        '</div>' +
+//    '</div>';
     </script>
 }

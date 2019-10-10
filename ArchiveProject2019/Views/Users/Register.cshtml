@@ -1,5 +1,5 @@
 ﻿@model ArchiveProject2019.Models.RegisterViewModel
-    @using ArchiveProject2019.Models
+@using ArchiveProject2019.Models
 @{
     ViewBag.Title = "تسجيل مستخدم جديد";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -9,7 +9,7 @@
 
 
 }
-  
+
 
 
 
@@ -28,8 +28,8 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 
-       
-           
+
+
 
         <div class="form-group">
             @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
@@ -41,12 +41,12 @@
 
             </div>
         </div>
-   
 
 
-        
 
-       
+
+
+
 
 
 
@@ -127,11 +127,6 @@
             </div>
         </div>
 
-
-
-
-
-
         <div class="form-group">
             @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
@@ -153,94 +148,71 @@
             </div>
         </div>
 
-     
-
-
         <div class="form-group">
             @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control dropdown" })
                 @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-
-
             </div>
         </div>
 
-        @if (((SelectList)ViewBag.GroupList).Count() <= 0)
-{
-        <div class="form-group">
-            @Html.Label("المجموعات", new { @class = "col-md-2 control-label" })
-            <div class="col-md-10" style="overflow:auto;height:150px">
-               
-
+        @if (((SelectList)ViewBag.Groups).Count() <= 0)
+        {
+            <div class="form-group">
+                @Html.Label("المجموعات", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10" style="overflow:auto;height:150px">
                     <div class="alert alert-warning" style="text-align:center;font-size:larger">
                         <span class="glyphicon glyphicon-bell">
-
                         </span> لا يوجد أي مجموعات متوفره
                     </div>
-                
-               
-
+                </div>
             </div>
-        </div>
         }
-
         else
         {
-
-
             <div>
                 <div class="form-group">
                     @Html.Label("المجموعات", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("Groups", (SelectList)ViewBag.GroupList, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+                        @Html.DropDownList("Groups", (SelectList)ViewBag.Groups, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
                     </div>
                 </div>
             </div>
-
         }
-
-
-
-
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" class="btn btn-primary" value="تسجيل جديد" />
             </div>
         </div>
-
-
-
-        </div>
-        }
+    </div>
+}
 
 @Html.Partial("_LastView")
 
-  @section Scripts {
-@Scripts.Render("~/bundles/jqueryval")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
 
-        
 
 
-       
-            $(function () {
-                $(".chosen-select").chosen({
-                    
-                    rtl: true,
-                    no_results_text: "لا يوجد نتائج!"
-                });
+
+
+        $(function () {
+            $(".chosen-select").chosen({
+
+                rtl: true,
+                no_results_text: "لا يوجد نتائج!"
             });
-
-      
-
+        });
 
 
-      
+
+
+
+
 
     </script>
-  
-      }
+
+}
 
 

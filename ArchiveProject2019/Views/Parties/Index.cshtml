@@ -1,7 +1,7 @@
-﻿@model IEnumerable<ArchiveProject2019.Models.DocumentKind>
+﻿@model IEnumerable<ArchiveProject2019.Models.Party>
 
 @{
-    ViewBag.Title = "أنواع الوثائق";
+    ViewBag.Title = "الجهات المعنية";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
@@ -84,13 +84,13 @@
 
 }
 <p>
-    <button id="btnNewModel" title="إضافة نوع جديد" class="btn btn-primary">أضافة نوع جديد</button>
-    <button id="btnRefreshModel" title="تحديث المحتوى"  class ="btn btn-default glyphicon glyphicon-refresh"></button>
+    <button id="btnNewModel" title="إضافة جهةجديدة" class="btn btn-primary">أضافة جهة جديدة</button>
+    <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
-<table  id="group" class="table table-striped table-bordered table-hover dt" style="text-align:center">
+<table id="group" class="table table-striped table-bordered table-hover dt" style="text-align:center">
 
-    <thead >
+    <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -107,11 +107,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
-            
+          
+
 
             <th>
                 @Html.DisplayName("العمليات المتاحة")
-                
+
             </th>
         </tr>
     </thead>
@@ -132,15 +133,14 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
                 </td>
-
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
 
-               
+
                 <td>
-                    <button data-Kind-id="@item.Id" title=" تعديل نوع معين" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> |
-                    <button data-Kind-id="@item.Id" title="حذف نوع معين" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button data-Party-id="@item.Id" title="تعديل" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> |
+                    <button data-Party-id="@item.Id" title="حذف" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
                 </td>
             </tr>
 
@@ -157,7 +157,7 @@
 
 @* Create Model Start *@
 <div class="modal fade" tabindex="-1" id="NewModel"
-     data-keyboard="true" data-backdrop="static">
+     data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -178,8 +178,8 @@
     $("#btnNewModel").on("click", function () {
 
 
-        $("#changeText").text("إضافة  نوع معين");
-        var url = '@Url.Action("Create", "DocumentKinds")'
+        $("#changeText").text("إضافة  جهة جديدة");
+        var url = '@Url.Action("Create", "Parties")'
 
         $("#partialPlaceHolder").load(url, function () {
             $('#NewModel').modal('show');
@@ -187,12 +187,9 @@
 
     });
 
-
-
-
     $("#btnRefreshModel").on("click", function () {
 
-        window.location.replace('@Url.Action("Index", "DocumentKinds", new { Id="none"})');
+        window.location.replace('@Url.Action("Index", "Parties", new { Id="none"})');
 
 
     });
@@ -202,10 +199,10 @@
 
     $("#group").on("click", ".js-Edit", function () {
 
-        $("#changeText").text("تعديل نوع معين");
+        $("#changeText").text(" تعديل جهة معينة");
 
-        var url = '@Url.Action("Edit", "DocumentKinds")';
-        url = url + '/' + $(this).attr("data-Kind-id");
+        var url = '@Url.Action("Edit", "Parties")';
+        url = url + '/' + $(this).attr("data-Party-id");
 
         $("#partialPlaceHolder").load(url, function () {
             $('#NewModel').modal('show');
@@ -215,10 +212,10 @@
 
     $("#group").on("click", ".js-delete", function () {
 
-        $("#changeText").text("حذف نوع معين");
+        $("#changeText").text("حذف جهة معينة");
 
-        var url = '@Url.Action("Delete", "DocumentKinds")';
-        url = url + '/' + $(this).attr("data-Kind-id") ;
+        var url = '@Url.Action("Delete", "Parties")';
+        url = url + '/' + $(this).attr("data-Party-id") ;
 
         $("#partialPlaceHolder").load(url, function () {
             $('#NewModel').modal('show');

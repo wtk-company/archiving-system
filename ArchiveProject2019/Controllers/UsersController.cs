@@ -26,7 +26,7 @@ namespace ArchiveProject2019.Controllers
 
         public ActionResult UserFullName()
         {
-            string uid = this.User.Identity.GetUserId();
+            string uid = User.Identity.GetUserId();
             ViewBag.UserName = UserManager.Users.FirstOrDefault(a => a.Id.Equals(uid)).UserName;
             ViewBag.UserFullName = UserManager.Users.FirstOrDefault(a => a.Id.Equals(uid)).FullName;
             return PartialView("_UserName");
@@ -35,12 +35,12 @@ namespace ArchiveProject2019.Controllers
         {
             //Role
             ViewBag.Current = "Users";
-            ViewBag.GroupList = new SelectList(db.Groups.ToList(), "Id", "Name");
+            ViewBag.Groups = new SelectList(db.Groups.ToList(), "Id", "Name");
 
-            ViewBag.Role = new SelectList(db.Roles.Where(a=>!a.Name.Equals("Master")).ToList(), "Name","Name");
+            ViewBag.Role = new SelectList(db.Roles.Where(a => !a.Name.Equals("Master")).ToList(), "Name", "Name");
 
 
-            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(),"Id","Name");
+            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name");
             ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name");
 
 
@@ -49,17 +49,17 @@ namespace ArchiveProject2019.Controllers
 
 
 
-           
+
             return View();
         }
 
 
-      
+
         //Register Post:
         [HttpPost]
         [AllowAnonymous]
-       //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model,IEnumerable<string>Groups)
+        //[ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterViewModel model, IEnumerable<string> Groups)
         {
 
             bool x = true;
@@ -68,24 +68,24 @@ namespace ArchiveProject2019.Controllers
             ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name");
             ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name");
 
-            ViewBag.Role = new SelectList(db.Roles.Where(a => !a.Name.Equals("Master")).ToList(), "Name", "Name",model.Role);
-    
-            ViewBag.GroupList = new SelectList(db.Groups.ToList(), "Id", "Name");
+            ViewBag.Role = new SelectList(db.Roles.Where(a => !a.Name.Equals("Master")).ToList(), "Name", "Name", model.Role);
+
+            ViewBag.Groups = new SelectList(db.Groups.ToList(), "Id", "Name");
 
 
             if (ModelState.IsValid)
             {
 
-                
-                if (db.Users.Any(a=>a.UserName.Equals(model.UserName,StringComparison.OrdinalIgnoreCase)))
+
+                if (db.Users.Any(a => a.UserName.Equals(model.UserName, StringComparison.OrdinalIgnoreCase)))
                 {
 
 
                     ModelState.AddModelError("UserName", "اسم المستخدم موجود مسبقاً يرجى اعادة الإدخال");
                     x = false;
                 }
-               
-                if(CheckJobTitleDepartment.CheckJobTitleDepartmentCreateUser(model.DepartmentID,model.JobTitleId)==false)
+
+                if (CheckJobTitleDepartment.CheckJobTitleDepartmentCreateUser(model.DepartmentID, model.JobTitleId) == false)
                 {
 
                     ModelState.AddModelError("JobTitleId", "عددالأعضاء للقسم بالنسبة للمسمى الوظيفي وصل للحد الأعظمي");
@@ -105,7 +105,7 @@ namespace ArchiveProject2019.Controllers
                 }
 
 
-                if (x==false)
+                if (x == false)
                 {
                     return View(model);
 
@@ -117,29 +117,25 @@ namespace ArchiveProject2019.Controllers
                     Email = model.Email,
                     FullName = model.FullName,
                     Gender = model.Gender,
-                    DepartmentId=model.DepartmentID,
-                    JobTitleId=model.JobTitleId,
-                   
+                    DepartmentId = model.DepartmentID,
+                    JobTitleId = model.JobTitleId,
                     CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                     CreatedById = this.User.Identity.GetUserId(),
-                    RoleName=model.Role
+                    RoleName = model.Role
                 };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(user.Id, model.Role);
 
-                 
-
-
+                    
                     //Add User To Groups
-                    if(Groups!=null)
+                    if (Groups != null)
                     {
-                    UserGroup UserGroup=null;
-
-                        foreach(string User_Group_Id in Groups)
+                        foreach (string User_Group_Id in Groups)
                         {
-                            UserGroup = new UserGroup()
+                            var UserGroup = new UserGroup()
                             {
 
                                 UserId = user.Id,
@@ -150,21 +146,20 @@ namespace ArchiveProject2019.Controllers
 
                             db.UsersGroups.Add(UserGroup);
                         }
-
                     }
 
-                    
+
                     db.SaveChanges();
-                    return RedirectToAction("Index",new { @Id="CreateSuccess"});
+                    return RedirectToAction("Index", new { @Id = "CreateSuccess" });
                 }
-               // AddErrors(result);
+                // AddErrors(result);
             }
 
 
 
 
 
-      
+
 
             return View(model);
         }
@@ -176,14 +171,15 @@ namespace ArchiveProject2019.Controllers
 
             string Uid = this.User.Identity.GetUserId();
             ApplicationUser user = UserManager.FindById(Uid);
-            if(user==null)
+            if (user == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
-            EditUserNameAndPassword ED = new EditUserNameAndPassword() {
+            EditUserNameAndPassword ED = new EditUserNameAndPassword()
+            {
 
-                OldUserName=user.UserName
+                OldUserName = user.UserName
             };
             return View();
         }
@@ -194,13 +190,13 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "Users";
 
             bool status = true;
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 string Uid = this.User.Identity.GetUserId();
 
                 ApplicationUser user = UserManager.FindById(Uid);
 
-                if(!user.UserName.Equals(viewModel.NewUserName,StringComparison.OrdinalIgnoreCase))
+                if (!user.UserName.Equals(viewModel.NewUserName, StringComparison.OrdinalIgnoreCase))
                 {
                     ModelState.AddModelError("OldUserName", " اسم المستخدم الحالية خاطئة");
                     status = false;
@@ -216,14 +212,14 @@ namespace ArchiveProject2019.Controllers
 
 
 
-                if (!UserManager.CheckPassword(user,viewModel.OldPassword))
+                if (!UserManager.CheckPassword(user, viewModel.OldPassword))
                 {
-                    ModelState.AddModelError("OldPassword","كلمة السر الحالية خاطئة");
+                    ModelState.AddModelError("OldPassword", "كلمة السر الحالية خاطئة");
                     status = false;
 
                 }
 
-                if(status==false)
+                if (status == false)
                 {
 
                     viewModel.NewPassword = null;
@@ -238,7 +234,7 @@ namespace ArchiveProject2019.Controllers
                     user.UserName = viewModel.NewUserName;
                     db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Home");
                 }
 
             }
@@ -246,7 +242,7 @@ namespace ArchiveProject2019.Controllers
             return View(viewModel);
         }
         // GET: Users
-        public ActionResult Index(string Id="none")
+        public ActionResult Index(string Id = "none")
         {
             ViewBag.Current = "Users";
 
@@ -262,9 +258,9 @@ namespace ArchiveProject2019.Controllers
             }
             string Uid = this.User.Identity.GetUserId();
             IEnumerable<ApplicationUser> Users = UserManager.Users.ToList();
-           return View(Users);
+            return View(Users);
         }
-        
+
         // GET: Users/Details/5
         public ActionResult Details(string id)
         {
@@ -276,35 +272,28 @@ namespace ArchiveProject2019.Controllers
 
             }
             ApplicationUser User = UserManager.FindById(id);
-            if(User==null)
+            if (User == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
 
-            UserViewModel UserModel;
-            UserModel= new UserViewModel() {
-
+            var UserModel = new UserViewModel()
+            {
                 FullName = User.FullName,
                 Gender = User.Gender,
                 CreatedAt = User.CreatedAt,
                 UpdatedAt = User.UpdatedAt,
                 UserName = User.UserName,
-                DepartmentName =User.DepartmentId==null?"": db.Departments.Find(User.DepartmentId).Name,
-                JobTitle =User.JobTitleId==null?"": db.JobTitles.Find(User.JobTitleId).Name,
+                DepartmentName = User.DepartmentId == null ? "" : db.Departments.Find(User.DepartmentId).Name,
+                JobTitle = User.JobTitleId == null ? "" : db.JobTitles.Find(User.JobTitleId).Name,
                 CreatedBy = string.IsNullOrEmpty(User.CreatedById) ? "" : UserManager.FindById(User.CreatedById).FullName,
-            //    UpdatedBy = string.IsNullOrEmpty(User.UpdatedById) ? "" : UserManager.FindById(User.UpdatedById).FullName,
-                RoleName=User.RoleName,
-                Email=User.Email
+                RoleName = User.RoleName,
+                Email = User.Email
             };
 
             return View(UserModel);
         }
-
-
-
-       
-
 
         // GET: Users/Edit/5
         public ActionResult Edit(string id)
@@ -317,36 +306,32 @@ namespace ArchiveProject2019.Controllers
 
             }
             ApplicationUser user = UserManager.FindById(id);
-            if (user==null)
+            if (user == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
-
             }
 
-            EditProfileViewModel EProfile = new EditProfileViewModel() {
-
-                Email=user.Email,
-                FullName=user.FullName,
-                Role=user.RoleName,
-               // DepartmentId=user.DepartmentId,
-              
-     
-                Id=user.Id,
-                Gender=user.Gender,
-                JobTitleId= user.JobTitleId==null?0:user.JobTitleId.Value,
-                DepartmentID=user.DepartmentId==null?0: user.DepartmentId.Value
+            EditProfileViewModel EProfile = new EditProfileViewModel()
+            {
+                Email = user.Email,
+                FullName = user.FullName,
+                Role = user.RoleName,
+                Id = user.Id,
+                Gender = user.Gender,
+                JobTitleId = user.JobTitleId == null ? 0 : user.JobTitleId.Value,
+                DepartmentID = user.DepartmentId == null ? 0 : user.DepartmentId.Value
 
             };
-            
-            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name",EProfile.Role);
+
+            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name", EProfile.Role);
 
             List<int> SelectedGroups = new List<int>();
-            SelectedGroups = db.UsersGroups.Where(a => a.UserId.Equals(id)).Select(a=>a.GroupId).ToList();
-            SelectListItem sl;
+            SelectedGroups = db.UsersGroups.Where(a => a.UserId.Equals(id)).Select(a => a.GroupId).ToList();
+
             List<SelectListItem> ListSl = new List<SelectListItem>();
-            foreach(var G in db.Groups.ToList())
+            foreach (var G in db.Groups.ToList())
             {
-                sl = new SelectListItem()
+                var sl = new SelectListItem()
                 {
 
                     Text = G.Name,
@@ -360,8 +345,8 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Groups = ListSl;
 
 
-            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name",EProfile.DepartmentID);
-            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name",EProfile.JobTitleId);
+            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name", EProfile.DepartmentID);
+            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name", EProfile.JobTitleId);
 
 
             return View(EProfile);
@@ -369,7 +354,7 @@ namespace ArchiveProject2019.Controllers
 
         // POST: Users/Edit/5
         [HttpPost]
-        public ActionResult Edit( EditProfileViewModel EProfile, IEnumerable<string> Groups)
+        public ActionResult Edit(EditProfileViewModel EProfile, IEnumerable<string> Groups)
         {
             ViewBag.Current = "Users";
 
@@ -402,8 +387,8 @@ namespace ArchiveProject2019.Controllers
             {
 
 
-                 user = UserManager.FindById(EProfile.Id);
-                if(user==null)
+                user = UserManager.FindById(EProfile.Id);
+                if (user == null)
                 {
                     return RedirectToAction("HttpNotFoundError", "ErrorController");
 
@@ -421,11 +406,11 @@ namespace ArchiveProject2019.Controllers
                         x = false;
                     }
                 }
-               
+
 
                 if (!string.IsNullOrEmpty(EProfile.Email))
                 {
-                    if (db.Users.Where(a=>!a.Id.Equals(EProfile.Id)).Any(a => a.Email.Equals(EProfile.Email, StringComparison.OrdinalIgnoreCase)))
+                    if (db.Users.Where(a => !a.Id.Equals(EProfile.Id)).Any(a => a.Email.Equals(EProfile.Email, StringComparison.OrdinalIgnoreCase)))
                     {
                         ModelState.AddModelError("Email", "لا يمكن أن يكون البريد الإلكتروني مكرر، يرجى إعادةالإدخال");
 
@@ -435,16 +420,16 @@ namespace ArchiveProject2019.Controllers
 
                 }
 
-                if(x==false)
+                if (x == false)
                 {
                     return View(EProfile);
                 }
                 user.FullName = EProfile.FullName;
                 user.Email = EProfile.Email;
-                user.Gender = EProfile.Gender;     
+                user.Gender = EProfile.Gender;
                 user.RoleName = EProfile.Role;
                 user.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-            
+
                 db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                 //Add User To Groups
 
@@ -479,21 +464,21 @@ namespace ArchiveProject2019.Controllers
 
 
                     UserGroup deleteUserGroup;
-                    foreach(string s in ExpectGroups)
+                    foreach (string s in ExpectGroups)
                     {
-                        deleteUserGroup = db.UsersGroups.Where(a=>a.UserId.Equals(EProfile.Id)&&a.GroupId.ToString().Equals(s)).SingleOrDefault();
+                        deleteUserGroup = db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id) && a.GroupId.ToString().Equals(s)).SingleOrDefault();
 
                         db.UsersGroups.Remove(deleteUserGroup);
 
 
                     }
-                        db.SaveChanges();
+                    db.SaveChanges();
 
                 }
 
                 else
                 {
-                    foreach (UserGroup ug in db.UsersGroups.Where(a=>a.UserId.Equals(EProfile.Id)))
+                    foreach (UserGroup ug in db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id)))
                     {
                         db.UsersGroups.Remove(ug);
 
@@ -527,7 +512,7 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: Users/Delete/5
-        public ActionResult Delete(string  id)
+        public ActionResult Delete(string id)
         {
             ViewBag.Current = "Users";
 
@@ -538,7 +523,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             ApplicationUser user = UserManager.FindById(id);
-            if(user==null)
+            if (user == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
 
@@ -554,7 +539,7 @@ namespace ArchiveProject2019.Controllers
         }
 
         // POST: Users/Delete/5
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         public ActionResult confirm(string Id)
         {
             ViewBag.Current = "Users";

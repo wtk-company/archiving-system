@@ -1,7 +1,7 @@
-﻿@model ArchiveProject2019.Models.DocumentKind
+﻿@model ArchiveProject2019.Models.Party
 
 @{
-    ViewBag.Title = "انشاء نوع للوثيقة";
+    ViewBag.Title = "انشاء جهة";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
@@ -22,16 +22,11 @@
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
-
-
-
         <div class="modal-footer justify-content-center" style="margin-top:50px">
 
-            <input type="submit" title="إضافة نوع جديد" value="اضافة نوع جديد" class="btn btn-primary" />
+            <input type="submit" title="إضافة جهة جديدة " value="اضافة جهة جديدة " class="btn btn-primary" />
             <button type="button" title="إغلاق النافذة" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
         </div>
-
-
 
 
     </div>

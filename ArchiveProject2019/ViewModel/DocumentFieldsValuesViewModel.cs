@@ -8,9 +8,8 @@ namespace ArchiveProject2019.ViewModel
 {
     public class DocumentFieldsValuesViewModel
     {
-        public int DocId { get; set; }
         public Document Document { get; set; }
-        public FieldsValuesViewModel FieldsValues{set;get;}
-        public List<bool> ExistFiles{ get; set; }
+        public List<Field> Fields { get; set; }
+        public List<Value> Values { get; set; }
     }
 }

@@ -15,7 +15,7 @@
     }
 </style>
 
-@*_______Search Section start_________*@
+<!--  Start Search Section  -->
 
 @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace }))
 {
@@ -24,8 +24,6 @@
     <div>
         <a href="@Url.Action("index","Documents")" class="btn btn-warning">  عودة إلى قائمة الوثائق </a>
     </div>
-    <br />
-    <br />
 
     <row>
         <!-- Search Document Number -->
@@ -33,25 +31,26 @@
             <input class="form-control" type="text" placeholder="رقم الوثيقة" name="DocNum" id="DocNum">
         </div>
 
-        <!-- Search Document Description -->
+        <!-- Search Document Subject -->
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
-            <input class="form-control" type="text" placeholder="وصف الوثيقة" name="DocDescription" id="DocDescription">
+            <input class="form-control" type="text" placeholder="موضوع الوثيقة" name="DocSubject" id="DocSubject">
         </div>
 
         <!-- Search Document Kind -->
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
-         @*   <input class="form-control" type="text" placeholder="نوع الوثيقة" name="DocKind" id="DocKind">*@
-            @Html.DropDownList("DocKind", ViewBag.Kinds as SelectList,"اختر نوع الوثيقة",new { @class="form-control"})
+            <!--<input class="form-control" type="text" placeholder="نوع الوثيقة" name="DocKind" id="DocKind">-->
+            @Html.DropDownList("DocKind", ViewBag.Kinds as SelectList,"اختر نوع الوثيقة",new { @class="form-control", @id = "DocKind" })
         </div>
 
 
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
-            @Html.DropDownList("EmailType", ViewBag.EmailTypes as SelectList, "اختر نوع البريد", new { @class = "form-control" })
+            @Html.DropDownList("MailType", ViewBag.MailType as SelectList, "اختر نوع البريد", new { @class = "form-control", @id = "MailType" })
         </div>
-        
+
         <!-- Search Document Party -->
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
-            <input class="form-control" type="text" placeholder="جهة الوثيقة" name="DocParty" id="DocParty">
+            @Html.DropDownList("DocParty", ViewBag.Parties as SelectList, "اختر جهة الوثيقة", new { @class = "form-control", @id = "DocParty" })
+            <!--<input class="form-control" type="text" placeholder="جهة الوثيقة" name="DocParty" id="DocParty">-->
         </div>
 
         <!-- Search Document First Date -->
@@ -75,24 +74,22 @@
             </select>
         </div>
 
-        <!-- Search Document Subject -->
+        <!-- Search Document Description -->
         <div class="col-md-12 md-form active-pink active-pink-2 mb-3 mt-0">
-            <input class="form-control" type="text" placeholder="موضوع الوثيقة" name="DocSubject" id="DocSubject">
+            <input class="form-control" type="text" placeholder="وصف الوثيقة" name="DocDescription" id="DocDescription">
         </div>
 
-        <!-- Submit form -->
+        <!-- Submit button -->
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
             <input type="submit" id="#search_btn" value="بحث عن الوثيقة" class="btn btn-info" />
         </div>
     </row>
 }
+<!--  ./End Search Section  -->
 
 
 @Html.Partial("_LastView")
-@*_______Search Section end_________*@
 
-<br />
-<br />
 
 
     <div id="SearchResult" style="margin-bottom:40px;">
@@ -127,16 +124,44 @@
             $('.button').html('<button type="button" id="more_data" class="more_data">المزيد من البيانات >></button>');
         });
 
+        // Get Document Number Value
         var DN = $('#DocNum').value;
+
+        // Get Document Subject Value
         var DS = $('#DocSubject').value;
-        var DK = $('#DocKind').value;
-        var DP = $('#DocParty').value;
+
+        // Get Document Description Value
         var DD = $('#DocDescription').value;
+
+        // Get Document First Date Value
         var DFD = $('#DocFirstDate').value; 
+
+        // Get Document End Date Value
         var DED = $('#DocEndDate').value;
-        var RC = $('#RetrievalCount').val();
+
+        // Get Record Count Value
         var RecordCount = 0;
 
+        // Get Document Kind Value
+        var DK = $('#DocKind').val();
+        $("#DocKind").on('change', function () {
+            DK = $(this).val();
+        });
+
+        // Get Document Party Value
+        var DP = $('#DocParty').val();
+        $("#DocParty").on('change', function () {
+            DP = $(this).val();
+        });
+
+        // Get Mail Type Value
+        var DMT = $('#MailType').val();
+        $("#MailType").on('change', function () {
+            DMT = $(this).val();
+        });
+
+        // Get Retrieval Count Value
+        var RC = $('#RetrievalCount').val();
         $("#RetrievalCount").on('change', function () {
             RC = $(this).val();
         });
@@ -149,7 +174,7 @@
             $.ajax({
                 url: '/Documents/AdvancedDocumentSearch',
                 type: 'POST',
-                data: { RecordCount: RecordCount, RetrievalCount: RC, DocNum: DN, DocSubject: DS, DocKind: DK, DocParty: DP, DocDescription : DD, DocFirstDate: DFD,DocEndDate: DED},
+                data: { RecordCount: RecordCount, RetrievalCount: RC, DocNum: DN, DocSubject: DS, DocKind: DK, DocParty: DP, MailType: DMT, DocDescription: DD, DocFirstDate: DFD, DocEndDate: DED },
                 //
                 success: function (data) {
                     $("#SearchResult").append(data);
