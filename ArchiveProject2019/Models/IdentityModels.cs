@@ -145,15 +145,15 @@ namespace ArchiveProject2019.Models
         public DbSet<JobTitle> JobTitles { set; get; }
      
 
-        public DbSet<TypMail> TypeMails { set; get; }
+        public DbSet<TypeMail> TypeMails { set; get; }
 
         public DbSet<Group> Groups { set; get; }
 
         public DbSet<UserGroup> UsersGroups { set; get; }
 
-        public DbSet<DocumentKind> DocumentKinds { set; get; }
+        public DbSet<Kind> Kinds { set; get; }
 
-        public DbSet<ConcernedParty> ConcernedParties { set; get; }
+        public DbSet<Party> Parties { set; get; }
         public DbSet<RelatedDocument> RelatedDocuments { set; get; }
         public DbSet<FormDepartment> FormDepartments { set; get; }
         public DbSet<FormGroup> FormGroups { set; get; }
@@ -161,6 +161,12 @@ namespace ArchiveProject2019.Models
         public DbSet<DocumentDepartment> DocumentDepartments { set; get; }
         public DbSet<DocumentGroup> DocumentGroups { set; get; }
 
+        // Target Parties for Outgoing Mial
+        public DbSet<DocumentParty> DocumentParties { set; get; }
+        
+        // Target Groups and Documents for Internal Mail
+        public DbSet<DocumentTargetDepartment> DocumentTargetDepartments { set; get; }
+        public DbSet<DocumentTargetGroup> DocumentTargetGroups { set; get; }
 
 
         public ApplicationDbContext()

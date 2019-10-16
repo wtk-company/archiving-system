@@ -11,20 +11,21 @@ using System.Web.Mvc;
 
 namespace ArchiveProject2019.Controllers
 {
-    public class DocumentKindsController : Controller
+    public class KindsController : Controller
     {
         
         private ApplicationDbContext _context;
 
-        public DocumentKindsController()
+        public KindsController()
         {
             _context = new ApplicationDbContext();
         }
 
 
+
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsIndex")]
-        // GET: DocumentKinds
+ 
         public ActionResult Index(string Id = "none")
         {
             if (!Id.Equals("none"))
@@ -37,8 +38,8 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
 
-            ViewBag.Current = "DocumentKind";
-            var DocKinds = _context.DocumentKinds.Include(a=>a.CreatedBy).ToList();
+            ViewBag.Current = "Kind";
+            var DocKinds = _context.Kinds.Include(a=>a.CreatedBy).ToList();
             return View(DocKinds.ToList());
         }
 
@@ -48,20 +49,22 @@ namespace ArchiveProject2019.Controllers
         public ActionResult Create()
         {
 
-            ViewBag.Current = "DocumentKinds";
+            ViewBag.Current = "Kinds";
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] DocumentKind DocumentKind)
-        {
-            ViewBag.Current = "DocumentKinds";
 
-            if (_context.DocumentKinds.Any(a => a.Name.Equals(DocumentKind.Name, StringComparison.OrdinalIgnoreCase)))
+        {
+            ViewBag.Current = "Kinds";
+
+            if (_context.Kinds.Any(a => a.Name.Equals(Kind.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -69,10 +72,10 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
 
-                DocumentKind.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                DocumentKind.CreatedById = User.Identity.GetUserId();
+                Kind.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                Kind.CreatedById = User.Identity.GetUserId();
 
-                _context.DocumentKinds.Add(DocumentKind);
+                _context.Kinds.Add(Kind);
                 _context.SaveChanges();
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
 
@@ -82,13 +85,15 @@ namespace ArchiveProject2019.Controllers
 
         }
 
+
        
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsEdit")]
+
         public ActionResult Edit(int? id)
         {
-            ViewBag.Current = "DocumentKind";
+            ViewBag.Current = "Kind";
 
             if (id == null)
             {
@@ -96,7 +101,7 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            DocumentKind kinds = _context.DocumentKinds.Find(id);
+            Kind kinds = _context.Kinds.Find(id);
             if (kinds == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -109,11 +114,13 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
+
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsEdit")]
         public ActionResult Edit(DocumentKind kinds)
+
         {
-            if (_context.ConcernedParties.Where(a => a.Id != kinds.Id).Any(a => a.Name.Equals(kinds.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Parties.Where(a => a.Id != kinds.Id).Any(a => a.Name.Equals(kinds.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
@@ -131,13 +138,14 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: ConcernedPartys/Delete/5
+
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
+
         public ActionResult Delete(int? id)
         {
-            ViewBag.Current = "DocumentKind";
+            ViewBag.Current = "Kind";
 
 
             if (id == null)
@@ -146,7 +154,7 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            DocumentKind kind = _context.DocumentKinds.Find(id);
+            Kind kind = _context.Kinds.Find(id);
             if (kind == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -169,11 +177,11 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
         public ActionResult Confirm(int? id)
         {
-            ViewBag.Current = "DocumentKind";
+            ViewBag.Current = "Kind";
 
-            DocumentKind kind = _context.DocumentKinds.Find(id);
+            Kind kind = _context.Kinds.Find(id);
 
-            _context.DocumentKinds.Remove(kind);
+            _context.Kinds.Remove(kind);
             _context.SaveChanges();
 
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });

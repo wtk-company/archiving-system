@@ -1,0 +1,182 @@
+﻿@model IEnumerable<ArchiveProject2019.Models.DocumentParty>
+
+@{
+    ViewBag.Title = "الجهات المستهدفة";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+
+@Html.Partial("_StartView")
+
+
+
+
+
+@if (ViewBag.Msg != null)
+{
+
+
+
+    if (ViewBag.Msg == "CreateError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لم يتم إضافة أي جهة مستهجفة، يرجى تحديد الجهات
+
+        </div>
+    }
+
+
+
+    if (ViewBag.Msg == "CreateSuccess")
+    {
+        <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية الإضافة بنجاح
+        </div>
+    }
+
+
+
+
+    if (ViewBag.Msg == "DeleteSuccess")
+    {
+        <div class="alert alert-danger enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية ازالة الجهة من الجهات المستهدفة بنجاح
+
+
+        </div>
+    }
+
+
+
+}
+
+<p>
+    <a title="عودة لقائمة الوثائق" href="@Url.Action("index","Documents")" class="btn btn-warning">عودة لقائمة الوثائق</a>
+
+    <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
+
+</p>
+<table id="form" class="table table-striped table-bordered table-hover dt" style="text-align:center">
+
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PartyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DocumentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedById)
+            </th>
+
+
+
+            <th>
+                @Html.DisplayName("العمليات المتاحة")
+
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Party.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Document.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
+                </td>
+                <td>
+                    <button data-form-id="@item.Id" title="إزالة الجهة" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@Html.Partial("_LastView")
+
+
+@* Create Model Start *@
+<div class="modal fade" tabindex="-1" id="NewModal"
+     data-keyboard="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 id="changeText" class="modal-title">القائمة الفرعية</h4>
+            </div>
+            <div class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
+
+            </div>
+        </div>
+    </div>
+</div>
+@* Create Model End *@
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+
+
+
+      $("#btnRefreshModel").on("click", function () {
+
+                       window.location.replace('@Url.Action("Index", "DocumentParties", new { Id = Session["Document_Id"],msg="none" })');
+
+
+                   });
+
+
+
+
+
+
+    $("#form").on("click", ".js-delete", function () {
+
+        $("#changeText").text("إزالة مجموعة معينة");
+
+                       var url = '@Url.Action("Delete", "DocumentParties")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+
+
+
+
+
+
+
+</script>
+

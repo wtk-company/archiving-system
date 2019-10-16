@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ArchiveProject2019.HelperClasses.DepartmentListDisplay>
+
+@{
+    ViewBag.Title = "اضافة الاقسام المستهدفة";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+
+
+
+
+@Html.Partial("_StartView")
+
+@using (Html.BeginForm())
+{
+
+    <p>
+
+        <a title="عودة لقائمة الوثائق" href="@Url.Action("index","Documents")" class="btn btn-default">عودة لقائمة الوثائق  <i class="glyphicon glyphicon-backward"></i></a>
+
+    </p>
+
+    @Html.Hidden("DocumentIdValue", (int)ViewBag.DocumentIdValue)
+    <table id="form" class="table table-striped table-bordered table-hover dt" style="text-align:center">
+
+
+        <thead>
+            <tr>
+                <th style="text-align:right">
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayName("اختر القسم")
+                    
+                </th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @foreach (var item in Model)
+                {
+                <tr>
+                    <td style="text-align:right">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" type="checkbox" name="Departments" value="@item.Id" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+
+        <div class="form-group">
+            <div style="display:inline-block">
+                <label>
+
+                    <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" id="checkAll" type="checkbox">تحديدالكل/عدم تحديد
+
+                </label>
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+
+                <input title="إضافة الاقسام للوثيقة" type="submit" class="btn btn-primary" value="إضافة الاقسام للوثيقة" />
+            </div>
+        </div>
+}
+
+@Html.Partial("_LastView")
+
+
+
+@section Scripts {
+
+    <script>
+
+
+        $(document).ready(function ()
+        {
+            $("#checkAll").click(function ()
+            {
+                $("input[name='Departments']").prop("checked", this.checked);
+                $("input[name='Departments']").click(function ()
+                {
+                    if ($("input[name='Departments']").length == $("input[name='Departments']:checked").length)
+                    {
+                        $("#checkAll").prop("checked", "checked");
+                    }
+                    else
+                    {
+                        $("#checkAll").removeAttr("checked");
+                    }
+                });
+            });
+        });
+
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

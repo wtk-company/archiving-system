@@ -8,11 +8,33 @@ namespace ArchiveProject2019.HelperClasses
     public class CheckDate
     {
         // Convert string date dd-mm-yyyy To date yyyy/mm/dd
-        public static DateTime StringToDate(string StringDate)
+        public static DateTime StringToDateMin(string StringDate)
         {
-            StringDate = StringDate.Replace("-", "/");
-            DateTime date = DateTime.ParseExact(StringDate, "yyyy/MM/dd", null);
-            return date;
+            if (StringDate != "")
+            {
+                string s = StringDate.Replace("-", "/");
+                return DateTime.ParseExact(s, "yyyy/MM/dd", null);
+            }
+            else
+            {
+                string s = DateTime.MinValue.ToString("yyyy/MM/dd");
+                return DateTime.ParseExact(s, "yyyy/MM/dd", null);
+            }
         }
+
+        public static DateTime StringToDateMax(string StringDate)
+        {
+            if (StringDate != "")
+            {
+                string s = StringDate.Replace("-", "/");
+                return DateTime.ParseExact(s, "yyyy/MM/dd", null);
+            }
+            else
+            {
+                string s = DateTime.MaxValue.ToString("yyyy/MM/dd");
+                return DateTime.ParseExact(s, "yyyy/MM/dd", null);
+            }
+        }
+
     }
 }

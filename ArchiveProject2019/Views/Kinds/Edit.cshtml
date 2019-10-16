@@ -1,19 +1,23 @@
-﻿@model ArchiveProject2019.Models.ConcernedParty
+﻿@model ArchiveProject2019.Models.Kind
 
 @{
-    ViewBag.Title = "انشاء جهة";
+    ViewBag.Title = "تعديل نوع الوثيقة ";
     Layout = "~/Views/Shared/_Layout2.cshtml";
+
 }
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(model => model.CreatedAt)
     <div class="form-horizontal">
 
-
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CreatedAt)
+
+        @Html.HiddenFor(model => model.CreatedById)
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -22,21 +26,23 @@
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+
+
+
         <div class="modal-footer justify-content-center" style="margin-top:50px">
 
-            <input type="submit" title="إضافة جهة جديدة " value="اضافة جهة جديدة " class="btn btn-primary" />
+            <input type="submit" title="تعديل نوع معين" value="تعديل نوع معين" class="btn btn-success" />
             <button type="button" title="إغلاق النافذة" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
         </div>
-
 
     </div>
 }
 
 
 
-
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
 

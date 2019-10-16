@@ -19,8 +19,6 @@ namespace ArchiveProject2019.Models
         public string CreatedAt { get; set; }
 
         [Display(Name = " أنشأ بواسطة ")]
-
-
         public string CreatedById { set; get; }
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }

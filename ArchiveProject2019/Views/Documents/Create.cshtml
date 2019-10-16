@@ -1,4 +1,4 @@
-﻿    @model ArchiveProject2019.ViewModel.DocumentFieldsValuesViewModel
+﻿@model ArchiveProject2019.ViewModel.DocumentDocIdFieldsValuesViewModel
 
 @{
     ViewBag.Title = "إنشاء وثيقة جديدة";
@@ -12,8 +12,6 @@
 
 <a href="@Url.Action("index","Documents")" class="btn btn-default">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
 
-
-
 @using (Html.BeginForm("Create", "Documents", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -26,12 +24,12 @@
         @Html.HiddenFor(a => Model.Document.FormId)
         @Html.HiddenFor(a => Model.Document.Name)
         @Html.HiddenFor(a => Model.DocId)
-        
+
         <div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.DepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10" >
-                    @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
                     @Html.ValidationMessageFor(model => model.Document.DepartmentId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -40,12 +38,13 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.TypeMailId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model=>model.Document.TypeMailId,(SelectList)ViewBag.TypeMailId,"اختر نوع البريد", htmlAttributes: new { style = "padding:2px", @class = "form-control", @id = "TOGGLETypeOfMail" })
+                    @Html.DropDownListFor(model => model.Document.TypeMailId, (SelectList)ViewBag.TypeMailId, "اختر نوع البريد", htmlAttributes: new { @class = "form-control chosen-select", @id = "TOGGLETypeOfMail" })
                     @Html.ValidationMessageFor(model => model.Document.TypeMailId, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
-        <div class="takeMail dispMail">
+        @*Start Take Mail*@
+        <div class="TakeMail">
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -54,7 +53,7 @@
                 </div>
             </div>
         </div>
-        <div class="takeMail dispMail">
+        <div class="TakeMail">
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -63,21 +62,122 @@
                 </div>
             </div>
         </div>
+    @if (((SelectList)ViewBag.Parties).Count() <= 0)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.PartyId, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10" style="overflow:auto;height:150px">
+                <div class="alert alert-warning" style="text-align:center;font-size:larger">
+                    <span class="glyphicon glyphicon-bell">
+                    </span> لا يتوفر جهات
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="TakeMail">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Document.PartyId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Document.PartyId, new SelectList(ViewBag.Parties, "Value", "Text"), htmlAttributes: new { @class = "form-control chosen-select" })
+                    @Html.ValidationMessageFor(model => model.Document.PartyId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    }
+        @*End Take Mail*@
+
+        @*Start Outging Mail*@
+    @if (((SelectList)ViewBag.Parties).Count() <= 0)
+    {
+        <div class="OutgoingMail">
+            <div class="form-group">
+                @Html.Label("الجهات المستلمة", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10" style="overflow:auto;height:150px">
+                    <div class="alert alert-warning" style="text-align:center;font-size:larger">
+                        <span class="glyphicon glyphicon-bell">
+                        </span> لا يتوفر جهات
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="OutgoingMail">
+            <div class="form-group">
+                @Html.Label("الجهات المستلمة", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PartyIds", new SelectList(ViewBag.Parties, "Value", "Text"), htmlAttributes: new { multiple = "multiple", @class = "form-control chosen-select" })
+                    @Html.ValidationMessage("PartyIds", "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    }
+        @*End Outgoing Mail*@
+
+        @*Start Internal Mail*@
+    @if (((SelectList)ViewBag.Departments).Count() <= 0)
+    {
+        <div class="InternalMail">
+            <div class="form-group">
+                @Html.Label("الاقسام المستهدفة", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10" style="overflow:auto;height:150px">
+                    <div class="alert alert-warning" style="text-align:center;font-size:larger">
+                        <span class="glyphicon glyphicon-bell">
+                        </span> لا يتوفر أقسام
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="InternalMail">
+            <div class="form-group">
+                @Html.Label("الاقسام المستهدفة", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Departments", new SelectList(ViewBag.Departments, "Value", "Text"), htmlAttributes: new { multiple = "multiple", @class = "form-control chosen-select" })
+                    @Html.ValidationMessage("Departments", "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    }
+    @if (((SelectList)ViewBag.Groups).Count() <= 0)
+    {
+        <div class="InternalMail">
+            <div class="form-group">
+                @Html.Label("المجموعات المستهدفة", new { @class = "col-md-2 control-label" })
+                <div class="col-md-10" style="overflow:auto;height:150px">
+                    <div class="alert alert-warning" style="text-align:center;font-size:larger">
+                        <span class="glyphicon glyphicon-bell">
+                        </span> لا يتوفر مجموعات
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="InternalMail">
+            <div class="form-group">
+                @Html.Label("المجموعات المستهدفة", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Groups", new SelectList(ViewBag.Groups, "Value", "Text"), htmlAttributes: new { multiple = "multiple", @class = "form-control chosen-select" })
+                    @Html.ValidationMessage("Groups", "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    }
+        @*End Internal Mail*@
         <div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.KindId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.KindId, ViewBag.KindId as SelectList,"اختر نوع الوثيقة", htmlAttributes: new { style = "padding:2px", @class = "form-control" })
+                    @Html.DropDownListFor(model => model.Document.KindId, ViewBag.kinds as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
                     @Html.ValidationMessageFor(model => model.Document.KindId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.Party, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.Party, ViewBag.partyies as SelectList, htmlAttributes: new { style = "padding:2px", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Document.Party, "", new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -131,7 +231,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Document.Notes, htmlAttributes: new { @id = "NoteId",style="color:blue",title="انقر لإظهار خانة الملاحظة", @class = "control-label col-md-2 " })
+            @Html.LabelFor(model => model.Document.Notes, htmlAttributes: new { @id = "NoteId", style = "color:blue", title = "انقر لإظهار خانة الملاحظة", @class = "control-label col-md-2 " })
             <div id="NoteSlide" class="col-md-10">
                 @*<textarea class="ckeditor" name="Notes"></textarea>*@
 
@@ -186,7 +286,7 @@
                         @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                
+
                 <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
 
                 @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
@@ -209,7 +309,7 @@
 
 
 
-                @Html.Partial("_LastView")
+@Html.Partial("_LastView")
 
 
 @section Scripts {
@@ -217,6 +317,9 @@
 
 
     <script>
+
+   
+
         $(function () {
             $(".chosen-select").chosen({
                 placeholder_text_single: "حدد من النتائج",
@@ -228,15 +331,69 @@
         $(function () {
             var TypeOfMail = $("#TOGGLETypeOfMail");
 
-            if (TypeOfMail.val() == "1") {
-                $(".takeMail").removeClass("dispMail");
+            // Take Mail
+            if (TypeOfMail.val() != "1") {
+                $('.TakeMail').hide();
+            }
+            // Outgoing Mial
+            if (TypeOfMail.val() != "2"){
+                $('.OutgoingMail').hide();
+            }
+            // Outing Mial
+            if (TypeOfMail.val() != "3") {
+                $('.InternalMail').hide();
             }
 
-            TypeOfMail.change(function () {
-                if ($(this).val() == "1") {
-                    $(".takeMail").slideDown(300);
-                } else {
-                    $(".takeMail").slideUp(300);
+            TypeOfMail.change(function ()
+            {
+                // Take Mail
+                if ($(this).val() == "1")
+                {
+                    // Take Mail
+                    $(".TakeMail").show(300);
+                    $(".TakeMail").removeClass('displayTakeMail');
+                    // Outgoing Mial
+                    $('.OutgoingMail').hide(300);
+                    $(".OutgoingMail").addClass('displayTakeMail');
+                    // Internal Mial
+                    $('.InternalMail').hide(300);
+                    $(".InternalMail").addClass('displayTakeMail');
+                }
+                else if (TypeOfMail.val() == "2")
+                {
+                    // Outgoing Mial
+                    $(".OutgoingMail").show(300);
+                    $(".OutgoingMail").removeClass('displayTakeMail');
+                    // Take Mail
+                    $('.TakeMail').hide(300);
+                    $(".TakeMail").addClass('displayTakeMail');
+                    // Internal Mial
+                    $('.InternalMail').hide(300);
+                    $(".InternalMail").addClass('displayTakeMail');
+                }
+                else if (TypeOfMail.val() == "3")
+                {
+                    // Internal Mial
+                    $('.InternalMail').show(300);
+                    $(".InternalMail").removeClass('displayTakeMail');
+                    // Outgoing Mial
+                    $(".OutgoingMail").hide(300);
+                    $(".OutgoingMail").addClass('displayTakeMail');
+                    // Take Mail
+                    $('.TakeMail').hide(300);
+                    $(".TakeMail").addClass('displayTakeMail');
+                }
+                else
+                {
+                    // Take Mail
+                    $('.TakeMail').hide(300);
+                    $(".TakeMail").addClass('displayTakeMail');
+                    // Outgoing Mial
+                    $('.OutgoingMail').hide(300);
+                    $(".OutgoingMail").addClass('displayTakeMail');
+                    // Internal Mial
+                    $('.InternalMail').hide(300);
+                    $(".InternalMail").addClass('displayTakeMail');
                 }
             });
         });
@@ -249,11 +406,11 @@
     </script>
 }
 <style>
-
-    .dispMail {
+    .displayTakeMail {
         display: none;
     }
-    #NoteSlide{
-        display:none;
+
+    #NoteSlide {
+        display: none;
     }
 </style>

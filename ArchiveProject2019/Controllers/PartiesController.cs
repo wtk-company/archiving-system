@@ -11,19 +11,19 @@ using System.Web.Mvc;
 
 namespace ArchiveProject2019.Controllers
 {
-    public class ConcernedPartiesController : Controller
+    public class PartiesController : Controller
     {
-        // GET: ConcernedParties
+        // GET: Parties
         private ApplicationDbContext _context;
 
-        public ConcernedPartiesController()
+        public PartiesController()
         {
             _context = new ApplicationDbContext();
         }
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesIndex")]
-        // GET: ConcernedPartys
+
         public ActionResult Index(string Id = "none")
         {
             if (!Id.Equals("none"))
@@ -36,8 +36,8 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
 
-            ViewBag.Current = "ConcernedParty";
-            var parties = _context.ConcernedParties.Include(a=>a.CreatedBy).ToList();
+            ViewBag.Current = "Party";
+            var parties = _context.Parties.Include(a=>a.CreatedBy).ToList();
             return View(parties.ToList());
         }
 
@@ -47,7 +47,7 @@ namespace ArchiveProject2019.Controllers
         public ActionResult Create()
         {
 
-            ViewBag.Current = "ConcernedPartys";
+            ViewBag.Current = "Partys";
 
             return View();
         }
@@ -57,11 +57,13 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] ConcernedParty ConcernedParty)
-        {
-            ViewBag.Current = "ConcernedPartys";
 
-            if (_context.ConcernedParties.Any(a => a.Name.Equals(ConcernedParty.Name, StringComparison.OrdinalIgnoreCase)))
+        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] ConcernedParty ConcernedParty)
+
+        {
+            ViewBag.Current = "Partys";
+
+            if (_context.Parties.Any(a => a.Name.Equals(Party.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -69,10 +71,10 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
 
-                ConcernedParty.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                ConcernedParty.CreatedById = User.Identity.GetUserId();
+                Party.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                Party.CreatedById = User.Identity.GetUserId();
 
-                _context.ConcernedParties.Add(ConcernedParty);
+                _context.Parties.Add(Party);
                 _context.SaveChanges();
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
 
@@ -86,14 +88,14 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesEdit")]
         public ActionResult Edit(int? id)
         {
-            ViewBag.Current = "ConcernedParty";
+            ViewBag.Current = "Party";
 
             if (id == null)
             {
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
 
-            ConcernedParty party = _context.ConcernedParties.Find(id);
+            Party party = _context.Parties.Find(id);
             if (party == null)
             {
             return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -107,9 +109,9 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesEdit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(ConcernedParty party)
+        public ActionResult Edit(Party party)
         {
-            if (_context.ConcernedParties.Where(a => a.Id != party.Id).Any(a => a.Name.Equals(party.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Parties.Where(a => a.Id != party.Id).Any(a => a.Name.Equals(party.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
@@ -126,12 +128,13 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
-        // GET: ConcernedPartys/Delete/5
+
         public ActionResult Delete(int? id)
         {
-            ViewBag.Current = "ConcernedParty";
+            ViewBag.Current = "Party";
 
 
             if (id == null)
@@ -140,7 +143,7 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            ConcernedParty party = _context.ConcernedParties.Find(id);
+            Party party = _context.Parties.Find(id);
             if (party == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -156,11 +159,11 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
         public ActionResult Confirm(int? id)
         {
-            ViewBag.Current = "ConcernedParty";
+            ViewBag.Current = "Party";
 
-            ConcernedParty party = _context.ConcernedParties.Find(id);
+            Party party = _context.Parties.Find(id);
 
-            _context.ConcernedParties.Remove(party);
+            _context.Parties.Remove(party);
             _context.SaveChanges();
 
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });

@@ -28,15 +28,11 @@ namespace ArchiveProject2019.Models
         public string Subject { get; set; }
 
 
-
-
         [Display(Name = "النوع")]
         [Required(ErrorMessage ="يجب إختيار النوع")]
         public int KindId { set; get; }
-
         [ForeignKey("KindId")]
-
-        public DocumentKind documentKind { set; get; }
+        public Kind Kind { set; get; }
 
 
         
@@ -46,9 +42,6 @@ namespace ArchiveProject2019.Models
 
         [Display(Name = "تاريخ البريد")]
         public string MailingDate { get; set; }
-
-        [Display(Name = "الجهة")]
-        public string Party { get; set; }
 
 
         [Display(Name = "الوصف")]
@@ -103,11 +96,21 @@ namespace ArchiveProject2019.Models
         [Display(Name = "نوع البريد")]
         [Required(ErrorMessage = "يجب إختيار نوع البريد")]
         public int TypeMailId { set; get; }
-        public TypMail TypeMail { set; get; }
+        [ForeignKey("TypeMailId")]
+        public TypeMail TypeMail { set; get; }
+
+
+        // Relate with Party Table For Create By.
+       
+        [Display(Name = "الجهة")]
+        public int? PartyId { set; get; }
+        [ForeignKey("PartyId")]
+        public Party Party { set; get; }
+
 
         //Collections:
         public ICollection<Value> Values { set; get; }
-        //public ICollection<DocumentKind> DocumentKinds { set; get; }
         public ICollection<RelatedDocument> RelatedDocuments { set; get; }
+        public ICollection<DocumentParty> DocumentParties { set; get; }
     }
 }

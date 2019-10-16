@@ -7,28 +7,19 @@ using System.Web;
 
 namespace ArchiveProject2019.Models
 {
-    public class TypMail
+    public class TypeMail
     {
         [Key]
         public int Id { get; set; }
 
-        [Display(Name = "اسم البريد")]
+        [Display(Name = "نوع البريد")]
         [Required(ErrorMessage = "يجب إدخال الاسم ")]
         [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
         public string Name { get; set; }
 
 
-
-
         public int Type { set; get; }
-
-
-
-
-
-    
-
-
+        
         [Display(Name = "تاريخ الإنشاء")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string CreatedAt { get; set; }

@@ -171,7 +171,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ConcernedPartiesController.cs" />
+    <Compile Include="Controllers\DocumentPartiesController.cs" />
+    <Compile Include="Controllers\DocumentTargetGroupsController.cs" />
+    <Compile Include="Controllers\DocumentTargetDepartmentsController.cs" />
+    <Compile Include="Controllers\PartiesController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\DocumentDepartmentsController.cs" />
     <Compile Include="Controllers\DocumentGroupsController.cs" />
@@ -197,24 +200,30 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelperClasses\AccessDeniedAuthorizeattribute.cs" />
-    <Compile Include="HelperClasses\CheckDate.cs" />
     <Compile Include="HelperClasses\CheckDelete.cs" />
     <Compile Include="HelperClasses\CheckJobTitleDepartment.cs" />
+    <Compile Include="HelperClasses\CheckDate.cs" />
     <Compile Include="HelperClasses\DepartmentListDisplay.cs" />
     <Compile Include="HelperClasses\DepartmentsID.cs" />
+    <Compile Include="HelperClasses\StringDateHelper.cs" />
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
+
     <Compile Include="Migrations\201910080907557_as.cs" />
     <Compile Include="Migrations\201910080907557_as.Designer.cs">
       <DependentUpon>201910080907557_as.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ConcernedParty.cs" />
+    <Compile Include="Models\DocumentTargetGroup.cs" />
+    <Compile Include="Models\DocumentTargetDepartment.cs" />
+    <Compile Include="Models\Party.cs" />
     <Compile Include="Models\DocumentDepartment.cs" />
     <Compile Include="Models\DocumentGroup.cs" />
-    <Compile Include="Models\DocumentKind.cs" />
+    <Compile Include="Models\Kind.cs" />
+    <Compile Include="Models\DocumentParty.cs" />
     <Compile Include="Models\Form.cs" />
     <Compile Include="Models\CheckFileFormatting.cs" />
     <Compile Include="Models\Department.cs" />
@@ -241,6 +250,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\DocumentDocumentsViewModel.cs" />
+    <Compile Include="ViewModel\DocumentDocIdFieldsValuesViewModel.cs" />
     <Compile Include="ViewModel\DocumentFieldsValuesViewModel.cs" />
     <Compile Include="ViewModel\FieldsValuesViewModel.cs" />
     <Compile Include="ViewModel\DocFromsViewModel.cs" />
@@ -957,14 +967,14 @@
     <Content Include="Views\UsersGroups\Delete.cshtml" />
     <Content Include="Views\Documents\AdvancedDocumentSearch.cshtml" />
     <Content Include="Views\Documents\_search.cshtml" />
-    <Content Include="Views\DocumentKinds\Index.cshtml" />
-    <Content Include="Views\DocumentKinds\Create.cshtml" />
-    <Content Include="Views\ConcernedParties\Index.cshtml" />
-    <Content Include="Views\ConcernedParties\Create.cshtml" />
-    <Content Include="Views\ConcernedParties\Delete.cshtml" />
-    <Content Include="Views\ConcernedParties\Edit.cshtml" />
-    <Content Include="Views\DocumentKinds\Edit.cshtml" />
-    <Content Include="Views\DocumentKinds\Delete.cshtml" />
+    <Content Include="Views\Kinds\Index.cshtml" />
+    <Content Include="Views\Kinds\Create.cshtml" />
+    <Content Include="Views\Parties\Index.cshtml" />
+    <Content Include="Views\Parties\Create.cshtml" />
+    <Content Include="Views\Parties\Delete.cshtml" />
+    <Content Include="Views\Parties\Edit.cshtml" />
+    <Content Include="Views\Kinds\Edit.cshtml" />
+    <Content Include="Views\Kinds\Delete.cshtml" />
     <Content Include="Views\Documents\GetRelatedDocument.cshtml" />
     <Content Include="Views\Departments\Details.cshtml" />
     <Content Include="Views\JobTitles\Index.cshtml" />
@@ -987,9 +997,9 @@
     <Content Include="Views\DocumentDepartments\Index.cshtml" />
     <Content Include="Views\DocumentDepartments\Create.cshtml" />
     <Content Include="Views\DocumentDepartments\Delete.cshtml" />
-    <Content Include="Views\DocumentGroups\Index.cshtml" />
-    <Content Include="Views\DocumentGroups\Create.cshtml" />
-    <Content Include="Views\DocumentGroups\Delete.cshtml" />
+    <Content Include="Views\DocumentParties\Index.cshtml" />
+    <Content Include="Views\DocumentParties\Create.cshtml" />
+    <Content Include="Views\DocumentParties\Delete.cshtml" />
     <Content Include="Views\ErrorController\HttpNotFoundError.cshtml" />
     <Content Include="Views\ErrorController\BadRequestError.cshtml" />
     <Content Include="Views\Shared\AccessDeniedError.cshtml" />
@@ -998,10 +1008,12 @@
     <Content Include="Views\TypeMails\Edit.cshtml" />
     <Content Include="Views\TypeMails\Delete.cshtml" />
     <Content Include="Views\DashBoard\Index.cshtml" />
+
     <Content Include="Views\PermissionsUsers\Index.cshtml" />
     <Content Include="Views\Shared\LockOutError.cshtml" />
     <Content Include="Views\Users\LockOut.cshtml" />
     <Content Include="Views\Users\RegisterMasterUser.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1019,8 +1031,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+
     <EmbeddedResource Include="Migrations\201910080907557_as.resx">
       <DependentUpon>201910080907557_as.cs</DependentUpon>
+
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

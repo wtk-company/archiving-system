@@ -172,6 +172,30 @@
                                 <a href="@Url.Action("Index","DocumentGroups",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> المجموعات الخاصة بالوثيقة </a>
 
                             </li>
+                        @if (item.TypeMail.Type == 3)
+                        { 
+                            <li>
+                                <a href="@Url.Action("Create","DocumentTargetGroups",new { id=item.Id})" title="إضافة مجموعات مستهدفة" class="btn-link btn-sm">إضافة مجموعات مستهدفة</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","DocumentTargetGroups",new { id=item.Id})" title="المجموعات المستهدفة" class="btn-link  btn-sm"> المجموعات المستهدفة </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Create","DocumentTargetDepartments",new { id=item.Id})" title="إضافة اقسام مستهدفة" class="btn-link btn-sm">إضافة اقسام مستهدفة</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","DocumentTargetDepartments",new { id=item.Id})" title="الاقسام المستهدفة" class="btn-link  btn-sm"> الاقسام المستهدفة </a>
+                            </li>
+                        }
+                        else if (item.TypeMail.Type == 2)
+                        {
+                            <li>
+                                <a href="@Url.Action("Create","DocumentParties",new { id=item.Id})" title="إضافة جهات مستهدفة" class="btn-link btn-sm">إضافة جهات مستهدفة</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Index","DocumentParties",new { id=item.Id})" title="الجهات المستهدفة" class="btn-link  btn-sm"> الجهات المستهدفة </a>
+                            </li>
+                        }
                         </ul>
                     </div>
                    

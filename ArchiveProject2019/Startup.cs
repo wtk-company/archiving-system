@@ -133,8 +133,8 @@ namespace ArchiveProject2019
         public void CreateTypeOfMails()
         {
 
-            IEnumerable<TypMail> Mails = TypeOfMailStartup.GetTypes();
-            foreach(TypMail m in Mails)
+            IEnumerable<TypeMail> Mails = TypeOfMailStartup.GetTypes();
+            foreach(TypeMail m in Mails)
             {
                 if(!db.TypeMails.Any(a=>a.Name.Equals(m.Name)))
                 {

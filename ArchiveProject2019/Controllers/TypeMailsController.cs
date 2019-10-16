@@ -21,8 +21,10 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
+
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsIndex")]
+
         public ActionResult Index(string Id = "none")
         {
             if (!Id.Equals("none"))
@@ -54,9 +56,11 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] TypMail TypeMail)
+
         {
             ViewBag.Current = "TypeMails";
 
@@ -93,7 +97,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
 
-            TypMail mail = _context.TypeMails.Find(id);
+            TypeMail mail = _context.TypeMails.Find(id);
             if (mail == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -105,14 +109,16 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
+
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
         public ActionResult Edit(TypMail mail)
+
         {
 
             ViewBag.Current = "TypeMails";
 
-            if (_context.ConcernedParties.Where(a => a.Id != mail.Id).Any(a => a.Name.Equals(mail.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Parties.Where(a => a.Id != mail.Id).Any(a => a.Name.Equals(mail.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
@@ -143,7 +149,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
 
-            TypMail mail = _context.TypeMails.Find(id);
+            TypeMail mail = _context.TypeMails.Find(id);
             if (mail == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -162,7 +168,7 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "TypeMails";
 
 
-            TypMail mail = _context.TypeMails.Find(id);
+            TypeMail mail = _context.TypeMails.Find(id);
 
             _context.TypeMails.Remove(mail);
             _context.SaveChanges();

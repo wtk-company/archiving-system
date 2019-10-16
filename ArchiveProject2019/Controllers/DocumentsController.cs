@@ -31,7 +31,6 @@ namespace ArchiveProject2019.Controllers
 
             DocFromsViewModel viewModel = new DocFromsViewModel()
             {
-
                 DocId = -1,
                 Froms = UsersDepartmentAndGroupsForms.GetUsersForms(this.User.Identity.GetUserId())
             };
@@ -63,16 +62,11 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
 
-            Document document = _context.Documents.Include(a => a.Department).Include(a => a.Values).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
+            Document document = _context.Documents.Include(a => a.Department).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(a => a.Values).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
             if (document == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
-
-            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", document.DepartmentId);
-            ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Name", "Name");
-            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(),"Id","Name");
 
             var Fields = _context.Fields.Include(c => c.Form).Where(f => f.FormId == document.FormId).ToList();
             List<Value> Values = new List<Value>();
@@ -86,12 +80,19 @@ namespace ArchiveProject2019.Controllers
             var urls = document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
             var existfiles = Enumerable.Repeat(true, urls.Length).ToList();
             
-            DocumentFieldsValuesViewModel myModel = new DocumentFieldsValuesViewModel()
+            DocumentDocIdFieldsValuesViewModel myModel = new DocumentDocIdFieldsValuesViewModel()
             {
                 Document = document,
                 FieldsValues = viewModel,
                 ExistFiles = existfiles,
             };
+
+            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", document.DepartmentId);
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name", document.PartyId);
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(),"Id","Name");
+            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
 
             return View(myModel);
         }
@@ -101,7 +102,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit(DocumentFieldsValuesViewModel viewModel, HttpPostedFileBase[]UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
+        public ActionResult Edit(DocumentDocIdFieldsValuesViewModel viewModel, HttpPostedFileBase[]UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
         {
 
             ViewBag.Current = "Document";
@@ -232,17 +233,20 @@ namespace ArchiveProject2019.Controllers
             }
 
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
-            ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Name", "Name");
-            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
-            ViewBag.TypeMail = new List<SelectListItem>()
-            {
-                new SelectListItem { Text="اختر نوع البريد", Value = null},
-                new SelectListItem { Text="وارد", Value="وارد"},
-                new SelectListItem { Text="صادر", Value="صادر" },
-                new SelectListItem { Text="داخلي", Value="داخلي" },
-                new SelectListItem { Text="ارشيف", Value="ارشيف" },
-            };
-            if (UploadFile.ElementAt(0) == null)
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name", viewModel.Document.PartyId);
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
+            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
+            //ViewBag.TypeMail = new List<SelectListItem>()
+            //{
+            //    new SelectListItem { Text="اختر نوع البريد", Value = null},
+            //    new SelectListItem { Text="وارد", Value="وارد"},
+            //    new SelectListItem { Text="صادر", Value="صادر" },
+            //    new SelectListItem { Text="داخلي", Value="داخلي" },
+            //    new SelectListItem { Text="ارشيف", Value="ارشيف" },
+            //};
+            if (UploadFile.ElementAt(0) == null && !viewModel.ExistFiles.Contains(true))
             {
                 Status = false;
                 ModelState.AddModelError("Document.FileUrl", "يجب إدخال ملفات ");
@@ -370,7 +374,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             // Get all Documents.
-            var documents = _context.Documents.Include(c => c.Form).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
+            var documents = _context.Documents.Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
 
             // Pass To View
             return View(documents);
@@ -467,7 +471,7 @@ namespace ArchiveProject2019.Controllers
                 Values = Values
             };
 
-            DocumentFieldsValuesViewModel myModel = new DocumentFieldsValuesViewModel()
+            DocumentDocIdFieldsValuesViewModel myModel = new DocumentDocIdFieldsValuesViewModel()
             {
                 DocId = docId,
                 Document = new Document() { FormId = Id },
@@ -475,10 +479,12 @@ namespace ArchiveProject2019.Controllers
             };
 
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name");
-            ViewBag.kindId = new SelectList(_context.DocumentKinds.ToList(), "Id", "Name");
-            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(),"Id","Name");
-           
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
+            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
+
             return View(myModel);
         }
 
@@ -486,22 +492,14 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create(DocumentFieldsValuesViewModel viewModel,IEnumerable< HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
+        public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel,IEnumerable< HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string>PartyIds, IEnumerable<string> Departments, IEnumerable<string> Groups)
         {
             ViewBag.Current = "Document";
 
             bool Status = true;
-            ViewBag.kindId = new SelectList(_context.DocumentKinds.ToList(), "Id", "Name");
-            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
-
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name",viewModel.Document.TypeMailId);
-            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
             
             FieldsValuesViewModel FVVM = new FieldsValuesViewModel();
             FVVM = viewModel.FieldsValues;
-
-
-
 
             if (FVVM != null)
             {
@@ -657,25 +655,51 @@ namespace ArchiveProject2019.Controllers
                 Status = false;
                 ModelState.AddModelError("Document.FileUrl", "يجب إدخال ملفات ");
             }
+            
             //Check Mail numbare and mail date:
-            TypMail mail = _context.TypeMails.Find(viewModel.Document.TypeMailId);
-            if(mail.Type==1 && viewModel.Document.MailingDate==null )
+            TypeMail mail = _context.TypeMails.Find(viewModel.Document.TypeMailId);
+
+            if (mail != null && mail.Type == 1 && viewModel.Document.MailingDate == null )
             {
-                ModelState.AddModelError("Document.MailingDate", "ادخل تاريخ الورود الخاصة بالوثيقة ");
+                ModelState.AddModelError("Document.MailingDate", "ادخل تاريخ ورود البريد");
                 Status = false;
             }
 
-            if (mail.Type == 1 && viewModel.Document.MailingNumber == null)
+            if (mail != null && mail.Type == 1 && viewModel.Document.MailingNumber == null)
             {
-                ModelState.AddModelError("Document.MailingNumber", "ادخل رقم الورود الخاصة بالوثيقة ");
+                ModelState.AddModelError("Document.MailingNumber", "ادخل رقم ورود البريد ");
                 Status = false;
             }
 
+            if (mail != null && mail.Type.Equals(2) && PartyIds == null)
+            {
+                ModelState.AddModelError("PartyIds", "حدد جهات استلام البريد");
+                Status = false;
+            }
 
+            // validate Departments multi select list
+            if (mail != null && mail.Type.Equals(3) && Departments == null)
+            {
+                ModelState.AddModelError("Departments", "حدد الاقسام المستهدفة");
+                Status = false;
+            }
+            // validate Groups multi select list
+            if (mail != null && mail.Type.Equals(3) && Groups == null)
+            {
+                ModelState.AddModelError("Groups", "حدد المجموعات المستهدفة");
+                Status = false;
+            }
 
+            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
+            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
             //Status Model = false{status==false}
             if (Status == false)
             {
+                
                 return View(viewModel);
             }
 
@@ -706,17 +730,15 @@ namespace ArchiveProject2019.Controllers
                         viewModel.Document.FileUrl += s1 + "_##_";
                     }
                 }
-                // Cut last split string
+                // Cut last 4 split string
                 viewModel.Document.Name = viewModel.Document.Name.Substring(0, viewModel.Document.Name.Length - 4);
                 viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
-
                 //Document Details:
                 viewModel.Document.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 viewModel.Document.CreatedById = User.Identity.GetUserId();
                 viewModel.Document.FormId = viewModel.Document.FormId;
 
                 _context.Documents.Add(viewModel.Document);
-                _context.SaveChanges();
 
                 if (FVVM != null)
                 {
@@ -729,10 +751,54 @@ namespace ArchiveProject2019.Controllers
                         value.CreatedById = User.Identity.GetUserId();
 
                         _context.Values.Add(value);
-                        _context.SaveChanges();
                     }
                 }
+                // store outgoing parties
+                if (PartyIds != null && mail.Type == 2)
+                {
+                    foreach (string partyId in PartyIds)
+                    {
+                        var DocParty = new DocumentParty()
+                        {
+                            DocumentId = viewModel.Document.Id,
+                            PartyId = Convert.ToInt32(partyId),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
 
+                        _context.DocumentParties.Add(DocParty);
+                    }
+                }
+                // store Department and Groups for internal Mail
+                if (Departments != null && Groups != null && mail.Type == 3)
+                {
+                    // Store Departments
+                    foreach (string DeptId in Departments)
+                    {
+                        var DocDept = new DocumentTargetDepartment()
+                        {
+                            DocumentId = viewModel.Document.Id,
+                            DepartmentId = Convert.ToInt32(DeptId),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
+
+                        _context.DocumentTargetDepartments.Add(DocDept);
+                    }
+                    // Store Groups
+                    foreach (string GroupId in Groups)
+                    {
+                        var DocGroup = new DocumentTargetGroup()
+                        {
+                            DocumentId = viewModel.Document.Id,
+                            GroupId = Convert.ToInt32(GroupId),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
+
+                        _context.DocumentTargetGroups.Add(DocGroup);
+                    }
+                }
                 // Relate Document
                 var docId = viewModel.DocId;
                 if (docId != -1)
@@ -744,10 +810,8 @@ namespace ArchiveProject2019.Controllers
                         Document_id = docId,
                     };
                     _context.RelatedDocuments.Add(relateDoc);
-                    _context.SaveChanges();
-
                 }
-
+                _context.SaveChanges();
                 return RedirectToAction("Index", new { id = viewModel.Document.Id });
             }
             return View(viewModel);
@@ -763,7 +827,7 @@ namespace ArchiveProject2019.Controllers
             {
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
-            Document document = _context.Documents.Include(a => a.Department).Include(b => b.CreatedBy).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
+            Document document = _context.Documents.Include(a => a.Department).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(b => b.CreatedBy).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
             if (document == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -825,16 +889,25 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
 
-            var document = _context.Documents.Include(a => a.Form)
+            var Document = _context.Documents.Include(a => a.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail)
                 .Include(a => a.Department).Include(a => a.CreatedBy)
                 .FirstOrDefault(a => a.Id == id);
+            var Fields = _context.Fields.Where(f => f.FormId == Document.FormId).ToList();
+            var Values = _context.Values.Where(a => a.Document_id == Document.Id).ToList();
 
-            if (document == null)
+            if (Document == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
-            return View(document);
+            var viewModel = new DocumentFieldsValuesViewModel
+            {
+                Document = Document,
+                Fields = Fields,
+                Values = Values,
+            };
+
+            return View(viewModel);
         }
 
 
@@ -877,7 +950,7 @@ namespace ArchiveProject2019.Controllers
 
 
             // Get all Documents.
-            var documents = _context.Documents.Include(c => c.Form).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
+            var documents = _context.Documents.Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
             // Pass To View
             return View("index", documents);
 
@@ -885,18 +958,64 @@ namespace ArchiveProject2019.Controllers
 
         public ActionResult AdvancedDocumentSearch()
         {
-            ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Id", "Name");
-            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Id", "Name");
-            ViewBag.EmailTypes = new SelectList(_context.TypeMails.ToList(),"Id","Name");
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
+            ViewBag.MailType = new SelectList(_context.TypeMails.ToList(),"Id","Name");
+
             return View();
         }
+        public DateTime stringToDate(string s)
+        {
+            return DateTime.ParseExact(s, "yyyy/MM/dd", null);
+        }
+
+
+
+
+
+        public bool BiggerThan(string s1, DateTime s2)
+        {
+            s1 = s1.Replace("-", "/");
+            return DateTime.ParseExact(s1, "yyyy/MM/dd", null) >= s2;
+
+        }
+
+
+        public bool SmallerThan(string s1, DateTime s2)
+        {
+            s1 = s1.Replace("-", "/");
+            return DateTime.ParseExact(s1, "yyyy/MM/dd", null) <= s2;
+
+        }
+
+
+
 
         [HttpPost]
         public ActionResult AdvancedDocumentSearch(int? RecordCount, int RetrievalCount, string DocNum,
-            string DocSubject, string DocKind, string DocParty, string DocDescription, string DocFirstDate, string DocEndDate
-            ,string EmailType)
+            string DocSubject, string DocKind, string DocParty, string MailType, string DocDescription, string DocFirstDate, string DocEndDate)
         {
             List<Document> documents = null;
+            DateTime fdate, ldate;
+            if (DocFirstDate == "")
+            {
+                fdate = DateTime.MinValue;
+            }
+            else
+            {
+                DocFirstDate = DocFirstDate.Replace("-", "/");
+                fdate = DateTime.ParseExact(DocFirstDate, "yyyy/MM/dd", null);
+            }
+
+            if (DocEndDate == "")
+            {
+                ldate = DateTime.MaxValue;
+            }
+            else
+            {
+                DocFirstDate = DocFirstDate.Replace("-", "/");
+                ldate = DateTime.ParseExact(DocFirstDate, "yyyy/MM/dd", null);
+            }
 
             if (RecordCount == null)
             {
@@ -904,18 +1023,56 @@ namespace ArchiveProject2019.Controllers
                     .Where(
                             // Filter by Document Name
                             d => d.DocumentNumber.Contains(DocNum) &&
+
                             // Filter by Document Address
                             d.Address.Contains(DocSubject) &&
+
+                            // Filter by Document Description
+                            d.Address.Contains(DocDescription) ||
+
                             // Filter by Document Kind
-                           d.KindId.ToString().Equals(DocKind) &&
+                            d.KindId.ToString().Equals(DocKind) ||
+
                             // Filter by Document Party
-                            d.Party.Contains(DocParty) &&
-                            // Filter by Document First Date
-                            CheckDate.StringToDate(d.DocumentDate) >= CheckDate.StringToDate(DocFirstDate) &&
-                            // Filter by Document End Data
-                            CheckDate.StringToDate(d.DocumentDate) <= CheckDate.StringToDate(DocEndDate)
+                            d.PartyId.ToString().Equals(DocParty) ||
+
+
+                            // Filter by Mail Type
+                            d.TypeMailId.ToString().Equals(MailType)
+
+                          //   && BiggerThan(d.DocumentDate, fdate)                            // Filter by Document First Date
+                          //    DateTime.ParseExact(d.DocumentDate, "yyyy/MM/dd", null) >=fdate&&
+
+                          // Filter by Document End Data
+                          // DateTime.ParseExact(d.DocumentDate, "yyyy/MM/dd", null) <= ldate
                           )
-                          .Include(d => d.Department).Include(d => d.Form).Take(RetrievalCount).ToList();
+                          .Include(d => d.Department).Include(d => d.Form)
+                          .ToList();
+
+
+
+                //documents = (from d in _context.Documents
+                //            where
+                //            d.DocumentNumber.Contains(DocNum) &&
+                //               d.Address.Contains(DocSubject) &&
+
+                //              // Filter by Document Description
+                //              d.Address.Contains(DocDescription) ||
+
+                //              // Filter by Document Kind
+                //              d.KindId.ToString().Equals(DocKind) ||
+
+                //              // Filter by Document Party
+                //              d.PartyId.ToString().Equals(DocParty) ||
+
+
+                //              // Filter by Mail Type
+                //              d.TypeMailId.ToString().Equals(MailType) 
+                //            select (d)).ToList();
+
+
+               documents = documents.Where(a => BiggerThan(a.DocumentDate, fdate) &&SmallerThan(a.DocumentDate,ldate)).Take(RetrievalCount).ToList();
+
             }
             else
             {
@@ -926,23 +1083,33 @@ namespace ArchiveProject2019.Controllers
                     .Where(
                             // Filter by Document Name
                             d => d.DocumentNumber.Contains(DocNum) &&
+
                             // Filter by Document Address
                             d.Address.Contains(DocSubject) &&
-                            // Filter by Document Kind
-                            d.KindId.ToString().Contains(DocKind) &&
-                            // Filter by Document Party
-                            d.Party.Contains(DocParty) &&
-                            // Filter by Document First Date
-                            CheckDate.StringToDate(d.DocumentDate) >= CheckDate.StringToDate(DocFirstDate) &&
-                            // Filter by Document End Data
-                            CheckDate.StringToDate(d.DocumentDate) <= CheckDate.StringToDate(DocEndDate)
+
+                            // Filter by Document Description
+                            d.Address.Contains(DocDescription) 
+
+                            //// Filter by Document Kind
+                            //d.KindId.Equals(Int32.Parse(DocKind)) &&
+
+                            //// Filter by Document Party
+                            //d.PartyId.Equals(Int32.Parse(DocParty)) &&
+
+                            //// Filter by Mail Type
+                            //d.TypeMailId.Equals(Int32.Parse(MailType)) &&
+
+                            //// Filter by Document First Date
+                            //CheckDate.StringToDate(d.DocumentDate) >= CheckDate.StringToDate(DocFirstDate) &&
+                            //// Filter by Document End Data
+                            //CheckDate.StringToDate(d.DocumentDate) <= CheckDate.StringToDate(DocEndDate)
                           )
                           .Include(d => d.Department).Include(d => d.Form).Skip(RetrievalCount * RecordCount.Value)
                           .Take(RetrievalCount).ToList();
             }
 
-            ViewBag.kinds = new SelectList(_context.DocumentKinds.ToList(), "Id", "Name");
-            ViewBag.partyies = new SelectList(_context.ConcernedParties.ToList(), "Name", "Name");
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
 
             return PartialView("_search", documents);
         }

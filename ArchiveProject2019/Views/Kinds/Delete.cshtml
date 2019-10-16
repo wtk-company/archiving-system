@@ -1,7 +1,7 @@
-﻿@model ArchiveProject2019.Models.ConcernedParty
+﻿@model ArchiveProject2019.Models.Kind
 
 @{
-    ViewBag.Title = "حذف الجهة المهتمّة";
+    ViewBag.Title = "حذف نوع الوثائق";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
@@ -28,6 +28,7 @@
             @Html.DisplayFor(model => model.CreatedAt)
         </dd>
 
+
         <dt>
             @Html.DisplayNameFor(model => model.UpdatedAt)
         </dt>
@@ -36,22 +37,17 @@
             @Html.DisplayFor(model => model.UpdatedAt)
         </dd>
 
-
     </dl>
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
+
         <div class="modal-footer justify-content-center" style="margin-top:50px">
 
-            <input type="submit" title="حذف جهة معينة" value="حذف جهة معينة" class="btn btn-danger" />
+            <input type="submit" title="حذف نوع معين" value="حذف نوع معين" class="btn btn-danger" />
             <button type="button" title="إغلاق النافذة" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
         </div>
     }
 </div>
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

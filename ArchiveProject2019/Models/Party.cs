@@ -7,19 +7,19 @@ using System.Web;
 
 namespace ArchiveProject2019.Models
 {
-    public class DocumentKind
+    public class Party
     {
         [Key]
         public int Id { get; set; }
 
 
-        [Required(ErrorMessage = "يجب إدخال نوع الوثيقة")]
+        [Required(ErrorMessage = "يجب إدخال اسم الجهة")]
+        [Display(Name = "اسم الجهة")]
         [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
 
-        [Display(Name = "نوع الوثيقة")]
         public string Name { get; set; }
-        
-        
+
+
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         [Display(Name = "تاريخ الإنشاء")]
         public string CreatedAt { get; set; }
@@ -32,13 +32,15 @@ namespace ArchiveProject2019.Models
         public ApplicationUser CreatedBy { set; get; }
 
 
+
+
         [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
-       
 
 
-
-        //public ICollection<Document> Documents { set; get; }
+        // Collections
+        public ICollection<Document> Documents { set; get; }
+        public ICollection<DocumentParty> DocumentParties { set; get; }
     }
 }
