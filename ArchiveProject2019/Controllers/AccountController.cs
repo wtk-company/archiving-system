@@ -78,15 +78,27 @@ namespace ArchiveProject2019.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
+
+            
             switch (result)
             {
-                case SignInStatus.Success:
-                    return RedirectToAction("index","Departments");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
+                case SignInStatus.Success:
+                    {
+                       
+                       
+                        //Account LockOut:
+                        return RedirectToAction("index","DashBoard");
+                    }
+              
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+
+              
+
+                    
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("UserName", "المستخدم غير موجود، الرجاء أعد الإدخال");
@@ -400,18 +412,7 @@ namespace ArchiveProject2019.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
-
-       
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ogOff()
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
-        }
-
+      
 
         [HttpGet]
         

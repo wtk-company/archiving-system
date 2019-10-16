@@ -21,7 +21,12 @@ namespace ArchiveProject2019.Controllers
         {
 
         manger = new RoleManager<ApplicationRoles>(new RoleStore<ApplicationRoles>(db));
+
+
         }
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "RolesIndex")]
         public ActionResult Index(string Id="none")
         {
             
@@ -54,7 +59,8 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-      
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "RolesCreate")]
         public ActionResult Create()
         {
             ViewBag.Current = "Roles";
@@ -62,9 +68,11 @@ namespace ArchiveProject2019.Controllers
             return View();
         }
 
-        // POST: Roles/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "RolesCreate")]
         public ActionResult Create(RoleViewModel RoleView)
         {
             ViewBag.Current = "Roles";
@@ -97,7 +105,8 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: Roles/Edit/5
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "RolesEdit")]
         public ActionResult Edit(string id)
         {
             ViewBag.Current = "Roles";
@@ -128,6 +137,8 @@ namespace ArchiveProject2019.Controllers
         // POST: Roles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "RolesEdit")]
         public ActionResult Edit(RoleViewModel RoleView, string RoleId )
         {
             ViewBag.Current = "Roles";
@@ -162,7 +173,8 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: Roles/Delete/5
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "RolesDelete")]
         public ActionResult Delete(string id)
         {
             ViewBag.Current = "Roles";
@@ -207,8 +219,11 @@ namespace ArchiveProject2019.Controllers
          
         }
 
-        // POST: Roles/Delete/5
+     
         [HttpPost,ActionName("Delete")]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "RolesDelete")]
         public ActionResult Confirm(string Id)
         {
             ViewBag.Current = "Roles";

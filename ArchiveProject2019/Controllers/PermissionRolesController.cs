@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ArchiveProject2019.HelperClasses;
 using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -16,7 +17,9 @@ namespace ArchiveProject2019.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: PermissionRoles
+      
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesIndex")]
         public ActionResult Index(string Id,string msg="none")
         {
             ViewBag.Current = "Roles";
@@ -58,7 +61,8 @@ namespace ArchiveProject2019.Controllers
             return View(permissionRoles.ToList());
         }
 
-        // GET: PermissionRoles/Details/5
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesDetails")]
         public ActionResult Details(int? id)
         {
             ViewBag.Current = "Roles";
@@ -75,7 +79,8 @@ namespace ArchiveProject2019.Controllers
             return View(permissionRole);
         }
 
-        // GET: PermissionRoles/Create
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesCreate")]
         public ActionResult Create()
         {
             ViewBag.Current = "Roles";
@@ -100,11 +105,12 @@ namespace ArchiveProject2019.Controllers
             return View(Perm);
         }
 
-        // POST: PermissionRoles/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+     
         [HttpPost]
-       // [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesCreate")]
+
         public ActionResult Create(string RoleId,List<int>Sel)
         {
             ViewBag.Current = "Roles";
@@ -135,8 +141,10 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-       
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesActive")]
         public ActionResult Active(int? id)
         {
             ViewBag.Current = "Roles";
@@ -163,7 +171,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost,ActionName("Active")]
         [ValidateAntiForgeryToken]
-        
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesActive")]
         public ActionResult confirm(int id)
         {
             ViewBag.Current = "Roles";
@@ -188,7 +197,8 @@ namespace ArchiveProject2019.Controllers
 
 
         }
-        // GET: PermissionRoles/Delete/5
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesDelete")]
         public ActionResult Delete(int? id)
         {
             ViewBag.Current = "Roles";
@@ -211,9 +221,12 @@ namespace ArchiveProject2019.Controllers
             return View(permissionRole);
         }
 
-        // POST: PermissionRoles/Delete/5
+      
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
             ViewBag.Current = "Roles";

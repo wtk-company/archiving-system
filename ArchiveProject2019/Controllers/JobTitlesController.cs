@@ -16,7 +16,9 @@ namespace ArchiveProject2019.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: JobTitles
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesIndex")]
         public ActionResult Index(string Id="none")
         {
 
@@ -35,7 +37,9 @@ namespace ArchiveProject2019.Controllers
             return View(jobTitles.ToList());
         }
 
-        // GET: JobTitles/Details/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesDetails")]
         public ActionResult Details(int? id)
         {
             ViewBag.Current = "JobTitles";
@@ -52,7 +56,9 @@ namespace ArchiveProject2019.Controllers
             return View(jobTitle);
         }
 
-        // GET: JobTitles/Create
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesCreate")]
         public ActionResult Create()
         {
             ViewBag.Current = "JobTitles";
@@ -60,9 +66,9 @@ namespace ArchiveProject2019.Controllers
             return View();
         }
 
-        // POST: JobTitles/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesCreate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Symbol,MaximumMember,TypeOfDisplayForm,TypeOfDisplayDocument")] JobTitle jobTitle)
@@ -92,7 +98,9 @@ namespace ArchiveProject2019.Controllers
             return View(jobTitle);
         }
 
-        // GET: JobTitles/Edit/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "JobTitles";
@@ -112,6 +120,10 @@ namespace ArchiveProject2019.Controllers
      
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
         public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember,TypeOfDisplayForm,TypeOfDisplayDocument")] JobTitle jobTitle)
         {
             ViewBag.Current = "JobTitles";
@@ -155,7 +167,9 @@ namespace ArchiveProject2019.Controllers
             return View(jobTitle);
         }
 
-        // GET: JobTitles/Delete/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesDelete")]
         public ActionResult Delete(int? id)
         {
             ViewBag.Current = "JobTitles";
@@ -181,7 +195,9 @@ namespace ArchiveProject2019.Controllers
             return View(jobTitle);
         }
 
-        // POST: JobTitles/Delete/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesDelete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

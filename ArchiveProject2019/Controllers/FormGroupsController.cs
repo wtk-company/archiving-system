@@ -16,6 +16,9 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
 
@@ -52,6 +55,10 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: FormDepartments/Details/5
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsDetails")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -70,6 +77,10 @@ namespace ArchiveProject2019.Controllers
             return View(formGroup);
         }
 
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsCreate")]
         // GET: FormDepartments/Create
         public ActionResult Create(int? Id)
         {
@@ -112,11 +123,11 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // POST: FormDepartments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         //[ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsCreate")]
         public ActionResult Create(int FormIdValue, List<int> Groups)
         {
 
@@ -159,7 +170,9 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: FormDepartments/Edit/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsEdit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -178,11 +191,11 @@ namespace ArchiveProject2019.Controllers
             return View(formGroup);
         }
 
-        // POST: FormDepartments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsEdit")]
         public ActionResult Edit(int Id)
         {
 
@@ -215,7 +228,9 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: FormDepartments/Delete/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsDelete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -232,7 +247,9 @@ namespace ArchiveProject2019.Controllers
             return View(formGroup);
         }
 
-        // POST: FormDepartments/Delete/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsDelete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

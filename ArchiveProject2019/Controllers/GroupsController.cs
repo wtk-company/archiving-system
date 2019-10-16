@@ -19,7 +19,8 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
-        //Get All Group
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "GroupsIndex")]
         public ActionResult Index(string Id = "none")
         {
             ViewBag.Current = "Group";
@@ -38,7 +39,8 @@ namespace ArchiveProject2019.Controllers
             
             return View(Groups);
         }
-        
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "GroupsCreate")]
         public ActionResult Create()
         {
 
@@ -49,6 +51,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "GroupsCreate")]
         public ActionResult Create(Group Group)
         {
             ViewBag.Current = "Group";
@@ -70,7 +74,8 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { Id = "CreateError" });
         }
 
-        // Edit Department:
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "GroupsEdit")]
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "Group";
@@ -91,6 +96,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "GroupsEdit")]
         public ActionResult Edit(Group Group)
         {
             if (_context.Groups.Where(a => a.Id != Group.Id).Any(a => a.Name.Equals(Group.Name, StringComparison.OrdinalIgnoreCase)))
@@ -110,7 +117,8 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { Id = "EditError" });
         }
 
-        //Delete Department:
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "GroupsDelete")]
         public ActionResult Delete(int? id)
         {
             ViewBag.Current = "Group";
@@ -137,6 +145,9 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "GroupsDelete")]
         public ActionResult Confirm(int? id)
         {
             ViewBag.Current = "Group";
@@ -150,6 +161,8 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "GroupsDetails")]
         public ActionResult Details(int? id)
         {
             ViewBag.Current = "Group";

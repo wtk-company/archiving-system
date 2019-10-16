@@ -73,7 +73,11 @@ namespace ArchiveProject2019.Models
         [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
-      
+
+
+
+        public bool IsDefaultMaster { set; get; }
+
 
 
 
@@ -135,6 +139,8 @@ namespace ArchiveProject2019.Models
         public DbSet<Permission> Permissions { get; set; }
 
         public DbSet<PermissionRole> PermissionRoles { get; set; }
+        public DbSet<PermissionsUser> PermissionUsers { get; set; }
+
 
         public DbSet<JobTitle> JobTitles { set; get; }
      

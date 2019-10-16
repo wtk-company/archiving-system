@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using System.Net;
+using ArchiveProject2019.HelperClasses;
 
 namespace ArchiveProject2019.Controllers
 {
@@ -20,6 +21,9 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsIndex")]
         public ActionResult Index(int? Id)
         {
 
@@ -62,6 +66,9 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsIndex")]
         public ActionResult Create(List<GroupUserViewModel> viewModel)
         {
             ViewBag.Current = "UsersGroup";
@@ -91,15 +98,19 @@ namespace ArchiveProject2019.Controllers
 
                     _context.UsersGroups.Add(UserGroup);
                     _context.SaveChanges();
-                    return RedirectToAction("ShowUsersGroup", new { Id = Convert.ToInt32(Session["GroupId"]), msg = "CreateSuccess" });
 
 
                 }
+                    return RedirectToAction("ShowUsersGroup", new { Id = Convert.ToInt32(Session["GroupId"]), msg = "CreateSuccess" });
             }
 
             return RedirectToAction("Index", "Groups");
         }
 
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsShowUsersGroup")]
         public ActionResult ShowUsersGroup(int? Id,string msg="none")
         {
 
@@ -130,6 +141,9 @@ namespace ArchiveProject2019.Controllers
             return View(UsersGroups);
         }
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsEdit")]
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "UserGroup";
@@ -153,6 +167,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ActionName("Edit")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsEdit")]
         public ActionResult ConfirmEdit(int?id)
         {
             ViewBag.Current = "UserGroup";
@@ -179,6 +195,9 @@ namespace ArchiveProject2019.Controllers
 
         }
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsEdit")]
         public ActionResult Details(int ?Id)
         {
             ViewBag.Current = "UserGroup";
@@ -199,6 +218,8 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsDelete")]
         public ActionResult Delete(int? id)
         {
             if(id==null|| Session["GroupId"]==null)
@@ -222,6 +243,10 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsDelete")]
         public ActionResult ConfirmDelete(int? id)
         {
             if (id == null)

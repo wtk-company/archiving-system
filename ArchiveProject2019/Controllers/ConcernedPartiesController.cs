@@ -1,4 +1,5 @@
-﻿using ArchiveProject2019.Models;
+﻿using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,8 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesIndex")]
         // GET: ConcernedPartys
         public ActionResult Index(string Id = "none")
         {
@@ -39,7 +42,8 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesCreate")]
         public ActionResult Create()
         {
 
@@ -48,8 +52,11 @@ namespace ArchiveProject2019.Controllers
             return View();
         }
 
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesCreate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] ConcernedParty ConcernedParty)
         {
             ViewBag.Current = "ConcernedPartys";
@@ -74,6 +81,9 @@ namespace ArchiveProject2019.Controllers
 
         }
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesEdit")]
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "ConcernedParty";
@@ -93,6 +103,8 @@ namespace ArchiveProject2019.Controllers
             return View(party);
         }
 
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesEdit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ConcernedParty party)
@@ -113,6 +125,9 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
         // GET: ConcernedPartys/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -137,6 +152,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
         public ActionResult Confirm(int? id)
         {
             ViewBag.Current = "ConcernedParty";

@@ -1,0 +1,154 @@
+﻿@model ArchiveProject2019.Models.RegisterViewModel
+@using ArchiveProject2019.Models
+@{
+    ViewBag.Title = "تسجيل مستخدم جديد";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+
+
+
+
+
+}
+
+
+
+
+
+@Html.Partial("_StartView")
+<p>
+
+    <a title="عودة لقائمة  المستخدمين" href="@Url.Action("index","Users")" class="btn btn-warning">عودة لقائمة المستخدمين  </a>
+
+</p>
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+
+
+      
+
+
+        @Html.Hidden("Role",(string)ViewBag.Role)
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.FullName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+
+
+
+    
+
+
+
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(a => Model.Gender, new List<SelectListItem>() {
+
+
+
+           new SelectListItem() { Text="ذكر",Value="Male"},
+           new SelectListItem() { Text="أنثى",Value="Female"}
+       }
+
+
+       , new { @class = "form-control", style = "padding:2px" })
+                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control dropdown" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+   
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary" value="تسجيل جديد" />
+            </div>
+        </div>
+
+
+
+    </div>
+}
+
+@Html.Partial("_LastView")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}
+
+

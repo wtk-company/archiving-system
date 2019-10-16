@@ -15,6 +15,9 @@ namespace ArchiveProject2019.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
 
@@ -51,7 +54,8 @@ namespace ArchiveProject2019.Controllers
             return View(DocumentDepartments.ToList());
         }
 
-
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsCreate")]
 
         public ActionResult Create(int? Id)
         {
@@ -98,6 +102,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [HttpPost]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsCreate")]
         //[ValidateAntiForgeryToken]
         public ActionResult Create(int DocumentIdValue, List<int> Departments)
         {
@@ -143,6 +149,9 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { @id = DocumentIdValue});
         }
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -162,6 +171,8 @@ namespace ArchiveProject2019.Controllers
         // POST: FormDepartments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
             DocumentDepartment documentDepartment = db.DocumentDepartments.Find(id);

@@ -1,39 +1,39 @@
 ﻿
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="icon" href="~/Content/DashBoard/build/images/favicon.ico" type="image/ico" />
-    <title>ARCHIVE SYS-@ViewBag.Title </title>
+    <link rel="icon" href="~/Content/DashBoard/build/images/favicon.png" type="image/png" />
+    <title>[ASYS]-@ViewBag.Title </title>
 
+  
     @*<style type="text/css">
-        .modall {
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: white;
-            z-index: 99;
-            opacity: 1;
-            filter: alpha(opacity=80);
-            -moz-opacity: 0.8;
-            min-height: 100%;
-            width: 100%;
-        }
+            .modall {
+                position: fixed;
+                top: 0;
+                left: 0;
+                background-color: white;
+                z-index: 99;
+                opacity: 1;
+                filter: alpha(opacity=80);
+                -moz-opacity: 0.8;
+                min-height: 100%;
+                width: 100%;
+            }
 
-        .loadingg {
-            /*font-family: Arial;*/
-            font-size: 15pt;
-            /*border: 5px solid #67CFF5;*/
-            width: 300px;
-            height: 250px;
-            display: none;
-            position: fixed;
-            background-color: White;
-            z-index: 999;
-        }
-       
-    </style>*@
+            .loadingg {
+                /*font-family: Arial;*/
+                font-size: 15pt;
+                /*border: 5px solid #67CFF5;*/
+                width: 300px;
+                height: 250px;
+                display: none;
+                position: fixed;
+                background-color: White;
+                z-index: 999;
+            }
+
+        </style>*@
     @Styles.Render("~/Content/DashBoardCss")
 
 </head>
@@ -43,10 +43,10 @@
 
 
     @*<div class="loadingg" align="center">
-        
-        
-        <img src="~/Content/Loader.gif" style="width:100px;height:100px;opacity:0.8" />
-    </div>*@
+
+
+            <img src="~/Content/Loader.gif" style="width:100px;height:100px;opacity:0.8" />
+        </div>*@
 
 
     <div id="mainid" class="container body">
@@ -58,14 +58,14 @@
                     </div>
                     <div class="clearfix"></div>
                     <!-- menu profile quick info -->
-                    <div class="profile clearfix" style="border-bottom:solid 1px white;padding-bottom:15px">
+                    <div class="profile clearfix" style="padding-bottom:15px">
                         <div class="profile_pic">
 
                             <img src="~/Content/DashBoard/build/images/user.png" alt="User Image" class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
                             <span>أهلاً بك</span>
-                            <h2>@Html.Action("UserFullName","Users")</h2>
+                            <h2>@Html.Action("UserFullName", "Users")</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -112,7 +112,7 @@
                                 <li class="@(ViewBag.Current == "Forms" ? "current-page" : "")">
                                     <a href="@Url.Action("Index","Forms")"><i class="fa fa-clone"></i>النماذج <span class="fa"></span></a>
                                 </li>
-                              
+
 
 
 
@@ -122,7 +122,7 @@
                                     <ul class="nav child_menu">
                                         <li><a href="@Url.Action("Index","Documents")"> <span class="fa fa-newspaper-o"></span>وثائقي</a></li>
                                         <li><a href="@Url.Action("AdvancedDocumentSearch", "Documents")"><span class="fa fa-search"></span>البحث المتقدم</a></li>
-                                        
+
 
                                     </ul>
 
@@ -148,18 +148,18 @@
 
                                 </li>
 
-                            
 
 
 
-                              
 
-                           
+
+
+
 
 
                             </ul>
                         </div>
-                      
+
                     </div>
                     <!-- /sidebar menu -->
                     <!-- /menu footer buttons -->
@@ -283,12 +283,12 @@
             <!-- /top navigation -->
             <!-- /header content -->
             <!-- page content -->
-            <div class="right_col" role="main"  style="min-height:700px">
+            <div class="right_col" role="main" style="min-height:700px">
 
-         
-           
+
+
                 <div class="row">
-                 
+
 
                     @RenderBody()
                 </div>
@@ -296,16 +296,16 @@
 
 
 
-                
+
 
                 @*<footer>
-                    <div class="pull-left">
-                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-                    </div>
-                    <div class="clearfix"></div>
-                </footer>*@
+                        <div class="pull-left">
+                        Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </footer>*@
                 <!-- footer content -->
-              
+
             </div>
             <!-- /page content -->
             <!-- footer content -->
@@ -314,7 +314,7 @@
                 <div class="pull-left">
                     <p>
 
-                     WTK Solutions &copy;  |  @DateTime.Now.ToShortDateString() 
+                        WTK Solutions &copy;  |  @DateTime.Now.ToShortDateString()
                     </p>
                 </div>
                 <div class="clearfix"></div>
@@ -341,35 +341,34 @@
 
     </div>
     @*<script type="text/javascript">
-         var modal, loading;
-         function ShowProgress() {
-             modal = document.createElement("DIV");
-             modal.className = "modall";
-             document.body.appendChild(modal);
-             loading = document.getElementsByClassName("loadingg")[0];
-             loading.style.display = "block";
-             var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0);
-             var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0);
-             loading.style.top = top + "px";
-             loading.style.left = left + "px";
-         };
+             var modal, loading;
+             function ShowProgress() {
+                 modal = document.createElement("DIV");
+                 modal.className = "modall";
+                 document.body.appendChild(modal);
+                 loading = document.getElementsByClassName("loadingg")[0];
+                 loading.style.display = "block";
+                 var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0);
+                 var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0);
+                 loading.style.top = top + "px";
+                 loading.style.left = left + "px";
+             };
 
-         ShowProgress()
-    </script>*@
+             ShowProgress()
+        </script>*@
 
     <!-- Keep the Page Content Here.-->
-
     @*<script type="text/javascript">
-         window.onload = function () {
-             setTimeout(function () {
-                 document.body.removeChild(modal);
-                 loading.style.display = "none";
-              
-             }, 400);
+             window.onload = function () {
+                 setTimeout(function () {
+                     document.body.removeChild(modal);
+                     loading.style.display = "none";
 
-             
-         };
-    </script>*@
+                 }, 400);
+
+
+             };
+        </script>*@
     @Scripts.Render("~/Content/DashBoardjs")
 </body>
 </html>
@@ -425,12 +424,13 @@
     thead tr th {
         text-align: center;
     }
+
     thead {
         background-color: #34495e;
         color: white;
     }
 
-    
+
     /*.container{
         height:640px;
     }*/
@@ -438,5 +438,5 @@
         width: 30%;
     }*/
 
-    
+
 </style>

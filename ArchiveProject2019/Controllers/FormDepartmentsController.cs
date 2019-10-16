@@ -16,7 +16,11 @@ namespace ArchiveProject2019.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-    
+
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsIndex")]
         public ActionResult Index(int? Id,string msg="none")
         {
 
@@ -51,6 +55,9 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: FormDepartments/Details/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDetails")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -69,7 +76,9 @@ namespace ArchiveProject2019.Controllers
             return View(formDepartment);
         }
 
-        // GET: FormDepartments/Create
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsCreate")]
         public ActionResult Create(int ?Id)
         {
             ViewBag.Current = "Forms";
@@ -111,11 +120,11 @@ namespace ArchiveProject2019.Controllers
           
         }
 
-        // POST: FormDepartments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+    
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsCreate")]
         public ActionResult Create(int FormIdValue,List<int>Departments)
         {
 
@@ -158,7 +167,8 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: FormDepartments/Edit/5
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsEdit")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -178,7 +188,9 @@ namespace ArchiveProject2019.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsEdit")]
         public ActionResult Edit(int Id)
         {
 
@@ -211,7 +223,9 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: FormDepartments/Delete/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDelete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -228,9 +242,13 @@ namespace ArchiveProject2019.Controllers
             return View(formDepartment);
         }
 
-        // POST: FormDepartments/Delete/5
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
             FormDepartment formDepartment = db.FormDepartments.Find(id);

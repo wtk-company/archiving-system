@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ArchiveProject2019.ViewModel;
+using ArchiveProject2019.HelperClasses;
 
 namespace ArchiveProject2019.Controllers
 {
@@ -15,14 +16,324 @@ namespace ArchiveProject2019.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: DashBoard
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
         public ActionResult Index()
         {
+
+
             Informations info = new Informations();
 
-            info.MainDepartmentCount = db.Departments.Where(a => a.ParentId == null).Count();
-            info.AllDepartmentsCount = db.Departments.Count();
-            //info.LastDateDepartmentCreate = db.Departments.OrderBy(a => a.CreatedAt).FirstOrDefault().Select(a=>a.CreatedAt);
-            return View();
+
+            string CurrentUserId = this.User.Identity.GetUserId();
+
+            //Information For master:
+            if (db.Users.Find(CurrentUserId).RoleName.Equals("Master"))
+            {
+
+                info.IsMasterRole = true;
+
+
+                //Departments:
+                info.MainDepartmentCount = db.Departments.Where(a => a.ParentId == null).Count();
+                info.AllDepartmentsCount = db.Departments.Count();
+                info.LastDateDepartmentCreate = db.Departments.Count() != 0 ? db.Departments.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+
+                info.LastDateDepartmentUpdate = db.Departments.Count(a => a.UpdatedAt != null) != 0 ? db.Departments.OrderByDescending(a => a.UpdatedAt).FirstOrDefault().UpdatedAt : "";
+
+
+                //Groups:
+
+                info.AllGroupsCount = db.Groups.Count();
+                info.LastGroupCreate = db.Groups.Count() != 0 ? db.Groups.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+                info.TotalUserInGroup = db.UsersGroups.Select(a => a.UserId).Distinct().Count();
+                info.LastGroupUpdate = db.Groups.Count(a => a.UpdatedAt != null) != 0 ? db.Departments.OrderByDescending(a => a.UpdatedAt).FirstOrDefault().UpdatedAt : "";
+
+
+
+                int HightGroupUsersC = db.UsersGroups.Count() == 0 ? 0 :
+
+
+                       db.UsersGroups.Include(a => a.Group).GroupBy(a => a.Group.Name).Select(a => new
+                       {
+
+                           Key = a.Key,
+                           count = a.Count()
+
+                       }).OrderByDescending(a => a.count).FirstOrDefault().count;
+
+                ;
+
+                if (HightGroupUsersC != 0)
+                {
+                    List<string> GName = new List<string>();
+                    GName = db.UsersGroups.Include(a => a.Group).GroupBy(a => a.Group.Name).Select(a => new
+                    {
+
+                        Key = a.Key,
+                        count = a.Count()
+
+                    }).Where(a => a.count == HightGroupUsersC).Select(a => a.Key).ToList();
+
+
+                    info.HightGroupUsers = GName.Aggregate((a, b) => a + "," + b);
+
+                }
+                else
+                {
+                    info.HightGroupUsers = "";
+                }
+
+
+
+                //Forms:
+                info.TotalFormsCount = db.Forms.Count();
+                info.LastFormCreate = db.Forms.Count() != 0 ? db.Forms.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+                info.LastFormUpdate = db.Forms.Count(a => a.UpdatedAt != null) != 0 ? db.Departments.OrderByDescending(a => a.UpdatedAt).FirstOrDefault().UpdatedAt : "";
+                info.HightFormUsing = "";
+
+                int HightFormUsingC = db.Documents.Count() == 0 ? 0 :
+
+                     db.Documents.Include(a => a.Form).GroupBy(a => a.Form.Name)
+                     .Select(a => new
+                     {
+
+                         key = a.Key,
+                         count = a.Count()
+                     }).OrderByDescending(a => a.count).FirstOrDefault().count;
+
+
+                if (HightFormUsingC != 0)
+                {
+                    List<string> FName = new List<string>();
+                    FName = db.Documents.Include(a => a.Form).GroupBy(a => a.Form.Name)
+                    .Select(a => new
+                    {
+
+                        key = a.Key,
+                        count = a.Count()
+                    }).Where(a => a.count == HightFormUsingC).Select(a => a.key).ToList();
+
+                    info.HightFormUsing = FName.Aggregate((a, b) => a + "," + b);
+                }
+                else
+                {
+                    info.HightFormUsing = "";
+                }
+
+
+                //Users:
+                info.TotalUserCount = db.Users.Count();
+                info.LastUserCreate = db.Users.Count() != 0 ? db.Users.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+                info.LastUserUpdate = db.Users.Count(a => a.UpdatedAt != null) != 0 ? db.Users.OrderByDescending(a => a.UpdatedAt).FirstOrDefault().UpdatedAt : "";
+
+
+
+                //Document
+
+                info.TotalDocumentCount = db.Documents.Count();
+                info.LastDocumentCreate = db.Documents.Count() != 0 ? db.Documents.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+
+
+
+
+
+                //Mails:
+                info.TotalMailsCount = db.TypeMails.Count();
+                info.LastMailsCreate = db.TypeMails.Count() != 0 ? db.TypeMails.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+                info.LastMailsUpdate = db.TypeMails.Count(a => a.UpdatedAt != null) != 0 ? db.TypeMails.OrderByDescending(a => a.UpdatedAt).FirstOrDefault().UpdatedAt : "";
+
+
+                int HightMailUsingC = db.Documents.Count() == 0 ? 0 :
+
+                    db.Documents.Include(a => a.TypeMail).GroupBy(a => a.TypeMail.Name)
+                    .Select(a => new
+                    {
+
+                        key = a.Key,
+                        count = a.Count()
+                    }).OrderByDescending(a => a.count).FirstOrDefault().count;
+
+
+                if (HightMailUsingC != 0)
+                {
+                    List<string> MName = new List<string>();
+                    MName = db.Documents.Include(a => a.TypeMail).GroupBy(a => a.TypeMail.Name)
+                    .Select(a => new
+                    {
+
+                        key = a.Key,
+                        count = a.Count()
+                    }).Where(a => a.count == HightMailUsingC).Select(a => a.key).ToList();
+
+                    info.HightMailUsing = MName.Aggregate((a, b) => a + "," + b);
+                }
+                else
+                {
+                    info.HightMailUsing = "";
+                }
+
+
+
+
+
+                //Document Kind:
+                info.TotalDocumentKindCount = db.DocumentKinds.Count();
+                info.LastDocumentKindCreate = db.DocumentKinds.Count() != 0 ? db.DocumentKinds.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+                info.LastDocumentKindUpdate = db.DocumentKinds.Count(a => a.UpdatedAt != null) != 0 ? db.DocumentKinds.OrderByDescending(a => a.UpdatedAt).FirstOrDefault().UpdatedAt : "";
+
+                int HightDocumentKindUsingC = db.Documents.Include(a => a.documentKind).Count(a => a.documentKind != null) == 0 ? 0 :
+
+                  db.Documents.Include(a => a.documentKind).GroupBy(a => a.documentKind.Name)
+                  .Select(a => new
+                  {
+
+                      key = a.Key,
+                      count = a.Count()
+                  }).OrderByDescending(a => a.count).FirstOrDefault().count;
+
+
+                if (HightDocumentKindUsingC != 0)
+                {
+                    List<string> MName = new List<string>();
+                    MName = db.Documents.Include(a => a.documentKind).GroupBy(a => a.documentKind.Name)
+                    .Select(a => new
+                    {
+
+                        key = a.Key,
+                        count = a.Count()
+                    }).Where(a => a.count == HightDocumentKindUsingC).Select(a => a.key).ToList();
+
+                    info.HightDocumentKindUsing = MName.Aggregate((a, b) => a + "," + b);
+                }
+                else
+                {
+                    info.HightDocumentKindUsing = "";
+                }
+
+
+
+            }
+
+            else
+            {
+                info.IsMasterRole = false;
+            }
+            //CurrentUser Informations:
+
+            info.FullName = db.Users.Find(CurrentUserId).FullName;
+            info.UserName = db.Users.Find(CurrentUserId).UserName;
+            info.Email = db.Users.Find(CurrentUserId).Email == null ? "" : db.Users.Find(CurrentUserId).Email;
+            info.Gender = db.Users.Find(CurrentUserId).Gender;
+            
+                
+              int DepId=  db.Users.Include(a => a.Department).SingleOrDefault(a => a.Id.Equals(CurrentUserId)).DepartmentId == null ?
+                0 :  db.Users.Include(a => a.Department).SingleOrDefault(a => a.Id.Equals(CurrentUserId)).Department.Id;
+
+
+            info.DepartmentName = DepId == 0 ? "" : DepartmentListDisplay.CreateDepartmentDisplay(DepId);
+            info.JobTitle = db.Users.Include(a => a.jobTitle).SingleOrDefault(a => a.Id.Equals(CurrentUserId)).JobTitleId == null ?
+             "" : db.Users.Include(a => a.jobTitle).SingleOrDefault(a => a.Id.Equals(CurrentUserId)).jobTitle.Name;
+
+
+            info.UserCreateAt = db.Users.Find(CurrentUserId).CreatedAt;
+            info.UserUpdate = db.Users.Find(CurrentUserId).UpdatedAt == null ? "" : db.Users.Find(CurrentUserId).UpdatedAt;
+            info.RoleName = db.Users.Find(CurrentUserId).RoleName;
+
+
+
+
+
+            //User Groups
+            if(!db.Users.Find(CurrentUserId).RoleName.Equals("Master"))
+            {
+                info.IsMasterRole = false;
+
+                GroupsUserInformation groupsUserInformation = null;
+                info.UserGroups = new List<GroupsUserInformation>();
+                List<UserGroup> UserG = db.UsersGroups.Include(a => a.Group).Where(a => a.UserId.Equals(CurrentUserId)).ToList();
+                foreach(UserGroup u in UserG)
+                {
+                    groupsUserInformation = new GroupsUserInformation();
+
+                    groupsUserInformation.Name = u.Group.Name;
+                    groupsUserInformation.UsersCount = db.UsersGroups.Where(a => a.GroupId == u.GroupId).Count();
+                    info.UserGroups.Add(groupsUserInformation);
+                }
+
+
+
+            }
+            else
+            {
+                info.IsMasterRole = true;
+            }
+
+          
+
+
+
+            //User Permissions:
+
+            if(!db.Users.Find(CurrentUserId).RoleName.Equals("Master"))
+            {
+                info.IsMasterRole = false;
+
+
+
+                string userRoleName = db.Users.Find(CurrentUserId).RoleName;
+                string UserRoleId = db.Roles.Where(a => a.Name.Equals(userRoleName)).FirstOrDefault().Id;
+
+
+                List<Permission> RolePermissions = db.PermissionRoles.Where(a => a.RoleId.Equals(UserRoleId)).Include(a => a.Permission).Select(a => a.Permission).ToList();
+
+
+                List<PermissionsUser> UserPermissionsList = new List<PermissionsUser>();
+                PermissionsUser puser = null;
+                foreach (Permission p in RolePermissions)
+                {
+                    puser = new PermissionsUser()
+                    {
+                        Permission = p,
+                        Is_Active = db.PermissionUsers.Where(a => a.UserId.Equals(CurrentUserId)).Any(a => a.PermissionId == p.Id) ?
+
+                       db.PermissionUsers.Where(a => a.UserId.Equals(CurrentUserId) && a.PermissionId == p.Id).FirstOrDefault().Is_Active :
+
+                       db.PermissionRoles.Where(a => a.RoleId.Equals(UserRoleId) && a.PermissionId == p.Id).FirstOrDefault().Is_Active
+
+                    };
+                    UserPermissionsList.Add(puser);
+
+                }
+
+
+                info.UserPermissions = new List<PermissionsUser>();
+                info.UserPermissions = UserPermissionsList;
+
+
+            }
+            else
+            {
+                info.IsMasterRole = true;
+
+            }
+
+
+            //User Basic Information:
+            info.MyTotalDocument = db.Documents.Where(a => a.CreatedById.Equals(CurrentUserId)).Count();
+            if(!db.Users.Find(CurrentUserId).RoleName.Equals("Master"))
+            {
+
+                
+                info.MyGroupsCount = db.UsersGroups.Where(a => a.UserId.Equals(CurrentUserId)).Count();
+                info.LastMyDocumentCreate = db.Departments.Count() != 0 ? db.Departments.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+
+                info.DepartmentsCount = db.Departments.Count();
+            }
+
+            return View(info);
         }
     }
 }

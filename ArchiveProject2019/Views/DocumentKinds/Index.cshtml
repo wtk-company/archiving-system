@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<ArchiveProject2019.Models.DocumentKind>
+    @using ArchiveProject2019.HelperClasses
 
 @{
     ViewBag.Title = "أنواع الوثائق";
@@ -139,8 +140,13 @@
 
                
                 <td>
-                    <button data-Kind-id="@item.Id" title=" تعديل نوع معين" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> |
+                    <button data-Kind-id="@item.Id" title=" تعديل نوع معين" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> 
+
+                    @if(CheckDelete.CheckDocumentKindsDelete(item.Id)==true)
+                    {
+
                     <button data-Kind-id="@item.Id" title="حذف نوع معين" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                    }
                 </td>
             </tr>
 

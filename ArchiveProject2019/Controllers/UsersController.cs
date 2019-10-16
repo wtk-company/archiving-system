@@ -31,6 +31,11 @@ namespace ArchiveProject2019.Controllers
             ViewBag.UserFullName = UserManager.Users.FirstOrDefault(a => a.Id.Equals(uid)).FullName;
             return PartialView("_UserName");
         }
+
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersRegister")]
         public ActionResult Register()
         {
             //Role
@@ -58,7 +63,8 @@ namespace ArchiveProject2019.Controllers
         //Register Post:
         [HttpPost]
         [AllowAnonymous]
-       //[ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersRegister")]
         public async Task<ActionResult> Register(RegisterViewModel model,IEnumerable<string>Groups)
         {
 
@@ -169,13 +175,16 @@ namespace ArchiveProject2019.Controllers
             return View(model);
         }
 
-
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersChangeProfile")]
         public ActionResult ChangeProfile()
         {
             ViewBag.Current = "Users";
 
             string Uid = this.User.Identity.GetUserId();
             ApplicationUser user = UserManager.FindById(Uid);
+
+            
             if(user==null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -189,6 +198,9 @@ namespace ArchiveProject2019.Controllers
         }
 
         [HttpPost]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersChangeProfile")]
         public ActionResult ChangeProfile(EditUserNameAndPassword viewModel)
         {
             ViewBag.Current = "Users";
@@ -245,7 +257,11 @@ namespace ArchiveProject2019.Controllers
 
             return View(viewModel);
         }
-        // GET: Users
+
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersIndex")]
         public ActionResult Index(string Id="none")
         {
             ViewBag.Current = "Users";
@@ -264,8 +280,10 @@ namespace ArchiveProject2019.Controllers
             IEnumerable<ApplicationUser> Users = UserManager.Users.ToList();
            return View(Users);
         }
-        
-        // GET: Users/Details/5
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersDetails")]
         public ActionResult Details(string id)
         {
             ViewBag.Current = "Users";
@@ -303,10 +321,12 @@ namespace ArchiveProject2019.Controllers
 
 
 
-       
 
 
-        // GET: Users/Edit/5
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersEdit")]
         public ActionResult Edit(string id)
         {
             ViewBag.Current = "Users";
@@ -367,12 +387,15 @@ namespace ArchiveProject2019.Controllers
             return View(EProfile);
         }
 
-        // POST: Users/Edit/5
+      
         [HttpPost]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersEdit")]
         public ActionResult Edit( EditProfileViewModel EProfile, IEnumerable<string> Groups)
         {
             ViewBag.Current = "Users";
-
+            string OldUserRole = db.Users.Find(EProfile.Id).RoleName;
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Id", "Name", EProfile.Role);
 
             ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name", EProfile.DepartmentID);
@@ -409,6 +432,19 @@ namespace ArchiveProject2019.Controllers
 
                 }
 
+                //Delete All Users Permissions:
+                if(!user.RoleName.Equals(EProfile.Role))
+                {
+
+
+
+                    List<PermissionsUser> User_Permissions = db.PermissionUsers.Where(a => a.UserId.Equals(user.Id)).ToList();
+                    foreach(PermissionsUser UP in User_Permissions)
+                    {
+                        db.PermissionUsers.Remove(UP);
+                    }
+                    db.SaveChanges();
+                }
 
 
 
@@ -526,7 +562,9 @@ namespace ArchiveProject2019.Controllers
             return View(EProfile);
         }
 
-        // GET: Users/Delete/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersDelete")]
         public ActionResult Delete(string  id)
         {
             ViewBag.Current = "Users";
@@ -553,8 +591,11 @@ namespace ArchiveProject2019.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
+     
         [HttpPost,ActionName("Delete")]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersDelete")]
         public ActionResult confirm(string Id)
         {
             ViewBag.Current = "Users";
@@ -571,5 +612,184 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { @Id = "DeleteSuccess" });
 
         }
+
+
+
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersLockOut")]
+        public ActionResult LockOut(string id)
+        {
+            ViewBag.Current = "Users";
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            }
+
+            ApplicationUser user = UserManager.FindById(id);
+            if (user == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+            }
+
+            if(user.LockoutEnabled==true)
+            {
+                ViewBag.LockState = "A";
+            }
+            else
+            {
+                ViewBag.LockState = "B";
+
+            }
+
+
+            return View(user);
+        }
+
+
+
+
+        [HttpPost]
+        [ActionName("LockOut")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersLockOut")]
+
+        public ActionResult ConfirmLockOut(string Id)
+        {
+          
+
+            ViewBag.Current = "Users";
+
+            ApplicationUser user = UserManager.FindById(Id);
+            if (user == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+            }
+            if (user.LockoutEnabled==true)
+            {
+                user.LockoutEnabled = false;
+            }
+            else
+            {
+                user.LockoutEnabled = true;
+            }
+
+            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index", new { @Id = "LockSuccess" });
+        }
+
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersRegisterMasterUser")]
+        public ActionResult RegisterMasterUser()
+        {
+            //Role
+
+
+            ViewBag.Role = "Master";
+
+
+
+
+
+
+
+
+
+            return View();
+        }
+
+
+
+        [HttpPost]
+        [AllowAnonymous]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "UsersRegisterMasterUser")]
+        public async Task<ActionResult> RegisterMasterUser(RegisterViewModel model)
+        {
+
+            bool x = true;
+            ViewBag.Current = "Users";
+
+            ViewBag.Role = "Master";
+
+
+            if (ModelState.IsValid)
+            {
+
+
+                if (db.Users.Any(a => a.UserName.Equals(model.UserName, StringComparison.OrdinalIgnoreCase)))
+                {
+
+
+                    ModelState.AddModelError("UserName", "اسم المستخدم موجود مسبقاً يرجى اعادة الإدخال");
+                    x = false;
+                }
+
+
+                if (!string.IsNullOrEmpty(model.Email))
+                {
+                    if (db.Users.Any(a => a.Email.Equals(model.Email, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        ModelState.AddModelError("Email", "لا يمكن أن يكون البريد الإلكتروني مكرر، يرجى إعادةالإدخال");
+
+                        x = false;
+
+                    }
+
+                }
+
+
+                if (x == false)
+                {
+                    return View(model);
+
+
+                }
+                var user = new ApplicationUser
+                {
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    Gender = model.Gender,
+                 
+
+                    CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                    CreatedById = this.User.Identity.GetUserId(),
+                    RoleName = model.Role
+                };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user.Id, model.Role);
+
+
+
+
+                    db.SaveChanges();
+                    return RedirectToAction("Index", new { @Id = "CreateSuccess" });
+                }
+                // AddErrors(result);
+            }
+
+
+
+
+
+
+
+            return View(model);
+        }
+
+
+
     }
 }

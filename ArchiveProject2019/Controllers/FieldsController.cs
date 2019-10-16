@@ -18,6 +18,10 @@ namespace ArchiveProject2019.Controllers
         
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FieldsIndex")]
         // GET: Fields
         public ActionResult Index(int ?Id,string msg="none")
         {
@@ -66,8 +70,12 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-     
+
         // GET: Fields/Details/5
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FieldsDetails")]
         public ActionResult Details(int? id)
         {
             ViewBag.Current = "Forms";
@@ -96,6 +104,10 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: Fields/Create
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FieldsCreate")]
         public ActionResult Create()
         {
             ViewBag.Current = "Forms";
@@ -111,11 +123,12 @@ namespace ArchiveProject2019.Controllers
             return View();
         }
 
-        // POST: Fields/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FieldsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,IsRequired,Type")] Field field)
         {
             //No session
@@ -147,6 +160,9 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: Fields/Edit/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FieldsEdit")]
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "Forms";
@@ -184,11 +200,12 @@ namespace ArchiveProject2019.Controllers
             return View(field);
         }
 
-        // POST: Fields/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FieldsEdit")]
         public ActionResult Edit([Bind(Include = "Id,Name,IsRequired,Type,CreatedAt,CreatedById,FormId")] Field field)
         {
             ViewBag.Current = "Forms";
@@ -216,6 +233,10 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: Fields/Delete/5
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FieldsDelete")]
         public ActionResult Delete(int? id)
         {
             ViewBag.Current = "Forms";
@@ -254,6 +275,10 @@ namespace ArchiveProject2019.Controllers
         // POST: Fields/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FieldsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
             ViewBag.Current = "Forms";

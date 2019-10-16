@@ -1,4 +1,5 @@
-﻿using ArchiveProject2019.Models;
+﻿using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,8 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
-        // GET: DocumentKinds
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsIndex")]
         public ActionResult Index(string Id = "none")
         {
             if (!Id.Equals("none"))
@@ -38,6 +40,8 @@ namespace ArchiveProject2019.Controllers
             return View(TypeMails.ToList());
         }
 
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
         public ActionResult Create()
         {
 
@@ -50,6 +54,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] TypMail TypeMail)
         {
             ViewBag.Current = "TypeMails";
@@ -76,7 +82,8 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "TypeMails";
@@ -97,7 +104,9 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-   
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
         public ActionResult Edit(TypMail mail)
         {
 
@@ -122,7 +131,8 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
         public ActionResult Delete(int? id)
         {
             ViewBag.Current = "TypeMails";
@@ -144,6 +154,9 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
         public ActionResult Confirm(int? id)
         {
             ViewBag.Current = "TypeMails";

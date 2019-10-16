@@ -22,6 +22,9 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: Forms
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormsIndex")]
         public ActionResult Index(string Id="none")
         {
             if (!Id.Equals("none"))
@@ -39,8 +42,10 @@ namespace ArchiveProject2019.Controllers
             return View(forms.ToList());
         }
 
-      
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormsCreate")]
         public ActionResult Create()
         {
 
@@ -51,6 +56,10 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] Form form)
         {///
             ViewBag.Current = "Forms";
@@ -76,7 +85,9 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Forms/Edit/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormsEdit")]
         public ActionResult Edit(int? id)
         {
 
@@ -101,6 +112,9 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormsEdit")]
         public ActionResult Edit([Bind(Include = "Id,Name,CreatedAt,CreatedById")] Form form)
         {
             ViewBag.Current = "Forms";
@@ -125,7 +139,9 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: Forms/Delete/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormsDelete")]
         public ActionResult Delete(int? id)
         {
 
@@ -152,8 +168,12 @@ namespace ArchiveProject2019.Controllers
             return View(form);
            
         }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "FormsDelete")]
         public ActionResult Confirm(int? id)
         {
 

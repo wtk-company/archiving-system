@@ -1,5 +1,9 @@
-﻿using System;
+﻿using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Models;
+using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,82 +12,148 @@ namespace ArchiveProject2019.Controllers
 {
     public class PermissionsUsersController : Controller
     {
-        // GET: PermissionsUsers
-        public ActionResult Index()
+
+        public ApplicationDbContext db = new ApplicationDbContext();
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionsUsersIndex")]
+        public ActionResult Index(string Id, string msg = "none")
         {
-            return View();
+            ViewBag.Current = "Users";
+
+            if (Id == null)
+            {
+
+                return RedirectToAction("BadRequestError", "ErrorController");
+
+            }
+
+            ApplicationUser user = db.Users.Find(Id);
+            if (user == null)
+            {
+
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+            }
+
+            if (!msg.Equals("none"))
+            {
+                ViewBag.Msg = msg;
+
+            }
+            else
+            {
+                ViewBag.Msg = null;
+            }
+
+
+
+
+            //Role ID:
+            Session["User_Id"] = user.Id;
+            string userRoleName = db.Users.Find(Id).RoleName;
+            string UserRoleId = db.Roles.Where(a => a.Name.Equals(userRoleName)).FirstOrDefault().Id;
+
+
+            List<Permission> RolePermissions = db.PermissionRoles.Where(a => a.RoleId.Equals(UserRoleId)).Include(a=>a.Permission).Select(a => a.Permission).ToList();
+
+
+            List<PermissionsUser> UserPermissionsList = new List<PermissionsUser>();
+            PermissionsUser puser = null;
+            foreach(Permission p in RolePermissions)
+            {
+                puser = new PermissionsUser()
+                {
+                    Permission = p,
+                    Is_Active = db.PermissionUsers.Where(a => a.UserId.Equals(user.Id)).Any(a => a.PermissionId == p.Id) ?
+
+                    db.PermissionUsers.Where(a => a.UserId.Equals(user.Id) && a.PermissionId == p.Id).FirstOrDefault().Is_Active :
+
+                    db.PermissionRoles.Where(a => a.RoleId.Equals(UserRoleId) && a.PermissionId == p.Id).FirstOrDefault().Is_Active
+
+                };
+                UserPermissionsList.Add(puser);
+
+            }
+           
+            return View(UserPermissionsList);
         }
 
-        // GET: PermissionsUsers/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: PermissionsUsers/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: PermissionsUsers/Create
+      
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionsUsersIndex")]
+        public ActionResult Index(List<string>Permissions)
         {
-            try
+            if(Permissions==null)
             {
-                // TODO: Add insert logic here
+                return RedirectToAction("Index",new { controller="PermissionsUsers",id= Session["User_Id"] ,msg="ActiveError"});
+            }
 
-                return RedirectToAction("Index");
-            }
-            catch
+            foreach(string s in Permissions)
             {
-                return View();
+
+                string UserId = Session["User_Id"].ToString();
+
+                //role id:
+
+                string RoleName = db.Users.Find(UserId).RoleName;
+                string RoleId = db.Roles.Where(a => a.Name.Equals(RoleName)).FirstOrDefault().Id;
+                int Permission_Id = Convert.ToInt32(s);
+                if(db.PermissionUsers.Where(a=>a.UserId.Equals(UserId)).Any(a=>a.PermissionId== Permission_Id))
+                {
+                    int PUserId = db.PermissionUsers.Where(a => a.UserId.Equals(UserId) && a.PermissionId == Permission_Id).FirstOrDefault().Id;
+                    PermissionsUser PUser = db.PermissionUsers.Find(PUserId);
+                    db.PermissionUsers.Remove(PUser);
+
+
+                }
+                else
+                {
+
+                    if(db.PermissionRoles.Where(a=>a.RoleId.Equals(RoleId) && a.PermissionId== Permission_Id).FirstOrDefault().Is_Active==false)
+                    {
+                        PermissionsUser PUser = new PermissionsUser()
+                        {
+
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId(),
+                            PermissionId = Permission_Id,
+                            UserId = Session["User_Id"].ToString(),
+                            Is_Active = true
+
+                        };
+                        db.PermissionUsers.Add(PUser);
+
+                    }
+                    else
+                    {
+                        PermissionsUser PUser = new PermissionsUser()
+                        {
+
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId(),
+                            PermissionId = Permission_Id,
+                            UserId = Session["User_Id"].ToString(),
+                            Is_Active = false
+
+                        };
+                    db.PermissionUsers.Add(PUser);
+                    }
+                   
+
+                }
+
+                db.SaveChanges();
+
             }
+
+
+            return RedirectToAction("Index", new { controller = "PermissionsUsers", id = Session["User_Id"], msg = "ActiveSuccess" });
+
+
         }
 
-        // GET: PermissionsUsers/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
 
-        // POST: PermissionsUsers/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: PermissionsUsers/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: PermissionsUsers/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

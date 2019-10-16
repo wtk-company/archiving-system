@@ -32,6 +32,7 @@ namespace ArchiveProject2019
             CreateTypeOfMails();
 
 
+
         }
 
         public void CreateMasterRole()
@@ -57,7 +58,8 @@ namespace ArchiveProject2019
                     {
 
                         RoleId = role.Id,
-                        PermissionId = myPermission.Id
+                        PermissionId = myPermission.Id,
+                        Is_Active = true
                     };
 
                     db.PermissionRoles.Add(prole);
@@ -106,7 +108,8 @@ namespace ArchiveProject2019
                 Gender = "Male",
                 CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                 UserName = "masteruser",
-                RoleName= "Master"
+                RoleName = "Master",
+                IsDefaultMaster = true
                 
                
 

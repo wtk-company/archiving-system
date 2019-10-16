@@ -1,4 +1,5 @@
-﻿using ArchiveProject2019.Models;
+﻿using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ namespace ArchiveProject2019.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
 
@@ -47,7 +51,8 @@ namespace ArchiveProject2019.Controllers
             return View(documentGroups.ToList());
         }
 
-
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsCreate")]
         public ActionResult Create(int? Id)
         {
             ViewBag.Current = "Document";
@@ -92,6 +97,8 @@ namespace ArchiveProject2019.Controllers
 
 
        [HttpPost]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsCreate")]
         public ActionResult Create(int DocumentIdValue, List<int> Groups)
         {
 
@@ -134,7 +141,8 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsDelete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -153,6 +161,8 @@ namespace ArchiveProject2019.Controllers
         // POST: FormDepartments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
             DocumentGroup documentGroup = db.DocumentGroups.Find(id);

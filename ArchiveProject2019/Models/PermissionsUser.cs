@@ -33,7 +33,7 @@ namespace ArchiveProject2019.Models
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "تاريخ الإنشاء")]
+        [Display(Name = "تاريخ إالغاء التفعيل")]
         public string CreatedAt { get; set; }
 
         //Users Control:
@@ -45,8 +45,5 @@ namespace ArchiveProject2019.Models
 
 
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "تاريخ أخر تحديث")]
-        public string Updatedat { get; set; }
     }
 }

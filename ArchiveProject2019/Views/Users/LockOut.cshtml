@@ -1,0 +1,94 @@
+﻿@model ArchiveProject2019.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "تعديل حالة الحساب";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@if ( ViewBag.LockState=="A")
+{
+
+    <h3>هل أنت متأكد من عملية فك قفل الحساب ؟</h3>
+
+}
+else
+{
+    <h3>هل أنت متأكد من عملية قفل الحساب؟</h3>
+
+
+}
+
+<div>
+
+    <dl class="dl-horizontal">
+
+
+
+
+
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt>
+           @Html.DisplayName(" اسم المستخدم") 
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedAt)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(a => Model.Id)
+
+
+
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+            <input type="submit" title="تعديل حالة القفل" value="تعديل حالة القفل" class="btn btn-success" />
+            <button type="button" title="إغلاق النافذة" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
+        </div>
+
+
+
+    }
+</div>

@@ -205,6 +205,11 @@
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
+    <Compile Include="Migrations\201910080907557_as.cs" />
+    <Compile Include="Migrations\201910080907557_as.Designer.cs">
+      <DependentUpon>201910080907557_as.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ConcernedParty.cs" />
     <Compile Include="Models\DocumentDepartment.cs" />
@@ -239,6 +244,7 @@
     <Compile Include="ViewModel\DocumentFieldsValuesViewModel.cs" />
     <Compile Include="ViewModel\FieldsValuesViewModel.cs" />
     <Compile Include="ViewModel\DocFromsViewModel.cs" />
+    <Compile Include="ViewModel\GroupsUserInformation.cs" />
     <Compile Include="ViewModel\GroupUserViewModel.cs" />
     <Compile Include="ViewModel\Informations.cs" />
     <Compile Include="ViewModel\RelatedDocumentViewModel.cs" />
@@ -258,6 +264,22 @@
     <Content Include="Content\chosen-sprite.png" />
     <Content Include="Content\chosen.css" />
     <Content Include="Content\chosen.min.css" />
+    <Content Include="Content\DashBoard\build\images\american-express.png" />
+    <Content Include="Content\DashBoard\build\images\cropper.jpg" />
+    <Content Include="Content\DashBoard\build\images\favicon.png" />
+    <Content Include="Content\DashBoard\build\images\img.jpg" />
+    <Content Include="Content\DashBoard\build\images\inbox.png" />
+    <Content Include="Content\DashBoard\build\images\mastercard.png" />
+    <Content Include="Content\DashBoard\build\images\media.jpg" />
+    <Content Include="Content\DashBoard\build\images\paypal.png" />
+    <Content Include="Content\DashBoard\build\images\picture.jpg" />
+    <Content Include="Content\DashBoard\build\images\prod-1.jpg" />
+    <Content Include="Content\DashBoard\build\images\prod-2.jpg" />
+    <Content Include="Content\DashBoard\build\images\prod-3.jpg" />
+    <Content Include="Content\DashBoard\build\images\prod-4.jpg" />
+    <Content Include="Content\DashBoard\build\images\prod-5.jpg" />
+    <Content Include="Content\DashBoard\build\images\user.png" />
+    <Content Include="Content\DashBoard\build\images\visa.png" />
     <Content Include="Content\DashBoard\vendors\iCheck\icheck.js" />
     <Content Include="Content\DashBoard\vendors\iCheck\icheck.min.js" />
     <Content Include="Content\DashBoard\vendors\iCheck\skins\all.css" />
@@ -865,8 +887,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -910,7 +930,6 @@
     <Content Include="Views\Documents\Form.cshtml" />
     <Content Include="Views\Documents\Delete.cshtml" />
     <Content Include="Views\Documents\Details.cshtml" />
-    <Content Include="Views\Home\Indexx.cshtml" />
     <Content Include="Views\Documents\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\Create.cshtml" />
@@ -965,7 +984,6 @@
     <Content Include="Views\FormGroups\Delete.cshtml" />
     <Content Include="Views\FormGroups\Create.cshtml" />
     <Content Include="Views\FormGroups\Edit.cshtml" />
-    <Content Include="Views\Home\IndexTR.cshtml" />
     <Content Include="Views\DocumentDepartments\Index.cshtml" />
     <Content Include="Views\DocumentDepartments\Create.cshtml" />
     <Content Include="Views\DocumentDepartments\Delete.cshtml" />
@@ -980,11 +998,14 @@
     <Content Include="Views\TypeMails\Edit.cshtml" />
     <Content Include="Views\TypeMails\Delete.cshtml" />
     <Content Include="Views\DashBoard\Index.cshtml" />
+    <Content Include="Views\PermissionsUsers\Index.cshtml" />
+    <Content Include="Views\Shared\LockOutError.cshtml" />
+    <Content Include="Views\Users\LockOut.cshtml" />
+    <Content Include="Views\Users\RegisterMasterUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
-    <Folder Include="Views\PermissionsUsers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -996,6 +1017,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201910080907557_as.resx">
+      <DependentUpon>201910080907557_as.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

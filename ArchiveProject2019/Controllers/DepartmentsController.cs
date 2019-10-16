@@ -18,8 +18,9 @@ namespace ArchiveProject2019.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        //Get All Departments:
-      //  [AccessDeniedAuthorizeattribute(ActionName ="Asmi")]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsIndex")]
         //[AccessDeniedAuthorizeattribute(Roles = "xxx")]
         public ActionResult Index(string Id = "none")
         {
@@ -44,6 +45,8 @@ namespace ArchiveProject2019.Controllers
 
         //Details:
 
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsDetails")]
         public ActionResult Details(int ?id)
         {
             if(id==null)
@@ -64,10 +67,11 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-  
 
 
-      public ActionResult DepartmentUsers(int? Id)
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsUsers")]
+        public ActionResult DepartmentUsers(int? Id)
         {
 
             if(Id==null)
@@ -89,8 +93,10 @@ namespace ArchiveProject2019.Controllers
             return View(Users);
 
         }
-       
+
         //Create Department:
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsCreate")]
         public ActionResult Create(int id,int msg)
         {
             ViewBag.Current = "Department";
@@ -105,6 +111,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt,CreatedById")] Department department)
         {
             ViewBag.Current = "Department";
@@ -157,6 +165,9 @@ namespace ArchiveProject2019.Controllers
         }
 
         // Edit Department:
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsEdit")]
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "Department";
@@ -182,6 +193,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsEdit")]
         public ActionResult Edit([Bind(Include = "Id,Name,CreatedAt,CreatedById,ParentId")] Department department)
         {
             ViewBag.Current = "Department";
@@ -220,7 +233,8 @@ namespace ArchiveProject2019.Controllers
         }
 
         //Delete Department:
-
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsDelete")]
         public ActionResult Delete(int? id)
         {
             ViewBag.Current = "Department";
@@ -250,6 +264,9 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost,ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsDelete")]
         public ActionResult Confirm(int? id)
         {
             ViewBag.Current = "Department";

@@ -80,31 +80,20 @@ namespace ArchiveProject2019.HelperClasses
         }
 
 
-        //public static bool CheckDocumentKindsDelete(int id)
-        //{
-
-        //    IEnumerable<int> Documents = db.Documents.Where(a => a.);
-        //    if (UsersGroup.Count() > 0)
-        //    {
-        //        return false;
-
-        //    }
-        //    return true;
-        //}
-
-
-        public static bool CheckUserDelete(int id)
+        public static bool CheckDocumentKindsDelete(int id)
         {
 
-            //check documents:
+            IEnumerable<int> Documents = db.Documents.Where(a => a.KindId == id).Select(a=>a.Id);
+            if (Documents.Count() > 0)
+            {
+                return false;
 
-
-
+            }
             return true;
-
-
-
         }
+
+
+      
 
         public static bool checkFormDelete(int id)
         {
@@ -173,6 +162,49 @@ namespace ArchiveProject2019.HelperClasses
 
 
             return true;
+        }
+
+
+
+        public static bool CheckUserDelete(string id)
+        {
+
+            ApplicationUser user = db.Users.Find(id);
+            if(user.RoleName.Equals("Master") && user.IsDefaultMaster==true)
+            {
+                return false;
+
+            }
+
+            List<int> Documents = db.Documents.Where(a => a.CreatedById.Equals(id)).Select(a => a.Id).ToList();
+            if(Documents.Count()>0)
+            {
+                return false;
+
+            }
+
+
+
+            return true;
+
+
+
+        }
+
+
+        public static bool CheckUserLockOut(string id)
+        {
+
+            ApplicationUser user = db.Users.Find(id);
+            if (user.RoleName.Equals("Master") && user.IsDefaultMaster == true)
+            {
+                return false;
+
+            }
+            return true;
+
+
+
         }
 
 

@@ -1,4 +1,5 @@
-﻿using ArchiveProject2019.Models;
+﻿using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,9 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsIndex")]
         // GET: DocumentKinds
         public ActionResult Index(string Id = "none")
         {
@@ -38,7 +42,8 @@ namespace ArchiveProject2019.Controllers
             return View(DocKinds.ToList());
         }
 
-        
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsCreate")]
 
         public ActionResult Create()
         {
@@ -50,6 +55,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] DocumentKind DocumentKind)
         {
             ViewBag.Current = "DocumentKinds";
@@ -75,7 +82,10 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // GET: DocumentKinds/Edit/5
+       
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsEdit")]
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "DocumentKind";
@@ -98,6 +108,9 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsEdit")]
         public ActionResult Edit(DocumentKind kinds)
         {
             if (_context.ConcernedParties.Where(a => a.Id != kinds.Id).Any(a => a.Name.Equals(kinds.Name, StringComparison.OrdinalIgnoreCase)))
@@ -119,6 +132,9 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: ConcernedPartys/Delete/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
         public ActionResult Delete(int? id)
         {
             ViewBag.Current = "DocumentKind";
@@ -138,11 +154,19 @@ namespace ArchiveProject2019.Controllers
 
             }
 
+
+            if(CheckDelete.CheckDocumentKindsDelete(kind.Id)==false)
+            {
+                return RedirectToAction("HttpNotFoundError", "DeleteError");
+            }
             return View(kind);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
         public ActionResult Confirm(int? id)
         {
             ViewBag.Current = "DocumentKind";

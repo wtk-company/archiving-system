@@ -22,38 +22,14 @@ namespace ArchiveProject2019.Controllers
         }
 
        
-        public ActionResult IndexTR()
-        {
-            return View();
-        }
+       
         
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult Indexx()
-        {
-            return View();
-        }
+       
 
 
-        public ActionResult Index2()
-        {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }
