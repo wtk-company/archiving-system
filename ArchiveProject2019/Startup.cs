@@ -22,6 +22,7 @@ namespace ArchiveProject2019
         ApplicationDbContext db = new ApplicationDbContext();
         public void Configuration(IAppBuilder app)
         {
+            app.MapSignalR();
             ConfigureAuth(app);
             // createrole();
             createPermissions();

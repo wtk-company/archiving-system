@@ -55,7 +55,7 @@ namespace ArchiveProject2019.Controllers
 
                 Roles.Add(roleViewModel);
             }
-            return View(Roles);
+            return View(Roles.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
 

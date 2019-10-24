@@ -374,7 +374,12 @@ namespace ArchiveProject2019.Controllers
             }
 
             // Get all Documents.
-            var documents = _context.Documents.Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
+
+            string currentUserId = this.User.Identity.GetUserId();
+            List<int> DocRelate = _context.RelatedDocuments.Where(a => a.CreatedById.Equals(currentUserId)).Select(a => a.RelatedDocId).ToList();
+            var documents = _context.Documents.Where(a=>a.CreatedById.Equals(currentUserId)&& !DocRelate.Contains(a.Id)).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
+         
+            documents = documents.OrderByDescending(a => a.CreatedAt).ToList();
 
             // Pass To View
             return View(documents);

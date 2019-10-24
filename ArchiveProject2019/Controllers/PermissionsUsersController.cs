@@ -76,7 +76,7 @@ namespace ArchiveProject2019.Controllers
 
             }
            
-            return View(UserPermissionsList);
+            return View(UserPermissionsList.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
       

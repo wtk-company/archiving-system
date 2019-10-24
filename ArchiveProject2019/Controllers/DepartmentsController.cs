@@ -39,7 +39,7 @@ namespace ArchiveProject2019.Controllers
             }
 
 
-            return View(departments.ToList());
+            return View(departments.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
 

@@ -48,12 +48,12 @@
 
 
                 @Html.DropDownListFor(model => Model.TypeOfDisplayForm, new List<SelectListItem>() {
-     new SelectListItem(){Value="0",Text="النمط العادي",Selected=(Model.TypeOfDisplayDocument==0?true:false) } ,
-           new SelectListItem(){Value="1",Text="القسم الحالي والفروع",Selected=(Model.TypeOfDisplayDocument==1?true:false) },
-           new SelectListItem(){Value="2",Text="القسم الحالي والفروع جميعها" ,Selected=(Model.TypeOfDisplayDocument==2?true:false) } ,
-           new SelectListItem(){Value="3",Text=" القسم الحالي ونفس الاقسام من الرئيسي",Selected=(Model.TypeOfDisplayDocument==3?true:false)  },
-           new SelectListItem(){Value="4",Text=" القسم الحالي والقسم الرئيسي الخاص به " ,Selected=(Model.TypeOfDisplayDocument==4?true:false) },
-           new SelectListItem(){Value="5",Text="النمط الكامل",Selected=(Model.TypeOfDisplayDocument==5?true:false)  }
+     new SelectListItem(){Value="0",Text="القسم الحالي",Selected=(Model.TypeOfDisplayDocument==0?true:false) } ,
+           new SelectListItem(){Value="1",Text="القسم الحالي || الفروع المستوى الأول",Selected=(Model.TypeOfDisplayDocument==1?true:false) },
+           new SelectListItem(){Value="2",Text="القسم الحالي || جميع الفروع" ,Selected=(Model.TypeOfDisplayDocument==2?true:false) } ,
+           //new SelectListItem(){Value="3",Text=" القسم الحالي ونفس الاقسام من الرئيسي",Selected=(Model.TypeOfDisplayDocument==3?true:false)  },
+           new SelectListItem(){Value="3",Text=" القسم الحالي|| القسم الرئيسي " ,Selected=(Model.TypeOfDisplayDocument==4?true:false) },
+           new SelectListItem(){Value="4",Text="القسم الحالي || جميع الأقسام الرئيسية",Selected=(Model.TypeOfDisplayDocument==5?true:false)  }
 
 
                },
@@ -84,12 +84,12 @@
 
 
                 @Html.DropDownListFor(model => Model.TypeOfDisplayDocument, new List<SelectListItem>() {
-           new SelectListItem(){Value="0",Text="النمط العادي",Selected=(Model.TypeOfDisplayDocument==0?true:false) } ,
-           new SelectListItem(){Value="1",Text="القسم الحالي والفروع",Selected=(Model.TypeOfDisplayDocument==1?true:false) },
-           new SelectListItem(){Value="2",Text="القسم الحالي والفروع جميعها" ,Selected=(Model.TypeOfDisplayDocument==2?true:false) } ,
-           new SelectListItem(){Value="3",Text=" القسم الحالي ونفس الاقسام من الرئيسي",Selected=(Model.TypeOfDisplayDocument==3?true:false)  },
-           new SelectListItem(){Value="4",Text=" القسم الحالي والقسم الرئيسي الخاص به " ,Selected=(Model.TypeOfDisplayDocument==4?true:false) },
-           new SelectListItem(){Value="5",Text="النمط الكامل",Selected=(Model.TypeOfDisplayDocument==5?true:false)  }
+           new SelectListItem(){Value="0",Text="القسم الحالي",Selected=(Model.TypeOfDisplayDocument==0?true:false) } ,
+           new SelectListItem(){Value="1",Text="القسم الحالي || الفروع المستوى الأول",Selected=(Model.TypeOfDisplayDocument==1?true:false) },
+           new SelectListItem(){Value="2",Text="القسم الحالي || جميع الفروع" ,Selected=(Model.TypeOfDisplayDocument==2?true:false) } ,
+           //new SelectListItem(){Value="3",Text=" القسم الحالي ونفس الاقسام من الرئيسي",Selected=(Model.TypeOfDisplayDocument==3?true:false)  },
+           new SelectListItem(){Value="3",Text=" القسم الحالي|| القسم الرئيسي " ,Selected=(Model.TypeOfDisplayDocument==4?true:false) },
+           new SelectListItem(){Value="4",Text="القسم الحالي || جميع الأقسام الرئيسية",Selected=(Model.TypeOfDisplayDocument==5?true:false)  }
 
 
                },

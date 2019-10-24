@@ -1,6 +1,6 @@
-
-@model IEnumerable<ArchiveProject2019.Models.DocumentKind>
-    @using ArchiveProject2019.HelperClasses
+﻿
+@model IEnumerable<ArchiveProject2019.Models.Kind>
+@using ArchiveProject2019.HelperClasses
 
 
 @{
@@ -88,12 +88,12 @@
 }
 <p>
     <button id="btnNewModel" title="إضافة نوع جديد" class="btn btn-primary">أضافة نوع جديد</button>
-    <button id="btnRefreshModel" title="تحديث المحتوى"  class ="btn btn-default glyphicon glyphicon-refresh"></button>
+    <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
-<table  id="group" class="table table-striped table-bordered table-hover dt" style="text-align:center">
+<table id="group" class="table table-striped table-bordered table-hover dt" style="text-align:center">
 
-    <thead >
+    <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -110,11 +110,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
-            
+
 
             <th>
                 @Html.DisplayName("العمليات المتاحة")
-                
+
             </th>
         </tr>
     </thead>
@@ -140,14 +140,14 @@
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
 
-               
-                <td>
-                    <button data-Kind-id="@item.Id" title=" تعديل نوع معين" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> 
 
-                    @if(CheckDelete.CheckDocumentKindsDelete(item.Id)==true)
+                <td>
+                    <button data-Kind-id="@item.Id" title=" تعديل نوع معين" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
+
+                    @if (CheckDelete.CheckDocumentKindsDelete(item.Id) == true)
                     {
 
-                    <button data-Kind-id="@item.Id" title="حذف نوع معين" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                        <button data-Kind-id="@item.Id" title="حذف نوع معين" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
                     }
                 </td>
             </tr>

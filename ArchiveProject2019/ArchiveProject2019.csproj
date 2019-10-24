@@ -45,6 +45,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DotNetZip, Version=1.13.4.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.13.4\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -171,6 +183,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BackupRestoreController.cs" />
     <Compile Include="Controllers\DocumentPartiesController.cs" />
     <Compile Include="Controllers\DocumentTargetGroupsController.cs" />
     <Compile Include="Controllers\DocumentTargetDepartmentsController.cs" />
@@ -178,7 +191,7 @@
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\DocumentDepartmentsController.cs" />
     <Compile Include="Controllers\DocumentGroupsController.cs" />
-    <Compile Include="Controllers\DocumentKindsController.cs" />
+    <Compile Include="Controllers\KindsController.cs" />
     <Compile Include="Controllers\ErrorControllerController.cs" />
     <Compile Include="Controllers\FormDepartmentsController.cs" />
     <Compile Include="Controllers\FormGroupsController.cs" />
@@ -209,11 +222,9 @@
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-
-    <Compile Include="Migrations\201910080907557_as.cs" />
-    <Compile Include="Migrations\201910080907557_as.Designer.cs">
-      <DependentUpon>201910080907557_as.cs</DependentUpon>
-
+    <Compile Include="Migrations\201910232024444_as-force.cs" />
+    <Compile Include="Migrations\201910232024444_as-force.Designer.cs">
+      <DependentUpon>201910232024444_as-force.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -243,7 +254,7 @@
     <Compile Include="Models\PermissionsUser.cs" />
     <Compile Include="Models\RelatedDocument.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
-    <Compile Include="Models\TypMail.cs" />
+    <Compile Include="Models\TypeMail.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Models\Value.cs" />
     <Compile Include="Models\View.cs" />
@@ -874,6 +885,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -923,7 +936,6 @@
     <Content Include="Views\Shared\_LastView.cshtml" />
     <Content Include="Views\Documents\Create.cshtml" />
     <Content Include="Views\Documents\Index.cshtml" />
-    <Content Include="Views\Forms\Index.cshtml" />
     <Content Include="Views\Forms\Create.cshtml" />
     <Content Include="Views\Forms\Edit.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
@@ -967,7 +979,6 @@
     <Content Include="Views\UsersGroups\Delete.cshtml" />
     <Content Include="Views\Documents\AdvancedDocumentSearch.cshtml" />
     <Content Include="Views\Documents\_search.cshtml" />
-    <Content Include="Views\Kinds\Index.cshtml" />
     <Content Include="Views\Kinds\Create.cshtml" />
     <Content Include="Views\Parties\Index.cshtml" />
     <Content Include="Views\Parties\Create.cshtml" />
@@ -1008,12 +1019,24 @@
     <Content Include="Views\TypeMails\Edit.cshtml" />
     <Content Include="Views\TypeMails\Delete.cshtml" />
     <Content Include="Views\DashBoard\Index.cshtml" />
-
     <Content Include="Views\PermissionsUsers\Index.cshtml" />
     <Content Include="Views\Shared\LockOutError.cshtml" />
     <Content Include="Views\Users\LockOut.cshtml" />
     <Content Include="Views\Users\RegisterMasterUser.cshtml" />
-
+    <Content Include="Views\DocumentGroups\Create.cshtml" />
+    <Content Include="Views\DocumentGroups\Delete.cshtml" />
+    <Content Include="Views\DocumentGroups\Index.cshtml" />
+    <Content Include="Views\DocumentTargetGroups\Create.cshtml" />
+    <Content Include="Views\DocumentTargetGroups\Delete.cshtml" />
+    <Content Include="Views\DocumentTargetGroups\Index.cshtml" />
+    <Content Include="Views\DocumentTargetDepartments\Create.cshtml" />
+    <Content Include="Views\DocumentTargetDepartments\Delete.cshtml" />
+    <Content Include="Views\DocumentTargetDepartments\Index.cshtml" />
+    <Content Include="Views\Documents\Relate.cshtml" />
+    <Content Include="Views\Documents\Release.cshtml" />
+    <Content Include="Views\Forms\Index.cshtml" />
+    <Content Include="Views\Kinds\Index.cshtml" />
+    <Content Include="Views\BackupRestore\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1031,10 +1054,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-
-    <EmbeddedResource Include="Migrations\201910080907557_as.resx">
-      <DependentUpon>201910080907557_as.cs</DependentUpon>
-
+    <EmbeddedResource Include="Migrations\201910232024444_as-force.resx">
+      <DependentUpon>201910232024444_as-force.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

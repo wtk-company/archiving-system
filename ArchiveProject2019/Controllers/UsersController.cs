@@ -279,7 +279,7 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
             string Uid = this.User.Identity.GetUserId();
-            IEnumerable<ApplicationUser> Users = UserManager.Users.ToList();
+            IEnumerable<ApplicationUser> Users = UserManager.Users.OrderByDescending(a=>a.CreatedBy).ToList();
             return View(Users);
         }
 

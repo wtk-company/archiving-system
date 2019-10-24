@@ -18,6 +18,11 @@ namespace ArchiveProject2019.Models
         public string Name { get; set; }
 
 
+        
+   
+
+
+
         [Display(Name = " الملف")]
         public string FileUrl { get; set; }
 
@@ -59,7 +64,12 @@ namespace ArchiveProject2019.Models
         public string  CreatedAt { get; set; }
 
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [Display(Name = "تاريخ التنبيه")]
+        public string NotificationDate { get; set; }
+
+
+
         [Display(Name = "رقم الوثيقة")]
         public string DocumentNumber { set; get; }
 

@@ -66,7 +66,8 @@ namespace ArchiveProject2019.Controllers
             }
 
             var fields = db.Fields.Include(a=>a.Values).Where(a=>a.FormId==Id);
-            return View(fields.ToList());
+            return View(fields.OrderByDescending(a =>a.CreatedAt).ToList());
+
         }
 
 

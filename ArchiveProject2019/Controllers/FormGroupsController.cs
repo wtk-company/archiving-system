@@ -51,7 +51,7 @@ namespace ArchiveProject2019.Controllers
             }
             Session["Form_Id"] = Id;
             var formGroups = db.FormGroups.Where(a => a.FormId == Id).Include(f => f.CreatedBy).Include(f => f.Group).Include(f => f.Form);
-            return View(formGroups.ToList());
+            return View(formGroups.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
         // GET: FormDepartments/Details/5

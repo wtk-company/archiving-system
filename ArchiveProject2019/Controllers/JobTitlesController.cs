@@ -34,7 +34,7 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
             var jobTitles = db.JobTitles.Include(j => j.CreatedBy);
-            return View(jobTitles.ToList());
+            return View(jobTitles.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
 

@@ -48,7 +48,7 @@ namespace ArchiveProject2019.Controllers
             }
             Session["Document_Id"] = Id;
             var documentGroups = db.DocumentGroups.Where(a => a.DocumentId == Id).Include(f => f.CreatedBy).Include(f => f.Group).Include(f => f.document);
-            return View(documentGroups.ToList());
+            return View(documentGroups.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
         [Authorize]

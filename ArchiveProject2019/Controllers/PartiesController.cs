@@ -38,7 +38,7 @@ namespace ArchiveProject2019.Controllers
 
             ViewBag.Current = "Party";
             var parties = _context.Parties.Include(a=>a.CreatedBy).ToList();
-            return View(parties.ToList());
+            return View(parties.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
 
@@ -58,7 +58,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] ConcernedParty ConcernedParty)
+        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] Party Party)
 
         {
             ViewBag.Current = "Partys";

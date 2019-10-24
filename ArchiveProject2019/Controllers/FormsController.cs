@@ -39,7 +39,7 @@ namespace ArchiveProject2019.Controllers
             string UID = this.User.Identity.GetUserId();
             ViewBag.Current = "Forms";
             var forms = _context.Forms.Include(a => a.CreatedBy).Include(a => a.Documents).Include(a => a.CreatedBy);
-            return View(forms.ToList());
+            return View(forms.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
 

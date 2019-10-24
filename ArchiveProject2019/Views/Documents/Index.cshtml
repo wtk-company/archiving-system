@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ArchiveProject2019.Models.Document>
 
 @{
-    ViewBag.Title = "الوثائق";
+    ViewBag.Title = "وثائقي";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
@@ -95,85 +95,124 @@
 }
 
 <p>
-    <button id="btnNewModel" class="btn btn-default">إضافةوثيقة جديدة</button>
-    <a href="@Url.Action("AdvancedDocumentSearch")" class="btn btn-default">بحث متقدم</a>
+    <button id="btnNewModel" class="btn btn-primary">إضافةوثيقة جديدة</button>
+    <a href="@Url.Action("AdvancedDocumentSearch")" class="btn btn-success">بحث متقدم</a>
     <button id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
-<table id="form" class="table table-striped table-bordered table-hover dt" style="text-align:center">
+<table id="form" class="table table-striped  table-hover dt" style="text-align:center">
 <thead><tr>
     <th>
         @Html.DisplayNameFor(model => model.FormId)
     </th>
-    <th>
-        @Html.DisplayNameFor(model => model.DepartmentId)
-    </th>
-   
+
+
     <th>
         @Html.DisplayNameFor(model => model.Subject)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.Address)
     </th>
     <th>
         @Html.DisplayNameFor(model => model.CreatedAt)
     </th>
     <th>
-
+        @Html.DisplayName("العمليات المتاحة")
     </th>
 </tr>
     </thead>   
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Form.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Department.Name)
-                </td>
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
-                <td>
-                    <a href="@Url.Action("Edit","Documents",new { id=item.Id})" title="تفاصيل" class="btn-link  btn-xs  glyphicon glyphicon-edit"></a> |
-                    <a href="#" data-form-id="@item.Id" title="ربط وثيقة" class="js-relate glyphicon glyphicon-share"></a> |
-                    <a href="@Url.Action("GetRelatedDocument","Documents",new { id=item.Id})" title="عرض الوثائق المرتبطة" class="btn-link btn-xs  glyphicon glyphicon-folder-open"></a> |
-                    <a href="@Url.Action("Relate","Documents",new { id=item.Id})" title="ربط وثائق" class="btn-link js-Details  btn-xs  glyphicon glyphicon-share-alt"></a> |
-                    <a href="@Url.Action("Details","Documents",new { id=item.Id})"  title="تفاصيل" class="btn-link js-Details  btn-xs  glyphicon glyphicon-book"></a> 
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Form.Name)
+            </td>
 
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            خيارات إضافية
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
 
-                                <a href="@Url.Action("Create","DocumentDepartments",new { id=item.Id})" title="إضافة الاقسام للوثيقة" class="btn-link btn-sm">إضافة اقسام للوثيقة</a>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
 
-                            </li>
-                            <li>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
 
-                                <a href="@Url.Action("Index","DocumentDepartments",new { id=item.Id})" title="الاقسام الخاصة بالوثيقة" class="btn-link  btn-sm"> الأقسام الخاصة بالوثيقة </a>
 
-                            </li>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        الوثائق المرتبطة
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                       
+                        <li>
 
-                            <li>
+                            <a href="#" data-form-id="@item.Id" title="ربط وثيقة" class="btn-link js-relate btn-sm">ربط وثيقة جديدة</a>
 
-                                <a href="@Url.Action("Create","DocumentGroups",new { id=item.Id})" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة مجموعات للوثيقة</a>
+                        </li>
+                        <li>
 
-                            </li>
-                          
-                            <li>
+                            <a href="@Url.Action("GetRelatedDocument","Documents",new { id=item.Id})" title="عرض الوثائق المرتبطة" class="btn-link  btn-sm">عرض الوثائق المرتبطة</a>
 
-                                <a href="@Url.Action("Index","DocumentGroups",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> المجموعات الخاصة بالوثيقة </a>
+                        </li>
 
-                            </li>
+                        <li>
+
+                            <a href="@Url.Action("Relate","Documents",new { id=item.Id})" title="ربط وثائق" class="btn-link  btn-sm">ربط مع وثائق</a>
+
+                        </li>
+
+
+                    </ul>
+                </div>
+
+
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        خيارات إضافية
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+
+                        <li>
+
+                            <a href="@Url.Action("Edit","Documents",new { id=item.Id})" title="تعديل الوثيقة" class="btn-link  btn-xs">تعديل الوثيقة</a>
+
+                        </li>
+                        <li>
+
+                            <a href="@Url.Action("Details","Documents",new { id=item.Id})" title="تفاصيل الوثيقة" class="btn-link js-Details  btn-xs">تفاصيل الوثيقة</a>
+
+                        </li>
+                        <li>
+
+                            <a href="@Url.Action("Create","DocumentDepartments",new { id=item.Id})" title="إضافة الاقسام للوثيقة" class="btn-link btn-sm">إضافة اقسام للوثيقة</a>
+
+                        </li>
+                        <li>
+
+                            <a href="@Url.Action("Index","DocumentDepartments",new { id=item.Id})" title="الاقسام الخاصة بالوثيقة" class="btn-link  btn-sm"> الأقسام الخاصة بالوثيقة </a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="@Url.Action("Create","DocumentGroups",new { id=item.Id})" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة مجموعات للوثيقة</a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="@Url.Action("Index","DocumentGroups",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> المجموعات الخاصة بالوثيقة </a>
+
+                        </li>
                         @if (item.TypeMail.Type == 3)
-                        { 
+                        {
                             <li>
                                 <a href="@Url.Action("Create","DocumentTargetGroups",new { id=item.Id})" title="إضافة مجموعات مستهدفة" class="btn-link btn-sm">إضافة مجموعات مستهدفة</a>
                             </li>
@@ -196,12 +235,12 @@
                                 <a href="@Url.Action("Index","DocumentParties",new { id=item.Id})" title="الجهات المستهدفة" class="btn-link  btn-sm"> الجهات المستهدفة </a>
                             </li>
                         }
-                        </ul>
-                    </div>
-                   
+                    </ul>
+                </div>
 
-                </td>
-            </tr>
+
+            </td>
+        </tr>
         }
     </tbody>
    
@@ -213,18 +252,18 @@
 @Html.Partial("_LastView")
 
 
-
-
-<div class="modal" tabindex="-1" id="NewModal" sdata-keyboard="false" data-backdrop="static">
+<div class="modal fade" tabindex="-1" id="NewModal"
+     data-keyboard="true" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
                 <h4 id="changeText" class="modal-title"></h4>
             </div>
-            <div class="modal-body" id="partialPlaceHolder">
+            <div class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
 
             </div>
+
         </div>
     </div>
 </div>
@@ -234,7 +273,7 @@
 
     $("#btnNewModel").on("click", function () {
 
-        $("#changeText").text("القائمة الفرعية- إختيار نموذج معين");
+        $("#changeText").text("إختيار نموذج معين");
         var url = '@Url.Action("form", "Documents")'
 
         $("#partialPlaceHolder").load(url, function () {
@@ -244,7 +283,7 @@
 
     $("#form").on("click", ".js-relate", function () {
 
-        $("#changeText").text("القائمة الفرعية- إختيار نموذج معين");
+        $("#changeText").text(" إختيار نموذج معين");
 
         var url = '@Url.Action("RelateDocument", "Documents")'
         url = url + '/' + $(this).attr("data-form-id");

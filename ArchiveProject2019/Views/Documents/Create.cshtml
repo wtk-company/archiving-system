@@ -18,50 +18,50 @@
 
 
 
-    <div class="form-horizontal">
+<div class="form-horizontal">
 
 
-        @Html.HiddenFor(a => Model.Document.FormId)
-        @Html.HiddenFor(a => Model.Document.Name)
-        @Html.HiddenFor(a => Model.DocId)
+    @Html.HiddenFor(a => Model.Document.FormId)
+    @Html.HiddenFor(a => Model.Document.Name)
+    @Html.HiddenFor(a => Model.DocId)
 
-        <div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.DepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
-                    @Html.ValidationMessageFor(model => model.Document.DepartmentId, "", new { @class = "text-danger" })
-                </div>
+    <div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.DepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
+                @Html.ValidationMessageFor(model => model.Document.DepartmentId, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.TypeMailId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.TypeMailId, (SelectList)ViewBag.TypeMailId, "اختر نوع البريد", htmlAttributes: new { @class = "form-control chosen-select", @id = "TOGGLETypeOfMail" })
-                    @Html.ValidationMessageFor(model => model.Document.TypeMailId, "", new { @class = "text-danger" })
-                </div>
+    </div>
+    <div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.TypeMailId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Document.TypeMailId, (SelectList)ViewBag.TypeMailId, "اختر نوع البريد", htmlAttributes: new { @class = "form-control chosen-select", @id = "TOGGLETypeOfMail" })
+                @Html.ValidationMessageFor(model => model.Document.TypeMailId, "", new { @class = "text-danger" })
             </div>
         </div>
-        @*Start Take Mail*@
-        <div class="TakeMail">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Document.MailingNumber, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Document.MailingNumber, "", new { @class = "text-danger" })
-                </div>
+    </div>
+    @*Start Take Mail*@
+    <div class="TakeMail">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Document.MailingNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Document.MailingNumber, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="TakeMail">
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Document.MailingDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
-                    @Html.ValidationMessageFor(model => model.Document.MailingDate, "", new { @class = "text-danger" })
-                </div>
+    </div>
+    <div class="TakeMail">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Document.MailingDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
+                @Html.ValidationMessageFor(model => model.Document.MailingDate, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
     @if (((SelectList)ViewBag.Parties).Count() <= 0)
     {
         <div class="form-group">
@@ -86,9 +86,9 @@
             </div>
         </div>
     }
-        @*End Take Mail*@
+    @*End Take Mail*@
 
-        @*Start Outging Mail*@
+    @*Start Outging Mail*@
     @if (((SelectList)ViewBag.Parties).Count() <= 0)
     {
         <div class="OutgoingMail">
@@ -115,9 +115,9 @@
             </div>
         </div>
     }
-        @*End Outgoing Mail*@
+    @*End Outgoing Mail*@
 
-        @*Start Internal Mail*@
+    @*Start Internal Mail*@
     @if (((SelectList)ViewBag.Departments).Count() <= 0)
     {
         <div class="InternalMail">
@@ -171,138 +171,149 @@
             </div>
         </div>
     }
-        @*End Internal Mail*@
-        <div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.KindId, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.Document.KindId, ViewBag.kinds as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
-                    @Html.ValidationMessageFor(model => model.Document.KindId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
+    @*End Internal Mail*@
+    <div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Document.DocumentNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Document.KindId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Document.DocumentNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Document.DocumentNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Document.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Document.Subject, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Document.Subject, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Document.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Document.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Document.Address, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Document.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Document.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Document.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Document.DocumentDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Document.DocumentDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
-                @Html.ValidationMessageFor(model => model.Document.DocumentDate, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @*@Html.EditorFor(model => model.Document.FileUrl, new { htmlAttributes = new { @class = "form-control" } })*@
-                <input type="file" name="UploadFile" multiple />
-                @Html.ValidationMessageFor(model => model.Document.FileUrl, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Document.Notes, htmlAttributes: new { @id = "NoteId", style = "color:blue", title = "انقر لإظهار خانة الملاحظة", @class = "control-label col-md-2 " })
-            <div id="NoteSlide" class="col-md-10">
-                @*<textarea class="ckeditor" name="Notes"></textarea>*@
-
-                @Html.TextAreaFor(model => model.Document.Notes, new { @id = "ck", @class = "ckeditor" })
-                @Html.ValidationMessageFor(model => model.Document.Notes, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @if (Model.FieldsValues != null)
-        {
-            for (int i = 0; i < Model.FieldsValues.Values.Count; i++)
-            {
-                <div class="form-group">
-                    <div class="control-label col-md-2">
-                        @Model.FieldsValues.Fields[i].Name
-                    </div>
-                    <div class="col-md-10">
-                        @*@Html.EditorFor(model => model.Values[i].FieldValue, new { htmlAttributes = new { @class = "form-control" } })*@
-                        @switch (Model.FieldsValues.Fields[i].Type)
-                        {
-                            case "bool":
-                                @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "true")@:نعم
-                                @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "false")@:لا
-
-                                break;
-
-
-                            case "float":
-                            case "text":
-                            case "phone":
-                            case "email":
-                                @*@Model.FieldsValues.Fields[i].IsRequired*@
-                                @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control" })
-                                break;
-
-
-                            case "file":
-                                @*@Model.FieldsValues.Fields[i].IsRequired*@
-                                <input type="file" name="FieldFile" />
-
-                                break;
-
-                            case "date":
-                                @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control", @type = "date" })
-                                break;
-
-                                @*@Html.RadioButton(Model.Values[i].FieldValue,"نعم")
-                                    @Html.RadioButton(Model.Values[i].FieldValue, "لا")*@
-
-                                //break;
-                        }
-                        @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
-
-                @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
-
-                @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
-                @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
-                @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
-            }
-        }
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="إضافة وثيقة جديدة" class="btn btn-primary" />
+                @Html.DropDownListFor(model => model.Document.KindId, ViewBag.kinds as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
+                @Html.ValidationMessageFor(model => model.Document.KindId, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.DocumentNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Document.DocumentNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Document.DocumentNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Document.Subject, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Document.Subject, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Document.Address, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Document.Address, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Document.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Document.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.DocumentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Document.DocumentDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
+            @Html.ValidationMessageFor(model => model.Document.DocumentDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.NotificationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Document.NotificationDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
+            @Html.ValidationMessageFor(model => model.Document.NotificationDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.Document.FileUrl, new { htmlAttributes = new { @class = "form-control" } })*@
+            <input type="file" name="UploadFile" multiple />
+            @Html.ValidationMessageFor(model => model.Document.FileUrl, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.Notes, htmlAttributes: new { @id = "NoteId", style = "color:blue", title = "انقر لإظهار خانة الملاحظة", @class = "control-label col-md-2 " })
+        <div id="NoteSlide" class="col-md-10">
+            @*<textarea class="ckeditor" name="Notes"></textarea>*@
+
+            @Html.TextAreaFor(model => model.Document.Notes, new { @id = "ck", @class = "ckeditor" })
+            @Html.ValidationMessageFor(model => model.Document.Notes, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @if (Model.FieldsValues != null)
+    {
+        for (int i = 0; i < Model.FieldsValues.Values.Count; i++)
+        {
+            <div class="form-group">
+                <div class="control-label col-md-2">
+                    @Model.FieldsValues.Fields[i].Name
+                </div>
+                <div class="col-md-10">
+                    @*@Html.EditorFor(model => model.Values[i].FieldValue, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @switch (Model.FieldsValues.Fields[i].Type)
+                    {
+                        case "bool":
+                            @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "true")@:نعم
+                            @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "false")@:لا
+
+                            break;
+
+
+                        case "float":
+                        case "text":
+                        case "phone":
+                        case "email":
+                            @*@Model.FieldsValues.Fields[i].IsRequired*@
+                            @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control" })
+                            break;
+
+
+                        case "file":
+                            @*@Model.FieldsValues.Fields[i].IsRequired*@
+                            <input type="file" name="FieldFile" />
+
+                            break;
+
+                        case "date":
+                            @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control", @type = "date" })
+                            break;
+
+                            @*@Html.RadioButton(Model.Values[i].FieldValue,"نعم")
+                                @Html.RadioButton(Model.Values[i].FieldValue, "لا")*@
+
+                            //break;
+                    }
+                    @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
+
+            @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
+
+            @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
+            @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
+            @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
+        }
+    }
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="إضافة وثيقة جديدة" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
 }
 
 

@@ -52,19 +52,19 @@ namespace ArchiveProject2019.HelperClasses
 
                         break;
 
+                    //case 3:
+                    //    FM = UserDepartmentForms.GetUserDepartmentAndAllSiblings(UsertID);
+                    //    UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
+
+                    //    break;
+
                     case 3:
-                        FM = UserDepartmentForms.GetUserDepartmentAndAllSiblings(UsertID);
-                        UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
-
-                        break;
-
-                    case 4:
                         FM = UserDepartmentForms.GetUserDepartmentFormsAndParentDepartmentForms(UsertID);
                         UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
 
                         break;
 
-                    case 5:
+                    case 4:
                         FM = UserDepartmentForms.GetUserDepartmentFormsAndAllParentDepartmentForms(UsertID);
 
                         UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();

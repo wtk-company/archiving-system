@@ -51,7 +51,7 @@ namespace ArchiveProject2019.Controllers
             }
             Session["document_Id"] = Id;
             var DocumentDepartments = db.DocumentDepartments.Where(a => a.DocumentId == Id).Include(a => a.CreatedBy).Include(a => a.Department).Include(a => a.document).ToList();
-            return View(DocumentDepartments.ToList());
+            return View(DocumentDepartments.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
         [Authorize]

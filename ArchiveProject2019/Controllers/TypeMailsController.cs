@@ -39,7 +39,7 @@ namespace ArchiveProject2019.Controllers
 
             ViewBag.Current = "TypeMails";
             var TypeMails = _context.TypeMails.Include(a => a.CreatedBy).ToList();
-            return View(TypeMails.ToList());
+            return View(TypeMails.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
         [Authorize]
@@ -59,7 +59,7 @@ namespace ArchiveProject2019.Controllers
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
-        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] TypMail TypeMail)
+        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] TypeMail TypeMail)
 
         {
             ViewBag.Current = "TypeMails";
@@ -112,7 +112,7 @@ namespace ArchiveProject2019.Controllers
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
-        public ActionResult Edit(TypMail mail)
+        public ActionResult Edit(TypeMail mail)
 
         {
 

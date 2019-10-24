@@ -180,13 +180,13 @@ namespace ArchiveProject2019.Controllers
 
 
                 //Document Kind:
-                info.TotalDocumentKindCount = db.DocumentKinds.Count();
-                info.LastDocumentKindCreate = db.DocumentKinds.Count() != 0 ? db.DocumentKinds.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
-                info.LastDocumentKindUpdate = db.DocumentKinds.Count(a => a.UpdatedAt != null) != 0 ? db.DocumentKinds.OrderByDescending(a => a.UpdatedAt).FirstOrDefault().UpdatedAt : "";
+                info.TotalDocumentKindCount = db.Kinds.Count();
+                info.LastDocumentKindCreate = db.Kinds.Count() != 0 ? db.Kinds.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+                info.LastDocumentKindUpdate = db.Kinds.Count(a => a.UpdatedAt != null) != 0 ? db.Kinds.OrderByDescending(a => a.UpdatedAt).FirstOrDefault().UpdatedAt : "";
 
-                int HightDocumentKindUsingC = db.Documents.Include(a => a.documentKind).Count(a => a.documentKind != null) == 0 ? 0 :
+                int HightDocumentKindUsingC = db.Documents.Include(a => a.Kind).Count(a => a.Kind != null) == 0 ? 0 :
 
-                  db.Documents.Include(a => a.documentKind).GroupBy(a => a.documentKind.Name)
+                  db.Documents.Include(a => a.Kind).GroupBy(a => a.Kind.Name)
                   .Select(a => new
                   {
 
@@ -198,7 +198,7 @@ namespace ArchiveProject2019.Controllers
                 if (HightDocumentKindUsingC != 0)
                 {
                     List<string> MName = new List<string>();
-                    MName = db.Documents.Include(a => a.documentKind).GroupBy(a => a.documentKind.Name)
+                    MName = db.Documents.Include(a => a.Kind).GroupBy(a => a.Kind.Name)
                     .Select(a => new
                     {
 

@@ -87,24 +87,24 @@ namespace ArchiveProject2019.HelperClasses
         }
 
 
-        public static List<int> GetUserDepartmentAndAllSiblings(string UserId)
-        {
-            ApplicationDbContext db = new ApplicationDbContext();
-            List<int> FormsId = new List<int>();
-            //Department Of user:
-            int DepartmentId = db.Users.Find(UserId).DepartmentId.Value;
+        //public static List<int> GetUserDepartmentAndAllSiblings(string UserId)
+        //{
+        //    ApplicationDbContext db = new ApplicationDbContext();
+        //    List<int> FormsId = new List<int>();
+        //    //Department Of user:
+        //    int DepartmentId = db.Users.Find(UserId).DepartmentId.Value;
 
-            //Department and parent
-            List<int> Departments = DepartmentsID.GetDepartmentIdAndSlibingsID(DepartmentId);
+        //    //Department and parent
+        //    List<int> Departments = DepartmentsID.GetDepartmentIdAndSlibingsID(DepartmentId);
 
-            FormsId = db.FormDepartments.Where(a => Departments.Contains(a.DepartmentId) && a.Is_Active == true)
-                .Select(a => a.FormId).Distinct().ToList();
-
-
+        //    FormsId = db.FormDepartments.Where(a => Departments.Contains(a.DepartmentId) && a.Is_Active == true)
+        //        .Select(a => a.FormId).Distinct().ToList();
 
 
-            return FormsId;
-        }
+
+
+        //    return FormsId;
+        //}
 
 
 

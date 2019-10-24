@@ -58,7 +58,7 @@ namespace ArchiveProject2019.Controllers
 
             //Permission Role Informations:
             var permissionRoles = db.PermissionRoles.Where(a=>a.RoleId.Equals(Id)).Include(p => p.Permission).Include(p => p.Role).Include(a=>a.CreatedBy);
-            return View(permissionRoles.ToList());
+            return View(permissionRoles.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
         [Authorize]

@@ -37,7 +37,7 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
             
-            return View(Groups);
+            return View(Groups.OrderByDescending(a=>a.CreatedAt).ToList());
         }
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsCreate")]
