@@ -14,7 +14,7 @@
 
 
 @Html.Partial("_StartView")
-<a href="@Url.Action("index", "Document")" class="btn btn-default">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
+<a href="@Url.Action("index", "Documents")" class="btn btn-default">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
 
 <div>
 
@@ -119,7 +119,24 @@
             @Html.DisplayNameFor(model => model.Document.FileUrl)
         </dt>
         <dd>
-            @{
+
+            @if (Model.IsSaveInDb)
+            {
+                for (int i = 0; i < Model.FilesStoredInDbs.Count; i++)
+                {
+                    <label style="margin-top: 30px;">@Model.FilesStoredInDbs[i].FileName</label>
+                    <div>
+                        @Html.ActionLink(" فتح الملف", "DisplayDocument", "Documents",
+                       new { id = Model.FilesStoredInDbs[i].Id },
+                       new { @class = "glyphicon glyphicon-open btn btn-primary" }) |
+                        @Html.ActionLink(" تنزيل الملف", "DownloadDocument", "Documents",
+                       new { id = Model.FilesStoredInDbs[i].Id },
+                       new { @class = "glyphicon glyphicon-download btn btn-success" })
+                    </div>
+                }
+            }
+            else
+            {
                 var urls = Model.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
                 var names = Model.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
 
@@ -127,11 +144,12 @@
                 {
                     <label style="margin-top: 30px;">@names[i]</label>
                     <div>
-                        @Html.ActionLink(" فتح الملف", "ShowPdf", "Documents", new { fileName = urls[i] }, new { @class = "glyphicon glyphicon-open btn btn-primary" }) |
+                        @Html.ActionLink(" فتح الملف", "DisplayDocument", "Documents", new { fileName = urls[i] }, new { @class = "glyphicon glyphicon-open btn btn-primary" }) |
                         @Html.ActionLink(" تنزيل الملف", "Download", "Documents", new { fileName = urls[i] }, new { @class = "glyphicon glyphicon-download btn btn-success" })
                     </div>
                 }
             }
+
         </dd>
 
         <dt>
@@ -141,27 +159,11 @@
         <dd style="overflow:auto;border:2px solid #ef7979;padding:10px">
             @Html.Raw(Model.Document.Notes)
         </dd>
-
-
-        @foreach (var value in Model.Values)
-        {
-            <dt>
-                @value.Field.Name
-            </dt>
-            <dd>
-                @if (!value.Field.Type.Equals("file"))
-                {
-                    @value.FieldValue
-                }
-                else
-                {
-                    <button>Here for show</button>
-                    <button>Here for Download</button>
-                }
-            </dd>
-
-        }
     </dl>
 </div>
+
+
+
+
 
 @Html.Partial("_LastView")

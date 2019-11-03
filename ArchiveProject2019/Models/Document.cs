@@ -122,5 +122,6 @@ namespace ArchiveProject2019.Models
         public ICollection<Value> Values { set; get; }
         public ICollection<RelatedDocument> RelatedDocuments { set; get; }
         public ICollection<DocumentParty> DocumentParties { set; get; }
+        public ICollection<FilesStoredInDb> FilesStoredInDbs { set; get; }
     }
 }

@@ -65,7 +65,7 @@ namespace ArchiveProject2019.Controllers
 
                 return File(filePath, System.Net.Mime.MediaTypeNames.Application.Octet, downloadfilename);
             }
-            catch (Exception ex)
+            catch
             {
               return  RedirectToAction("Index", new { Id = "BackupDbError" });
             }
@@ -180,7 +180,7 @@ namespace ArchiveProject2019.Controllers
                 System.IO.File.Delete(path);
 
             }
-            catch(Exception ex){
+            catch {
 
 
                 String mycon = "Data Source=DESKTOP-B3DK4HG;Initial Catalog=master;Integrated Security=True";
@@ -257,7 +257,7 @@ namespace ArchiveProject2019.Controllers
 
                 return File(filePath, System.Net.Mime.MediaTypeNames.Application.Octet, downloadfilename);
             }
-            catch (Exception ex)
+            catch
             {
                 return RedirectToAction("Index", new { Id = "BackupFilesError" });
 
@@ -335,7 +335,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("Index", new { Id = "RestoreFilesSuccess" });
 
             }
-            catch (Exception ex)
+            catch 
             {
                 extra.Dispose();
                
