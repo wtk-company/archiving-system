@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ArchiveProject2019.Models;
+using Microsoft.AspNet.Identity;
+
 namespace ArchiveProject2019.HelperClasses
 {
     public class CheckDelete
@@ -47,6 +49,12 @@ namespace ArchiveProject2019.HelperClasses
                 return false;
 
             }
+
+           string CurerentUserId= HttpContext.Current.User.Identity.GetUserId();
+
+         
+
+
             return true;
         }
 
