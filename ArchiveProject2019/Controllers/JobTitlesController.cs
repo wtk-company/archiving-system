@@ -90,12 +90,35 @@ namespace ArchiveProject2019.Controllers
                     jobTitle.CreatedById = this.User.Identity.GetUserId();
                 db.JobTitles.Add(jobTitle);
                 db.SaveChanges();
+
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = db.Users.Where(a => a.RoleName.Equals("Master") && !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم إضافة مسمى وظيفي جديد : " + jobTitle.Name
+                       ,
+                        NotificationOwnerId = UserId
+                    };
+                    db.Notifications.Add(notification);
+                }
+                db.SaveChanges();
+
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
         
             }
 
 
-            return View(jobTitle);
+            return RedirectToAction("Index");
         }
 
 
@@ -114,6 +137,8 @@ namespace ArchiveProject2019.Controllers
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
+            ViewBag.OldName = jobTitle.Name;
+
             return View(jobTitle);
         }
 
@@ -124,7 +149,7 @@ namespace ArchiveProject2019.Controllers
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
-        public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember,TypeOfDisplayForm,TypeOfDisplayDocument")] JobTitle jobTitle)
+        public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember,TypeOfDisplayForm,TypeOfDisplayDocument")] JobTitle jobTitle,string OldName)
         {
             ViewBag.Current = "JobTitles";
 
@@ -160,7 +185,34 @@ namespace ArchiveProject2019.Controllers
                 jobTitle.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
             
                 db.Entry(jobTitle).State = EntityState.Modified;
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
                 db.SaveChanges();
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<string> UserId1 = db.Users.Where(a => a.RoleName.Equals("Master") && !a.Id.Equals(UserId)).Select(a => a.Id).ToList();
+                List<string> UsersId2 = db.Users.Where(a => a.JobTitleId == jobTitle.Id).Select(a => a.Id).ToList();
+                List<string> UsersId = UserId1.DefaultIfEmpty().Union(UsersId2.DefaultIfEmpty()).ToList();
+                List<ApplicationUser> UsersNot = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                foreach (ApplicationUser user in UsersNot)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم تعديل المسمى الوظيفي من :" + OldName + " إلى :" + jobTitle.Name
+                       ,
+                        NotificationOwnerId = UserId
+                    };
+                    db.Notifications.Add(notification);
+                }
+                db.SaveChanges();
+
+
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
 
             }
@@ -206,6 +258,28 @@ namespace ArchiveProject2019.Controllers
 
             JobTitle jobTitle = db.JobTitles.Find(id);
             db.JobTitles.Remove(jobTitle);
+            db.SaveChanges();
+
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            List<ApplicationUser> Users = db.Users.Where(a => a.RoleName.Equals("Master") && !a.Id.Equals(UserId)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم حذف المسمى الوظيفي  : " + jobTitle.Name
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
             db.SaveChanges();
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
 

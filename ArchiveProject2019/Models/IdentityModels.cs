@@ -167,6 +167,8 @@ namespace ArchiveProject2019.Models
         // Target Groups and Documents for Internal Mail
         public DbSet<DocumentTargetDepartment> DocumentTargetDepartments { set; get; }
         public DbSet<DocumentTargetGroup> DocumentTargetGroups { set; get; }
+        public DbSet<Notification> Notifications { set; get; }
+
 
 
         public ApplicationDbContext()

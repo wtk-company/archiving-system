@@ -76,7 +76,33 @@ namespace ArchiveProject2019.Controllers
                 form.CreatedById = User.Identity.GetUserId();
 
                 _context.Forms.Add(form);
+
+
                 _context.SaveChanges();
+
+
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = _context.Users.Where(a => a.RoleName.Equals("Master") && !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم إضافة نموذج جديد : " + form.Name
+                       ,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
+                _context.SaveChanges();
+
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
 
             }
@@ -106,6 +132,7 @@ namespace ArchiveProject2019.Controllers
             }
 
 
+            ViewBag.Oldname = form.Name;
 
             return View(form);
         }
@@ -115,7 +142,7 @@ namespace ArchiveProject2019.Controllers
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormsEdit")]
-        public ActionResult Edit([Bind(Include = "Id,Name,CreatedAt,CreatedById")] Form form)
+        public ActionResult Edit([Bind(Include = "Id,Name,CreatedAt,CreatedById")] Form form,string OldName)
         {
             ViewBag.Current = "Forms";
 
@@ -129,8 +156,37 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
                 form.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
                 _context.Entry(form).State = EntityState.Modified;
+                _context.SaveChanges();
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+
+                List<int> DepartmentsFormId = _context.FormDepartments.Where(a => a.FormId == form.Id).Select(a => a.DepartmentId).ToList();
+                List<int> GroupsFormId = _context.FormGroups.Where(a => a.FormId == form.Id).Select(a => a.GroupId).ToList();
+                List<string> UserId1 = _context.Users.Where(a => a.RoleName.Equals("Master") && !a.Id.Equals(UserId)).Select(a => a.Id).ToList();
+                List<string> UsersId2 = _context.Users.Where(a => DepartmentsFormId.Contains(a.DepartmentId.Value)).Select(a=>a.Id).ToList();
+                List<string> UserId3 = _context.UsersGroups.Where(a => GroupsFormId.Contains(a.GroupId)).Select(a => a.UserId).ToList();
+
+                List<string> UsersId = UserId1.DefaultIfEmpty().Union(UsersId2.DefaultIfEmpty()).Union(UserId3.DefaultIfEmpty()).Distinct().ToList();
+                List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم تعديل اسم النموذج من :" + OldName + " إلى :" + form.Name
+                       ,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
                 _context.SaveChanges();
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
             }
@@ -189,6 +245,31 @@ namespace ArchiveProject2019.Controllers
             }
 
             _context.Forms.Remove(cat);
+            _context.SaveChanges();
+
+
+
+
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            List<ApplicationUser> Users = _context.Users.Where(a => a.RoleName.Equals("Master") && !a.Id.Equals(UserId)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم إزالة نموذج  : " + cat.Name
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                _context.Notifications.Add(notification);
+            }
             _context.SaveChanges();
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
 

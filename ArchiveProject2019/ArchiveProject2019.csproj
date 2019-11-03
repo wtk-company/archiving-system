@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -47,9 +47,6 @@
   <ItemGroup>
     <Reference Include="DotNetZip, Version=1.13.4.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.13.4\lib\net40\DotNetZip.dll</HintPath>
-    </Reference>
-    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -222,14 +219,15 @@
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201910232024444_as-force.cs" />
-    <Compile Include="Migrations\201910232024444_as-force.Designer.cs">
-      <DependentUpon>201910232024444_as-force.cs</DependentUpon>
+    <Compile Include="Migrations\201910241615525_ahmad-force.cs" />
+    <Compile Include="Migrations\201910241615525_ahmad-force.Designer.cs">
+      <DependentUpon>201910241615525_ahmad-force.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DocumentTargetGroup.cs" />
     <Compile Include="Models\DocumentTargetDepartment.cs" />
+    <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Party.cs" />
     <Compile Include="Models\DocumentDepartment.cs" />
     <Compile Include="Models\DocumentGroup.cs" />
@@ -897,6 +895,41 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Uploads\201909290315411911.jpg" />
+    <Content Include="Uploads\2019092903154124148-512.png" />
+    <Content Include="Uploads\2019092903154124172-512.png" />
+    <Content Include="Uploads\2019092903154650%3b.jpg" />
+    <Content Include="Uploads\20190929031546531-art-logo-template-mostafa-asmer.jpg" />
+    <Content Include="Uploads\201909290315470022.jpg" />
+    <Content Include="Uploads\201909290315471041BhKPIAyjL.png" />
+    <Content Include="Uploads\20191005112331220f01079269.jpg" />
+    <Content Include="Uploads\2019100604165250172-512.png" />
+    <Content Include="Uploads\2019100607190517172-512.png" />
+    <Content Include="Uploads\201910060719291941BhKPIAyjL.png" />
+    <Content Include="Uploads\201910060820451222.jpg" />
+    <Content Include="Uploads\201910060820451841BhKPIAyjL.png" />
+    <Content Include="Uploads\201910060820453492edb0f36291c17bf125e8a120f08b9b-email-flat-icon-by-vexels.png" />
+    <Content Include="Uploads\201910070416261122.jpg" />
+    <Content Include="Uploads\2019100709094914%3b.jpg" />
+    <Content Include="Uploads\2019100802141037148-512.png" />
+    <Content Include="Uploads\201910080315125611.jpg" />
+    <Content Include="Uploads\201910080315134811.jpg" />
+    <Content Include="Uploads\2019100803151348148-512.png" />
+    <Content Include="Uploads\2019100803151348172-512.png" />
+    <Content Include="Uploads\20191008031513489d31f731441307.565091943ecf8.png" />
+    <Content Include="Uploads\20191008031516101-art-logo-template-mostafa-asmer.jpg" />
+    <Content Include="Uploads\201910080315161041BhKPIAyjL.png" />
+    <Content Include="Uploads\2019100803151705%3b.jpg" />
+    <Content Include="Uploads\20191008031517051-art-logo-template-mostafa-asmer.jpg" />
+    <Content Include="Uploads\20191008031517055d0a1fabb8189d3ca446fa2f88a4b4c3.gif" />
+    <Content Include="Uploads\2019100812005330172-512.png" />
+    <Content Include="Uploads\2019101702023754IMG_20181120_191355.jpg" />
+    <Content Include="Uploads\2019101702023905IMG_20181120_191509.jpg" />
+    <Content Include="Uploads\2019102006185945IMG_20181120_191355.jpg" />
+    <Content Include="Uploads\2019102007190148IMG_20181120_191509.jpg" />
+    <Content Include="Uploads\2019102011232459IMG_20181120_191431.jpg" />
+    <Content Include="Uploads\2019102011234144IMG_20181120_191511.jpg" />
+    <Content Include="Uploads\20191024121212042019101702023754IMG_20181120_191355.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1037,10 +1070,21 @@
     <Content Include="Views\Forms\Index.cshtml" />
     <Content Include="Views\Kinds\Index.cshtml" />
     <Content Include="Views\BackupRestore\Index.cshtml" />
+    <Content Include="Views\Shared\_NotificationsCount.cshtml" />
+    <Content Include="Views\Shared\_NotificationsMessage.cshtml" />
+    <Content Include="Views\DashBoard\NonSeenNotifications.cshtml" />
+    <Content Include="Views\Shared\_NonSeenNotifications.cshtml" />
+    <Content Include="Views\DashBoard\SeenNotifications.cshtml" />
+    <Content Include="Views\Shared\_DocumentNotificationCount.cshtml" />
+    <Content Include="Views\Shared\_DocumentsNotificationMessage.cshtml" />
+    <Content Include="Uploads\2019093004160752cautrucdulieu_gtrinh_english_c_and_datastructure_dhcn_200811.pdf" />
+    <Content Include="Uploads\2019093004163830_-3.pdf" />
+    <Content Include="Uploads\2019093004163842_-3.pdf" />
+    <Content Include="Uploads\sample.BAK" />
+    <Content Include="Uploads\sample.zip" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1054,8 +1098,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201910232024444_as-force.resx">
-      <DependentUpon>201910232024444_as-force.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201910241615525_ahmad-force.resx">
+      <DependentUpon>201910241615525_ahmad-force.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -1091,7 +1135,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ArchiveProject2019.Models.Notification>
+
+
+@if (Model.Count() > 0)
+{
+
+    foreach (var v in Model)
+    {
+        <li>
+            <a>
+
+                <span class="time">@v.CreatedAt </span>
+                <span class="image">
+                    <img src="~/Content/DashBoard/build/images/user.png"
+                         alt="Profile Image" />
+                </span>
+                <span>
+                    <span>@v.NotificationOwnerId</span>
+
+                </span>
+                <span class="message">
+                    @v.Message
+                </span>
+            </a>
+        </li>
+    }
+
+
+}
+else
+{
+    <li>
+        لا يوجد أي وثائق للتنبيه
+    </li>
+}

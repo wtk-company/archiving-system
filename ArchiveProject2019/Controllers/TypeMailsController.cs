@@ -71,12 +71,36 @@ namespace ArchiveProject2019.Controllers
             }
             if (ModelState.IsValid)
             {
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
 
                 TypeMail.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 TypeMail.CreatedById = User.Identity.GetUserId();
 
                 _context.TypeMails.Add(TypeMail);
                 _context.SaveChanges();
+
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = _context.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم إضافة نوع جديد من البريد : " + TypeMail.Name,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
+                _context.SaveChanges();
+
+
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
 
             }
@@ -103,6 +127,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
+            ViewBag.OldName = mail.Name;
             return View(mail);
         }
 
@@ -112,7 +137,7 @@ namespace ArchiveProject2019.Controllers
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
-        public ActionResult Edit(TypeMail mail)
+        public ActionResult Edit(TypeMail mail,string OldName)
 
         {
 
@@ -125,8 +150,30 @@ namespace ArchiveProject2019.Controllers
             {
 
                 mail.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
                 _context.Entry(mail).State = EntityState.Modified;
+                _context.SaveChanges();
+
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = _context.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم تعديل اسم نوع البريد من : " + OldName + " إلى :" + mail.Name
+                        ,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
                 _context.SaveChanges();
 
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
@@ -172,6 +219,29 @@ namespace ArchiveProject2019.Controllers
 
             _context.TypeMails.Remove(mail);
             _context.SaveChanges();
+
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            List<ApplicationUser> Users = _context.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم حذف نوع من البريد : " + mail.Name,
+                    NotificationOwnerId = UserId
+                };
+                _context.Notifications.Add(notification);
+            }
+            _context.SaveChanges();
+
+
 
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
         }

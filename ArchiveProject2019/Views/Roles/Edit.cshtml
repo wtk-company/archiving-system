@@ -10,10 +10,10 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-    @Html.Hidden("RoleId", (string)ViewBag.RoleId )
+    @Html.Hidden("OldName", (string)ViewBag.OldName)
+    @Html.Hidden("RoleId", (string)ViewBag.RoleId)
     <div class="form-horizontal">
-     
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -23,13 +23,13 @@
             </div>
         </div>
 
-        
+
 
 
 
         <div class="modal-footer justify-content-center" style="margin-top:50px">
-                <input title="تعديل الدور المحدد" type="submit" value="تعديل الدور" class="btn btn-success" />
- 
+            <input title="تعديل الدور المحدد" type="submit" value="تعديل الدور" class="btn btn-success" />
+
 
             <button title="اغلاق النافذة" type="button" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
         </div>

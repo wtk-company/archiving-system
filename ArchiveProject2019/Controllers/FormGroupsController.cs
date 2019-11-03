@@ -140,10 +140,17 @@ namespace ArchiveProject2019.Controllers
             }
             if (ModelState.IsValid)
             {
+                List<string> UsersId = new List<string>();
+                string NotificationTime = string.Empty;
+                string UserId = User.Identity.GetUserId();
+                string GroupName = string.Empty;
 
+                Notification notification = null;
                 FormGroup formgroup = null;
                 foreach (int i in Groups)
                 {
+                    NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
                     formgroup = new FormGroup()
                     {
 
@@ -156,10 +163,25 @@ namespace ArchiveProject2019.Controllers
                     };
                     db.FormGroups.Add(formgroup);
 
-                    db.SaveChanges();
+                    GroupName = db.Groups.Find(formgroup.GroupId).Name;
+                    List<ApplicationUser> Users = db.UsersGroups.Where(a => a.GroupId == i).Include(a=>a.User).Select(a=>a.User).ToList();
+                    foreach (ApplicationUser user in Users)
+                    {
 
+                        notification = new Notification()
+                        {
+
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = user.Id,
+                            Message = "تم إضافة نموذج جديد للمجموعة :"+GroupName +"، النموذج: "+ db.Forms.Find(FormIdValue).Name,
+                            NotificationOwnerId = UserId
+                        };
+                        db.Notifications.Add(notification);
+                    }
 
                 }
+                db.SaveChanges();
                 return RedirectToAction("Index", new { @id = FormIdValue, @msg = "CreateSuccess" });
 
             }
@@ -198,6 +220,12 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsEdit")]
         public ActionResult Edit(int Id)
         {
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+            string Message = string.Empty;
+        
+            Notification notification = null;
 
             FormGroup formGroup = db.FormGroups.Find(Id);
             if (formGroup == null)
@@ -213,14 +241,38 @@ namespace ArchiveProject2019.Controllers
             if (formGroup.Is_Active == true)
             {
                 formGroup.Is_Active = false;
-
+                Message = "تم الغاء تفعيل النموذج في المجموعة :"+db.Groups.Find(formGroup.GroupId).Name;
             }
             else
             {
                 formGroup.Is_Active = true;
+                Message = "تم  تفعيل النموذج في المجموعة :" + db.Groups.Find(formGroup.GroupId).Name;
+
             }
-         
+
             db.Entry(formGroup).State = EntityState.Modified;
+            db.SaveChanges();
+
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+
+            List<ApplicationUser> Users = db.UsersGroups.Where(a => a.GroupId == formGroup.GroupId).Include(a=>a.User).Select(a=>a.User).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = Message + "، النموذج :" +db.Forms.Find(Form_Id).Name ,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
+
+
             db.SaveChanges();
             return RedirectToAction("Index", new { @id = Form_Id, @msg = "EditSuccess" });
 
@@ -254,10 +306,57 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+
+         //[Notification Informations]:
+            //List Of users
+            List<string> UsersId = new List<string>();
+            //Notification date:
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            //Current user who added,deleted,updated:
+            string UserId = User.Identity.GetUserId();
+            //Form name:
+            string FormName = string.Empty;
+            //group Name:
+            string GroupName = string.Empty;
+            //Notification object:
+            Notification notification = null;
+
+            //[Delete object]:
             FormGroup formGroup = db.FormGroups.Find(id);
-            db.FormGroups.Remove(formGroup);
+
+            //Form name && group name:
+            FormName = db.Forms.Find(formGroup.FormId).Name;
+            GroupName = db.Groups.Find(formGroup.GroupId).Name;
+            //Group id for object:
+            int groupId = formGroup.GroupId;
+
             int Form_id = formGroup.FormId;
+            db.FormGroups.Remove(formGroup);
+
+            
             db.SaveChanges();
+
+            //[Add notifications for all student in Specefic group]:
+
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            List<ApplicationUser> Users = db.UsersGroups.Where(a => a.GroupId ==groupId ).Include(a => a.User).Select(a => a.User).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم إزالة نموذج من المجموعة :" + GroupName + "، النموذج: " + FormName,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
+
+            db.SaveChanges();
+
             return RedirectToAction("Index", new { @id = Form_id, @msg = "DeleteSuccess" });
         }
 

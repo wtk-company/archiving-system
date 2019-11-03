@@ -90,8 +90,13 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("Index",new { controller="PermissionsUsers",id= Session["User_Id"] ,msg="ActiveError"});
             }
 
-            foreach(string s in Permissions)
+            string NotificationTime = string.Empty;
+            string NotMessage = string.Empty;
+
+            foreach (string s in Permissions)
             {
+                
+                NotificationTime= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
                 string UserId = Session["User_Id"].ToString();
 
@@ -105,7 +110,7 @@ namespace ArchiveProject2019.Controllers
                     int PUserId = db.PermissionUsers.Where(a => a.UserId.Equals(UserId) && a.PermissionId == Permission_Id).FirstOrDefault().Id;
                     PermissionsUser PUser = db.PermissionUsers.Find(PUserId);
                     db.PermissionUsers.Remove(PUser);
-
+                    NotMessage = "تم  تفعيل الصلاحية: " + db.Permissions.Find(Permission_Id).Name;
 
                 }
                 else
@@ -124,7 +129,7 @@ namespace ArchiveProject2019.Controllers
 
                         };
                         db.PermissionUsers.Add(PUser);
-
+                        NotMessage = "تم  تفعيل الصلاحية: "+db.Permissions.Find(Permission_Id).Name;
                     }
                     else
                     {
@@ -138,17 +143,34 @@ namespace ArchiveProject2019.Controllers
                             Is_Active = false
 
                         };
-                    db.PermissionUsers.Add(PUser);
+                        NotMessage = "تم  إلغاء الصلاحية: " + db.Permissions.Find(Permission_Id).Name;
+                        db.PermissionUsers.Add(PUser);
                     }
                    
 
                 }
 
-                db.SaveChanges();
+            
+
+
+                string UserNotId = User.Identity.GetUserId();
+                Notification notification = null;
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = UserId,
+                    Message = NotMessage,
+                    NotificationOwnerId = UserNotId
+                };
+
+                db.Notifications.Add(notification);
 
             }
 
-
+            db.SaveChanges();
             return RedirectToAction("Index", new { controller = "PermissionsUsers", id = Session["User_Id"], msg = "ActiveSuccess" });
 
 

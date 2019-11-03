@@ -143,7 +143,8 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
 
-               
+
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 department.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
 
@@ -155,6 +156,25 @@ namespace ArchiveProject2019.Controllers
                 db.Departments.Add(department);
               
                 
+                db.SaveChanges();
+
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = db.Users.Where(a => !a.Id.Equals(UserId) ).ToList();
+                foreach(ApplicationUser user in Users)
+                {
+
+                    notification = new Notification() {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم إضافة قسم جديد: " + DepartmentListDisplay.CreateDepartmentDisplay(department.Id),
+                        NotificationOwnerId= UserId
+                    };
+                    db.Notifications.Add(notification);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
             }
@@ -221,9 +241,31 @@ namespace ArchiveProject2019.Controllers
             }
             if (ModelState.IsValid)
             {
+                string OldName = DepartmentListDisplay.CreateDepartmentDisplay(department.Id);
                 db.Entry(department).State = EntityState.Modified;
-                
+               string NotificationTime= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 department.UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                db.SaveChanges();
+                string Newname= DepartmentListDisplay.CreateDepartmentDisplay(department.Id);
+
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = db.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم تعديل اسم القسم من: " + OldName+" إلى:"+Newname,
+                        NotificationOwnerId = UserId
+                    };
+                    db.Notifications.Add(notification);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index",new { Id = "EditSuccess" });
             }
@@ -272,9 +314,30 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "Department";
 
             Department department = db.Departments.Find(id);
-          
 
+            string DepartmentName = DepartmentListDisplay.CreateDepartmentDisplay(department.Id);
             db.Departments.Remove(department);
+            db.SaveChanges();
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            List<ApplicationUser> Users = db.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم حذف القسم : "+ DepartmentName,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
             db.SaveChanges();
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
 

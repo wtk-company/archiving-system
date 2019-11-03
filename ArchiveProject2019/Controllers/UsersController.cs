@@ -141,6 +141,10 @@ namespace ArchiveProject2019.Controllers
                     //Add User To Groups
                     if (Groups != null)
                     {
+                        string UserId = User.Identity.GetUserId();
+                        Notification notification = null;
+                        string NotificationTime = string.Empty;
+                        string GroupName = string.Empty;
                         foreach (string User_Group_Id in Groups)
                         {
                             var UserGroup = new UserGroup()
@@ -152,7 +156,22 @@ namespace ArchiveProject2019.Controllers
                                 CreatedById = this.User.Identity.GetUserId()
                             };
 
+                            NotificationTime= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                             db.UsersGroups.Add(UserGroup);
+                            GroupName = db.Groups.Find(UserGroup.GroupId).Name;
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = user.Id,
+                                Message = "تم إضافتك   إلى المجموعة  :" + GroupName
+             ,
+                                NotificationOwnerId = UserId
+                            };
+                            db.Notifications.Add(notification);
+
+
                         }
                     }
 
@@ -279,7 +298,7 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
             string Uid = this.User.Identity.GetUserId();
-            IEnumerable<ApplicationUser> Users = UserManager.Users.OrderByDescending(a=>a.CreatedBy).ToList();
+            IEnumerable<ApplicationUser> Users = UserManager.Users.OrderByDescending(a=>a.CreatedAt).ToList();
             return View(Users);
         }
 
@@ -483,7 +502,27 @@ namespace ArchiveProject2019.Controllers
                 //Add User To Groups
 
                 //
-                List<string> SelectedUserGroups = new List<string>();
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                string NotificationTime = string.Empty;
+                string GroupName = string.Empty;
+                NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم تحديث معلوماتك الشخصية",
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+
+
+            
+            List<string> SelectedUserGroups = new List<string>();
                 SelectedUserGroups = db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id)).Select(a => a.GroupId.ToString()).ToList();
                 if (Groups != null)
                 {
@@ -493,6 +532,7 @@ namespace ArchiveProject2019.Controllers
                     foreach (string User_Group_Id in Groups)
                     {
 
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
                         if (SelectedUserGroups.Contains(User_Group_Id))
                         {
@@ -509,6 +549,20 @@ namespace ArchiveProject2019.Controllers
                         };
 
                         db.UsersGroups.Add(UserGroup);
+                        GroupName = db.Groups.Find(UserGroup.GroupId).Name;
+                        notification = new Notification()
+                        {
+
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = user.Id,
+                            Message = "تم إضافتك   إلى المجموعة  :" + GroupName
+          ,
+                            NotificationOwnerId = UserId
+                        };
+                        db.Notifications.Add(notification);
+
+
                     }
 
 
@@ -518,7 +572,18 @@ namespace ArchiveProject2019.Controllers
                         deleteUserGroup = db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id) && a.GroupId.ToString().Equals(s)).SingleOrDefault();
 
                         db.UsersGroups.Remove(deleteUserGroup);
+                        GroupName = db.Groups.Find(deleteUserGroup.GroupId).Name;
+                        notification = new Notification()
+                        {
 
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = user.Id,
+                            Message = "تم إزالتك   من المجموعة  :" + GroupName
+          ,
+                            NotificationOwnerId = UserId
+                        };
+                        db.Notifications.Add(notification);
 
                     }
                     db.SaveChanges();
@@ -530,7 +595,18 @@ namespace ArchiveProject2019.Controllers
                     foreach (UserGroup ug in db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id)))
                     {
                         db.UsersGroups.Remove(ug);
+                        GroupName = db.Groups.Find(ug.GroupId).Name;
+                        notification = new Notification()
+                        {
 
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = user.Id,
+                            Message = "تم إزالتك   من المجموعة  :" + GroupName
+          ,
+                            NotificationOwnerId = UserId
+                        };
+                        db.Notifications.Add(notification);
                     }
 
                     db.SaveChanges();

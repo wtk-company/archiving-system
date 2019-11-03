@@ -71,12 +71,33 @@ namespace ArchiveProject2019.Controllers
             }
             if (ModelState.IsValid)
             {
-
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 Kind.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 Kind.CreatedById = User.Identity.GetUserId();
 
                 _context.Kinds.Add(Kind);
                 _context.SaveChanges();
+
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = _context.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم إضافة نوع جديد من الوثائق : " + Kind.Name,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
+                _context.SaveChanges();
+
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
 
             }
@@ -108,6 +129,7 @@ namespace ArchiveProject2019.Controllers
 
             }
 
+            ViewBag.OldName = kinds.Name;
             return View(kinds);
         }
 
@@ -117,18 +139,44 @@ namespace ArchiveProject2019.Controllers
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsEdit")]
-        public ActionResult Edit(Kind kinds)
+        public ActionResult Edit(Kind kinds,string OldName)
 
         {
             if (_context.Kinds.Where(a => a.Id != kinds.Id).Any(a => a.Name.Equals(kinds.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
+           
+
             if (ModelState.IsValid)
             {
-
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 kinds.UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
           
                 _context.Entry(kinds).State = EntityState.Modified;
+                _context.SaveChanges();
+
+
+
+
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = _context.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم تعديل اسم نوع الوثائق من : " +OldName+" إلى :"+kinds.Name
+                        ,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
                 _context.SaveChanges();
 
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
@@ -180,10 +228,28 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "Kind";
 
             Kind kind = _context.Kinds.Find(id);
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
             _context.Kinds.Remove(kind);
             _context.SaveChanges();
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            List<ApplicationUser> Users = _context.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
 
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم حذف نوع من الوثائق : " + kind.Name,
+                    NotificationOwnerId = UserId
+                };
+                _context.Notifications.Add(notification);
+            }
+            _context.SaveChanges();
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
         }
 

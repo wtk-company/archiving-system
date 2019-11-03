@@ -6,34 +6,33 @@
     <link rel="icon" href="~/Content/DashBoard/build/images/favicon.png" type="image/png" />
     <title>[ASYS]-@ViewBag.Title </title>
 
-  
-    @*<style type="text/css">
-            .modall {
-                position: fixed;
-                top: 0;
-                left: 0;
-                background-color: white;
-                z-index: 99;
-                opacity: 1;
-                filter: alpha(opacity=80);
-                -moz-opacity: 0.8;
-                min-height: 100%;
-                width: 100%;
-            }
 
-            .loadingg {
-                /*font-family: Arial;*/
-                font-size: 15pt;
-                /*border: 5px solid #67CFF5;*/
-                width: 300px;
-                height: 250px;
-                display: none;
-                position: fixed;
-                background-color: White;
-                z-index: 999;
-            }
+    <style type="text/css">
+        .modall {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: white;
+            z-index: 99;
+            opacity: 1;
+            filter: alpha(opacity=80);
+            -moz-opacity: 0.8;
+            min-height: 100%;
+            width: 100%;
+        }
 
-        </style>*@
+        .loadingg {
+            /*font-family: Arial;*/
+            font-size: 15pt;
+            /*border: 5px solid #67CFF5;*/
+            width: 300px;
+            height: 250px;
+            display: none;
+            position: fixed;
+            background-color: White;
+            z-index: 999;
+        }
+    </style>
     @Styles.Render("~/Content/DashBoardCss")
 
 </head>
@@ -42,11 +41,11 @@
 <body class="nav-md">
 
 
-    @*<div class="loadingg" align="center">
+    <div class="loadingg" align="center">
 
-
-            <img src="~/Content/Loader.gif" style="width:100px;height:100px;opacity:0.8" />
-        </div>*@
+        <h1>الرجاء الإنتظار</h1>
+        <img src="~/Content/Loader.gif" style="width:100px;height:100px;opacity:0.8" />
+    </div>
 
 
     <div id="mainid" class="container body">
@@ -201,79 +200,63 @@
                             </li>
                             <li role="presentation" class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
-                                   aria-expanded="false">
+                                   title="الإشعارات" aria-expanded="false">
                                     <i class="fa fa-envelope-o"></i>
-                                    <span class="badge bg-green">6</span>
+                                    <span class="badge bg-green">@Html.Action("NotificationsUserCount", "DashBoard")</span>
                                 </a>
                                 <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+
+                                    @Html.Action("NotificationsUserMessage", "DashBoard")
+
                                     <li>
-                                        <a>
-                                            <span class="image">
-                                                <img src="~/Content/DashBoard/build/images/img.jpg"
-                                                     alt="Profile Image" />
-                                            </span>
-                                            <span>
-                                                <span>مرتضی کریمی</span>
-                                                <span class="time">3 دقیقه پیش</span>
-                                            </span>
-                                            <span class="message">
-                                                فیلمای فستیوال فیلمایی که اجرا شده یا راجع به لحظات مرده ایه که فیلمسازا میسازن. آنها جایی بودند که....
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image">
-                                                <img src="~/Content/DashBoard/build/images/img.jpg"
-                                                     alt="Profile Image" />
-                                            </span>
-                                            <span>
-                                                <span>مرتضی کریمی</span>
-                                                <span class="time">3 دقیقه پیش</span>
-                                            </span>
-                                            <span class="message">
-                                                فیلمای فستیوال فیلمایی که اجرا شده یا راجع به لحظات مرده ایه که فیلمسازا میسازن. آنها جایی بودند که....
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image">
-                                                <img src="~/Content/DashBoard/build/images/img.jpg"
-                                                     alt="Profile Image" />
-                                            </span>
-                                            <span>
-                                                <span>مرتضی کریمی</span>
-                                                <span class="time">3 دقیقه پیش</span>
-                                            </span>
-                                            <span class="message">
-                                                فیلمای فستیوال فیلمایی که اجرا شده یا راجع به لحظات مرده ایه که فیلمسازا میسازن. آنها جایی بودند که....
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a>
-                                            <span class="image">
-                                                <img src="~/Content/DashBoard/build/images/img.jpg"
-                                                     alt="Profile Image" />
-                                            </span>
-                                            <span>
-                                                <span>مرتضی کریمی</span>
-                                                <span class="time">3 دقیقه پیش</span>
-                                            </span>
-                                            <span class="message">
-                                                فیلمای فستیوال فیلمایی که اجرا شده یا راجع به لحظات مرده ایه که فیلمسازا میسازن. آنها جایی بودند که....
-                                            </span>
-                                        </a>
+                                        <div class="text-center">
+                                            <a href="@Url.Action("NonSeenNotifications","DashBoard")">
+                                                <strong>عرض كل الإشعارات غير المقروءة</strong>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        </div>
+
+
                                     </li>
                                     <li>
                                         <div class="text-center">
-                                            <a>
-                                                <strong>مشاهده تمام اعلان ها</strong>
+                                            <a href="@Url.Action("SeenNotifications","DashBoard")">
+                                                <strong>عرض كل الإشعارات المقروءة</strong>
                                                 <i class="fa fa-angle-right"></i>
                                             </a>
                                         </div>
                                     </li>
+                                </ul>
+                            </li>
+
+
+
+
+
+
+
+
+                            <li role="presentation" class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
+                                   title="تنبيهات الوثائق" aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="badge bg-red">@Html.Action("DocumentNotificationsUserCount", "DashBoard")</span>
+                                </a>
+                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+
+                                    @Html.Action("DocumentsNotificationUserMessage", "DashBoard")
+
+                                    <li>
+                                        <div class="text-center">
+                                            <a href="@Url.Action("NonSeenNotifications","DashBoard")">
+                                                <strong>عرض كل التنبيهات  المتاحة</strong>
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
+                                        </div>
+
+
+                                    </li>
+
                                 </ul>
                             </li>
                         </ul>
@@ -340,35 +323,21 @@
 
 
     </div>
-    @*<script type="text/javascript">
-             var modal, loading;
-             function ShowProgress() {
-                 modal = document.createElement("DIV");
-                 modal.className = "modall";
-                 document.body.appendChild(modal);
-                 loading = document.getElementsByClassName("loadingg")[0];
-                 loading.style.display = "block";
-                 var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0);
-                 var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0);
-                 loading.style.top = top + "px";
-                 loading.style.left = left + "px";
-             };
+    <script type="text/javascript">
 
-             ShowProgress()
-        </script>*@
+    </script>
 
     <!-- Keep the Page Content Here.-->
-    @*<script type="text/javascript">
-             window.onload = function () {
-                 setTimeout(function () {
-                     document.body.removeChild(modal);
-                     loading.style.display = "none";
+    <script type="text/javascript">
+        window.onload = function () {
 
-                 }, 400);
+            document.body.removeChild(modal);
+            loading.style.display = "none";
 
 
-             };
-        </script>*@
+
+        };
+    </script>
     @Scripts.Render("~/Content/DashBoardjs")
 </body>
 </html>
@@ -387,6 +356,32 @@
 
 
     $(document).ready(function () {
+
+
+
+
+           var modal, loading;
+    function ShowProgress() {
+        modal = document.createElement("DIV");
+        modal.className = "modall";
+        document.body.appendChild(modal);
+        loading = document.getElementsByClassName("loadingg")[0];
+        loading.style.display = "block";
+        var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0);
+        var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0);
+        loading.style.top = top + "px";
+        loading.style.left = left + "px";
+    };
+
+
+    $(".clickloading").click(function () {
+
+        ShowProgress();
+    });
+
+
+
+
         $('.dt').dataTable({
             "language": {
                 "search": "البحث:",
@@ -417,7 +412,7 @@
 </script>
 
 
-
+ 
 
 
 <style>

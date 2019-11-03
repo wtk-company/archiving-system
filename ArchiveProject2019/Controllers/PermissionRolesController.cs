@@ -121,6 +121,9 @@ namespace ArchiveProject2019.Controllers
 
             }
 
+
+            string RoleName = db.Roles.Find(RoleId).Name;
+
             foreach(int P_Id in Sel)
             {
                 PermissionRole PR = new PermissionRole() {
@@ -130,9 +133,40 @@ namespace ArchiveProject2019.Controllers
                     CreatedById=this.User.Identity.GetUserId(),
                     Is_Active=true
 
+
+
+
             };
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                string PermissionName = db.Permissions.Find(P_Id).Name;
+
                 db.PermissionRoles.Add(PR);
+
+
+
                 db.SaveChanges();
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+
+
+                List<ApplicationUser> Users = db.Users.Where(a => !a.Id.Equals(UserId) && a.RoleName.Equals(RoleName)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم إضافة صلاحية جديدة : " + PermissionName+" للدور :"+RoleName,
+                        NotificationOwnerId = UserId
+                    };
+                    db.Notifications.Add(notification);
+                }
+                db.SaveChanges();
+
+
 
             }
 
@@ -176,21 +210,49 @@ namespace ArchiveProject2019.Controllers
         public ActionResult confirm(int id)
         {
             ViewBag.Current = "Roles";
-
+            string ActiveState = "";
             PermissionRole PermissionRole = db.PermissionRoles.Find(id);
             if(PermissionRole.Is_Active==true)
             {
                 PermissionRole.Is_Active = false;
+                ActiveState = "إلغاء التفعيل";
             }
             else
             {
                 PermissionRole.Is_Active = true;
+                ActiveState = " إعادةالتفعيل";
             }
 
             PermissionRole.Updatedat = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
             
             db.Entry(PermissionRole).State = EntityState.Modified;
 
+
+
+            string Role_ID = Session["Role_Id"].ToString();
+            string RoleName = db.Roles.Find(Role_ID).Name;
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            string PermissionName = db.Permissions.Find(PermissionRole.PermissionId).Name;
+
+            db.SaveChanges();
+
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            List<ApplicationUser> Users = db.Users.Where(a => !a.Id.Equals(UserId) && a.RoleName.Equals(RoleName)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تمت  عملية  : " + ActiveState + " للصلاحية :" + PermissionName+" للدور :"+RoleName,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
             db.SaveChanges();
 
             return RedirectToAction("Index", new { @id = Session["Role_Id"].ToString(), @msg = "ActiveSuccess" });
@@ -233,6 +295,29 @@ namespace ArchiveProject2019.Controllers
 
             PermissionRole permissionRole = db.PermissionRoles.Include(a => a.Role).Include(a => a.CreatedBy).FirstOrDefault(a => a.Id == id);
             db.PermissionRoles.Remove(permissionRole);
+            db.SaveChanges();
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            string Role_ID = Session["Role_Id"].ToString();
+            string RoleName = db.Roles.Find(Role_ID).Name;
+            string UserId = User.Identity.GetUserId();
+            string PermissionName = db.Permissions.Find(permissionRole.PermissionId).Name;
+
+            Notification notification = null;
+            List<ApplicationUser> Users = db.Users.Where(a => !a.Id.Equals(UserId) && a.RoleName.Equals(RoleName)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم حذف صلاحية  : " + PermissionName + " من الدور :" + RoleName,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
             db.SaveChanges();
             return RedirectToAction("Index", new { @id = Session["Role_Id"].ToString(), @msg = "DeleteSuccess" });
 

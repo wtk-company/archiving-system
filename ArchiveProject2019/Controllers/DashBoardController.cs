@@ -335,5 +335,200 @@ namespace ArchiveProject2019.Controllers
 
             return View(info);
         }
+
+        public ActionResult NotificationsUserCount()
+        {
+            string CurrentUserId = this.User.Identity.GetUserId();
+            int count = db.Notifications.Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).Count();
+            ViewBag.NotCount = count;
+            return PartialView("_NotificationsCount");
+        }
+
+
+        public ActionResult NotificationsUserMessage()
+        {
+            string CurrentUserId = this.User.Identity.GetUserId();
+            List<Notification> Not = db.Notifications.Include(a=>a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).OrderByDescending(a=>a.CreatedAt).Take(5).ToList() ;
+            
+            return PartialView("_NotificationsMessage",Not);
+        }
+
+        public ActionResult NonSeenNotifications()
+        {
+            string CurrentUserId = this.User.Identity.GetUserId();
+            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).OrderByDescending(a => a.CreatedAt).ToList();
+
+
+
+            return View(Not);
+        }
+
+        [HttpPost]
+        public ActionResult NonSeenNotifications(List<string> NotificationId)
+        {
+
+            if(NotificationId==null)
+            {
+                return RedirectToAction("NonSeenNotifications");
+
+            }
+
+            foreach(string Id in NotificationId)
+            {
+                int NotId = Convert.ToInt32(Id);
+                Notification not = db.Notifications.Find(NotId);
+                not.Active = true;
+                db.Entry(not).State = EntityState.Modified;
+            }
+
+            db.SaveChanges();
+
+            string CurrentUserId = this.User.Identity.GetUserId();
+            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).OrderByDescending(a => a.CreatedAt).ToList();
+
+
+
+            return View("NonSeenNotifications", Not);
+        }
+
+
+        public ActionResult ConvertAllToSeen()
+        {
+            string CurrentUserId = this.User.Identity.GetUserId();
+
+            List<int> NotifId = db.Notifications.
+                Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).Select(a=>a.Id).ToList();
+            foreach(int n in NotifId)
+            {
+                Notification not = db.Notifications.Find(n);
+                not.Active = true;
+                db.Entry(not).State = EntityState.Modified;
+
+            }
+            db.SaveChanges();
+
+            return RedirectToAction("NonSeenNotifications");
+
+        }
+
+
+
+        public ActionResult SeenNotifications()
+        {
+            string CurrentUserId = this.User.Identity.GetUserId();
+            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == true).OrderByDescending(a => a.CreatedAt).ToList();
+
+
+
+            return View(Not);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult SeenNotifications(List<string> NotificationId)
+        {
+
+            if (NotificationId == null)
+            {
+                return RedirectToAction("SeenNotifications");
+
+            }
+
+            foreach (string Id in NotificationId)
+            {
+                int NotId = Convert.ToInt32(Id);
+                Notification not = db.Notifications.Find(NotId);
+
+                db.Notifications.Remove(not);
+            }
+
+            db.SaveChanges();
+
+            string CurrentUserId = this.User.Identity.GetUserId();
+            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == true).OrderByDescending(a => a.CreatedAt).ToList();
+
+
+
+            return View("SeenNotifications", Not);
+        }
+
+        //
+        public ActionResult DeleteAllSeen()
+        {
+            string CurrentUserId = this.User.Identity.GetUserId();
+
+            List<int> NotifId = db.Notifications.
+                Where(a => a.UserId.Equals(CurrentUserId) && a.Active == true).Select(a => a.Id).ToList();
+            foreach (int n in NotifId)
+            {
+                Notification not = db.Notifications.Find(n);
+                db.Notifications.Remove(not);
+
+            }
+            db.SaveChanges();
+
+            return RedirectToAction("SeenNotifications");
+
+        }
+
+
+
+
+        public ActionResult DocumentNotificationsUserCount()
+        {
+            string CurrentUserId = this.User.Identity.GetUserId();
+           DateTime TodayDate = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd").Replace("-", "/"), "yyyy/MM/dd", null);
+
+            List<Document>Documents = db.Documents.Where(a=>a.CreatedById.Equals(CurrentUserId) && a.NotificationDate!=null).ToList();
+            int count = Documents.Where(a => EqualDate(a.NotificationDate, TodayDate)).Count();
+            ViewBag.NotCount = count;
+            return PartialView("_DocumentNotificationCount");
+        }
+
+
+        public ActionResult DocumentsNotificationUserMessage()
+        {
+            DateTime TodayDate = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd").Replace("-", "/"), "yyyy/MM/dd", null);
+
+            string CurrentUserId = this.User.Identity.GetUserId();
+            List<Document> Documents = db.Documents.Where(a => a.CreatedById.Equals(CurrentUserId) && a.NotificationDate != null).Include(a=>a.CreatedBy).ToList();
+            Documents = Documents.Where(a => EqualDate(a.NotificationDate, TodayDate)).OrderByDescending(a=>a.CreatedAt).ToList();
+
+            Notification notification = null;
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            List<Notification> NotificationList = new List<Notification>();
+            foreach(Document d in Documents)
+            {
+                notification = new Notification()
+                {
+
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+            
+                    Message  = "تنبيه للوثيقة :" + d.DocumentNumber + " "+" موضوع الوثيقة :" + d.Subject
+                            + " ،عنوان الوثيقة :" + d.Address + "،وصف الوثيقة :" + d.Description
+
+                       ,
+                    NotificationOwnerId = db.Users.Find(CurrentUserId).FullName
+
+
+                };
+
+
+                NotificationList.Add(notification);
+            }
+            
+            return PartialView("_DocumentsNotificationMessage", NotificationList.ToList());
+        }
+        [NonAction]
+        public bool EqualDate(string s1, DateTime s2)
+        {
+            s1 = s1.Replace("-", "/");
+            return DateTime.ParseExact(s1, "yyyy/MM/dd", null) == s2;
+
+        }
+
     }
 }

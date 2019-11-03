@@ -10,6 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+    @Html.Hidden("OldName", (string)ViewBag.OldName)
     @Html.HiddenFor(model => model.CreatedAt)
     <div class="form-horizontal">
 

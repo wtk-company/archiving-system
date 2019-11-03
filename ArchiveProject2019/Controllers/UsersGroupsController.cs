@@ -81,6 +81,10 @@ namespace ArchiveProject2019.Controllers
             }
             if (ModelState.IsValid)
             {
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                string NotificationTime = string.Empty;
                 for (int i = 0; i < viewModel.Count(); i++)
                 {
                     var UserGroup = new UserGroup();
@@ -97,10 +101,25 @@ namespace ArchiveProject2019.Controllers
                     
 
                     _context.UsersGroups.Add(UserGroup);
-                    _context.SaveChanges();
+
+
+                   NotificationTime= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                    string GroupName = _context.Groups.Find(viewModel[i].GroupId).Name;
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = viewModel[i].UserId,
+                        Message = "تم إضافتك   إلى المجموعة  :" + GroupName
+                     ,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
 
 
                 }
+                    _context.SaveChanges();
                     return RedirectToAction("ShowUsersGroup", new { Id = Convert.ToInt32(Session["GroupId"]), msg = "CreateSuccess" });
             }
 
@@ -261,9 +280,32 @@ namespace ArchiveProject2019.Controllers
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            string NotificationTime = string.Empty;
 
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            string UserGroupId = UsersGroups.UserId;
             _context.UsersGroups.Remove(UsersGroups);
             _context.SaveChanges();
+            string GroupName = _context.Groups.Find(UsersGroups.GroupId).Name;
+         
+            notification = new Notification()
+            {
+
+                CreatedAt = NotificationTime,
+                Active = false,
+                UserId = UserGroupId,
+                Message = "تم إزالتك   من المجموعة  :" + GroupName
+                ,
+                NotificationOwnerId = UserId
+            };
+            _context.Notifications.Add(notification);
+
+
+        
+             _context.SaveChanges();
 
             return RedirectToAction("ShowUsersGroup", new { Id = Convert.ToInt32(Session["GroupId"]),msg="DeleteSuccess" });
 

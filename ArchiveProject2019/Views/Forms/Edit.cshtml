@@ -12,12 +12,12 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.CreatedAt)
     <div class="form-horizontal">
-  
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.CreatedAt)
 
-
+        @Html.Hidden("OldName", (string)ViewBag.OldName)
         @Html.HiddenFor(model => model.CreatedById)
 
 

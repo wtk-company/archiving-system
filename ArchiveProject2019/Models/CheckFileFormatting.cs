@@ -47,6 +47,23 @@ namespace ArchiveProject2019.Models
         }
 
 
+        public static bool PermissionFile(string FB)
+        {
+
+            bool Ok = false;
+            foreach (string ends in FileFormat)
+            {
+                if (FB.EndsWith(ends, StringComparison.OrdinalIgnoreCase))
+                {
+                    Ok = true;
+                }
+
+            }
+
+            return Ok;
+
+        }
+
         //Check Image File:{file,string}
         public static bool IsImage(HttpPostedFileBase FB)
         {

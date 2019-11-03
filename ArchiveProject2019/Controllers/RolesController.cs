@@ -92,8 +92,32 @@ namespace ArchiveProject2019.Controllers
                     CreatedById = this.User.Identity.GetUserId()
 
                 };
+
                 //OK:
+
                 manger.Create(role);
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = db.Users.Where(a =>a.RoleName.Equals("Master")&&!a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم إضافة دور جديد : " + role.Name
+                       ,
+                        NotificationOwnerId = UserId
+                    };
+                    db.Notifications.Add(notification);
+                }
+
+                db.SaveChanges();
 
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
 
@@ -131,6 +155,8 @@ namespace ArchiveProject2019.Controllers
             
             ViewBag.RoleId = AppRole.Id;
 
+            ViewBag.OldName = AppRole.Name;
+
             return View(RVM);
         }
 
@@ -139,7 +165,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RolesEdit")]
-        public ActionResult Edit(RoleViewModel RoleView, string RoleId )
+        public ActionResult Edit(RoleViewModel RoleView, string RoleId ,string OldName)
         {
             ViewBag.Current = "Roles";
 
@@ -158,10 +184,43 @@ namespace ArchiveProject2019.Controllers
                 }
 
                 AppRole.Name = RoleView.Name;
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+
                 AppRole.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
               
                 db.Entry(AppRole).State = System.Data.Entity.EntityState.Modified;
+
+
+
+                //users in same role:
+
+                string UserId = User.Identity.GetUserId();
+                List<string> UsersId1 = db.Users.Where(a => a.RoleName.Equals("Master") &&! a.Id.Equals(UserId)).Select(a => a.Id).ToList();
+
+                List<string> UsersId2 = db.Users.Where(a => a.RoleName.Equals(OldName)).Select(a => a.Id).ToList();
+                List<string> UsersId = UsersId1.DefaultIfEmpty().Union(UsersId2.DefaultIfEmpty()).ToList();
+                Notification notification = null;
+                List<ApplicationUser> Users = db.Users.Where(a =>UserId.Contains(a.Id) ).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                       Message = "تم تعديل اسم الدور  من : " + OldName + " إلى :" + AppRole.Name
+                       ,
+                        NotificationOwnerId = UserId
+                    };
+                    db.Notifications.Add(notification);
+                }
                 db.SaveChanges();
+
+
+
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
 
 
@@ -239,6 +298,28 @@ namespace ArchiveProject2019.Controllers
 
             ApplicationRoles AppRole = manger.Roles.FirstOrDefault(a=>a.Id.Equals(Id));
             db.Roles.Remove(AppRole);
+            db.SaveChanges();
+
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            List<ApplicationUser> Users = db.Users.Where(a => a.RoleName.Equals("Master") && !a.Id.Equals(UserId)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم حذف الدور  : " + AppRole.Name
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
             db.SaveChanges();
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
 

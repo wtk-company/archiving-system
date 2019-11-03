@@ -70,12 +70,34 @@ namespace ArchiveProject2019.Controllers
             }
             if (ModelState.IsValid)
             {
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
                 Party.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 Party.CreatedById = User.Identity.GetUserId();
 
                 _context.Parties.Add(Party);
                 _context.SaveChanges();
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = _context.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم إضافة نوع جديد من الجهات : " + Party.Name,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
+                _context.SaveChanges();
+
+
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
 
             }
@@ -101,7 +123,7 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
-
+            ViewBag.OldName = party.Name;
             return View(party);
         }
 
@@ -109,7 +131,7 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesEdit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Party party)
+        public ActionResult Edit(Party party,string OldName)
         {
             if (_context.Parties.Where(a => a.Id != party.Id).Any(a => a.Name.Equals(party.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
@@ -117,9 +139,30 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
                 party .UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 _context.Entry(party).State = EntityState.Modified;
 
                 _context.SaveChanges();
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = _context.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم تعديل اسم الجهة من :"+OldName+" إلى الاسم :" + party.Name,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
+                _context.SaveChanges();
+
 
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
             }
@@ -162,9 +205,30 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "Party";
 
             Party party = _context.Parties.Find(id);
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
             _context.Parties.Remove(party);
             _context.SaveChanges();
+
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            List<ApplicationUser> Users = _context.Users.Where(a => !a.Id.Equals(UserId)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم حذف اسم الجهة  :" + party.Name,
+                    NotificationOwnerId = UserId
+                };
+                _context.Notifications.Add(notification);
+            }
+            _context.SaveChanges();
+
 
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
         }

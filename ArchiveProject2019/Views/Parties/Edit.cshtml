@@ -16,7 +16,7 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
         @Html.HiddenFor(model => model.CreatedAt)
-
+        @Html.Hidden("OldName", (string)ViewBag.OldName)
         @Html.HiddenFor(model => model.CreatedById)
 
         <div class="form-group">
@@ -33,8 +33,8 @@
                 <input type="submit" title="تعديل حهة معينة" value="تعديل جهة معينة" class="btn btn-success" />
                 <button type="button" title="إغلاق النافذة" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
             </div>
-    </div>
         </div>
+    </div>
 }
 
 

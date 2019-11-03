@@ -68,6 +68,28 @@ namespace ArchiveProject2019.Controllers
                 _context.Groups.Add(Group);
                 _context.SaveChanges();
 
+
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<ApplicationUser> Users = _context.Users.Where(a => a.RoleName.Equals("Master") && !a.Id.Equals(UserId)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم إضافة مجموعة جديدة : " + Group.Name
+                       ,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
+                _context.SaveChanges();
                 return RedirectToAction("Index", new { Id = "CreateSuccess" });
             }
 
@@ -91,6 +113,8 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("HttpNotFoundError","ErrorController");
             }
             
+            ViewBag.OldName = Group.Name;
+
             return View(Group);
         }
 
@@ -98,7 +122,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsEdit")]
-        public ActionResult Edit(Group Group)
+        public ActionResult Edit(Group Group,string OldName)
         {
             if (_context.Groups.Where(a => a.Id != Group.Id).Any(a => a.Name.Equals(Group.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
@@ -107,10 +131,34 @@ namespace ArchiveProject2019.Controllers
             {
 
                 Group.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-             
+                string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
                 _context.Entry(Group).State = EntityState.Modified;
                 _context.SaveChanges();
 
+
+                string UserId = User.Identity.GetUserId();
+                Notification notification = null;
+                List<string> UserId1 = _context.Users.Where(a => a.RoleName.Equals("Master")&& !a.Id.Equals(UserId)).Select(a => a.Id).ToList();
+                List<string> UsersId2 = _context.UsersGroups.Where(a => a.GroupId == Group.Id).Select(a => a.UserId).ToList();
+                List<string> UsersId = UserId1.DefaultIfEmpty().Union(UsersId2.DefaultIfEmpty()).ToList();
+                List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                foreach (ApplicationUser user in Users)
+                {
+
+                    notification = new Notification()
+                    {
+
+                        CreatedAt = NotificationTime,
+                        Active = false,
+                        UserId = user.Id,
+                        Message = "تم تعديل المجموعة من :"+OldName +" إلى :"+ Group.Name
+                       ,
+                        NotificationOwnerId = UserId
+                    };
+                    _context.Notifications.Add(notification);
+                }
+                _context.SaveChanges();
                 return RedirectToAction("Index", new { Id = "EditSuccess" });
             }
 
@@ -155,6 +203,27 @@ namespace ArchiveProject2019.Controllers
             Group Group = _context.Groups.Find(id);
 
             _context.Groups.Remove(Group);
+            _context.SaveChanges();
+            string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            string UserId = User.Identity.GetUserId();
+            Notification notification = null;
+            List<ApplicationUser> Users = _context.Users.Where(a => a.RoleName.Equals("Master") && !a.Id.Equals(UserId)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم حذف المجموعة  : " + Group.Name
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                _context.Notifications.Add(notification);
+            }
             _context.SaveChanges();
 
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });

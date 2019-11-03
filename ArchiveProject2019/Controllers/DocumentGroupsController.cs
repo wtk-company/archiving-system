@@ -104,6 +104,12 @@ namespace ArchiveProject2019.Controllers
 
             ViewBag.Current = "Forms";
 
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+            Document doc = db.Documents.Find(DocumentIdValue);
+
+
             if (Groups == null)
             {
                 return RedirectToAction("Index", new { @id = DocumentIdValue, @msg = "CreateError" });
@@ -127,7 +133,31 @@ namespace ArchiveProject2019.Controllers
                     };
                     db.DocumentGroups.Add(documentGroup);
 
+                    NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                    UsersId = db.UsersGroups.Where(a => a.GroupId == i).Select(a => a.UserId).ToList();
+                    string GroupName = db.Groups.Find(i).Name;
+                    Notification notification = null;
+
+                    List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                    foreach (ApplicationUser user in Users)
+                    {
+
+                        notification = new Notification()
+                        {
+
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = user.Id,
+                            Message = "تم إضافة وثيقة جديدة للمجموعة :"+GroupName+"، رقم الوثيقة :"+doc.Name+" ، موضوع الوثيقة:"+doc.Subject+
+                            " ، عنوان الوثيقة:"+doc.Address+" ،وصف الوثيقة :"+doc.Description
+                           ,
+                            NotificationOwnerId = UserId
+                        };
+                        db.Notifications.Add(notification);
+                    }
+
                     db.SaveChanges();
+
 
 
                 }
@@ -165,10 +195,41 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
+
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+           
             DocumentGroup documentGroup = db.DocumentGroups.Find(id);
             db.DocumentGroups.Remove(documentGroup);
             int Document_Id = documentGroup.DocumentId;
             db.SaveChanges();
+            Document doc = db.Documents.Find(documentGroup.DocumentId);
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
+            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            Notification notification = null;
+
+            List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم حذف وثيقة من المجموعة :" + GroupName + "، رقم الوثيقة :" + doc.Name + " ، موضوع الوثيقة:" + doc.Subject +
+                    " ، عنوان الوثيقة:" + doc.Address + " ،وصف الوثيقة :" + doc.Description
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
+
+            db.SaveChanges();
+
             return RedirectToAction("Index", new { @id = Document_Id, @msg = "DeleteSuccess" });
         }
 

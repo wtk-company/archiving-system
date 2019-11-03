@@ -138,9 +138,17 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
 
+                List<string> UsersId = new List<string>();
+                string NotificationTime = string.Empty;
+                string UserId = User.Identity.GetUserId();
                 FormDepartment formDepartment = null;
-               foreach(int i in Departments)
+                Notification notification = null;
+
+
+                foreach (int i in Departments)
                 {
+                    NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
                     formDepartment = new FormDepartment() {
 
                         DepartmentId=i,
@@ -152,10 +160,27 @@ namespace ArchiveProject2019.Controllers
                     };
                     db.FormDepartments.Add(formDepartment);
 
-                db.SaveChanges();
+
+                    List<ApplicationUser> Users = db.Users.Where(a =>a.DepartmentId==i).ToList();
+                    foreach (ApplicationUser user in Users)
+                    {
+
+                        notification = new Notification()
+                        {
+
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = user.Id,
+                            Message = "تم إضافة نموذج جديد إلى القسم، النموذج :"+db.Forms.Find(FormIdValue).Name,
+                            NotificationOwnerId = UserId
+                        };
+                        db.Notifications.Add(notification);
+                    }
+
 
 
                 }
+                db.SaveChanges();
                     return RedirectToAction("Index", new { @id = FormIdValue, @msg = "CreateSuccess" });
                
             }
@@ -203,20 +228,50 @@ namespace ArchiveProject2019.Controllers
 
             }
 
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+            string Message = string.Empty;
+            string FormName = string.Empty;
+            Notification notification = null;
+
             int Form_Id = formDepartment.FormId;
             formDepartment.Updatedat = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
             if(formDepartment.Is_Active==true)
             {
                 formDepartment.Is_Active = false;
-
+                Message = "تم إلغاء تفعيل النموذج في القسم، النموذج:";
             }
             else
             {
                 formDepartment.Is_Active = true;
+                Message = "تم  تفعيل النموذج في القسم، النموذج:";
+
             }
-           
-                db.Entry(formDepartment).State = EntityState.Modified;
-                db.SaveChanges();
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            db.Entry(formDepartment).State = EntityState.Modified;
+             db.SaveChanges();
+
+            FormName = db.Forms.Find(formDepartment.FormId).Name;
+            List<ApplicationUser> Users = db.Users.Where(a => a.DepartmentId == formDepartment.DepartmentId).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = Message+" "+FormName,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
+
+
+            db.SaveChanges();
             return RedirectToAction("Index", new { @id =Form_Id , @msg = "EditSuccess" });
 
 
@@ -233,6 +288,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("BadRequestError", "ErrorController");
 
             }
+
             FormDepartment formDepartment = db.FormDepartments.Include(a => a.Form).Include(a => a.Department).SingleOrDefault(a=>a.Id==id);
             if (formDepartment == null)
             {
@@ -251,10 +307,41 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
+            //Notification information:
+            List<string> UsersId = new List<string>();
+           string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            string UserId = User.Identity.GetUserId();
+            string FormName = string.Empty;
+            Notification notification = null;
+          
+
+
+
             FormDepartment formDepartment = db.FormDepartments.Find(id);
             db.FormDepartments.Remove(formDepartment);
             int Form_id = formDepartment.FormId;
+            FormName = db.Forms.Find(formDepartment.FormId).Name;
+            int DepartmentId = formDepartment.DepartmentId;
+
+            List<ApplicationUser> Users = db.Users.Where(a => a.DepartmentId == DepartmentId).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم إزالةالنموذج من القسم، النموذج: " + " " + FormName,
+                    NotificationOwnerId = UserId
+                };
+
+
+                db.Notifications.Add(notification);
+            }
             db.SaveChanges();
+
             return RedirectToAction("Index", new { @id = Form_id, @msg = "DeleteSuccess" });
         }
 

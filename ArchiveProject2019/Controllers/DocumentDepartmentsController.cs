@@ -110,6 +110,10 @@ namespace ArchiveProject2019.Controllers
 
             ViewBag.Current = "Document";
 
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+            Document doc = db.Documents.Find(DocumentIdValue);
 
             if (Departments == null)
             {
@@ -134,11 +138,36 @@ namespace ArchiveProject2019.Controllers
 
                     };
                     db.DocumentDepartments.Add(documentDepartment);
+                    NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                    UsersId = db.Users.Where(a => a.DepartmentId == i).Select(a => a.Id).ToList();
 
-                    db.SaveChanges();
+                    Notification notification = null;
+
+                    List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                    foreach (ApplicationUser user in Users)
+                    {
+
+                        notification = new Notification()
+                        {
+
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = user.Id,
+                            Message = "تم إضافة وثيقة جديدة للقسم الحالي، رقم الوثيقة :"+doc.DocumentNumber+" موضوع الوثيقة :"+doc.Subject
+                            +" ،عنوان الوثيقة :"+doc.Address+"،وصف الوثيقة :"+doc.Description
+                           ,
+                            NotificationOwnerId = UserId
+                        };
+                        db.Notifications.Add(notification);
+                    }
+                
+
+
 
 
                 }
+
+                db.SaveChanges();
                 return RedirectToAction("Index", new { @id = DocumentIdValue, @msg = "CreateSuccess" });
 
             }
@@ -175,10 +204,42 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+            Document doc = db.DocumentDepartments.Include(a => a.document).SingleOrDefault(a=>a.Id==id).document;
+          
             DocumentDepartment documentDepartment = db.DocumentDepartments.Find(id);
             db.DocumentDepartments.Remove(documentDepartment);
-            int Form_id = documentDepartment.DocumentId;
+           
+          int Form_id = documentDepartment.DocumentId;
             db.SaveChanges();
+
+            UsersId = db.Users.Where(a => a.DepartmentId == documentDepartment.DepartmentId).Select(a => a.Id).ToList();
+
+            Notification notification = null;
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تم  إزالة وثيقة من  القسم الحالي، رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
+            db.SaveChanges();
+
+
             return RedirectToAction("Index", new { @id = Form_id, @msg = "DeleteSuccess" });
         }
 
