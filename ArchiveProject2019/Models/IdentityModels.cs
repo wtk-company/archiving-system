@@ -169,6 +169,7 @@ namespace ArchiveProject2019.Models
         public DbSet<DocumentTargetGroup> DocumentTargetGroups { set; get; }
         public DbSet<Notification> Notifications { set; get; }
 
+        public DbSet<FilesStoredInDb> FilesStoredInDbs { set; get; }
 
 
         public ApplicationDbContext()
