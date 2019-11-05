@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 ArchiveProject2019/Views/Home/IndexTR.cshtml
+ArchiveProject2019/ArchiveProject2019.csproj
+ArchiveProject2019/packages.config
