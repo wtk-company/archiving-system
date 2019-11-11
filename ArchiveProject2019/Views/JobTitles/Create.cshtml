@@ -37,74 +37,12 @@
                 </div>
             </div>
     
-            @*<div class="form-group">
-                @Html.LabelFor(model => model.TypeOfDisplayForm, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.TypeOfDisplayForm, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.TypeOfDisplayForm, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+         
+   
 
 
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.TypeOfDisplayForm, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @* @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })*@
-
-
-                    @Html.DropDownListFor(model => Model.TypeOfDisplayForm, new List<SelectListItem>() {
-           new SelectListItem(){Value="0",Text="القسم الحالي" } ,
-           new SelectListItem(){Value="1",Text="القسم الحالي || الفروع المستوى الأول"},
-           new SelectListItem(){Value="2",Text="القسم الحالي || جميع الفروع" } ,
-           //new SelectListItem(){Value="3",Text=" القسم الحالي || الأقسام الموازية " },
-           new SelectListItem(){Value="3",Text=" القسم الحالي|| القسم الرئيسي " },
-           new SelectListItem(){Value="4",Text="القسم الحالي || جميع الأقسام الرئيسية   " }
-
-
-               },
-
-
-
-
-           "اختيار نمط معين", new { @style = "padding:4px", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.TypeOfDisplayForm, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-
-
-
-
-
-
-
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.TypeOfDisplayDocument, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @* @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control" } })*@
-
-
-                    @Html.DropDownListFor(model => Model.TypeOfDisplayDocument, new List<SelectListItem>() {
-         new SelectListItem(){Value="0",Text="القسم الحالي" } ,
-           new SelectListItem(){Value="1",Text="القسم الحالي || الفروع المستوى الأول"},
-           new SelectListItem(){Value="2",Text="القسم الحالي || جميع الفروع" } ,
-           //new SelectListItem(){Value="3",Text=" القسم الحالي || الأقسام الموازية " },
-           new SelectListItem(){Value="3",Text=" القسم الحالي|| القسم الرئيسي " },
-           new SelectListItem(){Value="4",Text="القسم الحالي || جميع الأقسام الرئيسية   " }
-
-
-               },
-
-
-
-
-           "اختيار نمط معين", new { @style = "padding:4px", @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.TypeOfDisplayDocument, "", new { @class = "text-danger" })
-                </div>
-            </div>
 
 
           

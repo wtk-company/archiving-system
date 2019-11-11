@@ -19,6 +19,8 @@ namespace ArchiveProject2019.HelperClasses
             List<int> AllUsersFormsId = new List<int>();
 
 
+
+            //All Forms for Master
             if (_context.Users.Find(UsertID).RoleName.Equals("Master"))
             {
 
@@ -27,52 +29,11 @@ namespace ArchiveProject2019.HelperClasses
             }
             else
             {
+                int DepUserId = _context.Users.Find(UsertID).DepartmentId.Value;
+                List<int> FM = _context.FormDepartments.Where(a => a.DepartmentId == DepUserId).Select(a => a.FormId).ToList();
+                  UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
 
-
-                List<int> FM = new List<int>();
-                int TypeOfFormsDisplay = _context.Users.Include(a => a.jobTitle).SingleOrDefault(a => a.Id.Equals(UsertID)).jobTitle.TypeOfDisplayForm;
-                switch (TypeOfFormsDisplay)
-                {
-                    case 0:
-
-                        FM = UserDepartmentForms.GetUserDepartmentFormsNormal(UsertID);
-                        UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
-
-                        break;
-                    case 1:
-
-                        FM = UserDepartmentForms.GetUserDepartmentFormsAndFirstChildrenLevel(UsertID);
-                        UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
-
-                        break;
-
-                    case 2:
-                        FM = UserDepartmentForms.GetUserDepartmentFormsAndAllchildren(UsertID);
-                        UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
-
-                        break;
-
-                    //case 3:
-                    //    FM = UserDepartmentForms.GetUserDepartmentAndAllSiblings(UsertID);
-                    //    UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
-
-                    //    break;
-
-                    case 3:
-                        FM = UserDepartmentForms.GetUserDepartmentFormsAndParentDepartmentForms(UsertID);
-                        UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
-
-                        break;
-
-                    case 4:
-                        FM = UserDepartmentForms.GetUserDepartmentFormsAndAllParentDepartmentForms(UsertID);
-
-                        UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
-
-
-                        break;
-
-                }
+                      
                 List<int> UserGroupsId = new List<int>();
                 UserGroupsId = _context.UsersGroups.Where(a => a.UserId.Equals(UsertID)).Select(a => a.GroupId).ToList();
                 List<int> UserGroupsFormsId = new List<int>();

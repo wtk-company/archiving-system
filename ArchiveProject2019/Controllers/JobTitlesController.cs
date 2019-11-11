@@ -71,7 +71,7 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesCreate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Symbol,MaximumMember,TypeOfDisplayForm,TypeOfDisplayDocument")] JobTitle jobTitle)
+        public ActionResult Create([Bind(Include = "Id,Name,Symbol,MaximumMember")] JobTitle jobTitle)
         {
             ViewBag.Current = "JobTitles";
 
@@ -149,7 +149,7 @@ namespace ArchiveProject2019.Controllers
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
-        public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember,TypeOfDisplayForm,TypeOfDisplayDocument")] JobTitle jobTitle,string OldName)
+        public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember")] JobTitle jobTitle,string OldName)
         {
             ViewBag.Current = "JobTitles";
 
