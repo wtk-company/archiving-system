@@ -10,5 +10,6 @@ namespace ArchiveProject2019.ViewModel
     {
         public int DocId { get; set; }
         public List<Form> Froms { get; set; }
+        public bool IsReplay { get; set; }
     }
 }

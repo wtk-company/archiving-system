@@ -32,10 +32,11 @@ namespace ArchiveProject2019.Controllers
         {
             ViewBag.Current = "Document";
 
-            DocFromsViewModel viewModel = new DocFromsViewModel()
+            var viewModel = new DocFromsViewModel()
             {
                 DocId = -1,
-                Froms = UsersDepartmentAndGroupsForms.GetUsersForms(this.User.Identity.GetUserId())
+                Froms = UsersDepartmentAndGroupsForms.GetUsersForms(this.User.Identity.GetUserId()),
+                IsReplay = false,
             };
 
             return View(viewModel);
@@ -48,11 +49,441 @@ namespace ArchiveProject2019.Controllers
             var viewModel = new DocFromsViewModel()
             {
                 DocId = id,
-                Froms = _context.Forms.ToList()
+                Froms = _context.Forms.ToList(),
+                IsReplay = false,
             };
 
             return View("Form", viewModel);
         }
+
+        public ActionResult ReplayDocument(int id)
+        {
+            ViewBag.Current = "Document";
+
+            var viewModel = new DocFromsViewModel()
+            {
+                DocId = id,
+                Froms = _context.Forms.ToList(),
+                IsReplay = true,
+            };
+
+            return View("Form", viewModel);
+        }
+
+        // GET: /Documents/Create
+        public ActionResult Create(int Id, int docId, bool IsReplay)
+        {
+            ViewBag.Current = "Document";
+
+            var Fields = _context.Fields.Include(c => c.Form).Where(f => f.FormId == Id).ToList();
+
+            List<Value> Values = new List<Value>();
+
+            foreach (var field in Fields)
+            {
+                var value = new Value
+                {
+                    FieldId = field.Id,
+                };
+                Values.Add(value);
+            }
+
+            FieldsValuesViewModel viewModel = new FieldsValuesViewModel
+            {
+                Fields = Fields,
+                Values = Values
+            };
+
+            var myModel = new DocumentDocIdFieldsValuesViewModel()
+            {
+                DocId = docId,
+                Document = new Models.Document() { FormId = Id },
+                FieldsValues = viewModel,
+                IsReplay = IsReplay,
+            };
+
+            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name");
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
+            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
+
+            return View(myModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string> PartyIds, IEnumerable<string> Departments, IEnumerable<string> Groups)
+        {
+            ViewBag.Current = "Document";
+
+            bool Status = true;
+
+            FieldsValuesViewModel FVVM = new FieldsValuesViewModel();
+            FVVM = viewModel.FieldsValues;
+
+            if (FVVM != null)
+            {
+
+                for (int i = 0; i < FVVM.Values.Count(); i++)
+                {
+
+                    if ((!FVVM.Fields[i].Type.Equals("file")) && FVVM.Fields[i].IsRequired && FVVM.Values[i].FieldValue == null)
+                    {
+                        ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب إدخال قيمة الحقل، لا يمكن أن يكون فارغ");
+                        Status = false;
+                    }
+
+                }
+
+
+
+                //اختبار الحقل من النمط صورة إذا كان ضروري او لا
+
+
+
+                //K :counter for files
+                int k = 0;
+                for (int i = 0; i < FVVM.Values.Count(); i++)
+                {
+
+                    if (FVVM.Fields[i].Type.Equals("file"))
+                    {
+                        if (FVVM.Fields[i].IsRequired == true)
+                        {
+                            if (FieldFile.ElementAt(k) == null)
+                            {
+
+                                ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب إختيار ملف محدد، لا يمكن أن يكون فارغ");
+                                Status = false;
+                            }
+                        }
+
+                        k++;
+
+                    }
+                }
+
+
+                //أختبار صيغة كل ملف من الملفات
+
+
+                int j = 0;
+
+
+                for (int i = 0; i < FVVM.Values.Count(); i++)
+                {
+
+
+
+                    if (FVVM.Fields[i].Type.Equals("file"))
+                    {
+
+                        if (FieldFile.ElementAt(j) != null)
+                        {
+                            bool ImageExtention = CheckFileFormatting.PermissionFile(FieldFile.ElementAt(j));
+
+                            if (ImageExtention == false)
+                            {
+                                Status = false;
+                                ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", " صيغةالملف غير مدعومةالرجاء إعادةالإدخال");
+                            }
+                            else
+                            {
+                                string FileName = Path.GetFileName(FieldFile.ElementAt(j).FileName);
+                                //Save In Server
+
+                                string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
+                                string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
+                                FieldFile.ElementAt(j).SaveAs(path);
+
+                                //Save In Db:
+                                viewModel.FieldsValues.Values[i].FieldValue = "~/Uploads/" + s1;
+
+                            }//else
+                        }//file Not null
+                        j++;
+                    }//If {file}
+                }
+
+                //فقط سوف يتم اختبار الحقل من النمط الرقمي والأيميل ورقم الهاتف 
+                for (int i = 0; i < viewModel.FieldsValues.Values.Count(); i++)
+                {
+
+
+                    if ((viewModel.FieldsValues.Fields[i].Type.Equals("float")) && viewModel.FieldsValues.Values[i].FieldValue != null)
+                    {
+
+                        if (CheckFileFormatting.IsFloat(viewModel.FieldsValues.Values[i].FieldValue) == false)
+                        {
+                            ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب ان يكون قيمةالحقل رقمي، الرجاء إعادة الإدخال");
+
+                            Status = false;
+                        }
+                    }
+
+
+
+                    if ((viewModel.FieldsValues.Fields[i].Type.Equals("email")) && viewModel.FieldsValues.Values[i].FieldValue != null)
+                    {
+
+                        if (CheckFileFormatting.IsEmail(viewModel.FieldsValues.Values[i].FieldValue) == false)
+                        {
+                            ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب ان يكون قيمةالحقل بريد إلكتروني، الرجاء إعادة الإدخال");
+
+                            Status = false;
+                        }
+                    }
+
+
+                    if ((viewModel.FieldsValues.Fields[i].Type.Equals("phone")) && viewModel.FieldsValues.Values[i].FieldValue != null)
+                    {
+
+                        if (CheckFileFormatting.IsPhone(viewModel.FieldsValues.Values[i].FieldValue) == false)
+                        {
+                            ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب ان يكون قيمةالحقل رقم هاتف، الرجاء إعادة الإدخال");
+
+                            Status = false;
+                        }
+                    }
+                }
+
+
+
+
+            }//End if 
+
+
+            //Check Files Upload Exist:
+            if (UploadFile.ElementAt(0) == null)
+            {
+                Status = false;
+                ModelState.AddModelError("Document.FileUrl", "يجب إدخال ملفات ");
+            }
+
+            //Check Mail numbare and mail date:
+            TypeMail mail = _context.TypeMails.Find(viewModel.Document.TypeMailId);
+
+            if (mail != null && mail.Type == 1 && viewModel.Document.MailingDate == null)
+            {
+                ModelState.AddModelError("Document.MailingDate", "ادخل تاريخ ورود البريد");
+                Status = false;
+            }
+
+            if (mail != null && mail.Type == 1 && viewModel.Document.MailingNumber == null)
+            {
+                ModelState.AddModelError("Document.MailingNumber", "ادخل رقم ورود البريد ");
+                Status = false;
+            }
+
+            if (mail != null && mail.Type.Equals(2) && PartyIds == null)
+            {
+                ModelState.AddModelError("PartyIds", "حدد جهات استلام البريد");
+                Status = false;
+            }
+
+            // validate Departments multi select list
+            if (mail != null && mail.Type.Equals(3) && Departments == null)
+            {
+                ModelState.AddModelError("Departments", "حدد الاقسام المستهدفة");
+                Status = false;
+            }
+            // validate Groups multi select list
+            if (mail != null && mail.Type.Equals(3) && Groups == null)
+            {
+                ModelState.AddModelError("Groups", "حدد المجموعات المستهدفة");
+                Status = false;
+            }
+
+            var lasFile = UploadFile.Last();
+            foreach (HttpPostedFileBase file in UploadFile)
+            {
+                //Image Extentions:
+                bool ImageExtention = CheckFileFormatting.PermissionFile(file);
+
+                if (ImageExtention == false)
+                {
+                    Status = false;
+                    ModelState.AddModelError("Document.FileUrl", "صيغة الملف المحمل غير مدعومة أعد الإدخال مرة أخرى");
+                    return View(viewModel);
+                }
+            }
+
+            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
+            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
+            //Status Model = false{status==false}
+            if (Status == false)
+            {
+                return View(viewModel);
+            }
+
+            if (ModelState.IsValid)
+            {
+
+                // Get Current User Id
+                var UserId = User.Identity.GetUserId();
+
+                if (!IsSaveInDb)
+                {
+                    foreach (var file in UploadFile)
+                    {
+                        if (file != null)
+                        {
+                            //Save File In Uploads
+                            string FileName = Path.GetFileName(file.FileName);
+
+                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
+                            string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
+                            file.SaveAs(path);
+
+                            viewModel.Document.Name += FileName + "_##_";
+                            viewModel.Document.FileUrl += s1 + "_##_";
+
+                        }
+                    }
+
+                    // Cut last 4 split string
+                    viewModel.Document.Name = viewModel.Document.Name.Substring(0, viewModel.Document.Name.Length - 4);
+                    viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
+                }
+
+                // Document Details:
+                viewModel.Document.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                viewModel.Document.CreatedById = UserId;
+                viewModel.Document.FormId = viewModel.Document.FormId;
+
+                _context.Documents.Add(viewModel.Document);
+                _context.SaveChanges();
+
+
+                if (IsSaveInDb)
+                {
+                    foreach (HttpPostedFileBase file in UploadFile)
+                    {
+                        if (file != null)
+                        {
+                            var fileStoredInDb = new FilesStoredInDb();
+
+                            fileStoredInDb.DocumentId = viewModel.Document.Id;
+
+                            string FileName = Path.GetFileName(file.FileName);
+                            fileStoredInDb.FileName = FileName;
+
+                            fileStoredInDb.File = new byte[file.ContentLength];
+                            file.InputStream.Read(fileStoredInDb.File, 0, file.ContentLength);
+
+                            _context.FilesStoredInDbs.Add(fileStoredInDb);
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+                // Save Multiple Files In Db
+
+                if (FVVM != null)
+                {
+                    //values details:
+                    foreach (var value in viewModel.FieldsValues.Values)
+                    {
+                        // Craete Date
+                        value.Document_id = viewModel.Document.Id;
+                        value.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                        value.CreatedById = UserId;
+
+                        _context.Values.Add(value);
+                        _context.SaveChanges();
+                    }
+                }
+                // store outgoing parties
+                if (PartyIds != null && mail.Type == 2)
+                {
+                    foreach (string partyId in PartyIds)
+                    {
+                        var DocParty = new DocumentParty()
+                        {
+                            DocumentId = viewModel.Document.Id,
+                            PartyId = Convert.ToInt32(partyId),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = UserId
+                        };
+
+                        _context.DocumentParties.Add(DocParty);
+                        _context.SaveChanges();
+                    }
+                }
+                // store Department and Groups for internal Mail
+                if (Departments != null && Groups != null && mail.Type == 3)
+                {
+                    // Store Departments
+                    foreach (string DeptId in Departments)
+                    {
+                        var DocDept = new DocumentTargetDepartment()
+                        {
+                            DocumentId = viewModel.Document.Id,
+                            DepartmentId = Convert.ToInt32(DeptId),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = UserId
+                        };
+
+                        _context.DocumentTargetDepartments.Add(DocDept);
+                        _context.SaveChanges();
+                    }
+                    // Store Groups
+                    foreach (string GroupId in Groups)
+                    {
+                        var DocGroup = new DocumentTargetGroup()
+                        {
+                            DocumentId = viewModel.Document.Id,
+                            GroupId = Convert.ToInt32(GroupId),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = UserId
+                        };
+
+                        _context.DocumentTargetGroups.Add(DocGroup);
+                        _context.SaveChanges();
+                    }
+                }
+                // Relate Document
+                var docId = viewModel.DocId;
+                if (docId != -1 && !viewModel.IsReplay)
+                {
+                    var relateDoc = new RelatedDocument()
+                    {
+                        RelatedDocId = viewModel.Document.Id,
+                        CreatedById = UserId,
+                        Document_id = docId,
+                    };
+
+                    _context.RelatedDocuments.Add(relateDoc);
+                    _context.SaveChanges();
+                }
+
+                // Replay Document
+                if (docId != -1 && viewModel.IsReplay)
+                {
+                    var relateDoc = new ReplayDocument()
+                    {
+                        ReplayDocId = viewModel.Document.Id,
+                        CreatedById = UserId,
+                        Document_id = docId,
+                    };
+
+                    _context.ReplayDocuments.Add(relateDoc);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("Index", new { id = viewModel.Document.Id });
+            }
+            return View(viewModel);
+        }
+
+
+
         [HttpGet]
         // Edit Document
         public ActionResult Edit(int? id)
@@ -189,10 +620,7 @@ namespace ArchiveProject2019.Controllers
                             {
                                 Status = false;
                                 ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", " صيغةالملف غير مدعومةالرجاء إعادةالإدخال");
-
-
                             }
-
                             else
                             {
                                 string FileName = Path.GetFileName(FieldFile.ElementAt(j).FileName);
@@ -466,11 +894,12 @@ namespace ArchiveProject2019.Controllers
             // Get all Documents.
 
             string currentUserId = this.User.Identity.GetUserId();
-            List<int> DocRelate = _context.RelatedDocuments.Where(a => a.CreatedById.Equals(currentUserId)).Select(a => a.RelatedDocId).ToList();
+            var DocRelate = _context.RelatedDocuments.Where(a => a.CreatedById.Equals(currentUserId)).Select(a => a.RelatedDocId).ToList();
+            var DocReplay = _context.ReplayDocuments.Where(a => a.CreatedById.Equals(currentUserId)).Select(a => a.ReplayDocId).ToList();
 
             var documents = (this.IsSaveInDb)
-                ? _context.Documents.Where(a => a.CreatedById.Equals(currentUserId) && !DocRelate.Contains(a.Id) && a.FileUrl == null).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList()
-                : _context.Documents.Where(a => a.CreatedById.Equals(currentUserId) && !DocRelate.Contains(a.Id) && a.FileUrl != null).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
+                ? _context.Documents.Where(a => a.CreatedById.Equals(currentUserId) && !DocRelate.Contains(a.Id) && !DocReplay.Contains(a.Id) && a.FileUrl == null).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList()
+                : _context.Documents.Where(a => a.CreatedById.Equals(currentUserId) && !DocRelate.Contains(a.Id) && !DocReplay.Contains(a.Id) && a.FileUrl != null).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
          
             documents = documents.OrderByDescending(a => a.CreatedAt).ToList();
 
@@ -546,401 +975,6 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        // GET: /Documents/Create
-        public ActionResult Create(int Id, int docId)
-        {
-            ViewBag.Current = "Document";
-
-            var Fields = _context.Fields.Include(c => c.Form).Where(f => f.FormId == Id).ToList();
-
-            List<Value> Values = new List<Value>();
-            foreach (var field in Fields)
-            {
-                var value = new Value
-                {
-                    FieldId = field.Id,
-                };
-                Values.Add(value);
-            }
-
-            FieldsValuesViewModel viewModel = new FieldsValuesViewModel
-            {
-                Fields = Fields,
-                Values = Values
-            };
-
-            DocumentDocIdFieldsValuesViewModel myModel = new DocumentDocIdFieldsValuesViewModel()
-            {
-                DocId = docId,
-                Document = new Models.Document() { FormId = Id },
-                FieldsValues = viewModel
-            };
-
-            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name");
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
-            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
-            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
-            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
-
-            return View(myModel);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [ValidateInput(false)]
-        public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string> PartyIds, IEnumerable<string> Departments, IEnumerable<string> Groups)
-        {
-            ViewBag.Current = "Document";
-
-            bool Status = true;
-
-            FieldsValuesViewModel FVVM = new FieldsValuesViewModel();
-            FVVM = viewModel.FieldsValues;
-
-            if (FVVM != null)
-            {
-
-                for (int i = 0; i < FVVM.Values.Count(); i++)
-                {
-
-                    if ((!FVVM.Fields[i].Type.Equals("file")) && FVVM.Fields[i].IsRequired && FVVM.Values[i].FieldValue == null)
-                    {
-                        ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب إدخال قيمة الحقل، لا يمكن أن يكون فارغ");
-                        Status = false;
-                    }
-
-                }
-
-
-
-                //اختبار الحقل من النمط صورة إذا كان ضروري او لا
-
-
-
-                //K :counter for files
-                int k = 0;
-                for (int i = 0; i < FVVM.Values.Count(); i++)
-                {
-
-                    if (FVVM.Fields[i].Type.Equals("file"))
-                    {
-                        if (FVVM.Fields[i].IsRequired == true)
-                        {
-                            if (FieldFile.ElementAt(k) == null)
-                            {
-
-                                ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب إختيار ملف محدد، لا يمكن أن يكون فارغ");
-                                Status = false;
-                            }
-                        }
-
-                        k++;
-
-                    }
-                }
-
-
-                //أختبار صيغة كل ملف من الملفات
-
-
-                int j = 0;
-
-
-                for (int i = 0; i < FVVM.Values.Count(); i++)
-                {
-
-
-
-                    if (FVVM.Fields[i].Type.Equals("file"))
-                    {
-
-                        if (FieldFile.ElementAt(j) != null)
-                        {
-                            bool ImageExtention = CheckFileFormatting.PermissionFile(FieldFile.ElementAt(j));
-
-                            if (ImageExtention == false)
-                            {
-                                Status = false;
-                                ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", " صيغةالملف غير مدعومةالرجاء إعادةالإدخال");
-                            }
-                            else
-                            {
-                                string FileName = Path.GetFileName(FieldFile.ElementAt(j).FileName);
-                                //Save In Server
-
-                                string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                                string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
-                                FieldFile.ElementAt(j).SaveAs(path);
-
-                                //Save In Db:
-                                viewModel.FieldsValues.Values[i].FieldValue = "~/Uploads/" + s1;
-
-                            }//else
-                        }//file Not null
-                        j++;
-                    }//If {file}
-                }
-
-                //فقط سوف يتم اختبار الحقل من النمط الرقمي والأيميل ورقم الهاتف 
-                for (int i = 0; i < viewModel.FieldsValues.Values.Count(); i++)
-                {
-
-
-                    if ((viewModel.FieldsValues.Fields[i].Type.Equals("float")) && viewModel.FieldsValues.Values[i].FieldValue != null)
-                    {
-
-                        if (CheckFileFormatting.IsFloat(viewModel.FieldsValues.Values[i].FieldValue) == false)
-                        {
-                            ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب ان يكون قيمةالحقل رقمي، الرجاء إعادة الإدخال");
-
-                            Status = false;
-                        }
-                    }
-
-
-
-                    if ((viewModel.FieldsValues.Fields[i].Type.Equals("email")) && viewModel.FieldsValues.Values[i].FieldValue != null)
-                    {
-
-                        if (CheckFileFormatting.IsEmail(viewModel.FieldsValues.Values[i].FieldValue) == false)
-                        {
-                            ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب ان يكون قيمةالحقل بريد إلكتروني، الرجاء إعادة الإدخال");
-
-                            Status = false;
-                        }
-                    }
-
-
-                    if ((viewModel.FieldsValues.Fields[i].Type.Equals("phone")) && viewModel.FieldsValues.Values[i].FieldValue != null)
-                    {
-
-                        if (CheckFileFormatting.IsPhone(viewModel.FieldsValues.Values[i].FieldValue) == false)
-                        {
-                            ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", "يجب ان يكون قيمةالحقل رقم هاتف، الرجاء إعادة الإدخال");
-
-                            Status = false;
-                        }
-                    }
-                }
-
-
-
-
-            }//End if 
-
-
-            //Check Files Upload Exist:
-            if (UploadFile.ElementAt(0) == null)
-            {
-                Status = false;
-                ModelState.AddModelError("Document.FileUrl", "يجب إدخال ملفات ");
-            }
-
-            //Check Mail numbare and mail date:
-            TypeMail mail = _context.TypeMails.Find(viewModel.Document.TypeMailId);
-
-            if (mail != null && mail.Type == 1 && viewModel.Document.MailingDate == null)
-            {
-                ModelState.AddModelError("Document.MailingDate", "ادخل تاريخ ورود البريد");
-                Status = false;
-            }
-
-            if (mail != null && mail.Type == 1 && viewModel.Document.MailingNumber == null)
-            {
-                ModelState.AddModelError("Document.MailingNumber", "ادخل رقم ورود البريد ");
-                Status = false;
-            }
-
-            if (mail != null && mail.Type.Equals(2) && PartyIds == null)
-            {
-                ModelState.AddModelError("PartyIds", "حدد جهات استلام البريد");
-                Status = false;
-            }
-
-            // validate Departments multi select list
-            if (mail != null && mail.Type.Equals(3) && Departments == null)
-            {
-                ModelState.AddModelError("Departments", "حدد الاقسام المستهدفة");
-                Status = false;
-            }
-            // validate Groups multi select list
-            if (mail != null && mail.Type.Equals(3) && Groups == null)
-            {
-                ModelState.AddModelError("Groups", "حدد المجموعات المستهدفة");
-                Status = false;
-            }
-
-            var lasFile = UploadFile.Last();
-            foreach (HttpPostedFileBase file in UploadFile)
-            {
-                //Image Extentions:
-                bool ImageExtention = CheckFileFormatting.PermissionFile(file);
-
-                if (ImageExtention == false)
-                {
-                    Status = false;
-                    ModelState.AddModelError("Document.FileUrl", "صيغة الملف المحمل غير مدعومة أعد الإدخال مرة أخرى");
-                    return View(viewModel);
-                }
-            }
-
-            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
-            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
-            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
-            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
-            //Status Model = false{status==false}
-            if (Status == false)
-            {
-                return View(viewModel);
-            }
-
-            if (ModelState.IsValid)
-            {
-
-                // Get Current User Id
-                var UserId = User.Identity.GetUserId();
-
-                if (!IsSaveInDb)
-                {
-                    foreach (var file in UploadFile)
-                    {
-                        if(file != null)
-                        {
-                            //Save File In Uploads
-                            string FileName = Path.GetFileName(file.FileName);
-
-                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                            string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
-                            file.SaveAs(path);
-
-                            viewModel.Document.Name += FileName + "_##_";
-                            viewModel.Document.FileUrl += s1 + "_##_";
-                        
-                        }
-                    }
-
-                    // Cut last 4 split string
-                    viewModel.Document.Name = viewModel.Document.Name.Substring(0, viewModel.Document.Name.Length - 4);
-                    viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
-                }
-                
-                // Document Details:
-                viewModel.Document.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                viewModel.Document.CreatedById = UserId;
-                viewModel.Document.FormId = viewModel.Document.FormId;
-
-                _context.Documents.Add(viewModel.Document);
-                _context.SaveChanges();
-
-
-                if (IsSaveInDb)
-                {
-                    foreach (HttpPostedFileBase file in UploadFile)
-                    {
-                        if (file != null)
-                        {
-                            var fileStoredInDb = new FilesStoredInDb();
-
-                            fileStoredInDb.DocumentId = viewModel.Document.Id;
-
-                            string FileName = Path.GetFileName(file.FileName);
-                            fileStoredInDb.FileName = FileName;
-
-                            fileStoredInDb.File = new byte[file.ContentLength];
-                            file.InputStream.Read(fileStoredInDb.File, 0, file.ContentLength);
-
-                            _context.FilesStoredInDbs.Add(fileStoredInDb);
-                            _context.SaveChanges();
-                        }
-                    }
-                }
-                // Save Multiple Files In Db
-
-                if (FVVM != null)
-                {
-                    //values details:
-                    foreach (var value in viewModel.FieldsValues.Values)
-                    {
-                        // Craete Date
-                        value.Document_id = viewModel.Document.Id;
-                        value.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                        value.CreatedById = UserId;
-
-                        _context.Values.Add(value);
-                        _context.SaveChanges();
-                    }
-                }
-                // store outgoing parties
-                if (PartyIds != null && mail.Type == 2)
-                {
-                    foreach (string partyId in PartyIds)
-                    {
-                        var DocParty = new DocumentParty()
-                        {
-                            DocumentId = viewModel.Document.Id,
-                            PartyId = Convert.ToInt32(partyId),
-                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
-                            CreatedById = UserId
-                        };
-
-                        _context.DocumentParties.Add(DocParty);
-                        _context.SaveChanges();
-                    }
-                }
-                // store Department and Groups for internal Mail
-                if (Departments != null && Groups != null && mail.Type == 3)
-                {
-                    // Store Departments
-                    foreach (string DeptId in Departments)
-                    {
-                        var DocDept = new DocumentTargetDepartment()
-                        {
-                            DocumentId = viewModel.Document.Id,
-                            DepartmentId = Convert.ToInt32(DeptId),
-                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
-                            CreatedById = UserId
-                        };
-
-                        _context.DocumentTargetDepartments.Add(DocDept);
-                        _context.SaveChanges();
-                    }
-                    // Store Groups
-                    foreach (string GroupId in Groups)
-                    {
-                        var DocGroup = new DocumentTargetGroup()
-                        {
-                            DocumentId = viewModel.Document.Id,
-                            GroupId = Convert.ToInt32(GroupId),
-                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
-                            CreatedById = UserId
-                        };
-
-                        _context.DocumentTargetGroups.Add(DocGroup);
-                        _context.SaveChanges();
-                    }
-                }
-                // Relate Document
-                var docId = viewModel.DocId;
-                if (docId != -1)
-                {
-                    var relateDoc = new RelatedDocument()
-                    {
-                        RelatedDocId = viewModel.Document.Id,
-                        CreatedById = UserId,
-                        Document_id = docId,
-                    };
-
-                    _context.RelatedDocuments.Add(relateDoc);
-                    _context.SaveChanges();
-                }
-                return RedirectToAction("Index", new { id = viewModel.Document.Id });
-            }
-            return View(viewModel);
-        }
 
         public ActionResult Delete(int? id)
         {
@@ -990,6 +1024,21 @@ namespace ArchiveProject2019.Controllers
         }
         [HttpPost]
         public ActionResult Release(int id, int id2)
+        {
+
+            ViewBag.Current = "RelatedDocument";
+
+            var relDoc = _context.RelatedDocuments.Find(id);
+
+
+            _context.RelatedDocuments.Remove(relDoc);
+            _context.SaveChanges();
+
+            return RedirectToAction("GetRelatedDocument", new { Id = id2, msg = "DeleteSuccess" });
+
+        }
+
+        public ActionResult ReleaseDocument(int id, int id2)
         {
 
             ViewBag.Current = "RelatedDocument";
@@ -1279,9 +1328,31 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
 
-            var relDocs = _context.RelatedDocuments.Include(rd => rd.Document).Include(rd => rd.Document.Form).Include(rd => rd.Document.Department).Where(d => d.Document_id == id).ToList();
+            var relDocs = _context.RelatedDocuments.Where(d => d.Document_id == id).Select(d => d.RelatedDocId).ToList();
 
-            return View(relDocs);
+            var documents = _context.Documents.Where(d => relDocs.Contains(d.Id) && d.Id != id).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
+
+            return View(documents);
+        }
+
+        public ActionResult GetReplayDocument(int id, string msg = "none")
+        {
+            ViewBag.Current = "Document";
+
+            if (!msg.Equals("none"))
+            {
+                ViewBag.Msg = msg;
+            }
+            else
+            {
+                ViewBag.Msg = null;
+            }
+
+            var repDocs = _context.ReplayDocuments.Where(d => d.Document_id == id).Select(d => d.ReplayDocId).ToList();
+
+            var documents = _context.Documents.Where(d => repDocs.Contains(d.Id) && d.Id != id).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
+
+            return View(documents);
         }
 
         protected override void Dispose(bool disposing)

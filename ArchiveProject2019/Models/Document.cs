@@ -16,12 +16,7 @@ namespace ArchiveProject2019.Models
         [Display(Name = "اسم الملف")]
 
         public string Name { get; set; }
-
-
         
-   
-
-
 
         [Display(Name = " الملف")]
         public string FileUrl { get; set; }
@@ -123,5 +118,6 @@ namespace ArchiveProject2019.Models
         public ICollection<RelatedDocument> RelatedDocuments { set; get; }
         public ICollection<DocumentParty> DocumentParties { set; get; }
         public ICollection<FilesStoredInDb> FilesStoredInDbs { set; get; }
+        public ICollection<ReplayDocument> ReplayDocuments { set; get; }
     }
 }

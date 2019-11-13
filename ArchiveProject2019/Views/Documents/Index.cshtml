@@ -157,7 +157,17 @@
                         </li>
                         <li>
 
+                            <a href="#" data-form-id="@item.Id" title="رد وثيقة" class="btn-link js-replay btn-sm">رد وثيقة</a>
+
+                        </li>
+                        <li>
+
                             <a href="@Url.Action("GetRelatedDocument","Documents",new { id=item.Id})" title="عرض الوثائق المرتبطة" class="btn-link  btn-sm">عرض الوثائق المرتبطة</a>
+
+                        </li>
+                        <li>
+
+                            <a href="@Url.Action("GetReplayDocument","Documents",new { id=item.Id})" title="عرض الرد" class="btn-link  btn-sm">عرض الوثائق الرد</a>
 
                         </li>
 
@@ -286,6 +296,18 @@
         $("#changeText").text(" إختيار نموذج معين");
 
         var url = '@Url.Action("RelateDocument", "Documents")'
+        url = url + '/' + $(this).attr("data-form-id");
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+        });
+    });
+
+    $("#form").on("click", ".js-replay", function () {
+
+        $("#changeText").text(" إختيار نموذج معين");
+
+        var url = '@Url.Action("ReplayDocument", "Documents")'
         url = url + '/' + $(this).attr("data-form-id");
 
         $("#partialPlaceHolder").load(url, function () {

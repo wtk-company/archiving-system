@@ -172,6 +172,13 @@ namespace ArchiveProject2019.Models
         public DbSet<FilesStoredInDb> FilesStoredInDbs { set; get; }
 
 
+        public DbSet<ReplayDocument> ReplayDocuments { set; get; }
+
+
+
+
+
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

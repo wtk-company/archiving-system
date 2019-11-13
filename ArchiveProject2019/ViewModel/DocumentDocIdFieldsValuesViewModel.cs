@@ -15,5 +15,6 @@ namespace ArchiveProject2019.ViewModel
         public List<FilesStoredInDb> FilesStoredInDbs { get; set; }
         public int TypeMail { get; set; }
         public bool IsSaveInDb { get; set; }
+        public bool IsReplay { get; set; }
     }
 }

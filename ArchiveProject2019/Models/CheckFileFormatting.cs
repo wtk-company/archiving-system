@@ -33,13 +33,16 @@ namespace ArchiveProject2019.Models
         {
 
             bool Ok = false;
-            foreach(string ends in FileFormat)
+            if (FB != null)
             {
-                if(FB.FileName.EndsWith(ends,StringComparison.OrdinalIgnoreCase))
+                foreach(string ends in FileFormat)
                 {
-                    Ok = true;
-                }
+                    if(FB.FileName.EndsWith(ends,StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                    }
 
+                }
             }
 
             return Ok;
@@ -51,13 +54,15 @@ namespace ArchiveProject2019.Models
         {
 
             bool Ok = false;
-            foreach (string ends in FileFormat)
+            if (FB != null)
             {
-                if (FB.EndsWith(ends, StringComparison.OrdinalIgnoreCase))
+                foreach (string ends in FileFormat)
                 {
-                    Ok = true;
+                    if (FB.EndsWith(ends, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                    }
                 }
-
             }
 
             return Ok;
@@ -83,14 +88,18 @@ namespace ArchiveProject2019.Models
         public static bool IsImage(string FB)
         {
             bool Ok = false;
-            foreach (string s in ImageFormat)
+            if (FB != null)
             {
-                if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in ImageFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+            
             return Ok;
 
         }
@@ -101,14 +110,18 @@ namespace ArchiveProject2019.Models
         public static bool IsWord(HttpPostedFileBase FB)
         {
             bool Ok = false;
-            foreach (string s in WordFormat)
+            if (FB != null)
             {
-                if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in WordFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+            
             return Ok;
 
         }
@@ -116,16 +129,20 @@ namespace ArchiveProject2019.Models
         public static bool IsWord(string FB)
         {
             bool Ok = false;
-            foreach (string s in WordFormat)
+
+            if (FB != null)
             {
-                if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in WordFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+            
             return Ok;
-
         }
 
 
@@ -133,29 +150,38 @@ namespace ArchiveProject2019.Models
         public static bool IsPDF(HttpPostedFileBase FB)
         {
             bool Ok = false;
-            foreach (string s in PDFFormat)
+
+            if (FB != null)
             {
-                if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in PDFFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+            
             return Ok;
-
         }
 
         public static bool IsPDF(string FB)
         {
             bool Ok = false;
-            foreach (string s in PDFFormat)
+
+            if (FB != null)
             {
-                if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in PDFFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+            
             return Ok;
 
         }
@@ -165,14 +191,19 @@ namespace ArchiveProject2019.Models
         public static bool IsText(HttpPostedFileBase FB)
         {
             bool Ok = false;
-            foreach (string s in TextFormat)
+
+            if (FB != null)
             {
-                if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in TextFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+
             return Ok;
 
         }
@@ -180,14 +211,19 @@ namespace ArchiveProject2019.Models
         public static bool IsText(string FB)
         {
             bool Ok = false;
-            foreach (string s in TextFormat)
+
+            if (FB != null)
             {
-                if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in TextFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+            
             return Ok;
 
         }
@@ -196,14 +232,19 @@ namespace ArchiveProject2019.Models
         public static bool IsExcel(HttpPostedFileBase FB)
         {
             bool Ok = false;
-            foreach (string s in ExcelFormat)
+
+            if (FB != null)
             {
-                if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in ExcelFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+            
             return Ok;
 
         }
@@ -211,14 +252,19 @@ namespace ArchiveProject2019.Models
         public static bool IsExcel(string FB)
         {
             bool Ok = false;
-            foreach (string s in ExcelFormat)
+
+            if (FB != null)
             {
-                if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in ExcelFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+
             return Ok;
 
         }
@@ -229,14 +275,19 @@ namespace ArchiveProject2019.Models
         public static bool IsPowerpoint(HttpPostedFileBase FB)
         {
             bool Ok = false;
-            foreach (string s in PowerpointFormat)
+
+            if (FB != null)
             {
-                if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in ExcelFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.FileName.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+
             return Ok;
 
         }
@@ -244,14 +295,19 @@ namespace ArchiveProject2019.Models
         public static bool IsPowerpoint(string FB)
         {
             bool Ok = false;
-            foreach (string s in PowerpointFormat)
+
+            if (FB != null)
             {
-                if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                foreach (string s in ExcelFormat)
                 {
-                    Ok = true;
-                    break;
+                    if (FB.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
             }
+
             return Ok;
 
         }
