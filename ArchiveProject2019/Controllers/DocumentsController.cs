@@ -1031,8 +1031,8 @@ namespace ArchiveProject2019.Controllers
                     {
                         IsEmpty = false;
                     }
-                }
-                if (IsEmpty)
+                } 
+                if (!IsEmpty)
                 {
                     Status = false;
                     ModelState.AddModelError("Document.FileUrl", "يجب إدخال ملفات ");
