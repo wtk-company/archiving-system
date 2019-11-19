@@ -1,0 +1,191 @@
+﻿@model IEnumerable<ArchiveProject2019.Models.SealDocument>
+
+@{
+    ViewBag.Title = "قائمة التسديدات";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+
+<style>
+    .panel-body {
+        background-color: #243f5a;
+    }
+</style>
+
+@Html.Partial("_StartView")
+
+
+@if (ViewBag.Msg != null)
+{
+
+
+    if (ViewBag.Msg == "PermissionError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لا يمكن القيام بالعملية لعدم القدرة على ذلك
+
+        </div>
+    }
+    if (ViewBag.Msg == "CreateError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
+
+        </div>
+    }
+
+
+    if (ViewBag.Msg == "CreateSuccess")
+    {
+        <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية الإضافة بنجاح
+        </div>
+    }
+
+
+    if (ViewBag.Msg == "EditSuccess")
+    {
+        <div class="alert alert-success enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية تعديل البيانات بنجاح
+        </div>
+    }
+
+    if (ViewBag.Msg == "EditError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
+
+        </div>
+    }
+
+
+    if (ViewBag.Msg == "DeleteError")
+    {
+        <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            لايمكن القيام بعمليةالحذف، العمليةغير مسموحة
+
+        </div>
+    }
+    if (ViewBag.Msg == "DeleteSuccess")
+    {
+        <div class="alert alert-danger enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية الحذف بنجاح
+
+
+        </div>
+    }
+
+
+
+}
+<div>
+    <a href="@Url.Action("index","Documents")" class="btn btn-primary"> قائمة الوثائق  <i class="glyphicon glyphicon-backward"></i></a>
+    <hr />
+</div>
+@if (Model.Any())
+{
+    <p>
+        <div class="comment-user"><span class="glyphicon glyphicon-folder-close"></span> @Model.ElementAt(0).Document.Subject</div>
+    </p>
+    <div id="form">
+        @foreach (var item in Model)
+        {
+
+        <article class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="panel panel-default arrow right">
+                    <div class="panel-body">
+                        <header class="text-left">
+                            <a href="#" data-form-id="@item.Id" title="ربط وثيقة" class="js-delete glyphicon glyphicon-remove"></a>
+                        </header>
+                        <header class="text-right">
+                            <div class="comment-user"><i class="fa fa-user"></i> @item.CreatedBy.UserName</div>
+                            <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> @item.CreatedAt</time>
+                            <div class="comment-user"><span class="glyphicon glyphicon-file"></span> @item.FileName</div>
+                            <label style="margin-top: 30px;">@item.FileName</label>
+                            <div>
+                                @Html.ActionLink(" فتح الملف", "DisplayDocument", "Seals",
+                                               new { id = item.Id },
+                                               new { @class = "glyphicon glyphicon-open btn btn-primary" }) |
+                                @Html.ActionLink(" تنزيل الملف", "DownloadDocument", "Seals",
+                                               new { id = item.Id },
+                                               new { @class = "glyphicon glyphicon-download btn btn-success" })
+                            </div>
+                            <hr />
+                        </header>
+                        <div class="comment-post">
+                            <p>
+                                @item.Message
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        }
+    </div>
+}
+else
+{
+    <p>لا يوجد اي تسديد لهذه الوثيقة</p>
+}
+
+
+@Html.Partial("_LastView")
+
+
+<div class="modal fade" tabindex="-1" id="NewModal"
+     data-keyboard="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 id="changeText" class="modal-title"></h4>
+            </div>
+            <div class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+    $("#form").on("click", ".js-delete", function () {
+
+        $("#changeText").text(" إختيار نموذج معين");
+
+        var url = '@Url.Action("Delete", "Seals")'
+        url = url + '/' + $(this).attr("data-form-id");
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+        });
+    });
+    </script>
+
+
+

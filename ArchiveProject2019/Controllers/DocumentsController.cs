@@ -1807,7 +1807,7 @@ namespace ArchiveProject2019.Controllers
                 .FirstOrDefault(a => a.Id == id);
             var Fields = _context.Fields.Where(f => f.FormId == Document.FormId).ToList();
             var Values = _context.Values.Where(a => a.Document_id == Document.Id).ToList();
-
+            var seals = _context.SealDocuments.Where(s => s.DocumentId == Document.Id).Include(s => s.Document).Include(s => s.CreatedBy).ToList();
             if (Document == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -1820,6 +1820,7 @@ namespace ArchiveProject2019.Controllers
                 Values = Values,
                 FilesStoredInDbs = Document.FilesStoredInDbs.ToList(),
                 IsSaveInDb = this.IsSaveInDb,
+                Seals = seals,
             };
 
             return View(viewModel);
@@ -1897,14 +1898,6 @@ namespace ArchiveProject2019.Controllers
             return DownloadDocument(id, fileName);
         }
 
-        public ActionResult AdvancedDocumentSearch()
-        {
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
-            ViewBag.parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
-            ViewBag.MailType = new SelectList(_context.TypeMails.ToList(),"Id","Name");
-
-            return View();
-        }
         public DateTime stringToDate(string s)
         {
             return DateTime.ParseExact(s, "yyyy/MM/dd", null);
@@ -1930,15 +1923,22 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+        public ActionResult Search()
+        {
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
+            ViewBag.MailType = new SelectList(_context.TypeMails.ToList(),"Id","Name");
+
+            return View();
+        }
 
 
         [HttpPost]
-        public ActionResult AdvancedDocumentSearch(int? RecordCount, int RetrievalCount, string DocNum,
-            string DocSubject, string DocKind, string DocParty, string MailType, string DocDescription, string DocFirstDate, string DocEndDate)
+        public ActionResult Search(int? RecordCount, int RetrievalCount, string DocNum, string DocSubject, string DocKind, string DocParty, string MailType, string DocDescription, string DocFirstDate, string DocEndDate)
         {
             List<Document> documents = null;
             DateTime fdate, ldate;
-            if (DocFirstDate == "")
+            if (DocFirstDate == null || DocFirstDate == "")
             {
                 fdate = DateTime.MinValue;
             }
@@ -1948,7 +1948,7 @@ namespace ArchiveProject2019.Controllers
                 fdate = DateTime.ParseExact(DocFirstDate, "yyyy/MM/dd", null);
             }
 
-            if (DocEndDate == "")
+            if (DocEndDate == null || DocEndDate == "")
             {
                 ldate = DateTime.MaxValue;
             }
@@ -2029,21 +2029,23 @@ namespace ArchiveProject2019.Controllers
                             d.Address.Contains(DocSubject) &&
 
                             // Filter by Document Description
-                            d.Address.Contains(DocDescription) 
+                            d.Address.Contains(DocDescription) ||
 
-                            //// Filter by Document Kind
-                            //d.KindId.Equals(Int32.Parse(DocKind)) &&
+                            // Filter by Document Kind
+                            d.KindId.ToString().Equals(DocKind) ||
 
-                            //// Filter by Document Party
-                            //d.PartyId.Equals(Int32.Parse(DocParty)) &&
+                            // Filter by Document Party
+                            d.PartyId.ToString().Equals(DocParty) ||
 
-                            //// Filter by Mail Type
-                            //d.TypeMailId.Equals(Int32.Parse(MailType)) &&
 
-                            //// Filter by Document First Date
-                            //CheckDate.StringToDate(d.DocumentDate) >= CheckDate.StringToDate(DocFirstDate) &&
-                            //// Filter by Document End Data
-                            //CheckDate.StringToDate(d.DocumentDate) <= CheckDate.StringToDate(DocEndDate)
+                            // Filter by Mail Type
+                            d.TypeMailId.ToString().Equals(MailType)
+
+                          //   && BiggerThan(d.DocumentDate, fdate)                            // Filter by Document First Date
+                          //    DateTime.ParseExact(d.DocumentDate, "yyyy/MM/dd", null) >=fdate&&
+
+                          // Filter by Document End Data
+                          // DateTime.ParseExact(d.DocumentDate, "yyyy/MM/dd", null) <= ldate
                           )
                           .Include(d => d.Department).Include(d => d.Form).Skip(RetrievalCount * RecordCount.Value)
                           .Take(RetrievalCount).ToList();

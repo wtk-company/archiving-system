@@ -130,5 +130,6 @@ namespace ArchiveProject2019.Models
         public ICollection<DocumentParty> DocumentParties { set; get; }
         public ICollection<FilesStoredInDb> FilesStoredInDbs { set; get; }
         public ICollection<ReplayDocument> ReplayDocuments { set; get; }
+        public ICollection<SealDocument> SealDocuments { set; get; }
     }
 }

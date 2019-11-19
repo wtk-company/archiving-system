@@ -181,6 +181,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BackupRestoreController.cs" />
+    <Compile Include="Controllers\SealsController.cs" />
     <Compile Include="Controllers\DocumentPartiesController.cs" />
     <Compile Include="Controllers\DocumentTargetGroupsController.cs" />
     <Compile Include="Controllers\DocumentTargetDepartmentsController.cs" />
@@ -225,6 +226,10 @@
     <Compile Include="Migrations\201911171043510_ahmad-force.Designer.cs">
       <DependentUpon>201911171043510_ahmad-force.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911172232027_sealModel.cs" />
+    <Compile Include="Migrations\201911172232027_sealModel.Designer.cs">
+      <DependentUpon>201911172232027_sealModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DocumentStatus.cs" />
@@ -257,6 +262,7 @@
     <Compile Include="Models\RelatedDocument.cs" />
     <Compile Include="Models\ReplayDocument.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
+    <Compile Include="Models\SealDocument.cs" />
     <Compile Include="Models\TypeMail.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Models\Value.cs" />
@@ -1095,6 +1101,7 @@
     <Content Include="Views\Documents\Form.cshtml" />
     <Content Include="Views\Documents\GetRelatedDocument.cshtml" />
     <Content Include="Views\Documents\GetReplayDocument.cshtml" />
+
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Documents\Relate.cshtml" />
     <Content Include="Views\Documents\Release.cshtml" />
@@ -1108,6 +1115,7 @@
     <Content Include="Views\DocumentUsers\Delete.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActive.cshtml" />
     <Content Include="Views\DocumentUsers\Details.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1126,6 +1134,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911171043510_ahmad-force.resx">
       <DependentUpon>201911171043510_ahmad-force.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911172232027_sealModel.resx">
+      <DependentUpon>201911172232027_sealModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

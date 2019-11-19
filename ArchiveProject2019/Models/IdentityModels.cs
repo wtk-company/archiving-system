@@ -184,7 +184,7 @@ namespace ArchiveProject2019.Models
 
         public DbSet<ReplayDocument> ReplayDocuments { set; get; }
 
-
+        public DbSet<SealDocument> SealDocuments { set; get; }
 
 
 
@@ -198,9 +198,5 @@ namespace ArchiveProject2019.Models
         {
             return new ApplicationDbContext();
         }
-
-        //public System.Data.Entity.DbSet<ArchiveProject2019.Models.FormDepartment> FormDepartments { get; set; }
-
-      //  public System.Data.Entity.DbSet<ArchiveProject2019.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }

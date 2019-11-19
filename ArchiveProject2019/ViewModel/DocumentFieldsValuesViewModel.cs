@@ -13,5 +13,6 @@ namespace ArchiveProject2019.ViewModel
         public List<Value> Values { get; set; }
         public List<FilesStoredInDb> FilesStoredInDbs { get; set; }
         public bool IsSaveInDb { get; set; }
+        public List<SealDocument> Seals { get; set; }
     }
 }
