@@ -5,11 +5,6 @@
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
-@Html.Partial("_StartView")
-
-
-
-
 
 @if (ViewBag.Msg != null)
 {
@@ -41,6 +36,19 @@
 
 
 
+    if (ViewBag.Msg == "EditSuccess")
+    {
+        <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
+            <span class="glyphicon glyphicon-bell">
+
+            </span>
+            تمت عملية تعديل التفعيل بنجاح
+        </div>
+    }
+
+
+
+
 
     if (ViewBag.Msg == "DeleteSuccess")
     {
@@ -48,7 +56,7 @@
             <span class="glyphicon glyphicon-bell">
 
             </span>
-            تمت عملية إزالةالقسم من الوثيقة بنجاح
+            تمت عملية إزالة الوثيقة من القسم بنجاح
 
 
         </div>
@@ -57,6 +65,13 @@
 
 
 }
+
+@Html.Partial("_StartView")
+
+
+
+
+
 
 <p>
     <a title="عودة لقائمة الوثائق" href="@Url.Action("index","Documents")" class="btn btn-warning">عودة لقائمة الوثائق</a>
@@ -71,17 +86,17 @@
             <th>
                 @Html.DisplayNameFor(model => model.DepartmentId)
             </th>
+
+
+
+
             <th>
                 @Html.DisplayNameFor(model => model.DocumentId)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.CreatedById)
+                @Html.DisplayNameFor(model => model.EnableEdit)
             </th>
-
 
 
             <th>
@@ -97,26 +112,40 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td style="text-align:right">
-                    @DepartmentListDisplay.CreateDepartmentDisplay(item.DepartmentId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.document.Subject)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
+        <tr>
+            <td style="text-align:right">
+                @DepartmentListDisplay.CreateDepartmentDisplay(item.DepartmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.document.Subject)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
-                </td>
 
-                <td>
-                    <button data-form-id="@item.Id" title="إزالة القسم" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+            <td>
+                @Html.DisplayFor(model => item.EnableEdit)
 
-                </td>
-            </tr>
+            </td>
+            <td>
+
+                @if (item.EnableEdit == true)
+                {
+
+                    <button data-form-id="@item.Id" title="الغاء التعديل" class="js-Active btn-xs btn-primary">إلغاء التعديل</button>
+                }
+                else
+                {
+
+                    <button data-form-id="@item.Id" title="تفعيل التعديل" class="js-Active btn-xs btn-success">تفعيل التعديل</button>
+                }
+
+
+                <button data-form-id="@item.Id" title="إزالة القسم" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+
+                <button data-form-id="@item.Id" title="تفاصيل" class="js-Details btn-xs btn-default"><span class="glyphicon glyphicon-book"></span></button>
+
+
+            </td>
+        </tr>
         }
     </tbody>
 
@@ -162,7 +191,7 @@
 
 
 
-   
+
 
     $("#form").on("click", ".js-delete", function () {
 
@@ -177,7 +206,36 @@
 
                    });
 
-    
+
+
+    $("#form").on("click", ".js-Active", function () {
+
+        $("#changeText").text("عملية تعديل التفعيل");
+
+                       var url = '@Url.Action("ActiveNOnActive", "DocumentDepartments")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+
+
+    $("#form").on("click", ".js-Details", function () {
+
+        $("#changeText").text("تفاصيل عملية الاسناد");
+
+                       var url = '@Url.Action("Details", "DocumentDepartments")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
 
 
 

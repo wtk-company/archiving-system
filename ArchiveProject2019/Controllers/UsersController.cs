@@ -334,7 +334,8 @@ namespace ArchiveProject2019.Controllers
                 JobTitle = User.JobTitleId == null ? "" : db.JobTitles.Find(User.JobTitleId).Name,
                 CreatedBy = string.IsNullOrEmpty(User.CreatedById) ? "" : UserManager.FindById(User.CreatedById).FullName,
                 RoleName = User.RoleName,
-                Email = User.Email
+                Email = User.Email,
+              UpdatedBy= User.UpdatedByID==null?"": db.Users.Find(User.UpdatedByID).FullName
             };
 
             return View(UserModel);
@@ -370,6 +371,7 @@ namespace ArchiveProject2019.Controllers
                 Gender = user.Gender,
                 JobTitleId = user.JobTitleId == null ? 0 : user.JobTitleId.Value,
                 DepartmentID = user.DepartmentId == null ? 0 : user.DepartmentId.Value
+
 
             };
 
@@ -497,7 +499,8 @@ namespace ArchiveProject2019.Controllers
                 user.Gender = EProfile.Gender;
                 user.RoleName = EProfile.Role;
                 user.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-
+               user.UpdatedByID = this.User.Identity.GetUserId();
+                
                 db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                 //Add User To Groups
 
@@ -757,6 +760,8 @@ namespace ArchiveProject2019.Controllers
                 user.LockoutEnabled = true;
             }
 
+            user.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+           // user.UpdatedById = this.User.Identity.GetUserId();
             db.Entry(user).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Index", new { @Id = "LockSuccess" });

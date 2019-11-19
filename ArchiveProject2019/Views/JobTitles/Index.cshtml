@@ -1,22 +1,19 @@
 ﻿@model IEnumerable<ArchiveProject2019.Models.JobTitle>
-    @using  ArchiveProject2019.HelperClasses
+@using ArchiveProject2019.HelperClasses
 
 @{
     ViewBag.Title = "قائمة المسميات الوظيفية";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
-@Html.Partial("_StartView")
-
-
 
 @if (ViewBag.Msg != null)
-            {
+{
 
 
-                
-            
+
+
     if (ViewBag.Msg == "DeleteError")
-                {
+    {
         <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
 
@@ -27,12 +24,12 @@
 
 
     if (ViewBag.Msg == "EditErrorMaxNumber")
-                {
+    {
         <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
 
             </span>
-          العملية غير متاحة، لا يمكن تقليل العدد الأعظمي للأعضاء لوجود الأعضاء مسبقا
+            العملية غير متاحة، لا يمكن تقليل العدد الأعظمي للأعضاء لوجود الأعضاء مسبقا
         </div>
     }
 
@@ -48,7 +45,7 @@
             لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
 
         </div>
-}
+    }
 
 
     if (ViewBag.Msg == "CreateSuccess")
@@ -99,6 +96,10 @@
 
 
 }
+@Html.Partial("_StartView")
+
+
+
 
 
 
@@ -114,7 +115,7 @@
 
     <thead>
         <tr>
-           
+
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -124,14 +125,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.MaximumMember)
             </th>
-           
-       
+
+
             <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
             <th>
                 @Html.DisplayName("العمليات المتاحة")
-                
+
             </th>
         </tr>
 
@@ -145,7 +146,7 @@
         @foreach (var item in Model)
         {
             <tr>
-               
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -155,13 +156,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.MaximumMember)
                 </td>
-           
-             
+
+
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
-                  
+
                     <button data-form-id="@item.Id" title="تعديل المسمى الوظيفي" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
 
                     @if (CheckDelete.CheckJobTitleDelete(item.Id) == true)
@@ -179,7 +180,7 @@
 
     </tbody>
 
-   
+
 </table>
 
 

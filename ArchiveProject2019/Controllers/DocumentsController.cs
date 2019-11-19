@@ -103,11 +103,21 @@ namespace ArchiveProject2019.Controllers
             };
 
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name");
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+   
             ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
+        
             ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
             ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
+
+
+
+            //Asmi :
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+            ViewBag.RelatedGroups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name");
+            ViewBag.RelatedDepartments= new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name");
+            ViewBag.RelatedUsers = new SelectList(_context.Users.Where(a=>!a.RoleName.Equals("Master")).ToList(), "Id", "FullName");
 
             return View(myModel);
         }
@@ -116,7 +126,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string> PartyIds, IEnumerable<string> Departments, IEnumerable<string> Groups)
+        public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string> PartyIds, IEnumerable<string> Departments, IEnumerable<string> Groups
+            ,IEnumerable<string> RelatedGroups,IEnumerable<string> RelatedDepartments,IEnumerable<string> RelatedUsers)
         {
             ViewBag.Current = "Document";
 
@@ -312,13 +323,27 @@ namespace ArchiveProject2019.Controllers
                 }
             }
 
+
+
+
+            //retturn error:
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
             ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
             ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
             ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
             //Status Model = false{status==false}
+
+
+            //Error:
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name", viewModel.Document.TypeMailId);
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", viewModel.Document.KindId);
+            ViewBag.RelatedGroups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name", viewModel.Document.StatusId);
+            ViewBag.RelatedDepartments = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name");
+            ViewBag.RelatedUsers = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName");
+
+
+
             if (Status == false)
             {
                 return View(viewModel);
@@ -354,6 +379,7 @@ namespace ArchiveProject2019.Controllers
                     viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
                 }
 
+
                 // Document Details:
                 viewModel.Document.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 viewModel.Document.CreatedById = UserId;
@@ -361,6 +387,165 @@ namespace ArchiveProject2019.Controllers
 
                 _context.Documents.Add(viewModel.Document);
                 _context.SaveChanges();
+
+
+
+                //==========RelatedDepartments && Related Group======================
+
+                //Notification time:
+                string NotificationTime = string.Empty;
+                //List of users id:
+                List<string> UsersId = new List<string>();
+
+                if (RelatedDepartments != null)
+                {
+                   
+                    foreach (string Department_Id in RelatedDepartments)
+                    {
+                        var _DocumentDepartment = new DocumentDepartment()
+                        {
+
+                           EnableEdit=true,
+                           DocumentId= viewModel.Document.Id,
+                           DepartmentId=Convert.ToInt32(Department_Id),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
+
+                        _context.DocumentDepartments.Add(_DocumentDepartment);
+                        _context.SaveChanges();
+
+                        //Notifications:
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                        int Dep_Id = Convert.ToInt32(Department_Id);
+                        //Users in this Department:
+                        UsersId = _context.Users.Where(a => a.DepartmentId == Dep_Id).Select(a => a.Id).ToList();
+                        //Notification object:
+                        Notification notification = null;
+
+
+                        //Users in this department:
+                        List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                        foreach (ApplicationUser user in Users)
+                        {
+
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = user.Id,
+                                Message = "تم إضافة وثيقة جديدة للقسم الحالي، رقم الوثيقة :" + viewModel.Document.DocumentNumber + " موضوع الوثيقة :" + viewModel.Document.Subject
+                                + " ،عنوان الوثيقة :" + viewModel.Document.Address + "،وصف الوثيقة :" + viewModel.Document.Description
+                               ,
+                                NotificationOwnerId = UserId
+                            };
+                            _context.Notifications.Add(notification);
+                        }
+
+
+
+                    }
+                }
+                if (RelatedGroups != null)
+                {
+
+                    foreach (string Group_Id in RelatedGroups)
+                    {
+                        var _DocumentGroup = new DocumentGroup()
+                        {
+
+                            EnableEdit = true,
+                            DocumentId = viewModel.Document.Id,
+                            GroupId = Convert.ToInt32(Group_Id),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
+
+                        _context.DocumentGroups.Add(_DocumentGroup);
+                        _context.SaveChanges();
+
+                        //Notifications:
+
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                        int GroupId = Convert.ToInt32(Group_Id);
+                        UsersId = _context.UsersGroups.Where(a => a.GroupId == GroupId).Select(a => a.UserId).ToList();
+
+                        string GroupName = _context.Groups.Find(GroupId).Name;
+                        Notification notification = null;
+
+                        List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                        foreach (ApplicationUser user in Users)
+                        {
+
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = user.Id,
+                                Message = "تم إضافة وثيقة جديدة للمجموعة :" + GroupName + "، رقم الوثيقة :" + viewModel.Document.Name + " ، موضوع الوثيقة:" + viewModel.Document.Subject +
+                                " ، عنوان الوثيقة:" + viewModel.Document.Address + " ،وصف الوثيقة :" + viewModel.Document.Description
+                               ,
+                                NotificationOwnerId = UserId
+                            };
+                            _context.Notifications.Add(notification);
+                        }
+
+                    }
+                }
+
+
+                if (RelatedUsers != null)
+                {
+
+                    foreach (string User_Id in RelatedUsers)
+                    {
+                        var _DocumentUser = new DocumentUser()
+                        {
+
+                            EnableEdit = true,
+                            DocumentId = viewModel.Document.Id,
+                           UserId = User_Id,
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
+
+                        _context.DocumentUsers.Add(_DocumentUser);
+                        _context.SaveChanges();
+
+                        //Notifications:
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                        
+                    
+                        //Notification object:
+                        Notification notification = null;
+
+
+                      
+
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = User_Id,
+                                Message = "تم إضافة وثيقة جديدة  ، رقم الوثيقة :" + viewModel.Document.DocumentNumber + " موضوع الوثيقة :" + viewModel.Document.Subject
+                                + " ،عنوان الوثيقة :" + viewModel.Document.Address + "،وصف الوثيقة :" + viewModel.Document.Description
+                               ,
+                                NotificationOwnerId = UserId
+                            };
+                            _context.Notifications.Add(notification);
+                    
+
+
+
+                    }
+                }
+                _context.SaveChanges();
+
+                //==================================== end =========================
+
 
 
                 if (IsSaveInDb)
@@ -511,12 +696,82 @@ namespace ArchiveProject2019.Controllers
             };
 
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", document.DepartmentId);
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
+           
             ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name", document.PartyId);
             ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
             ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
             ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
-            
+
+
+   //[Asmi new]:
+            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name",document.StatusId);
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", document.KindId);
+            //[Related Departments]:
+
+
+            //============== Related Users/Departments/Groups=============================
+            SelectListItem sl;
+            List<SelectListItem> ListSl = new List<SelectListItem>();
+            foreach (var G in DepartmentListDisplay.CreateDepartmentListDisplay().ToList())
+            {
+                sl = new SelectListItem()
+                {
+
+                    Text = G.Name,
+                    Value = G.Id.ToString(),
+                    Selected = _context.DocumentDepartments.Any(a=>a.DocumentId==document.Id && a.DepartmentId==G.Id) ? true : false
+                };
+
+                ListSl.Add(sl);
+
+            }
+            ViewBag.RelatedDepartments = ListSl;
+
+
+
+
+            //Related Groups:
+
+          
+            List<SelectListItem> ListS2 = new List<SelectListItem>();
+            foreach (var G in _context.Groups.ToList())
+            {
+                sl = new SelectListItem()
+                {
+
+                    Text = G.Name,
+                    Value = G.Id.ToString(),
+                    Selected = _context.DocumentGroups.Any(a => a.DocumentId == document.Id && a.GroupId == G.Id) ? true : false
+                };
+
+                ListS2.Add(sl);
+
+            }
+            ViewBag.RelatedGroups = ListS2;
+
+
+            //RelatedUsers:
+            List<SelectListItem> ListS3 = new List<SelectListItem>();
+            foreach (var U in _context.Users.Where(a=>!a.RoleName.Equals("Master")).ToList())
+            {
+                sl = new SelectListItem()
+                {
+
+                    Text = U.FullName,
+                    Value = U.Id.ToString(),
+                    Selected = _context.DocumentUsers.Any(a => a.DocumentId == document.Id && a.UserId == U.Id) ? true : false
+                };
+
+                ListS3.Add(sl);
+
+            }
+            ViewBag.RelatedUsers = ListS3;
+
+
+
+            //================= End Related Opertaions==================
+
+
             if (IsSaveInDb)
             {
                 var names = document.FilesStoredInDbs.Count;
@@ -555,7 +810,9 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Edit(DocumentDocIdFieldsValuesViewModel viewModel, HttpPostedFileBase[] UploadFile, IEnumerable<HttpPostedFileBase> FieldFile)
+        public ActionResult Edit(DocumentDocIdFieldsValuesViewModel viewModel, HttpPostedFileBase[] UploadFile, IEnumerable<HttpPostedFileBase> FieldFile
+            ,IEnumerable<string> RelatedDepartments, IEnumerable<string> RelatedGroups
+            , IEnumerable<string> RelatedUsers)
         {
 
             ViewBag.Current = "Document";
@@ -683,20 +940,82 @@ namespace ArchiveProject2019.Controllers
             }
 
             ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
             ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name", viewModel.Document.PartyId);
             ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
             ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
             ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
 
-            //ViewBag.TypeMail = new List<SelectListItem>()
-            //{
-            //    new SelectListItem { Text="اختر نوع البريد", Value = null},
-            //    new SelectListItem { Text="وارد", Value="وارد"},
-            //    new SelectListItem { Text="صادر", Value="صادر" },
-            //    new SelectListItem { Text="داخلي", Value="داخلي" },
-            //    new SelectListItem { Text="ارشيف", Value="ارشيف" },
-            //};
+
+
+            //Asmi [Return ]:
+            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name", viewModel.Document.StatusId);
+
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", viewModel.Document.KindId);
+
+
+
+            //===================== Related Departments/Groups/Users=====================
+            //[Related Departments]:
+            SelectListItem sl;
+            List<SelectListItem> ListSl = new List<SelectListItem>();
+            foreach (var G in DepartmentListDisplay.CreateDepartmentListDisplay().ToList())
+            {
+                sl = new SelectListItem()
+                {
+
+                    Text = G.Name,
+                    Value = G.Id.ToString(),
+                    Selected = _context.DocumentDepartments.Any(a => a.DocumentId == viewModel.Document.Id && a.DepartmentId == G.Id) ? true : false
+                };
+
+                ListSl.Add(sl);
+
+            }
+            ViewBag.RelatedDepartments = ListSl;
+
+
+
+
+            //Related Groups:
+
+
+            List<SelectListItem> ListS2 = new List<SelectListItem>();
+            foreach (var G in _context.Groups.ToList())
+            {
+                sl = new SelectListItem()
+                {
+
+                    Text = G.Name,
+                    Value = G.Id.ToString(),
+                    Selected = _context.DocumentGroups.Any(a => a.DocumentId == viewModel.Document.Id && a.GroupId == G.Id) ? true : false
+                };
+
+                ListS2.Add(sl);
+
+            }
+            ViewBag.RelatedGroups = ListS2;
+
+
+            //RelatedUsers:
+            List<SelectListItem> ListS3 = new List<SelectListItem>();
+            foreach (var U in _context.Users.Where(a => !a.RoleName.Equals("Master")).ToList())
+            {
+                sl = new SelectListItem()
+                {
+
+                    Text = U.FullName,
+                    Value = U.Id.ToString(),
+                    Selected = _context.DocumentUsers.Any(a => a.DocumentId == viewModel.Document.Id && a.UserId == U.Id) ? true : false
+                };
+
+                ListS3.Add(sl);
+
+            }
+            ViewBag.RelatedUsers = ListS3;
+
+
+
+            //end return
 
             if (UploadFile.ElementAt(0) == null && !viewModel.ExistFiles.Contains(true))
             {
@@ -860,6 +1179,427 @@ namespace ArchiveProject2019.Controllers
                 //Document Update:
                 _context.Entry(viewModel.Document).State = EntityState.Modified;
                 _context.SaveChanges();
+
+
+                //======================Related Departments/Groups/Users:
+                //Related Departments:
+                //Notification time:
+                string NotificationTime = string.Empty;
+                //List of users id:
+                List<string> UsersId = new List<string>();
+
+
+                var UserId = User.Identity.GetUserId();
+
+
+
+                List<string> SelectedDocumentDepartments = new List<string>();
+                SelectedDocumentDepartments = _context.DocumentDepartments.Where(a => a.DocumentId==viewModel.Document.Id).Select(a => a.DepartmentId.ToString()).ToList();
+                if (RelatedDepartments != null)
+                {
+                    DocumentDepartment _DocumentDepartment = null;
+                    List<string> ExpectDocumentDepartment = new List<string>();
+                    ExpectDocumentDepartment = SelectedDocumentDepartments.Except(RelatedDepartments).ToList();
+                    foreach (string _DocumentDepartment_Id in RelatedDepartments)
+                    {
+
+
+                        if (SelectedDocumentDepartments.Contains(_DocumentDepartment_Id))
+                        {
+
+                            continue;
+                        }
+                        _DocumentDepartment = new DocumentDepartment()
+                        {
+
+                            DocumentId = viewModel.Document.Id,
+                            EnableEdit = true,
+                            DepartmentId = Convert.ToInt32(_DocumentDepartment_Id),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
+
+                        _context.DocumentDepartments.Add(_DocumentDepartment);
+
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+
+                        int Dep_Id = Convert.ToInt32(_DocumentDepartment_Id);
+                        //Users in this Department:
+                        UsersId = _context.Users.Where(a => a.DepartmentId == Dep_Id).Select(a => a.Id).ToList();
+                        //Notification object:
+                        Notification notification = null;
+
+
+                        //Users in this department:
+                        List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                        foreach (ApplicationUser user in Users)
+                        {
+
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = user.Id,
+                                Message = "تم إضافة وثيقة جديدة للقسم الحالي، رقم الوثيقة :" + viewModel.Document.DocumentNumber + " موضوع الوثيقة :" + viewModel.Document.Subject
+                                + " ،عنوان الوثيقة :" + viewModel.Document.Address + "،وصف الوثيقة :" + viewModel.Document.Description
+                               ,
+                                NotificationOwnerId = UserId
+                            };
+                            _context.Notifications.Add(notification);
+                        }
+
+                    }
+
+
+                    DocumentDepartment deleteDocumentDepartment;
+                    foreach (string s in ExpectDocumentDepartment)
+                    {
+                        deleteDocumentDepartment = _context.DocumentDepartments.Where(a =>a.DocumentId==viewModel.Document.Id&&a.DepartmentId.ToString().Equals(s)).SingleOrDefault();
+                        int Dep_Id = deleteDocumentDepartment.DepartmentId;
+                        _context.DocumentDepartments.Remove(deleteDocumentDepartment);
+
+
+
+
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+
+                        
+                        //Users in this Department:
+                        UsersId = _context.Users.Where(a => a.DepartmentId == Dep_Id).Select(a => a.Id).ToList();
+                        //Notification object:
+                        Notification notification = null;
+
+
+                        //Users in this department:
+                        List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                        foreach (ApplicationUser user in Users)
+                        {
+
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = user.Id,
+                                Message = "تم إزالة وثيقة من للقسم الحالي، رقم الوثيقة :" + viewModel.Document.DocumentNumber + " موضوع الوثيقة :" + viewModel.Document.Subject
+                                + " ،عنوان الوثيقة :" + viewModel.Document.Address + "،وصف الوثيقة :" + viewModel.Document.Description
+                               ,
+                                NotificationOwnerId = UserId
+                            };
+                            _context.Notifications.Add(notification);
+                        }
+                    }
+                    _context.SaveChanges();
+
+                }
+
+                else
+                {
+                    foreach (DocumentDepartment _DocumentDepartment in _context.DocumentDepartments.Where(a => a.DocumentId==viewModel.Document.Id))
+                    {
+
+                        int Dep_Id = _DocumentDepartment.DepartmentId;
+                        _context.DocumentDepartments.Remove(_DocumentDepartment);
+
+
+
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+
+
+                        //Users in this Department:
+                        UsersId = _context.Users.Where(a => a.DepartmentId == Dep_Id).Select(a => a.Id).ToList();
+                        //Notification object:
+                        Notification notification = null;
+
+
+                        //Users in this department:
+                        List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                        foreach (ApplicationUser user in Users)
+                        {
+
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = user.Id,
+                                Message = "تم إزالة وثيقة من للقسم الحالي، رقم الوثيقة :" + viewModel.Document.DocumentNumber + " موضوع الوثيقة :" + viewModel.Document.Subject
+                                + " ،عنوان الوثيقة :" + viewModel.Document.Address + "،وصف الوثيقة :" + viewModel.Document.Description
+                               ,
+                                NotificationOwnerId = UserId
+                            };
+                            _context.Notifications.Add(notification);
+                        }
+
+
+                    }
+
+                    _context.SaveChanges();
+
+                }
+
+
+
+                //Related Groups:
+                List<string> SelectedDocumentGroups = new List<string>();
+                SelectedDocumentGroups = _context.DocumentGroups.Where(a => a.DocumentId == viewModel.Document.Id).Select(a => a.GroupId.ToString()).ToList();
+                if (RelatedGroups != null)
+                {
+                    DocumentGroup _DocumentGroup = null;
+                    List<string> ExpectDocumentGroups = new List<string>();
+                    ExpectDocumentGroups = SelectedDocumentGroups.Except(RelatedGroups).ToList();
+                    foreach (string _DocumentGroup_Id in RelatedGroups)
+                    {
+
+
+                        if (SelectedDocumentGroups.Contains(_DocumentGroup_Id))
+                        {
+
+                            continue;
+                        }
+                        _DocumentGroup = new DocumentGroup()
+                        {
+
+                            DocumentId = viewModel.Document.Id,
+                            EnableEdit = true,
+                            GroupId = Convert.ToInt32(_DocumentGroup_Id),
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
+
+                        _context.DocumentGroups.Add(_DocumentGroup);
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                        int GroupId = Convert.ToInt32(_DocumentGroup_Id);
+                        UsersId = _context.UsersGroups.Where(a => a.GroupId == GroupId).Select(a => a.UserId).ToList();
+
+                        string GroupName = _context.Groups.Find(GroupId).Name;
+                        Notification notification = null;
+
+                        List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                        foreach (ApplicationUser user in Users)
+                        {
+
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = user.Id,
+                                Message = "تم إضافة وثيقة جديدة للمجموعة :" + GroupName + "، رقم الوثيقة :" + viewModel.Document.Name + " ، موضوع الوثيقة:" + viewModel.Document.Subject +
+                                " ، عنوان الوثيقة:" + viewModel.Document.Address + " ،وصف الوثيقة :" + viewModel.Document.Description
+                               ,
+                                NotificationOwnerId = UserId
+                            };
+                            _context.Notifications.Add(notification);
+                        }
+                    }
+
+                    _context.SaveChanges();
+                    DocumentGroup deleteDocumentGroup;
+                    foreach (string s in ExpectDocumentGroups)
+                    {
+                        deleteDocumentGroup = _context.DocumentGroups.Where(a => a.DocumentId == viewModel.Document.Id && a.GroupId.ToString().Equals(s)).SingleOrDefault();
+                        int GroupId = Convert.ToInt32(s);
+
+                        _context.DocumentGroups.Remove(deleteDocumentGroup);
+
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                        UsersId = _context.UsersGroups.Where(a => a.GroupId == GroupId).Select(a => a.UserId).ToList();
+
+                        string GroupName = _context.Groups.Find(GroupId).Name;
+                        Notification notification = null;
+
+                        List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                        foreach (ApplicationUser user in Users)
+                        {
+
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = user.Id,
+                                Message = "تم إزالة وثيقة من المجموعة :" + GroupName + "، رقم الوثيقة :" + viewModel.Document.Name + " ، موضوع الوثيقة:" + viewModel.Document.Subject +
+                                " ، عنوان الوثيقة:" + viewModel.Document.Address + " ،وصف الوثيقة :" + viewModel.Document.Description
+                               ,
+                                NotificationOwnerId = UserId
+                            };
+                            _context.Notifications.Add(notification);
+                        }
+                    }
+                    _context.SaveChanges();
+
+                }
+
+                else
+                {
+                    foreach (DocumentGroup _DocumentGroup in _context.DocumentGroups.Where(a => a.DocumentId == viewModel.Document.Id))
+                    {
+                        int GroupId = _DocumentGroup.GroupId;
+                        _context.DocumentGroups.Remove(_DocumentGroup);
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                        UsersId = _context.UsersGroups.Where(a => a.GroupId == GroupId).Select(a => a.UserId).ToList();
+
+                        string GroupName = _context.Groups.Find(GroupId).Name;
+                        Notification notification = null;
+
+                        List<ApplicationUser> Users = _context.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+                        foreach (ApplicationUser user in Users)
+                        {
+
+                            notification = new Notification()
+                            {
+
+                                CreatedAt = NotificationTime,
+                                Active = false,
+                                UserId = user.Id,
+                                Message = "تم إزالة وثيقة من المجموعة :" + GroupName + "، رقم الوثيقة :" + viewModel.Document.Name + " ، موضوع الوثيقة:" + viewModel.Document.Subject +
+                                " ، عنوان الوثيقة:" + viewModel.Document.Address + " ،وصف الوثيقة :" + viewModel.Document.Description
+                               ,
+                                NotificationOwnerId = UserId
+                            };
+                            _context.Notifications.Add(notification);
+                        }
+                    }
+
+                    _context.SaveChanges();
+
+                }
+
+
+
+
+                //Relaated Users:
+
+                List<string> SelectedDocumentUsers = new List<string>();
+                SelectedDocumentUsers = _context.DocumentUsers.Where(a => a.DocumentId == viewModel.Document.Id).Select(a => a.UserId.ToString()).ToList();
+                if (RelatedUsers != null)
+                {
+                    DocumentUser _DocumentUser= null;
+                    List<string> ExpectDocumentUsers = new List<string>();
+                    ExpectDocumentUsers = SelectedDocumentUsers.Except(RelatedUsers).ToList();
+                    foreach (string _DocumentUser_Id in RelatedUsers)
+                    {
+
+
+                        if (SelectedDocumentUsers.Contains(_DocumentUser_Id))
+                        {
+
+                            continue;
+                        }
+                        _DocumentUser = new DocumentUser()
+                        {
+
+                            DocumentId = viewModel.Document.Id,
+                            EnableEdit = true,
+                            UserId = _DocumentUser_Id,
+                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                            CreatedById = this.User.Identity.GetUserId()
+                        };
+
+                        _context.DocumentUsers.Add(_DocumentUser);
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+
+                        //Notification object:
+                        Notification notification = null;
+
+
+
+
+                        notification = new Notification()
+                        {
+
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = _DocumentUser_Id,
+                            Message = "تم إضافة وثيقة جديدة  ، رقم الوثيقة :" + viewModel.Document.DocumentNumber + " موضوع الوثيقة :" + viewModel.Document.Subject
+                            + " ،عنوان الوثيقة :" + viewModel.Document.Address + "،وصف الوثيقة :" + viewModel.Document.Description
+                           ,
+                            NotificationOwnerId = UserId
+                        };
+                        _context.Notifications.Add(notification);
+
+
+                    }
+                    _context.SaveChanges();
+
+                    DocumentUser deleteDocumentUser;
+                    foreach (string s in ExpectDocumentUsers)
+                    {
+                        deleteDocumentUser = _context.DocumentUsers.Where(a => a.DocumentId == viewModel.Document.Id && a.UserId.ToString().Equals(s)).SingleOrDefault();
+
+                        _context.DocumentUsers.Remove(deleteDocumentUser);
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+
+                        //Notification object:
+                        Notification notification = null;
+
+
+
+
+                        notification = new Notification()
+                        {
+
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = s,
+                            Message = "تم ازالة وثيقة   ، رقم الوثيقة :" + viewModel.Document.DocumentNumber + " موضوع الوثيقة :" + viewModel.Document.Subject
+                            + " ،عنوان الوثيقة :" + viewModel.Document.Address + "،وصف الوثيقة :" + viewModel.Document.Description
+                           ,
+                            NotificationOwnerId = UserId
+                        };
+                        _context.Notifications.Add(notification);
+
+                    }
+                    _context.SaveChanges();
+
+                }
+
+                else
+                {
+                    foreach (DocumentUser _DocumentUser in _context.DocumentUsers.Where(a => a.DocumentId == viewModel.Document.Id))
+                    {
+                        string s = _DocumentUser.UserId;
+                        _context.DocumentUsers.Remove(_DocumentUser);
+                        NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+
+                        //Notification object:
+                        Notification notification = null;
+
+
+
+
+                        notification = new Notification()
+                        {
+
+                            CreatedAt = NotificationTime,
+                            Active = false,
+                            UserId = s,
+                            Message = "تم ازالة وثيقة   ، رقم الوثيقة :" + viewModel.Document.DocumentNumber + " موضوع الوثيقة :" + viewModel.Document.Subject
+                            + " ،عنوان الوثيقة :" + viewModel.Document.Address + "،وصف الوثيقة :" + viewModel.Document.Description
+                           ,
+                            NotificationOwnerId = UserId
+                        };
+                        _context.Notifications.Add(notification);
+
+                    }
+                }
+
+                    _context.SaveChanges();
+
+                
+
+
+
+
+
 
                 if (FVVM != null)
                 {

@@ -4,13 +4,10 @@
     ViewBag.Title = "صلاحيات الأدوار";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
-@Html.Partial("_StartView")
-
-
 @if (ViewBag.Msg != null)
 {
 
-   
+
 
     if (ViewBag.Msg == "CreateError")
     {
@@ -81,6 +78,10 @@
 
 
 }
+@Html.Partial("_StartView")
+
+
+
 
 <p>
     <button title="إضافة الصلاحيات للدور" id="btnNewModel" class="btn btn-primary">أضافة صلاحيات الممكنة للدور</button>
@@ -114,8 +115,12 @@
             </th>
 
             <th>
+                @Html.DisplayNameFor(model => model.UpdatedById)
+            </th>
+
+            <th>
                 @Html.DisplayName("العمليات المتاحة")
-                
+
             </th>
         </tr>
     </thead>
@@ -123,31 +128,36 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Role.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Permission.Name)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Permission.Name)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Is_Active)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Is_Active)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Updatedat)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Updatedat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedBy.FullName)
+            </td>
 
-                <td>
-                    <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-active btn-xs btn-link"><span class="glyphicon glyphicon-check"></span></button>
-                    <button data-form-id="@item.Id" title="إزالة الصلاحية" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
-                </td>
-            </tr>
+
+
+            <td>
+                <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-active btn-xs btn-link"><span class="glyphicon glyphicon-check"></span></button>
+                <button data-form-id="@item.Id" title="إزالة الصلاحية" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+            </td>
+        </tr>
         }
     </tbody>
 
@@ -231,7 +241,7 @@
 
 
 
-    
+
 
 </script>
 

@@ -70,6 +70,12 @@ namespace ArchiveProject2019.Controllers
                     db.PermissionUsers.Where(a => a.UserId.Equals(user.Id) && a.PermissionId == p.Id).FirstOrDefault().Is_Active :
 
                     db.PermissionRoles.Where(a => a.RoleId.Equals(UserRoleId) && a.PermissionId == p.Id).FirstOrDefault().Is_Active
+                    ,
+                    CreatedAt= db.PermissionUsers.Where(a => a.UserId.Equals(user.Id)).Any(a => a.PermissionId == p.Id) ?
+                       db.PermissionUsers.Where(a => a.UserId.Equals(user.Id) && a.PermissionId == p.Id).FirstOrDefault().CreatedAt
+                       : ""
+
+
 
                 };
                 UserPermissionsList.Add(puser);
@@ -122,7 +128,7 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
-                            CreatedById = this.User.Identity.GetUserId(),
+                      
                             PermissionId = Permission_Id,
                             UserId = Session["User_Id"].ToString(),
                             Is_Active = true
@@ -137,7 +143,7 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
-                            CreatedById = this.User.Identity.GetUserId(),
+                         
                             PermissionId = Permission_Id,
                             UserId = Session["User_Id"].ToString(),
                             Is_Active = false
@@ -177,5 +183,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+
+       
     }
 }

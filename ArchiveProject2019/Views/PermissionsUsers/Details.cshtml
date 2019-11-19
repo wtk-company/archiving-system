@@ -1,0 +1,78 @@
+﻿@model ArchiveProject2019.Models.PermissionsUser
+@{
+    ViewBag.Title = "تفاصيل صلاحيات المستخدم";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+<div>
+
+    <dl class="dl-horizontal">
+
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.FullName)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PermissionId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Permission.Name)
+        </dd>
+
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Is_Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Is_Active)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy.FullName)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedById)
+        </dt>
+    
+
+
+
+
+
+
+
+    </dl>
+</div>
+
+
+<div class="modal-footer justify-content-center" style="margin-top:50px">
+
+    <button title="إغلاق النافذة" type="button" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
+</div>
+

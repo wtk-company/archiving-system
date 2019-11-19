@@ -6,42 +6,39 @@
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 
 }
-
-@Html.Partial("_StartView")
-
 @if (ViewBag.Msg != null)
-            {
+{
 
-            
-  
-                
+
+
+
 
     if (ViewBag.Msg == "CreateSuccess")
-                {
+    {
         <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
 
             </span>
             تمت عملية الإضافة بنجاح
         </div>
-                }
+    }
 
-    
+
     if (ViewBag.Msg == "LockSuccess")
-                {
+    {
         <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
 
             </span>
-           تمت عملية تعديل حالة قفل الحساب بنجاح
+            تمت عملية تعديل حالة قفل الحساب بنجاح
         </div>
-                }
-             
-             
+    }
+
+
 
 
     if (ViewBag.Msg == "EditSuccess")
-                {
+    {
         <div class="alert alert-success enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
 
@@ -59,7 +56,7 @@
             لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
 
         </div>
-}
+    }
 
 
     if (ViewBag.Msg == "DeleteSuccess")
@@ -80,7 +77,7 @@
             <span class="glyphicon glyphicon-bell">
 
             </span>
-            
+
             لا يمكن القيام بعملية الحذف
 
         </div>
@@ -89,6 +86,10 @@
 
 
 }
+
+@Html.Partial("_StartView")
+
+
 <p>
     <button title="إضافة مستخدم جديد" id="btnNewModel" class="btn btn-primary">أضافة مستخدم جديد</button>
 
@@ -104,11 +105,11 @@
     <thead>
         <tr>
 
-          
+
             <th>
                 @Html.DisplayNameFor(model => model.RoleName)
             </th>
-            
+
             <th>
                 @Html.DisplayName("اسم المستخدم")
             </th>
@@ -118,9 +119,9 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
-           
+
 
 
             <th>
@@ -131,44 +132,44 @@
     </thead>
 
 
-        <tbody>
-    @foreach (var item in Model)
-    {
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-             
+
 
                 <td>
 
                     @Html.DisplayFor(modelItem => item.RoleName)
 
 
-                   
+
 
                 </td>
 
                 <td>
                     @Html.DisplayFor(modelItem => item.UserName)
                 </td>
-             
+
                 <td>
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
 
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
-               
+
 
                 <td>
                     <button data-form-id="@item.Id" title="تفاصيل" class="btn-link js-Details  btn-xs  glyphicon glyphicon-book"></button>
                     <a href="@Url.Action("Edit","Users",new { id=item.Id})" title="تعديل" class="btn-link js-Edit  btn-xs  "><span class="glyphicon glyphicon-edit"></span></a>
 
 
-                    @if(CheckDelete.CheckUserDelete(item.Id))
+                    @if (CheckDelete.CheckUserDelete(item.Id))
                     {
 
-                   <button data-form-id="@item.Id" title="حذف" class="btn-link js-Delete  btn-xs  "><span class="glyphicon glyphicon-trash"></span></button>
+                        <button data-form-id="@item.Id" title="حذف" class="btn-link js-Delete  btn-xs  "><span class="glyphicon glyphicon-trash"></span></button>
                     }
 
 
@@ -193,8 +194,8 @@
                 </td>
             </tr>
 
-                        }
-        </tbody>
+        }
+    </tbody>
 
 </table>
 @Html.Partial("_LastView")
@@ -239,7 +240,7 @@
 
     });
 
-    
+
 
     $("#btnRefreshModel").on("click", function () {
 
@@ -281,7 +282,7 @@
         });
 
     });
-    
+
 
 
     $("#form").on("click", ".js-LockOut", function () {

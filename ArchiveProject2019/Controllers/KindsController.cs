@@ -39,7 +39,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             ViewBag.Current = "Kind";
-            var DocKinds = _context.Kinds.Include(a=>a.CreatedBy).ToList();
+            var DocKinds = _context.Kinds.Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy).ToList();
             return View(DocKinds.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
@@ -151,8 +151,10 @@ namespace ArchiveProject2019.Controllers
             {
                 string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 kinds.UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-          
+                 kinds.UpdatedById  = User.Identity.GetUserId();
                 _context.Entry(kinds).State = EntityState.Modified;
+                
+
                 _context.SaveChanges();
 
 
@@ -253,6 +255,33 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
         }
 
+
+
+        [Authorize]
+     //   [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
+
+        public ActionResult Details(int? id)
+        {
+            ViewBag.Current = "Kind";
+
+
+            if (id == null)
+            {
+                return RedirectToAction("BadRequestError", "ErrorController");
+
+            }
+
+            Kind kind = _context.Kinds.Include(a => a.CreatedBy).Include(a => a.UpdatedBy).SingleOrDefault(a=>a.Id==id);
+            if (kind == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+
+            }
+
+
+            return View(kind);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

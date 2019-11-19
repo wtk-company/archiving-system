@@ -47,7 +47,12 @@ namespace ArchiveProject2019.Models
         public ApplicationUser CreatedBy { set; get; }
 
 
+        [Display(Name = "امكانية التعديل")]
 
-    
+        public bool EnableEdit { set; get; }
+
+        [Display(Name = "تاريخ آخر تعديل ")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
+        public string UpdatedAt { get; set; }
     }
 }

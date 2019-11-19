@@ -8,9 +8,6 @@
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
-@Html.Partial("_StartView")
-
-
 
 @if (ViewBag.Msg != null)
 {
@@ -86,6 +83,9 @@
 
 
 }
+@Html.Partial("_StartView")
+
+
 <p>
     <button id="btnNewModel" title="إضافة نوع جديد" class="btn btn-primary">أضافة نوع جديد</button>
     <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
@@ -103,13 +103,12 @@
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedById)
-            </th>
+         
 
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
+      
 
 
             <th>
@@ -122,35 +121,33 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
 
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedAt)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
 
 
-                <td>
-                    <button data-Kind-id="@item.Id" title=" تعديل نوع معين" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+         
 
-                    @if (CheckDelete.CheckDocumentKindsDelete(item.Id) == true)
-                    {
+            <td>
+                <button data-Kind-id="@item.Id" title=" تعديل نوع معين" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
+                <button data-Kind-id="@item.Id" title=" تفاصيل نوع معين" class="js-Details  btn-xs btn-link "><span class="glyphicon glyphicon-book"></span></button>
 
-                        <button data-Kind-id="@item.Id" title="حذف نوع معين" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
-                    }
-                </td>
-            </tr>
+                @if (CheckDelete.CheckDocumentKindsDelete(item.Id) == true)
+                {
+
+                    <button data-Kind-id="@item.Id" title="حذف نوع معين" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                }
+            </td>
+        </tr>
 
 
         }
@@ -205,8 +202,18 @@
 
     });
 
+    $("#group").on("click", ".js-Details", function () {
 
+        $("#changeText").text("تفاصيل نوع معين");
 
+        var url = '@Url.Action("Details", "Kinds")';
+        url = url + '/' + $(this).attr("data-Kind-id");
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModel').modal('show');
+        });
+
+    });
 
     $("#group").on("click", ".js-Edit", function () {
 

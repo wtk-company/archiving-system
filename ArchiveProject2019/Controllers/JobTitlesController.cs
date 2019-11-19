@@ -186,7 +186,7 @@ namespace ArchiveProject2019.Controllers
             
                 db.Entry(jobTitle).State = EntityState.Modified;
                 string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-
+                jobTitle.UpdatedById = this.User.Identity.GetUserId();
                 db.SaveChanges();
 
                 string UserId = User.Identity.GetUserId();

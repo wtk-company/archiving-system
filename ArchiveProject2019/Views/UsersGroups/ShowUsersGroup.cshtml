@@ -6,11 +6,6 @@
 
 
 
-@Html.Partial("_StartView")
-
-
-
-
 @if (ViewBag.Msg != null)
 {
 
@@ -55,6 +50,11 @@
     }
 
 }
+@Html.Partial("_StartView")
+
+
+
+
 
 <a href="@Url.Action("Index","Groups")" class="btn btn-warning">عودة لقائمةالمجموعات</a>
 
@@ -67,19 +67,17 @@
 
 
 
-            
-          
+
+
             <th>
                 @Html.DisplayNameFor(model => model.UserId)
             </th>
-           
+
             <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedById)
-            </th>
+         
 
             <th>
                 العمليات المتاحة
@@ -96,17 +94,15 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.User.FullName)
                 </td>
-               
+
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
-                </td>
+               
                 <td>
 
-                   
+
                     <button data-UsersGroup-id="@item.Id" title="إزاله من المجموعة" class="btn btn-link js-delete  btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
                     <button data-UsersGroup-id="@item.Id" title="التفاصيل" class="btn btn-link js-details  btn-xs"><span class="glyphicon glyphicon-book"></span></button>
                     <button data-UsersGroup-id="@item.UserId" title="تفاصيل المستخدم" class="btn btn-link js-DetailsUser  btn-xs"><span class="glyphicon glyphicon-user"></span></button>

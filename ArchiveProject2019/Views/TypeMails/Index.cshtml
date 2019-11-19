@@ -6,11 +6,6 @@
     ViewBag.Title = "أنواع البريد";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
-
-@Html.Partial("_StartView")
-
-
-
 @if (ViewBag.Msg != null)
 {
 
@@ -85,6 +80,11 @@
 
 
 }
+@Html.Partial("_StartView")
+
+
+
+
 <p>
     <button id="btnNewModel" title="إضافة نوع جديد" class="btn btn-primary">أضافة نوع جديد</button>
     <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
@@ -102,9 +102,7 @@
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedById)
-            </th>
+          
 
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
@@ -121,42 +119,42 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
 
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
-                </td>
+          
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedAt)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+          
+
+            <td>
+                <button data-mail-id="@item.Id" title=" تفاصيل نوع بريد" class="js-Details  btn-xs btn-link "><span class="glyphicon glyphicon-book"></span></button>
 
 
-                <td>
+                @if (CheckDelete.CheckTypeMailEdit(item.Id))
+                {
 
-                    @if (CheckDelete.CheckTypeMailEdit(item.Id))
-                    {
+                    <button data-mail-id="@item.Id" title=" تعديل نوع بريد" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
 
-                    <button data-mail-id="@item.Id" title=" تعديل نوع معين" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> 
+                }
 
-                    }
+                @if (CheckDelete.CheckTypeMaildelete(item.Id))
+                {
 
-                    @if(CheckDelete.CheckTypeMaildelete(item.Id))
-                    {
+                    <button data-mail-id="@item.Id" title="حذف نوع بريد" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                }
 
-                    <button data-mail-id="@item.Id" title="حذف نوع معين" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
-                    }
-
-                </td>
-            </tr>
+            </td>
+        </tr>
 
 
         }
@@ -206,7 +204,7 @@
 
     $("#btnRefreshModel").on("click", function () {
 
-        window.location.replace('@Url.Action("Index", "Kinds", new { Id="none"})');
+        window.location.replace('@Url.Action("Index", "TypeMails", new { Id="none"})');
 
 
     });
@@ -219,6 +217,21 @@
         $("#changeText").text("تعديل نوع بريد");
 
         var url = '@Url.Action("Edit", "TypeMails")';
+        url = url + '/' + $(this).attr("data-mail-id");
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModel').modal('show');
+        });
+
+    });
+
+
+    
+    $("#group").on("click", ".js-Details", function () {
+
+        $("#changeText").text("تفاصيل نوع بريد");
+
+        var url = '@Url.Action("Details", "TypeMails")';
         url = url + '/' + $(this).attr("data-mail-id");
 
         $("#partialPlaceHolder").load(url, function () {

@@ -74,6 +74,8 @@ namespace ArchiveProject2019.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
 
+        [Display(Name = "آخر تعديل  بواسطة")]
+        public string UpdatedByID { set; get; }
 
 
         public bool IsDefaultMaster { set; get; }
@@ -119,7 +121,11 @@ namespace ArchiveProject2019.Models
         [Display(Name = "تاريخ التعديل")]
         public string UpdatedAt { get; set; }
 
+        [Display(Name = "آخر تعديل  بواسطة")]
+        public string UpdatedById { set; get; }
 
+        [ForeignKey("UpdatedById")]
+        public ApplicationUser UpdatedBy { set; get; }
 
 
 
@@ -146,6 +152,8 @@ namespace ArchiveProject2019.Models
      
 
         public DbSet<TypeMail> TypeMails { set; get; }
+        public DbSet<DocumentStatus> DocumentStatuses { set; get; }
+
 
         public DbSet<Group> Groups { set; get; }
 
@@ -160,6 +168,8 @@ namespace ArchiveProject2019.Models
 
         public DbSet<DocumentDepartment> DocumentDepartments { set; get; }
         public DbSet<DocumentGroup> DocumentGroups { set; get; }
+        public DbSet<DocumentUser> DocumentUsers { set; get; }
+
 
         // Target Parties for Outgoing Mial
         public DbSet<DocumentParty> DocumentParties { set; get; }

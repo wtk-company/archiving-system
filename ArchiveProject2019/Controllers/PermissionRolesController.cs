@@ -57,7 +57,7 @@ namespace ArchiveProject2019.Controllers
             Session["Role_Id"] = role.Id;
 
             //Permission Role Informations:
-            var permissionRoles = db.PermissionRoles.Where(a=>a.RoleId.Equals(Id)).Include(p => p.Permission).Include(p => p.Role).Include(a=>a.CreatedBy);
+            var permissionRoles = db.PermissionRoles.Where(a=>a.RoleId.Equals(Id)).Include(p => p.Permission).Include(p => p.Role).Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy);
             return View(permissionRoles.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
@@ -224,7 +224,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             PermissionRole.Updatedat = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-            
+            PermissionRole.UpdatedById = this.User.Identity.GetUserId();
             db.Entry(PermissionRole).State = EntityState.Modified;
 
 

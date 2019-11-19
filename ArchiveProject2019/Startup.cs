@@ -31,7 +31,7 @@ namespace ArchiveProject2019
 
             CreateMasterUser();
             CreateTypeOfMails();
-
+            CreateDocumentStatus();
 
 
         }
@@ -147,7 +147,25 @@ namespace ArchiveProject2019
             db.SaveChanges();
         }
 
-     
+
+
+        public void CreateDocumentStatus()
+        {
+
+            IEnumerable<DocumentStatus> status = DocumentStatusStartUp.DocumentStatusList();
+            foreach (DocumentStatus m in status)
+            {
+                if (!db.DocumentStatuses.Any(a => a.Name.Equals(m.Name)))
+                {
+                    db.DocumentStatuses.Add(m);
+                }
+
+            }
+
+            db.SaveChanges();
+        }
+
+
     }
 
 

@@ -1,0 +1,53 @@
+﻿@model ArchiveProject2019.Models.DocumentGroup
+
+@{
+    ViewBag.Title = " تعديل التفعيل ";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+<h3>هل أنت متأكد من عملية    تعديل التفعيل ؟</h3>
+<div>
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.document.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Group.Name)
+        </dd>
+
+
+
+      
+
+
+
+
+
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+            <input title="تعديل التفعيل" type="submit" value="تعديل التفعيل" class="btn btn-success" />
+            <button title="إغلاق النافذة" type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+
+    }
+</div>

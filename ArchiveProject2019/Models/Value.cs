@@ -24,6 +24,7 @@ namespace ArchiveProject2019.Models
         public ApplicationUser CreatedBy { set; get; }
 
 
+
         // relate with Field Table
         [Display(Name = "اسم الحقل")]
         public int FieldId { get; set; }

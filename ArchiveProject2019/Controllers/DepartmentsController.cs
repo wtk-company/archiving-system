@@ -55,7 +55,7 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            Department department = db.Departments.Include(a => a.CreatedBy).SingleOrDefault(a=>a.Id==id);
+            Department department = db.Departments.Include(a => a.CreatedBy).Include(a=>a.UpdatedBy).SingleOrDefault(a=>a.Id==id);
             if(department==null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -242,11 +242,13 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
                 string OldName = DepartmentListDisplay.CreateDepartmentDisplay(department.Id);
+                department.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                department.UpdatedById = User.Identity.GetUserId();
                 db.Entry(department).State = EntityState.Modified;
-               string NotificationTime= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                department.UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+              
                 db.SaveChanges();
                 string Newname= DepartmentListDisplay.CreateDepartmentDisplay(department.Id);
+               string NotificationTime= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
 
                 string UserId = User.Identity.GetUserId();

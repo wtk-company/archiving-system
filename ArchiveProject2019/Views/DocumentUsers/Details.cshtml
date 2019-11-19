@@ -1,0 +1,88 @@
+﻿@model ArchiveProject2019.Models.DocumentUser
+@using ArchiveProject2019.HelperClasses
+@{
+    ViewBag.Title = "تفاصيل اسناد الوثيقة للعنصر";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+
+<div>
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.document.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.FullName)
+
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EnableEdit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EnableEdit)
+
+        </dd>
+
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy.FullName)
+        </dd>
+
+
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedAt)
+        </dd>
+
+
+
+
+
+
+    </dl>
+
+
+
+    <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+        <button title="إغلاق النافذة" type="button" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
+    </div>
+
+
+</div>

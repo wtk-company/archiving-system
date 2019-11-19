@@ -52,7 +52,8 @@ namespace ArchiveProject2019.Controllers
                 roleViewModel.Name = R.Name;
                 roleViewModel.UpdatedAt = R.UpdatedAt;
                 roleViewModel.CreatedAt = R.CreatedAt;
-                roleViewModel.CreatedByFullName = db.Users.Find(R.CreatedById).FullName;
+     
+
 
                 Roles.Add(roleViewModel);
             }
@@ -186,7 +187,7 @@ namespace ArchiveProject2019.Controllers
 
                 AppRole.Name = RoleView.Name;
                 string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-
+                AppRole.UpdatedById = this.User.Identity.GetUserId();
 
                 AppRole.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
               
@@ -326,6 +327,49 @@ namespace ArchiveProject2019.Controllers
 
 
         }
+
+        [Authorize]
+       // [AccessDeniedAuthorizeattribute(ActionName = "RolesDelete")]
+        public ActionResult Details(string id)
+        {
+            ViewBag.Current = "Roles";
+
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("BadRequestError", "ErrorController");
+
+            }
+            ApplicationRoles AppRole = manger.Roles.FirstOrDefault(a => a.Id.Equals(id));
+
+            if (AppRole == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+            }
+
+          
+            RoleViewModel RVM = new RoleViewModel()
+            {
+                Name = AppRole.Name,
+                CreatedAt = AppRole.CreatedAt,
+                UpdatedAt = AppRole.UpdatedAt==null?"": AppRole.UpdatedAt,
+                CreatedByFullName = db.Users.Find(AppRole.CreatedById).FullName,
+                UpdatedByFullName=AppRole.UpdatedById==null?"": db.Users.Find(AppRole.UpdatedById).FullName
+
+
+
+            };
+
+     
+
+
+
+
+
+            return View(RVM);
+
+
+        }
+
 
 
     }

@@ -28,5 +28,8 @@ namespace ArchiveProject2019.Models
         [Display(Name = " آخر تحديث بواسطة")]
 
         public string UpdatedByFullName { set; get; }
+
+
+
     }
 }

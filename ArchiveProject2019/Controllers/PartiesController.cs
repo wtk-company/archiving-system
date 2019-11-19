@@ -37,7 +37,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             ViewBag.Current = "Party";
-            var parties = _context.Parties.Include(a=>a.CreatedBy).ToList();
+            var parties = _context.Parties.ToList();
             return View(parties.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
@@ -140,7 +140,10 @@ namespace ArchiveProject2019.Controllers
             {
                 party .UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+                party.UpdatedById = User.Identity.GetUserId();
+
                 _context.Entry(party).State = EntityState.Modified;
+
 
                 _context.SaveChanges();
 
@@ -231,6 +234,31 @@ namespace ArchiveProject2019.Controllers
 
 
             return RedirectToAction("Index", new { Id = "DeleteSuccess" });
+        }
+
+
+        [Authorize]
+      //  [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
+
+        public ActionResult Details(int? id)
+        {
+            ViewBag.Current = "Party";
+
+
+            if (id == null)
+            {
+                return RedirectToAction("BadRequestError", "ErrorController");
+
+            }
+
+            Party party = _context.Parties.Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy).SingleOrDefault(a=>a.Id==id);
+            if (party == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+            }
+
+            return View(party);
         }
 
         protected override void Dispose(bool disposing)

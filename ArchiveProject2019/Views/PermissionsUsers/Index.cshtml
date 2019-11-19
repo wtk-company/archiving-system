@@ -4,8 +4,6 @@
     ViewBag.Title = "صلاحيات المستخدم";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
-@Html.Partial("_StartView")
-
 
 @if (ViewBag.Msg != null)
 {
@@ -30,7 +28,7 @@
             <span class="glyphicon glyphicon-bell">
 
             </span>
-           لم يتم إختيار أي صلاحية للتعديل
+            لم يتم إختيار أي صلاحية للتعديل
         </div>
     }
 
@@ -38,6 +36,9 @@
 
 
 }
+@Html.Partial("_StartView")
+
+
 
 <p>
 
@@ -64,7 +65,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Is_Active)
                 </th>
-
+            
 
                 <th>
                     @Html.DisplayName(" اختر الصلاحيات للتعديل")
@@ -88,7 +89,6 @@
                         @Html.DisplayFor(modelItem => item.Is_Active)
                     </td>
 
-
                     <td>
 
                         <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" type="checkbox" name="Permissions" value="@item.Permission.Id" />
@@ -110,10 +110,12 @@
 
             </label>
         </div>
-        <div class="col-md-offset-2 col-md-10">
+     
+            <div class="col-md-offset-2 col-md-10">
 
-            <input title=" تعديل حالة الصلاحيات المحددة" type="submit" class="btn btn-primary" value=" تعديل حالة صلاحيات المستخدم " />
-        </div>
+                <input title=" تعديل حالة الصلاحيات المحددة" type="submit" class="btn btn-primary" value=" تعديل حالة صلاحيات المستخدم " />
+            </div>
+       
     </div>
 }
 @Html.Partial("_LastView")
@@ -124,6 +126,13 @@
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
+
+
+    
+   
+
+
+
 
       $("#btnRefreshModel").on("click", function () {
 

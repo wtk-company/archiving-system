@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -184,6 +184,7 @@
     <Compile Include="Controllers\DocumentPartiesController.cs" />
     <Compile Include="Controllers\DocumentTargetGroupsController.cs" />
     <Compile Include="Controllers\DocumentTargetDepartmentsController.cs" />
+    <Compile Include="Controllers\DocumentUsersController.cs" />
     <Compile Include="Controllers\PartiesController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\DocumentDepartmentsController.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Controllers\PermissionRolesController.cs" />
     <Compile Include="Controllers\PermissionsUsersController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\DocumentStatusController.cs" />
     <Compile Include="Controllers\TypeMailsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\UsersGroupsController.cs" />
@@ -215,21 +217,20 @@
     <Compile Include="HelperClasses\CheckDate.cs" />
     <Compile Include="HelperClasses\DepartmentListDisplay.cs" />
     <Compile Include="HelperClasses\DepartmentsID.cs" />
+    <Compile Include="HelperClasses\DocumentStatusStartUp.cs" />
     <Compile Include="HelperClasses\StringDateHelper.cs" />
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201911121511308_InitialModel.cs" />
-    <Compile Include="Migrations\201911121511308_InitialModel.Designer.cs">
-      <DependentUpon>201911121511308_InitialModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911122116206_afterInitial.cs" />
-    <Compile Include="Migrations\201911122116206_afterInitial.Designer.cs">
-      <DependentUpon>201911122116206_afterInitial.cs</DependentUpon>
+    <Compile Include="Migrations\201911171043510_ahmad-force.cs" />
+    <Compile Include="Migrations\201911171043510_ahmad-force.Designer.cs">
+      <DependentUpon>201911171043510_ahmad-force.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\DocumentStatus.cs" />
     <Compile Include="Models\DocumentTargetGroup.cs" />
     <Compile Include="Models\DocumentTargetDepartment.cs" />
+    <Compile Include="Models\DocumentUser.cs" />
     <Compile Include="Models\FilesStoredInDb.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Party.cs" />
@@ -240,7 +241,6 @@
     <Compile Include="Models\Form.cs" />
     <Compile Include="Models\CheckFileFormatting.cs" />
     <Compile Include="Models\Department.cs" />
-    <Compile Include="Models\DepertmentsListCheckbox.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\Field.cs" />
     <Compile Include="Models\FormDepartment.cs" />
@@ -972,8 +972,6 @@
     <Content Include="Views\Shared\_DashBoardLayout.cshtml" />
     <Content Include="Views\Shared\_StartView.cshtml" />
     <Content Include="Views\Shared\_LastView.cshtml" />
-    <Content Include="Views\Documents\Create.cshtml" />
-    <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Forms\Create.cshtml" />
     <Content Include="Views\Forms\Edit.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
@@ -987,10 +985,6 @@
     <Content Include="Views\Fields\Edit.cshtml" />
     <Content Include="Views\Fields\Delete.cshtml" />
     <Content Include="Views\Fields\Details.cshtml" />
-    <Content Include="Views\Documents\Form.cshtml" />
-    <Content Include="Views\Documents\Delete.cshtml" />
-    <Content Include="Views\Documents\Details.cshtml" />
-    <Content Include="Views\Documents\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
@@ -1015,8 +1009,6 @@
     <Content Include="Views\UsersGroups\Index.cshtml" />
     <Content Include="Views\UsersGroups\ShowUsersGroup.cshtml" />
     <Content Include="Views\UsersGroups\Delete.cshtml" />
-    <Content Include="Views\Documents\AdvancedDocumentSearch.cshtml" />
-    <Content Include="Views\Documents\_search.cshtml" />
     <Content Include="Views\Kinds\Create.cshtml" />
     <Content Include="Views\Parties\Index.cshtml" />
     <Content Include="Views\Parties\Create.cshtml" />
@@ -1024,7 +1016,6 @@
     <Content Include="Views\Parties\Edit.cshtml" />
     <Content Include="Views\Kinds\Edit.cshtml" />
     <Content Include="Views\Kinds\Delete.cshtml" />
-    <Content Include="Views\Documents\GetRelatedDocument.cshtml" />
     <Content Include="Views\Departments\Details.cshtml" />
     <Content Include="Views\JobTitles\Index.cshtml" />
     <Content Include="Views\JobTitles\Create.cshtml" />
@@ -1070,8 +1061,6 @@
     <Content Include="Views\DocumentTargetDepartments\Create.cshtml" />
     <Content Include="Views\DocumentTargetDepartments\Delete.cshtml" />
     <Content Include="Views\DocumentTargetDepartments\Index.cshtml" />
-    <Content Include="Views\Documents\Relate.cshtml" />
-    <Content Include="Views\Documents\Release.cshtml" />
     <Content Include="Views\Forms\Index.cshtml" />
     <Content Include="Views\Kinds\Index.cshtml" />
     <Content Include="Views\BackupRestore\Index.cshtml" />
@@ -1087,7 +1076,38 @@
     <Content Include="Uploads\2019093004163842_-3.pdf" />
     <Content Include="Uploads\sample.BAK" />
     <Content Include="Uploads\sample.zip" />
+    <Content Include="Views\PermissionsUsers\Details.cshtml" />
+    <Content Include="Views\DocumentStatus\Create.cshtml" />
+    <Content Include="Views\DocumentStatus\Index.cshtml" />
+    <Content Include="Views\DocumentStatus\Edit.cshtml" />
+    <Content Include="Views\DocumentStatus\Delete.cshtml" />
+    <Content Include="Views\Kinds\Details.cshtml" />
+    <Content Include="Views\Parties\Details.cshtml" />
+    <Content Include="Views\Forms\Details.cshtml" />
+    <Content Include="Views\TypeMails\Details.cshtml" />
+    <Content Include="Views\Roles\Details.cshtml" />
+    <Content Include="Views\DocumentStatus\Details.cshtml" />
+    <Content Include="Views\Documents\AdvancedDocumentSearch.cshtml" />
+    <Content Include="Views\Documents\Create.cshtml" />
+    <Content Include="Views\Documents\Delete.cshtml" />
+    <Content Include="Views\Documents\Details.cshtml" />
+    <Content Include="Views\Documents\Edit.cshtml" />
+    <Content Include="Views\Documents\Form.cshtml" />
+    <Content Include="Views\Documents\GetRelatedDocument.cshtml" />
     <Content Include="Views\Documents\GetReplayDocument.cshtml" />
+    <Content Include="Views\Documents\Index.cshtml" />
+    <Content Include="Views\Documents\Relate.cshtml" />
+    <Content Include="Views\Documents\Release.cshtml" />
+    <Content Include="Views\Documents\_search.cshtml" />
+    <Content Include="Views\DocumentDepartments\ActiveNOnActive.cshtml" />
+    <Content Include="Views\DocumentDepartments\Details.cshtml" />
+    <Content Include="Views\DocumentGroups\ActiveNOnActive.cshtml" />
+    <Content Include="Views\DocumentGroups\Details.cshtml" />
+    <Content Include="Views\DocumentUsers\Index.cshtml" />
+    <Content Include="Views\DocumentUsers\Create.cshtml" />
+    <Content Include="Views\DocumentUsers\Delete.cshtml" />
+    <Content Include="Views\DocumentUsers\ActiveNOnActive.cshtml" />
+    <Content Include="Views\DocumentUsers\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1104,11 +1124,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201911121511308_InitialModel.resx">
-      <DependentUpon>201911121511308_InitialModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911122116206_afterInitial.resx">
-      <DependentUpon>201911122116206_afterInitial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201911171043510_ahmad-force.resx">
+      <DependentUpon>201911171043510_ahmad-force.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -1144,7 +1161,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

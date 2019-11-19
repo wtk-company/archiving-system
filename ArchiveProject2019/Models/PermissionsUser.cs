@@ -33,15 +33,10 @@ namespace ArchiveProject2019.Models
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "تاريخ إالغاء التفعيل")]
+        [Display(Name = "تاريخ  تعديل التفعيل ")]
         public string CreatedAt { get; set; }
 
-        //Users Control:
-        [Display(Name = " اسم الشخص المنشىء ")]
-        public string CreatedById { set; get; }
-
-        [ForeignKey("CreatedById")]
-        public ApplicationUser CreatedBy { set; get; }
+       
 
 
 

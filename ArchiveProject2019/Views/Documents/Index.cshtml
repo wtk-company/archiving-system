@@ -221,6 +221,17 @@
                             <a href="@Url.Action("Index","DocumentGroups",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> المجموعات الخاصة بالوثيقة </a>
 
                         </li>
+                        <li>
+
+                            <a href="@Url.Action("Create","DocumentUsers",new { id=item.Id})" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة عناصر للوثيقة</a>
+
+                        </li>
+
+                        <li>
+
+                            <a href="@Url.Action("Index","DocumentUsers",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> العناصر الخاصة بالوثيقة </a>
+
+                        </li>
                         @if (item.TypeMail.Type == 3)
                         {
                             <li>

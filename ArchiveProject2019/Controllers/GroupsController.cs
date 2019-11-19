@@ -132,7 +132,7 @@ namespace ArchiveProject2019.Controllers
 
                 Group.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-
+                Group.UpdatedById= User.Identity.GetUserId();
                 _context.Entry(Group).State = EntityState.Modified;
                 _context.SaveChanges();
 
@@ -242,7 +242,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
 
-            Group Group = _context.Groups.Include(async => async.CreatedBy).SingleOrDefault(a=>a.Id==id);
+            Group Group = _context.Groups.Include(a => a.CreatedBy).Include(a=>a.UpdatedBy).SingleOrDefault(a=>a.Id==id);
             if (Group == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");

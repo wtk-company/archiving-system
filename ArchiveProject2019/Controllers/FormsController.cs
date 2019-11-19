@@ -38,7 +38,7 @@ namespace ArchiveProject2019.Controllers
             }
             string UID = this.User.Identity.GetUserId();
             ViewBag.Current = "Forms";
-            var forms = _context.Forms.Include(a => a.CreatedBy).Include(a => a.Documents).Include(a => a.CreatedBy);
+            var forms = _context.Forms;
             return View(forms.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
@@ -157,7 +157,7 @@ namespace ArchiveProject2019.Controllers
             {
                 form.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-
+                form.UpdatedById = User.Identity.GetUserId();
                 _context.Entry(form).State = EntityState.Modified;
                 _context.SaveChanges();
 
@@ -276,6 +276,33 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+        [Authorize]
+    //    [AccessDeniedAuthorizeattribute(ActionName = "FormsDelete")]
+        public ActionResult Details(int? id)
+        {
+
+            ViewBag.Current = "Forms";
+
+
+            if (id == null)
+            {
+                return RedirectToAction("BadRequestError", "ErrorController");
+            }
+            Form form = _context.Forms.Include(a=>a.UpdatedBy).Include(a => a.CreatedBy).SingleOrDefault(a => a.Id == id);
+            if (form == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+            }
+
+            if (CheckDelete.checkFormDelete(id.Value) == false)
+            {
+                return RedirectToAction("Index", new { Id = "DeleteError" });
+
+            }
+
+            return View(form);
+
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

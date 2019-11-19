@@ -1,0 +1,116 @@
+﻿@model IEnumerable<ArchiveProject2019.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "اضافة العناصر للوثيقة";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+
+
+
+
+@Html.Partial("_StartView")
+
+@using (Html.BeginForm())
+{
+
+
+    <p>
+
+        <a title="عودة لقائمة الوثائق" href="@Url.Action("index","Documents")" class="btn btn-warning">عودة لقائمة الوثائق </a>
+        <div style="display:inline-block">
+
+        </div>
+    </p>
+    @Html.Hidden("DocumentIdValue", (int)ViewBag.DocumentIdValue)
+    <table id="form" class="table table-striped  table-hover dt" style="text-align:center">
+
+
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FullName)
+                </th>
+                <th>
+                    @Html.DisplayName("اختر العنصر")
+
+                </th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" type="checkbox" name="Users" value="@item.Id" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+
+    </table>
+
+    <div class="form-group">
+        <label>
+
+            <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" id="checkAll" type="checkbox">تحديدالكل/عدم تحديد
+
+        </label>
+        <div class="col-md-offset-2 col-md-10">
+            <input title="إضافة العناصر للوثيقة" type="submit" class="btn btn-primary" value="إضافة العناصر للوثيقة" />
+
+        </div>
+    </div>
+}
+
+@Html.Partial("_LastView")
+
+
+
+@section Scripts {
+
+    <script>
+
+
+                $(document).ready(function () {
+
+
+                    $("#checkAll").click(function () {
+
+                        $("input[name='Users']").prop("checked", this.checked);
+
+
+                        $("input[name='Users']").click(function () {
+
+
+                            if ($("input[name='Users']").length == $("input[name='Users']:checked").length) {
+                                $("#checkAll").prop("checked", "checked");
+                            }
+                            else {
+                                $("#checkAll").removeAttr("checked");
+
+                            }
+
+                        });
+
+
+                    });
+
+
+
+
+
+
+
+
+
+                });
+
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

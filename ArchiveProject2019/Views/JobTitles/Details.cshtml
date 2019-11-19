@@ -9,34 +9,34 @@
     <div>
 
         <dl class="dl-horizontal">
-           
-    
-           
-    
+
+
+
+
             <dt>
                 @Html.DisplayNameFor(model => model.Name)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Name)
             </dd>
-    
+
             <dt>
                 @Html.DisplayNameFor(model => model.Symbol)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.Symbol)
             </dd>
-    
+
             <dt>
                 @Html.DisplayNameFor(model => model.MaximumMember)
             </dt>
-    
+
             <dd>
                 @Html.DisplayFor(model => model.MaximumMember)
             </dd>
-    
+
 
 
             <dt>
@@ -66,7 +66,15 @@
                 @Html.DisplayFor(model => model.UpdatedAt)
             </dd>
 
-           
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedById)
+            </dt>
+
+
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedBy.FullName)
+            </dd>
+
 
 
         </dl>

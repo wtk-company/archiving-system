@@ -7,14 +7,11 @@
     ApplicationDbContext db = new ApplicationDbContext();
 }
 
-@Html.Partial("_StartView")
-
-
 
 @if (ViewBag.Msg != null)
 {
 
- 
+
     if (ViewBag.Msg == "CreateError")
     {
         <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
@@ -22,7 +19,7 @@
 
             </span>
             لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
-     
+
         </div>
     }
 
@@ -99,9 +96,13 @@
 
 
 }
+@Html.Partial("_StartView")
+
+
+
 <p>
     <button id="btnNewModel" title="إضافة حقل جديد للنموذج" class="btn btn-primary">أضافة حقل</button>
-    <button id="btnRefreshModel"  title="تحديث الصفحة" class="btn btn-default glyphicon glyphicon-refresh"></button>
+    <button id="btnRefreshModel" title="تحديث الصفحة" class="btn btn-default glyphicon glyphicon-refresh"></button>
     <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-warning">عودة لقائمةالنماذج </a>
 
 
@@ -121,10 +122,7 @@
             </th>
 
 
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-
+         
 
 
             <th>
@@ -151,49 +149,47 @@
                     @Html.DisplayFor(modelItem => item.IsRequired)
                 </td>
                 <td>
-                   @switch(item.Type)
-                   {
-                       case "file":
-                           @:ملف
+                    @switch (item.Type)
+                    {
+                        case "file":
+                            @:ملف
 
-                           break;
+                            break;
 
-                       case "bool":
-                        @:حقل منطقي
+                        case "bool":
+                            @:حقل منطقي
 
-                           break;
-
-
-                       case "float":
-                        @:حقل رقمي
-
-                           break;
+                            break;
 
 
-                       case "date":
-                        @:تاريخ
+                        case "float":
+                            @:حقل رقمي
 
-                           break;
-
-                       case "text":
-                        @:حقل نصي
-
-                           break;
-                       case "phone":
-                        @:رقم هاتف
-
-                           break;
-                       case "email":
-                        @:بريد ألكتروني
-
-        break;
+                            break;
 
 
-}
+                        case "date":
+                            @:تاريخ
+
+                            break;
+
+                        case "text":
+                            @:حقل نصي
+
+                            break;
+                        case "phone":
+                            @:رقم هاتف
+
+                            break;
+                        case "email":
+                            @:بريد ألكتروني
+
+                            break;
+
+
+                    }
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
+          
 
 
                 <td>
@@ -201,14 +197,14 @@
                 </td>
 
                 <td>
-                    @if (CheckDelete.checkFieldsDelete(item.Id)==true)
+                    @if (CheckDelete.checkFieldsDelete(item.Id) == true)
                     {
                         <button data-form-id="@item.Id" title="تعديل الحقل" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
 
-                    <button data-form-id="@item.Id" title=" حذف الحقل المحدد" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                        <button data-form-id="@item.Id" title=" حذف الحقل المحدد" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
                     }
                     <button data-form-id="@item.Id" title="تفاصيل الحقل" class="btn-link js-Details  btn-xs  glyphicon glyphicon-book"></button>
-            
+
 
                 </td>
             </tr>
@@ -232,7 +228,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4  id="changeText" class="modal-title">القائمة الفرعية</h4>
+                <h4 id="changeText" class="modal-title">القائمة الفرعية</h4>
             </div>
             <div class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
 
@@ -291,7 +287,7 @@
                        });
 
                    });
-    
+
 
 
 
@@ -307,6 +303,6 @@
 
                    });
 
- 
+
 
 </script>

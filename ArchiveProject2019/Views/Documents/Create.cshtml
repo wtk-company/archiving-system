@@ -182,6 +182,19 @@
             </div>
         </div>
     </div>
+
+
+    <div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.StatusId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Document.StatusId, ViewBag.StatusId as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
+                @Html.ValidationMessageFor(model => model.Document.StatusId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
     <div class="form-group">
         @Html.LabelFor(model => model.Document.DocumentNumber, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -252,6 +265,33 @@
         </div>
     </div>
 
+
+
+    <div class="form-group">
+        @Html.Label("الاقسام المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("RelatedDepartments", (SelectList)ViewBag.RelatedDepartments, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.Label("المجموعات المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("RelatedGroups", (SelectList)ViewBag.RelatedGroups, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("العناصر المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("RelatedUsers", (SelectList)ViewBag.RelatedUsers, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+        </div>
+    </div>
+
+
+    
     @if (Model.FieldsValues != null)
     {
         for (int i = 0; i < Model.FieldsValues.Values.Count; i++)

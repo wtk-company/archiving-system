@@ -8,12 +8,10 @@
 
 }
 
-@Html.Partial("_StartView")
-
 @if (ViewBag.Msg != null)
 {
 
-   
+
 
 
     if (ViewBag.Msg == "DeleteError")
@@ -87,6 +85,8 @@
 
 
 }
+@Html.Partial("_StartView")
+
 <p>
     <button id="btnNewModel" title="إضافة دور جديد" class="btn btn-primary">أضافة دور جديد</button>
     <button title="تحديث القائمة" id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
@@ -99,28 +99,26 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
 
- 
+
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
 
-            <th>
-            
-                @Html.DisplayNameFor(model => model.CreatedByFullName)
-            </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
 
+
        
 
 
-            
+
             <th>
 
                 @Html.DisplayName("العمليات المتاحة")
-                
+
             </th>
         </tr>
     </thead>
@@ -128,38 +126,38 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                  
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedByFullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedAt)
-                </td>
-              
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
 
-                <td>
-                     <button data-form-id="@item.Id" title="تعديل اسم الدور" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
 
-                    @if(CheckDelete.CheckRoleDelete(item.Id) == true)
-                    {
+
+            <td>
+
+                <button data-form-id="@item.Id" title="تفاصيل  الدور" class="js-Details  btn-xs btn-link "><span class="glyphicon glyphicon-book"></span></button>
+
+                <button data-form-id="@item.Id" title="تعديل اسم الدور" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
+
+                @if (CheckDelete.CheckRoleDelete(item.Id) == true)
+                {
                     <button data-form-id="@item.Id" title=" حذف الدور المحدد " class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
 
-                    }
+                }
 
-                    @Html.ActionLink("الصلاحيّات", "Index", new { controller = "PermissionRoles", Id = item.Id })
+                @Html.ActionLink("الصلاحيّات", "Index", new { controller = "PermissionRoles", Id = item.Id })
 
 
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 
@@ -222,6 +220,24 @@
         });
 
     });
+
+
+
+    
+    $("#form").on("click", ".js-Details", function () {
+
+        $("#changeText").text(" تفاصيل دور معين");
+
+        var url = '@Url.Action("Details", "Roles")';
+        url = url + '/' + $(this).attr("data-form-id");
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+        });
+
+    });
+
+
 
     $("#form").on("click", ".js-delete", function () {
 

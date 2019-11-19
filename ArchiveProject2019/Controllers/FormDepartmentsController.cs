@@ -66,7 +66,7 @@ namespace ArchiveProject2019.Controllers
 
             }
             FormDepartment formDepartment = db.FormDepartments.Include(a => a.CreatedBy)
-                .Include(a => a.Department).Include(a => a.Form)
+                .Include(a => a.Department).Include(a => a.Form).Include(a=>a.UpdatedBy)
                 .SingleOrDefault(a=>a.Id==id);
             if (formDepartment == null)
             {
@@ -249,6 +249,7 @@ namespace ArchiveProject2019.Controllers
 
             }
             NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            formDepartment .UpdatedById= User.Identity.GetUserId();
 
             db.Entry(formDepartment).State = EntityState.Modified;
              db.SaveChanges();

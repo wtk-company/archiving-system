@@ -4,15 +4,10 @@
 @using ArchiveProject2019.HelperClasses
 
 @{
-    ViewBag.Title = "فورمات الوثائق";
+    ViewBag.Title = "نماذج الوثائق";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
     ApplicationDbContext db = new ApplicationDbContext();
 }
-
-
-@Html.Partial("_StartView")
-
-
 
 @if (ViewBag.Msg != null)
 {
@@ -88,6 +83,11 @@
 
 
 }
+
+@Html.Partial("_StartView")
+
+
+
 <p>
     <button id="btnNewModel" title="إضافة نموذج جديد" class="btn btn-primary">أضافة نموذج</button>
     <button id="btnRefreshModel" title="تحديث الصفحة" class="btn btn-default glyphicon glyphicon-refresh"></button>
@@ -108,11 +108,9 @@
 
 
             <th>
-                @Html.DisplayNameFor(model => model.CreatedById)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
+
 
 
 
@@ -138,9 +136,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
-                </td>
+             
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
@@ -149,6 +145,8 @@
 
 
                 <td>
+                    <button data-form-id="@item.Id" title="تفاصيل  النموذج" class="js-Details  btn-xs btn-link "><span class="glyphicon glyphicon-book"></span></button>
+
                     <button data-form-id="@item.Id" title="تعديل اسم النموذج" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
 
                     @if (CheckDelete.checkFormDelete(item.Id) == true)
@@ -158,7 +156,7 @@
 
 
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             خيارات إضافية
                             <span class="caret"></span>
                         </button>
@@ -272,6 +270,22 @@
         });
 
     });
+
+
+      $("#form").on("click", ".js-Details", function () {
+
+        $("#changeText").text(" تفاصيل نموذج معين");
+
+        var url = '@Url.Action("Details", "Forms")';
+        url = url + '/' + $(this).attr("data-form-id");
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+        });
+
+      });
+
+
 
     $("#form").on("click", ".js-delete", function () {
 

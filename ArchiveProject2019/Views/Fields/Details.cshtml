@@ -17,9 +17,9 @@
             @Html.DisplayFor(model => model.Form.Name)
         </dd>
 
-      
 
-       
+
+
 
         <dt>
             @Html.DisplayNameFor(model => model.Name)
@@ -101,10 +101,19 @@
             @Html.DisplayFor(model => model.UpdatedAt)
         </dd>
 
-     
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedById)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy.FullName)
+        </dd>
 
 
-    
+
+
+
     </dl>
 </div>
 

@@ -1,0 +1,70 @@
+﻿@model ArchiveProject2019.Models.RoleViewModel
+
+@{
+    ViewBag.Title = "تفاصيل  دور معين";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+
+<div>
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedByFullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedByFullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedAt)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedByFullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedByFullName)
+        </dd>
+
+    </dl>
+
+
+
+
+
+</div>
+
+<div class="modal-footer justify-content-center" style="margin-top:50px">
+
+    <button type="button" title="إغلاق النافذة" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
+
+
+</div>

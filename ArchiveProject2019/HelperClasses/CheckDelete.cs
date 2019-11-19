@@ -157,6 +157,48 @@ namespace ArchiveProject2019.HelperClasses
         }
 
 
+
+        public static bool CheckPartydelete(int id)
+        {
+
+            IEnumerable<Document> documents = db.Documents.Where(a => a.PartyId == id);
+            if (documents.Count() > 0)
+            {
+                return false;
+
+            }
+
+       
+
+
+
+
+            return true;
+        }
+
+        public static bool CheckDocumentStatusDelete(int id)
+        {
+
+            IEnumerable<Document> documents = db.Documents.Where(a => a.StatusId == id);
+            if (documents.Count() > 0)
+            {
+                return false;
+
+            }
+
+            DocumentStatus mail = db.DocumentStatuses.Find(id);
+            if (mail.Type == 1)
+            {
+                return false;
+            }
+
+
+
+
+            return true;
+        }
+
+
         public static bool CheckTypeMailEdit(int id)
         {
 
@@ -175,6 +217,22 @@ namespace ArchiveProject2019.HelperClasses
         }
 
 
+        public static bool CheckDocumentStatusEdit(int id)
+        {
+
+
+
+            DocumentStatus mail = db.DocumentStatuses.Find(id);
+            if (mail.Type == 1)
+            {
+                return false;
+            }
+
+
+
+
+            return true;
+        }
 
         public static bool CheckUserDelete(string id)
         {

@@ -5,10 +5,6 @@
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
-@Html.Partial("_StartView")
-
-
-
 
 
 @if (ViewBag.Msg != null)
@@ -50,7 +46,7 @@
         </div>
     }
 
-  
+
 
 
     if (ViewBag.Msg == "DeleteSuccess")
@@ -68,6 +64,11 @@
 
 
 }
+
+
+@Html.Partial("_StartView")
+
+
 
 <p>
     <a title="عودة لقائمة النماذج" href="@Url.Action("index","Forms")" class="btn btn-warning">عودة لقائمةالنماذج </a>
@@ -91,7 +92,7 @@
 
 
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.DisplayNameFor(model => model.Updatedat)
             </th>
 
             <th>
@@ -120,7 +121,7 @@
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                    @Html.DisplayFor(modelItem => item.Updatedat)
                 </td>
 
                 <td>

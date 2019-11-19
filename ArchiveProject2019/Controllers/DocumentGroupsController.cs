@@ -102,7 +102,7 @@ namespace ArchiveProject2019.Controllers
         public ActionResult Create(int DocumentIdValue, List<int> Groups)
         {
 
-            ViewBag.Current = "Forms";
+            ViewBag.Current = "Document";
 
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
@@ -126,7 +126,7 @@ namespace ArchiveProject2019.Controllers
 
                         GroupId = i,
                         DocumentId = DocumentIdValue,
-                      
+                      EnableEdit=true,
                         CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                         CreatedById = this.User.Identity.GetUserId()
 
@@ -175,6 +175,8 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsDelete")]
         public ActionResult Delete(int? id)
         {
+            ViewBag.Current = "Document";
+
             if (id == null)
             {
                 return RedirectToAction("BadRequestError", "ErrorController");
@@ -195,6 +197,7 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
+            ViewBag.Current = "Document";
 
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
@@ -232,6 +235,113 @@ namespace ArchiveProject2019.Controllers
 
             return RedirectToAction("Index", new { @id = Document_Id, @msg = "DeleteSuccess" });
         }
+
+
+
+
+        [Authorize]
+        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        public ActionResult ActiveNOnActive(int? id)
+        {
+            ViewBag.Current = "Document";
+
+            if (id == null)
+            {
+                return RedirectToAction("BadRequestError", "ErrorController");
+
+            }
+            DocumentGroup documentGroup = db.DocumentGroups.Include(a => a.document).Include(a => a.Group).SingleOrDefault(a => a.Id == id);
+            if (documentGroup == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+            }
+            return View(documentGroup);
+        }
+
+
+
+        [HttpPost, ActionName("ActiveNOnActive")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        public ActionResult ActiveNOnActiveConfirm(int id)
+        {
+            ViewBag.Current = "Document";
+
+            string ActiveMode = string.Empty;
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+            Document doc = db.DocumentGroups.Include(a => a.document).SingleOrDefault(a => a.Id == id).document;
+
+            DocumentGroup documentGroup = db.DocumentGroups.Find(id);
+            if (documentGroup.EnableEdit == true)
+            {
+                documentGroup.EnableEdit = false;
+                ActiveMode = "الغاء  التعديل";
+            }
+            else
+            {
+                documentGroup.EnableEdit = true;
+                ActiveMode = "تفعيل التعديل";
+
+            }
+            documentGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            db.Entry(documentGroup).State = EntityState.Modified;
+
+         
+            db.SaveChanges();
+            int Form_id = documentGroup.DocumentId;
+
+            UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
+            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            Notification notification = null;
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تمت عملية  " + ActiveMode +" في المجموعة "+GroupName+" رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index", new { @id = Form_id, @msg = "EditSuccess" });
+        }
+
+
+
+        [Authorize]
+        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("BadRequestError", "ErrorController");
+
+            }
+            DocumentGroup documentGroup = db.DocumentGroups.Include(a => a.CreatedBy).Include(a => a.document).Include(a => a.Group).SingleOrDefault(a => a.Id == id);
+            if (documentGroup == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+            }
+            return View(documentGroup);
+        }
+
 
         protected override void Dispose(bool disposing)
         {

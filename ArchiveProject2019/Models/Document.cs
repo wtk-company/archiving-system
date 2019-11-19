@@ -35,7 +35,12 @@ namespace ArchiveProject2019.Models
         public Kind Kind { set; get; }
 
 
-        
+        [Display(Name = "حالة الوثيقة")]
+        [Required(ErrorMessage = "يجب إختيار الحالة")]
+        public int StatusId { set; get; }
+        [ForeignKey("StatusId")]
+        public DocumentStatus Status { set; get; }
+
 
         [Display(Name = "رقم البريد")]
         public string MailingNumber { get; set; }
@@ -114,6 +119,12 @@ namespace ArchiveProject2019.Models
 
 
         //Collections:
+        public ICollection<DocumentDepartment> DocumentDepartments { set; get; }
+        public ICollection<DocumentGroup> DocumentGroups { set; get; }
+        public ICollection<DocumentUser> DocumentUsers { set; get; }
+
+
+
         public ICollection<Value> Values { set; get; }
         public ICollection<RelatedDocument> RelatedDocuments { set; get; }
         public ICollection<DocumentParty> DocumentParties { set; get; }

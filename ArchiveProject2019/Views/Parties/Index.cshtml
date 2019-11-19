@@ -1,14 +1,9 @@
 ﻿@model IEnumerable<ArchiveProject2019.Models.Party>
-
+@using ArchiveProject2019.HelperClasses
 @{
     ViewBag.Title = "الجهات المعنية";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
-
-@Html.Partial("_StartView")
-
-
-
 @if (ViewBag.Msg != null)
 {
 
@@ -83,6 +78,11 @@
 
 
 }
+@Html.Partial("_StartView")
+
+
+
+
 <p>
     <button id="btnNewModel" title="إضافة جهةجديدة" class="btn btn-primary">أضافة جهة جديدة</button>
     <button id="btnRefreshModel" title="تحديث المحتوى" class="btn btn-default glyphicon glyphicon-refresh"></button>
@@ -100,14 +100,14 @@
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedById)
-            </th>
+           
 
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
-          
+
+           
+
 
 
             <th>
@@ -120,29 +120,35 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
 
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedAt)
-                </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
 
+            
 
-                <td>
-                    <button data-Party-id="@item.Id" title="تعديل" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> |
-                    <button data-Party-id="@item.Id" title="حذف" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
-                </td>
-            </tr>
+            <td>
+
+                <button data-Party-id="@item.Id" title="تفاصيل" class="js-Details  btn-xs btn-link "><span class="glyphicon glyphicon-book"></span></button> 
+
+                <button data-Party-id="@item.Id" title="تعديل" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> 
+               @if(CheckDelete.CheckPartydelete(item.Id)==true)
+               {
+
+                <button data-Party-id="@item.Id" title="حذف" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+               }
+            </td>
+        </tr>
 
 
         }
@@ -209,6 +215,24 @@
         });
 
     });
+
+    
+    $("#group").on("click", ".js-Details ", function () {
+
+        $("#changeText").text(" تفاصيل جهة معينة");
+
+        var url = '@Url.Action("Details", "Parties")';
+        url = url + '/' + $(this).attr("data-Party-id");
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModel').modal('show');
+        });
+
+    });
+
+
+
+    
 
     $("#group").on("click", ".js-delete", function () {
 

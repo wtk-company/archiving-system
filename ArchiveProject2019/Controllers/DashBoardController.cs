@@ -355,6 +355,7 @@ namespace ArchiveProject2019.Controllers
 
         public ActionResult NonSeenNotifications()
         {
+            ViewBag.Current = "Notification";
             string CurrentUserId = this.User.Identity.GetUserId();
             List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).OrderByDescending(a => a.CreatedAt).ToList();
 
@@ -366,8 +367,9 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         public ActionResult NonSeenNotifications(List<string> NotificationId)
         {
+            ViewBag.Current = "Notification";
 
-            if(NotificationId==null)
+            if (NotificationId==null)
             {
                 return RedirectToAction("NonSeenNotifications");
 
@@ -394,6 +396,7 @@ namespace ArchiveProject2019.Controllers
 
         public ActionResult ConvertAllToSeen()
         {
+            ViewBag.Current = "Notification";
             string CurrentUserId = this.User.Identity.GetUserId();
 
             List<int> NotifId = db.Notifications.
@@ -415,6 +418,7 @@ namespace ArchiveProject2019.Controllers
 
         public ActionResult SeenNotifications()
         {
+            ViewBag.Current = "Notification";
             string CurrentUserId = this.User.Identity.GetUserId();
             List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == true).OrderByDescending(a => a.CreatedAt).ToList();
 
@@ -428,6 +432,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         public ActionResult SeenNotifications(List<string> NotificationId)
         {
+            ViewBag.Current = "Notification";
 
             if (NotificationId == null)
             {
@@ -456,6 +461,7 @@ namespace ArchiveProject2019.Controllers
         //
         public ActionResult DeleteAllSeen()
         {
+            ViewBag.Current = "Notification";
             string CurrentUserId = this.User.Identity.GetUserId();
 
             List<int> NotifId = db.Notifications.
@@ -477,6 +483,7 @@ namespace ArchiveProject2019.Controllers
 
         public ActionResult DocumentNotificationsUserCount()
         {
+
             string CurrentUserId = this.User.Identity.GetUserId();
            DateTime TodayDate = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd").Replace("-", "/"), "yyyy/MM/dd", null);
 

@@ -1,0 +1,53 @@
+﻿@model ArchiveProject2019.Models.DocumentUser
+
+@{
+    ViewBag.Title = "إزالة العنصر ";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+<h3>هل أنت متأكد من عملية إزالة الوثيقة من العنصر ؟</h3>
+<div>
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.document.Subject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.FullName)
+        </dd>
+
+
+
+
+
+
+
+
+
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+            <input title="إزالة العنصر" type="submit" value=" إزالة العنصر" class="btn btn-danger" />
+            <button title="إغلاق النافذة" type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+
+    }
+</div>

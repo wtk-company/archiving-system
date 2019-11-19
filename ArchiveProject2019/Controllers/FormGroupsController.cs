@@ -50,7 +50,7 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
             Session["Form_Id"] = Id;
-            var formGroups = db.FormGroups.Where(a => a.FormId == Id).Include(f => f.CreatedBy).Include(f => f.Group).Include(f => f.Form);
+            var formGroups = db.FormGroups.Where(a => a.FormId == Id).Include(f => f.Group).Include(f => f.Form);
             return View(formGroups.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
@@ -67,7 +67,7 @@ namespace ArchiveProject2019.Controllers
 
             }
             FormGroup formGroup = db.FormGroups.Include(a => a.CreatedBy)
-             .Include(a => a.Group).Include(a => a.Form)
+             .Include(a => a.Group).Include(a => a.Form).Include(a=>a.UpdatedBy)
                 .SingleOrDefault(a => a.Id == id);
             if (formGroup == null)
             {
@@ -250,6 +250,7 @@ namespace ArchiveProject2019.Controllers
 
             }
 
+            formGroup.UpdatedById = this.User.Identity.GetUserId();
             db.Entry(formGroup).State = EntityState.Modified;
             db.SaveChanges();
 
