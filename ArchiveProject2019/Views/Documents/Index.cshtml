@@ -96,7 +96,7 @@
 
 <p>
     <button id="btnNewModel" class="btn btn-primary">إضافةوثيقة جديدة</button>
-    <a href="@Url.Action("AdvancedDocumentSearch")" class="btn btn-success">بحث متقدم</a>
+    <a href="@Url.Action("Search")" class="btn btn-success">بحث متقدم</a>
     <button id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
 
 </p>
@@ -153,6 +153,16 @@
                         <li>
 
                             <a href="#" data-form-id="@item.Id" title="ربط وثيقة" class="btn-link js-relate btn-sm">ربط وثيقة جديدة</a>
+
+                        </li>
+                        <li>
+
+                            <a href="@Url.Action("Create","Seals",new { id=item.Id})" title="تسديد" class="btn-link  btn-sm">تسديد</a>
+
+                        </li>
+                        <li>
+
+                            <a href="@Url.Action("Index","Seals",new { id=item.Id})" title="عرض تسديدات الوثيقة" class="btn-link  btn-sm">تسديدات الوثيقة</a>
 
                         </li>
                         <li>
@@ -302,6 +312,7 @@
             $('#NewModal').modal('show');
         });
     });
+
 
     $("#form").on("click", ".js-replay", function () {
 

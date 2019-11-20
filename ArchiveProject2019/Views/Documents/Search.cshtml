@@ -1,36 +1,30 @@
-﻿
+﻿@model IEnumerable<ArchiveProject2019.Models.Document>
 @{
     ViewBag.Title = "بحث متعدد الخصائص";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+@Html.Partial("_StartView")
 
-<style>
-    .form-control {
-        margin: 5px;
-        height: 40px;
-        border-radius: 0;
-        width: 100%;
-    }
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
 <!--  Start Search Section  -->
 
 @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace }))
 {
 
-@Html.Partial("_StartView")
     <div>
         <a href="@Url.Action("index","Documents")" class="btn btn-warning">  عودة إلى قائمة الوثائق </a>
     </div>
 
     <row>
+
         <!-- Search Document Number -->
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
-            <input class="form-control" type="text" placeholder="رقم الوثيقة" name="DocNum" id="DocNum">
+            <input class="form-control" type="text" placeholder="رقم الوثيقة"   name="DocNum"       id="DocNum">
         </div>
-
+        
+        
         <!-- Search Document Subject -->
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
             <input class="form-control" type="text" placeholder="موضوع الوثيقة" name="DocSubject" id="DocSubject">
@@ -41,7 +35,7 @@
             <!--<input class="form-control" type="text" placeholder="نوع الوثيقة" name="DocKind" id="DocKind">-->
             @Html.DropDownList("DocKind", ViewBag.Kinds as SelectList,"اختر نوع الوثيقة",new { @class="form-control", @id = "DocKind" })
         </div>
-
+        
 
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
             @Html.DropDownList("MailType", ViewBag.MailType as SelectList, "اختر نوع البريد", new { @class = "form-control", @id = "MailType" })
@@ -81,21 +75,45 @@
 
         <!-- Submit button -->
         <div class="col-md-3 md-form active-pink active-pink-2 mb-3 mt-0">
-            <input type="submit" id="#search_btn" value="بحث عن الوثيقة" class="btn btn-info" />
+            <input type="submit" id="search_btn" value="بحث عن الوثيقة" class="btn btn-info" />
         </div>
     </row>
 }
 <!--  ./End Search Section  -->
 
 
+
+
+<table class="table table-striped table-hover ">
+    <thead class="just-first-header">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FormId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartmentId)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+<table class="table table-striped table-hover ">
+    <tbody id="SearchResult">
+
+    </tbody>
+</table>
+
+    <div class="mybutton" id="more_data"></div>
+
 @Html.Partial("_LastView")
-
-
-
-    <div id="SearchResult" style="margin-bottom:40px;">
-    </div>
-
-    <div class="button" style="margin-bottom:30px;" id="more_data"></div>
 
     <style>
         .more_data {
@@ -113,78 +131,86 @@
         #RetrievalCount {
             margin-right: 15px;
         }
+        
+        .form-control {
+            margin: 5px;
+            height: 40px;
+            border-radius: 0;
+            width: 100%;
+        }
     </style>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-
-    <script type="text/javascript">
-
-        $(window).submit(function () {
-            $('.button').html('<button type="button" id="more_data" class="more_data">المزيد من البيانات >></button>');
-        });
-
-        // Get Document Number Value
-        var DN = $('#DocNum').value;
-
-        // Get Document Subject Value
-        var DS = $('#DocSubject').value;
-
-        // Get Document Description Value
-        var DD = $('#DocDescription').value;
-
-        // Get Document First Date Value
-        var DFD = $('#DocFirstDate').value; 
-
-        // Get Document End Date Value
-        var DED = $('#DocEndDate').value;
-
-        // Get Record Count Value
-        var RecordCount = 0;
-
-        // Get Document Kind Value
-        var DK = $('#DocKind').val();
-        $("#DocKind").on('change', function () {
-            DK = $(this).val();
-        });
-
-        // Get Document Party Value
-        var DP = $('#DocParty').val();
-        $("#DocParty").on('change', function () {
-            DP = $(this).val();
-        });
-
-        // Get Mail Type Value
-        var DMT = $('#MailType').val();
-        $("#MailType").on('change', function () {
-            DMT = $(this).val();
-        });
-
-        // Get Retrieval Count Value
-        var RC = $('#RetrievalCount').val();
-        $("#RetrievalCount").on('change', function () {
-            RC = $(this).val();
-        });
-
-
-
-        $("#more_data").on("click", function () {
-
-            console.log(RecordCount);
-            $.ajax({
-                url: '/Documents/AdvancedDocumentSearch',
-                type: 'POST',
-                data: { RecordCount: RecordCount, RetrievalCount: RC, DocNum: DN, DocSubject: DS, DocKind: DK, DocParty: DP, MailType: DMT, DocDescription: DD, DocFirstDate: DFD, DocEndDate: DED },
-                //
-                success: function (data) {
-                    $("#SearchResult").append(data);
-                    RecordCount++;
-                    $('.just-first-header').not(':first').css("visibility", "collapse");
-                }
-            });
-        });
-    </script>
-
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
+
+
+<script type="text/javascript">
+
+                $('#search_btn').click(function () {
+
+
+                    $('.mybutton').html('<button type="button" id="more_data" class="more_data">المزيد من البيانات >></button>');
+                });
+
+                // Get Document Subject Value
+                var DSSS = $('#DocSubject').val();
+                // Get Document Number Value
+                var DN = $('#DocNum').val();
+
+
+                // Get Document Description Value
+                var DD = $('#DocDescription').val();
+
+                // Get Document First Date Value
+                var DFD = $('#DocFirstDate').val();
+
+                // Get Document End Date Value
+                var DED = $('#DocEndDate').val();
+
+                // Get Record Count Value
+                var RecordCount = 0;
+
+                // Get Document Kind Value
+                var DK = $('#DocKind').val();
+                $("#DocKind").on('change', function () {
+                    DK = $(this).val();
+                });
+
+                // Get Document Party Value
+                var DP = $('#DocParty').val();
+                $("#DocParty").on('change', function () {
+                    DP = $(this).val();
+                });
+
+                // Get Mail Type Value
+                var DMT = $('#MailType').val();
+                $("#MailType").on('change', function () {
+                    DMT = $(this).val();
+                });
+
+                // Get Retrieval Count Value
+                var RC = $('#RetrievalCount').val();
+                $("#RetrievalCount").on('change', function () {
+                    RC = $(this).val();
+                });
+
+
+
+                $("#more_data").on("click", function () {
+                    $.ajax({
+                        url: '/Documents/Search',
+                        type: 'POST',
+                        data: { RecordCount: RecordCount, RetrievalCount: RC, DocSubject: DSSS, DocNum: DN, DocKind: DK, DocParty: DP, MailType: DMT, DocDescription: DD, DocFirstDate: DFD, DocEndDate: DED },
+                        //
+                        success: function (data) {
+                            $("#SearchResult").append(data);
+                            RecordCount++;
+                            $('.just-first-header').not(':first').css("visibility", "collapse");
+                        }
+                    });
+                });
+</script>
+
+
     }

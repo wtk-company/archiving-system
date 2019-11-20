@@ -10,11 +10,16 @@
     td, dd {
         margin: 20px;
     }
+
+    .panel-body {
+        background-color: #243f5a;
+    }
+
 </style>
 
 
 @Html.Partial("_StartView")
-<a href="@Url.Action("index", "Documents")" class="btn btn-default">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
+<a href="@Url.Action("index", "Documents")" class="btn btn-primary">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
 
 <div>
 
@@ -159,7 +164,50 @@
         <dd style="overflow:auto;border:2px solid #ef7979;padding:10px">
             @Html.Raw(Model.Document.Notes)
         </dd>
+
+        <dt>
+            قائمة التسديدات
+        </dt>
+        <dd>
+            @if (Model.Seals != null)
+            {
+                for (int i = 0; i < Model.Seals.Count; i++)
+                {
+                
+                    <article class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="panel panel-default arrow right">
+                                <div class="panel-body">
+
+                                    <header class="text-right">
+                                        <div class="comment-user"><i class="fa fa-user"></i> @Model.Seals[i].CreatedBy.UserName</div>
+                                        <time class="comment-date" datetime="16-12-2014 01:05"><i class="fa fa-clock-o"></i> @Model.Seals[i].CreatedAt</time>
+                                        <div class="comment-user"><span class="glyphicon glyphicon-file"></span> @Model.Seals[i].FileName</div>
+                                        <label style="margin-top: 30px;">@Model.Seals[i].FileName</label>
+                                        <div>
+                                            @Html.ActionLink(" فتح الملف", "DisplayDocument", "Seals",
+                                               new { id = Model.Seals[i].Id },
+                                               new { @class = "glyphicon glyphicon-open btn btn-primary" }) |
+                                            @Html.ActionLink(" تنزيل الملف", "DownloadDocument", "Seals",
+                                               new { id = Model.Seals[i].Id },
+                                               new { @class = "glyphicon glyphicon-download btn btn-success" })
+                                        </div>
+                                        <hr />
+                                    </header>
+                                    <div class="comment-post">
+                                        <p>
+                                            @Model.Seals[i].Message
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                }
+            }
+        </dd>
     </dl>
+    
 </div>
 
 

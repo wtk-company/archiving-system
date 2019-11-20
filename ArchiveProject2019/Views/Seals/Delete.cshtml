@@ -1,0 +1,22 @@
+﻿@model ArchiveProject2019.Models.SealDocument
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h3>متأكد من الحذف؟</h3>
+<div>
+
+
+    @using (Html.BeginForm()) {
+        
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(s => s.Id)
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+            <input type="submit" title="حذف" value="حذف" class="btn btn-danger" />
+            <button type="button" title="إغلاق النافذة" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+    }
+</div>
