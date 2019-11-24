@@ -84,9 +84,7 @@ namespace ArchiveProject2019.Controllers
            
             return View(UserPermissionsList.OrderByDescending(a=>a.CreatedAt).ToList());
         }
-
-      
-        [HttpPost]
+              [HttpPost]
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionsUsersIndex")]
         public ActionResult Index(List<string>Permissions)

@@ -64,6 +64,13 @@ namespace ArchiveProject2019.Models
         public string  CreatedAt { get; set; }
 
 
+
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
+        [Display(Name = "تاريخ آخر تعديل")]
+        public string UpdatedAt { get; set; }
+
+
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "تاريخ التنبيه")]
         public string NotificationDate { get; set; }
@@ -86,7 +93,23 @@ namespace ArchiveProject2019.Models
         public string CreatedById { set; get; }
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
-        
+
+
+        [Display(Name = "آخر تعديل بواسطة")]
+        public string UpdateById { set; get; }
+        [ForeignKey("UpdateById")]
+        public ApplicationUser UpdatedBy { set; get; }
+
+
+
+        public string NotificationUserId { set; get; }
+
+        [Display(Name ="المستخدم المسؤول")]
+
+        public string ResponsibleUserId{ set; get; }
+        [ForeignKey("ResponsibleUserId")]
+        public ApplicationUser ResponsibleUser { set; get; }
+
 
         // Relate with Department Table
         [Display(Name ="القسم")]

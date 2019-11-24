@@ -222,13 +222,9 @@
     <Compile Include="HelperClasses\StringDateHelper.cs" />
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201911171043510_ahmad-force.cs" />
-    <Compile Include="Migrations\201911171043510_ahmad-force.Designer.cs">
-      <DependentUpon>201911171043510_ahmad-force.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201911172232027_sealModel.cs" />
-    <Compile Include="Migrations\201911172232027_sealModel.Designer.cs">
-      <DependentUpon>201911172232027_sealModel.cs</DependentUpon>
+    <Compile Include="Migrations\201911231556295_ahmad-force.cs" />
+    <Compile Include="Migrations\201911231556295_ahmad-force.Designer.cs">
+      <DependentUpon>201911231556295_ahmad-force.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1101,7 +1097,6 @@
     <Content Include="Views\Documents\Form.cshtml" />
     <Content Include="Views\Documents\GetRelatedDocument.cshtml" />
     <Content Include="Views\Documents\GetReplayDocument.cshtml" />
-
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Documents\Relate.cshtml" />
     <Content Include="Views\Documents\Release.cshtml" />
@@ -1115,7 +1110,15 @@
     <Content Include="Views\DocumentUsers\Delete.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActive.cshtml" />
     <Content Include="Views\DocumentUsers\Details.cshtml" />
-
+    <Content Include="Views\DocumentDepartments\ActiveNOnActiveReplay.cshtml" />
+    <Content Include="Views\DocumentDepartments\ActiveNOnActiveRelate.cshtml" />
+    <Content Include="Views\DocumentDepartments\ActiveNOnActiveSeal.cshtml" />
+    <Content Include="Views\DocumentGroups\ActiveNOnActiveReplay.cshtml" />
+    <Content Include="Views\DocumentGroups\ActiveNOnActiveSeal.cshtml" />
+    <Content Include="Views\DocumentGroups\ActiveNOnActiveRelate.cshtml" />
+    <Content Include="Views\DocumentUsers\ActiveNOnActiveReplay.cshtml" />
+    <Content Include="Views\DocumentUsers\ActiveNOnActiveRelate.cshtml" />
+    <Content Include="Views\DocumentUsers\ActiveNOnActiveSeal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1132,11 +1135,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201911171043510_ahmad-force.resx">
-      <DependentUpon>201911171043510_ahmad-force.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201911172232027_sealModel.resx">
-      <DependentUpon>201911172232027_sealModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201911231556295_ahmad-force.resx">
+      <DependentUpon>201911231556295_ahmad-force.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

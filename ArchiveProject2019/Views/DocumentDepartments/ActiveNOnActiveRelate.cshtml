@@ -1,4 +1,4 @@
-﻿@model ArchiveProject2019.Models.DocumentUser
+﻿@model ArchiveProject2019.Models.DocumentDepartment
 
 @{
     ViewBag.Title = " تعديل التفعيل ";
@@ -6,7 +6,7 @@
 }
 
 
-<h3>هل أنت متأكد من عملية    تعديل التفعيل ؟</h3>
+<h3>هل أنت متأكد من عملية    تعديل إمكانية الربط ؟</h3>
 <div>
 
     <dl class="dl-horizontal">
@@ -20,24 +20,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserId)
+            @Html.DisplayNameFor(model => model.DepartmentId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.FullName)
+            @Html.DisplayFor(model => model.Department.Name)
         </dd>
 
-
-
-
-
-
         <dt>
-            @Html.DisplayNameFor(model => model.EnableEdit)
+            @Html.DisplayNameFor(model => model.EnableRelate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EnableEdit)
+            @Html.DisplayFor(model => model.EnableRelate)
         </dd>
 
 

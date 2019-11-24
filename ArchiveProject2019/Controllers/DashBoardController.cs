@@ -485,9 +485,9 @@ namespace ArchiveProject2019.Controllers
         {
 
             string CurrentUserId = this.User.Identity.GetUserId();
-           DateTime TodayDate = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd").Replace("-", "/"), "yyyy/MM/dd", null);
+            DateTime TodayDate = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd").Replace("-", "/"), "yyyy/MM/dd", null);
 
-            List<Document>Documents = db.Documents.Where(a=>a.CreatedById.Equals(CurrentUserId) && a.NotificationDate!=null).ToList();
+            List<Document> Documents = db.Documents.Where(a => a.NotificationUserId.Equals(CurrentUserId) && a.NotificationDate != null).ToList();
             int count = Documents.Where(a => EqualDate(a.NotificationDate, TodayDate)).Count();
             ViewBag.NotCount = count;
             return PartialView("_DocumentNotificationCount");
@@ -499,7 +499,7 @@ namespace ArchiveProject2019.Controllers
             DateTime TodayDate = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd").Replace("-", "/"), "yyyy/MM/dd", null);
 
             string CurrentUserId = this.User.Identity.GetUserId();
-            List<Document> Documents = db.Documents.Where(a => a.CreatedById.Equals(CurrentUserId) && a.NotificationDate != null).Include(a=>a.CreatedBy).ToList();
+            List<Document> Documents = db.Documents.Where(a => a.NotificationUserId.Equals(CurrentUserId) && a.NotificationDate != null).ToList();
             Documents = Documents.Where(a => EqualDate(a.NotificationDate, TodayDate)).OrderByDescending(a=>a.CreatedAt).ToList();
 
             Notification notification = null;

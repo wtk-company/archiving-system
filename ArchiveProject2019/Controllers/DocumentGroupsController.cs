@@ -127,6 +127,9 @@ namespace ArchiveProject2019.Controllers
                         GroupId = i,
                         DocumentId = DocumentIdValue,
                       EnableEdit=true,
+                      EnableReplay=true,
+                      EnableSeal=true,
+                      EnableRelate=true,
                         CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                         CreatedById = this.User.Identity.GetUserId()
 
@@ -322,6 +325,264 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { @id = Form_id, @msg = "EditSuccess" });
         }
 
+
+
+
+
+
+        [Authorize]
+        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        public ActionResult ActiveNOnActiveReplay(int? id)
+        {
+            ViewBag.Current = "Document";
+
+            if (id == null)
+            {
+                return RedirectToAction("BadRequestError", "ErrorController");
+
+            }
+            DocumentGroup documentGroup = db.DocumentGroups.Include(a => a.document).Include(a => a.Group).SingleOrDefault(a => a.Id == id);
+            if (documentGroup == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+            }
+            return View(documentGroup);
+        }
+
+
+
+        [HttpPost, ActionName("ActiveNOnActiveReplay")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        public ActionResult ActiveNOnActiveConfirmReplay(int id)
+        {
+            ViewBag.Current = "Document";
+
+            string ActiveMode = string.Empty;
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+            Document doc = db.DocumentGroups.Include(a => a.document).SingleOrDefault(a => a.Id == id).document;
+
+            DocumentGroup documentGroup = db.DocumentGroups.Find(id);
+            if (documentGroup.EnableReplay == true)
+            {
+                documentGroup.EnableReplay = false;
+                ActiveMode = "الغاء  إمكانية الرد";
+            }
+            else
+            {
+                documentGroup.EnableReplay = true;
+                ActiveMode = "تفعيل إمكانية الرد";
+
+            }
+            documentGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            db.Entry(documentGroup).State = EntityState.Modified;
+
+
+            db.SaveChanges();
+            int Form_id = documentGroup.DocumentId;
+
+            UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
+            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            Notification notification = null;
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تمت عملية  " + ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index", new { @id = Form_id, @msg = "EditSuccess" });
+        }
+
+
+
+        [Authorize]
+        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        public ActionResult ActiveNOnActiveSeal(int? id)
+        {
+            ViewBag.Current = "Document";
+
+            if (id == null)
+            {
+                return RedirectToAction("BadRequestError", "ErrorController");
+
+            }
+            DocumentGroup documentGroup = db.DocumentGroups.Include(a => a.document).Include(a => a.Group).SingleOrDefault(a => a.Id == id);
+            if (documentGroup == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+            }
+            return View(documentGroup);
+        }
+
+
+
+        [HttpPost, ActionName("ActiveNOnActiveSeal")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        public ActionResult ActiveNOnActiveConfirmSeal(int id)
+        {
+            ViewBag.Current = "Document";
+
+            string ActiveMode = string.Empty;
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+            Document doc = db.DocumentGroups.Include(a => a.document).SingleOrDefault(a => a.Id == id).document;
+
+            DocumentGroup documentGroup = db.DocumentGroups.Find(id);
+            if (documentGroup.EnableSeal == true)
+            {
+                documentGroup.EnableSeal = false;
+                ActiveMode = "الغاء  إمكانية التسديد";
+            }
+            else
+            {
+                documentGroup.EnableSeal = true;
+                ActiveMode = "تفعيل إمكانية التسديد";
+
+            }
+            documentGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            db.Entry(documentGroup).State = EntityState.Modified;
+
+
+            db.SaveChanges();
+            int Form_id = documentGroup.DocumentId;
+
+            UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
+            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            Notification notification = null;
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تمت عملية  " + ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index", new { @id = Form_id, @msg = "EditSuccess" });
+        }
+
+
+
+
+        [Authorize]
+        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        public ActionResult ActiveNOnActiveRelate(int? id)
+        {
+            ViewBag.Current = "Document";
+
+            if (id == null)
+            {
+                return RedirectToAction("BadRequestError", "ErrorController");
+
+            }
+            DocumentGroup documentGroup = db.DocumentGroups.Include(a => a.document).Include(a => a.Group).SingleOrDefault(a => a.Id == id);
+            if (documentGroup == null)
+            {
+                return RedirectToAction("HttpNotFoundError", "ErrorController");
+
+            }
+            return View(documentGroup);
+        }
+
+
+
+        [HttpPost, ActionName("ActiveNOnActiveRelate")]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        public ActionResult ActiveNOnActiveConfirmRelate(int id)
+        {
+            ViewBag.Current = "Document";
+
+            string ActiveMode = string.Empty;
+            List<string> UsersId = new List<string>();
+            string NotificationTime = string.Empty;
+            string UserId = User.Identity.GetUserId();
+            Document doc = db.DocumentGroups.Include(a => a.document).SingleOrDefault(a => a.Id == id).document;
+
+            DocumentGroup documentGroup = db.DocumentGroups.Find(id);
+            if (documentGroup.EnableRelate == true)
+            {
+                documentGroup.EnableRelate = false;
+                ActiveMode = "الغاء  إمكانية الربط";
+            }
+            else
+            {
+                documentGroup.EnableRelate = true;
+                ActiveMode = "تفعيل إمكانية الربط";
+
+            }
+            documentGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            db.Entry(documentGroup).State = EntityState.Modified;
+
+
+            db.SaveChanges();
+            int Form_id = documentGroup.DocumentId;
+
+            UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
+            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            Notification notification = null;
+            NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+            List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
+            foreach (ApplicationUser user in Users)
+            {
+
+                notification = new Notification()
+                {
+
+                    CreatedAt = NotificationTime,
+                    Active = false,
+                    UserId = user.Id,
+                    Message = "تمت عملية  " + ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
+                   ,
+                    NotificationOwnerId = UserId
+                };
+                db.Notifications.Add(notification);
+            }
+            db.SaveChanges();
+
+
+            return RedirectToAction("Index", new { @id = Form_id, @msg = "EditSuccess" });
+        }
 
 
         [Authorize]

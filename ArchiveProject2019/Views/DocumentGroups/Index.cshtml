@@ -45,7 +45,7 @@
             <span class="glyphicon glyphicon-bell">
 
             </span>
-            تمت عملية تعديل التفعيل بنجاح
+            تمت عملية التعديل  بنجاح
         </div>
     }
 
@@ -135,6 +135,42 @@
                 }
 
 
+                @if (item.EnableReplay == true)
+                {
+
+                    <button data-form-id="@item.Id" title="الغاء الرد" class="js-EnableReplay btn-xs btn-primary">إلغاء الرد</button>
+                }
+                else
+                {
+
+                    <button data-form-id="@item.Id" title="تفعيل الرد" class="js-EnableReplay btn-xs btn-success">تفعيل الرد</button>
+                }
+
+
+
+                @if (item.EnableSeal == true)
+                {
+
+                    <button data-form-id="@item.Id" title="الغاء التسديد" class="js-EnableSeal btn-xs btn-primary">إلغاء التسديد</button>
+                }
+                else
+                {
+
+                    <button data-form-id="@item.Id" title="تفعيل التسديد" class="js-EnableSeal btn-xs btn-success">تفعيل التسديد</button>
+                }
+
+                @if (item.EnableRelate == true)
+                {
+
+                    <button data-form-id="@item.Id" title="الغاء الربط" class="js-EnableRelate btn-xs btn-primary">إلغاء الريط</button>
+                }
+                else
+                {
+
+                    <button data-form-id="@item.Id" title="تفعيل الربط" class="js-EnableRelate btn-xs btn-success">تفعيل الربط</button>
+                }
+
+
                 <button data-form-id="@item.Id" title="إزالة المجموعة" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
 
                 <button data-form-id="@item.Id" title="تفاصيل" class="js-Details btn-xs btn-default"><span class="glyphicon glyphicon-book"></span></button>
@@ -204,7 +240,7 @@
 
       $("#form").on("click", ".js-Active", function () {
 
-        $("#changeText").text("تفعيل التعديل");
+        $("#changeText").text(" إمكانية التعديل");
 
                        var url = '@Url.Action("ActiveNOnActive", "DocumentGroups")';
                        url = url + '/' + $(this).attr("data-form-id") ;
@@ -214,6 +250,51 @@
                        });
 
       });
+
+
+        $("#form").on("click", ".js-EnableReplay", function () {
+
+        $("#changeText").text("عملية تعديل امكانية الرد");
+
+                       var url = '@Url.Action("ActiveNOnActiveReplay", "DocumentGroups")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+    });
+
+
+       $("#form").on("click", ".js-EnableSeal", function () {
+
+        $("#changeText").text("عملية تعديل امكانية التسديد");
+
+                       var url = '@Url.Action("ActiveNOnActiveSeal", "DocumentGroups")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+    
+    
+       $("#form").on("click", ".js-EnableRelate", function () {
+
+        $("#changeText").text("عملية تعديل امكانية الربط");
+
+                       var url = '@Url.Action("ActiveNOnActiveRelate", "DocumentGroups")';
+                       url = url + '/' + $(this).attr("data-form-id") ;
+
+        $("#partialPlaceHolder").load(url, function () {
+            $('#NewModal').modal('show');
+                       });
+
+                   });
+
+
 
 
     $("#form").on("click", ".js-Details", function () {

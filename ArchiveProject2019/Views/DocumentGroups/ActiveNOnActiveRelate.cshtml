@@ -1,12 +1,12 @@
-﻿@model ArchiveProject2019.Models.DocumentUser
+﻿@model ArchiveProject2019.Models.DocumentGroup
 
 @{
-    ViewBag.Title = " تعديل التفعيل ";
+    ViewBag.Title = " تعديل إمكانية الربط ";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
 
-<h3>هل أنت متأكد من عملية    تعديل التفعيل ؟</h3>
+<h3>هل أنت متأكد من عملية    تعديل إمكانية الربط ؟</h3>
 <div>
 
     <dl class="dl-horizontal">
@@ -20,25 +20,26 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.UserId)
+            @Html.DisplayNameFor(model => model.GroupId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.FullName)
+            @Html.DisplayFor(model => model.Group.Name)
         </dd>
-
-
-
 
 
 
         <dt>
-            @Html.DisplayNameFor(model => model.EnableEdit)
+            @Html.DisplayNameFor(model => model.EnableRelate)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EnableEdit)
+            @Html.DisplayFor(model => model.EnableRelate)
         </dd>
+
+
+
+
 
 
 
@@ -55,7 +56,7 @@
 
         <div class="modal-footer justify-content-center" style="margin-top:50px">
 
-            <input title="تعديل التفعيل" type="submit" value="تعديل التفعيل" class="btn btn-success" />
+            <input title="تعديل إمكانيةالربط" type="submit" value="تعديل إمكانية الربط" class="btn btn-success" />
             <button title="إغلاق النافذة" type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
         </div>
 

@@ -193,7 +193,17 @@
             </div>
         </div>
     </div>
-
+    <div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.ResponsibleUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Document.ResponsibleUserId, ViewBag.ResponsibleUserId as SelectList,"اختر المسؤول" ,htmlAttributes: new { @class = "form-control chosen-select" })
+                @Html.ValidationMessageFor(model => model.Document.ResponsibleUserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+ 
+    
 
     <div class="form-group">
         @Html.LabelFor(model => model.Document.DocumentNumber, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -291,7 +301,7 @@
     </div>
 
 
-    
+
     @if (Model.FieldsValues != null)
     {
         for (int i = 0; i < Model.FieldsValues.Values.Count; i++)

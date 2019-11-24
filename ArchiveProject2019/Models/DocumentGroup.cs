@@ -51,6 +51,21 @@ namespace ArchiveProject2019.Models
 
         public bool EnableEdit { set; get; }
 
+        [Display(Name = "امكانية الرد")]
+
+        public bool EnableReplay { set; get; }
+
+        [Display(Name = "امكانية التسديد")]
+
+        public bool EnableSeal { set; get; }
+
+
+        [Display(Name = "امكانية الربط")]
+
+        public bool EnableRelate { set; get; }
+
+
+
         [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }

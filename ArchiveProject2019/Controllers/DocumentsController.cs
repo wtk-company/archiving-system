@@ -118,7 +118,7 @@ namespace ArchiveProject2019.Controllers
             ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name");
             ViewBag.RelatedDepartments= new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name");
             ViewBag.RelatedUsers = new SelectList(_context.Users.Where(a=>!a.RoleName.Equals("Master")).ToList(), "Id", "FullName");
-
+            ViewBag.ResponsibleUserId= new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName");
             return View(myModel);
         }
 
@@ -341,6 +341,7 @@ namespace ArchiveProject2019.Controllers
             ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name", viewModel.Document.StatusId);
             ViewBag.RelatedDepartments = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name");
             ViewBag.RelatedUsers = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName");
+            ViewBag.ResponsibleUserId = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName",viewModel.Document.ResponsibleUserId);
 
 
 
@@ -385,6 +386,15 @@ namespace ArchiveProject2019.Controllers
                 viewModel.Document.CreatedById = UserId;
                 viewModel.Document.FormId = viewModel.Document.FormId;
 
+                if(viewModel.Document.ResponsibleUserId == null )
+                {
+                    viewModel.Document.NotificationUserId = UserId;
+                }
+                else
+                {
+                    viewModel.Document.NotificationUserId = viewModel.Document.ResponsibleUserId;
+
+                }
                 _context.Documents.Add(viewModel.Document);
                 _context.SaveChanges();
 
@@ -406,6 +416,9 @@ namespace ArchiveProject2019.Controllers
                         {
 
                            EnableEdit=true,
+                           EnableRelate=true,
+                           EnableReplay=true,
+                           EnableSeal=true,
                            DocumentId= viewModel.Document.Id,
                            DepartmentId=Convert.ToInt32(Department_Id),
                             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
@@ -456,6 +469,9 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             EnableEdit = true,
+                            EnableRelate = true,
+                            EnableReplay = true,
+                            EnableSeal = true,
                             DocumentId = viewModel.Document.Id,
                             GroupId = Convert.ToInt32(Group_Id),
                             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
@@ -505,6 +521,9 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             EnableEdit = true,
+                            EnableRelate = true,
+                            EnableReplay = true,
+                            EnableSeal = true,
                             DocumentId = viewModel.Document.Id,
                            UserId = User_Id,
                             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
@@ -706,6 +725,9 @@ namespace ArchiveProject2019.Controllers
    //[Asmi new]:
             ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name",document.StatusId);
             ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", document.KindId);
+
+            ViewBag.ResponsibleUserId = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName", document.ResponsibleUserId);
+
             //[Related Departments]:
 
 
@@ -953,6 +975,7 @@ namespace ArchiveProject2019.Controllers
             ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", viewModel.Document.KindId);
 
 
+            ViewBag.ResponsibleUserId = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName", viewModel.Document.ResponsibleUserId);
 
             //===================== Related Departments/Groups/Users=====================
             //[Related Departments]:
@@ -1175,8 +1198,21 @@ namespace ArchiveProject2019.Controllers
                         viewModel.Document.Name = "";
                     }
                 }
-                
+
                 //Document Update:
+                viewModel.Document.UpdateById= this.User.Identity.GetUserId();
+
+                viewModel.Document.UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+
+                if (viewModel.Document.ResponsibleUserId == null)
+                {
+                    viewModel.Document.NotificationUserId = viewModel.Document.CreatedById;
+                }
+                else
+                {
+                    viewModel.Document.NotificationUserId = viewModel.Document.ResponsibleUserId;
+
+                }
                 _context.Entry(viewModel.Document).State = EntityState.Modified;
                 _context.SaveChanges();
 
@@ -1214,6 +1250,9 @@ namespace ArchiveProject2019.Controllers
 
                             DocumentId = viewModel.Document.Id,
                             EnableEdit = true,
+                            EnableRelate = true,
+                            EnableReplay = true,
+                            EnableSeal = true,
                             DepartmentId = Convert.ToInt32(_DocumentDepartment_Id),
                             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                             CreatedById = this.User.Identity.GetUserId()
@@ -1366,6 +1405,9 @@ namespace ArchiveProject2019.Controllers
 
                             DocumentId = viewModel.Document.Id,
                             EnableEdit = true,
+                            EnableRelate = true,
+                            EnableReplay = true,
+                            EnableSeal = true,
                             GroupId = Convert.ToInt32(_DocumentGroup_Id),
                             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                             CreatedById = this.User.Identity.GetUserId()
@@ -1496,6 +1538,9 @@ namespace ArchiveProject2019.Controllers
 
                             DocumentId = viewModel.Document.Id,
                             EnableEdit = true,
+                            EnableRelate = true,
+                            EnableReplay = true,
+                            EnableSeal = true,
                             UserId = _DocumentUser_Id,
                             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                             CreatedById = this.User.Identity.GetUserId()

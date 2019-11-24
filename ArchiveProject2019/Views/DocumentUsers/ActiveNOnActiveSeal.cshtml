@@ -1,12 +1,12 @@
 ﻿@model ArchiveProject2019.Models.DocumentUser
 
 @{
-    ViewBag.Title = " تعديل التفعيل ";
+    ViewBag.Title = " تعديل إمكانية التسديد ";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
 
-<h3>هل أنت متأكد من عملية    تعديل التفعيل ؟</h3>
+<h3>هل أنت متأكد من عملية    تعديل إمكانية التسديد ؟</h3>
 <div>
 
     <dl class="dl-horizontal">
@@ -33,11 +33,11 @@
 
 
         <dt>
-            @Html.DisplayNameFor(model => model.EnableEdit)
+            @Html.DisplayNameFor(model => model.EnableSeal)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EnableEdit)
+            @Html.DisplayFor(model => model.EnableSeal)
         </dd>
 
 
@@ -55,7 +55,7 @@
 
         <div class="modal-footer justify-content-center" style="margin-top:50px">
 
-            <input title="تعديل التفعيل" type="submit" value="تعديل التفعيل" class="btn btn-success" />
+            <input title="تعديل إمكانية التسديد" type="submit" value="تعديل إمكانية التسديد" class="btn btn-success" />
             <button title="إغلاق النافذة" type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
         </div>
 
