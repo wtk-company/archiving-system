@@ -7,13 +7,13 @@ namespace ArchiveProject2019.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class rdforce : IMigrationMetadata
+    public sealed partial class adfforce : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(rdforce));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(adfforce));
         
         string IMigrationMetadata.Id
         {
-            get { return "201911251753573_rd-force"; }
+            get { return "201911251446558_adf-force"; }
         }
         
         string IMigrationMetadata.Source

@@ -74,7 +74,7 @@ namespace ArchiveProject2019.Controllers
 
                 form.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 form.CreatedById = User.Identity.GetUserId();
-
+                form.Type = 0;
                 _context.Forms.Add(form);
 
 
@@ -158,6 +158,8 @@ namespace ArchiveProject2019.Controllers
                 form.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 form.UpdatedById = User.Identity.GetUserId();
+                form.Type = 0;
+
                 _context.Entry(form).State = EntityState.Modified;
                 _context.SaveChanges();
 

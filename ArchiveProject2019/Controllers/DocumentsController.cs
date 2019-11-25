@@ -49,7 +49,7 @@ namespace ArchiveProject2019.Controllers
             var viewModel = new DocFromsViewModel()
             {
                 DocId = id,
-                Froms = _context.Forms.ToList(),
+                Froms = UsersDepartmentAndGroupsForms.GetUsersForms(this.User.Identity.GetUserId()),
                 IsReplay = false,
             };
 
@@ -63,7 +63,7 @@ namespace ArchiveProject2019.Controllers
             var viewModel = new DocFromsViewModel()
             {
                 DocId = id,
-                Froms = _context.Forms.ToList(),
+                Froms = UsersDepartmentAndGroupsForms.GetUsersForms(this.User.Identity.GetUserId()),
                 IsReplay = true,
             };
 
@@ -71,10 +71,14 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: /Documents/Create
-        public ActionResult Create(int Id, int docId, bool IsReplay)
+        public ActionResult Create(int Id=0, int docId=-1, bool IsReplay=false,int Standard=0)
         {
             ViewBag.Current = "Document";
 
+            if(Standard==1)
+            {
+                Id = _context.Forms.Where(a => a.Type == 1).FirstOrDefault().Id;
+            }
             var Fields = _context.Fields.Include(c => c.Form).Where(f => f.FormId == Id).ToList();
 
             List<Value> Values = new List<Value>();

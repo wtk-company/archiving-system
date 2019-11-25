@@ -16,9 +16,9 @@ namespace ArchiveProject2019.HelperClasses
             return new List<DocumentStatus>() {
 
 
-                new DocumentStatus(){ Type=1,Name="معطلة",CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
+                new DocumentStatus(){ Type=1,Name="ملغية",CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
                 new DocumentStatus(){ Type=1,Name="قيد المعالجة",CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
-                new DocumentStatus(){ Type=1,Name="تمت المعالجة",CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")}
+                new DocumentStatus(){ Type=1,Name="منهية ",CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")}
 
             };
         }

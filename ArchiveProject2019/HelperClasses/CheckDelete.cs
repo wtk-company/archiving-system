@@ -110,6 +110,11 @@ namespace ArchiveProject2019.HelperClasses
             Form f = db.Forms.Find(id);
             //Documents:
 
+            if(f.Type==1)
+            {
+                return false;
+            }
+
             List<Document> docs = db.Documents.Where(a => a.FormId == id).ToList();
             if(docs.Count()>0)
             {

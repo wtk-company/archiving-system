@@ -32,7 +32,7 @@ namespace ArchiveProject2019
             CreateMasterUser();
             CreateTypeOfMails();
             CreateDocumentStatus();
-
+            CreateForm();
 
         }
 
@@ -166,6 +166,13 @@ namespace ArchiveProject2019
         }
 
 
+
+        public void CreateForm()
+        {
+
+            db.Forms.Add(FormStartUp.CreateFormStartUp());
+            db.SaveChanges();
+        }
     }
 
 

@@ -29,7 +29,7 @@ namespace ArchiveProject2019.Models
         public ApplicationUser CreatedBy { set; get; }
 
 
-
+        public int Type { set; get; }
 
         [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
