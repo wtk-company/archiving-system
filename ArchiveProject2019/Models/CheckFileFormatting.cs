@@ -44,7 +44,10 @@ namespace ArchiveProject2019.Models
 
                 }
             }
-
+            else
+            {
+                Ok = true;
+            }
             return Ok;
 
         }
@@ -64,6 +67,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
+            else
+            {
+                Ok = true;
+            }
 
             return Ok;
 
@@ -73,13 +80,20 @@ namespace ArchiveProject2019.Models
         public static bool IsImage(HttpPostedFileBase FB)
         {
             bool Ok = false;
-            foreach(string s in ImageFormat)
+            if (FB != null)
             {
-                if(FB.FileName.EndsWith(s,StringComparison.OrdinalIgnoreCase))
+                foreach(string s in ImageFormat)
                 {
-                    Ok = true;
-                    break;
+                    if(FB.FileName.EndsWith(s,StringComparison.OrdinalIgnoreCase))
+                    {
+                        Ok = true;
+                        break;
+                    }
                 }
+            }
+            else
+            {
+                Ok = true;
             }
             return Ok;
 
@@ -99,7 +113,11 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-            
+            else
+            {
+                Ok = true;
+            }
+
             return Ok;
 
         }
@@ -121,7 +139,11 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-            
+            else
+            {
+                Ok = true;
+            }
+
             return Ok;
 
         }
@@ -141,7 +163,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-            
+            else
+            {
+                Ok = true;
+            }
             return Ok;
         }
 
@@ -162,7 +187,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-            
+            else
+            {
+                Ok = true;
+            }
             return Ok;
         }
 
@@ -181,7 +209,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-            
+            else
+            {
+                Ok = true;
+            }
             return Ok;
 
         }
@@ -203,7 +234,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-
+            else
+            {
+                Ok = true;
+            }
             return Ok;
 
         }
@@ -223,7 +257,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-            
+            else
+            {
+                Ok = true;
+            }
             return Ok;
 
         }
@@ -244,7 +281,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-            
+            else
+            {
+                Ok = true;
+            }
             return Ok;
 
         }
@@ -264,7 +304,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-
+            else
+            {
+                Ok = true;
+            }
             return Ok;
 
         }
@@ -287,7 +330,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-
+            else
+            {
+                Ok = true;
+            }
             return Ok;
 
         }
@@ -307,7 +353,10 @@ namespace ArchiveProject2019.Models
                     }
                 }
             }
-
+            else
+            {
+                Ok = true;
+            }
             return Ok;
 
         }

@@ -164,9 +164,6 @@ namespace ArchiveProject2019.Models
         // Target Parties for Outgoing Mial
         public DbSet<DocumentParty> DocumentParties { set; get; }
         
-        // Target Groups and Documents for Internal Mail
-        public DbSet<DocumentTargetDepartment> DocumentTargetDepartments { set; get; }
-        public DbSet<DocumentTargetGroup> DocumentTargetGroups { set; get; }
         public DbSet<Notification> Notifications { set; get; }
 
         public DbSet<FilesStoredInDb> FilesStoredInDbs { set; get; }
@@ -176,6 +173,8 @@ namespace ArchiveProject2019.Models
 
         public DbSet<SealDocument> SealDocuments { set; get; }
 
+        // Company Info
+        public DbSet<Company> Company { set; get; }
 
 
 

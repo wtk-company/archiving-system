@@ -74,6 +74,12 @@ namespace ArchiveProject2019.Controllers
             {
                 ModelState.AddModelError("File", "يجب إدخال ملف");
             }
+
+            if (!CheckFileFormatting.PermissionFile(SealFile))
+            {
+                ModelState.AddModelError("File", "صيغة الملف غير مدعومة!");
+            }
+
             if (ModelState.IsValid)
             {
                 Seal.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");

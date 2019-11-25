@@ -1,12 +1,9 @@
 ﻿@model IEnumerable<ArchiveProject2019.Models.Form>
-@using ArchiveProject2019.Models
-@using Microsoft.AspNet.Identity;
 @using ArchiveProject2019.HelperClasses
 
 @{
     ViewBag.Title = "فورمات الوثائق";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
-    ApplicationDbContext db = new ApplicationDbContext();
 }
 
 
@@ -16,8 +13,6 @@
 
 @if (ViewBag.Msg != null)
 {
-
-
 
     if (ViewBag.Msg == "CreateError")
     {
@@ -114,13 +109,8 @@
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
 
-
-
-
             <th>
-
                 @Html.DisplayName("العمليات المتاحة")
-
             </th>
         </tr>
     </thead>
