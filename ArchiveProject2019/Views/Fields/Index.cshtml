@@ -149,12 +149,9 @@
                     @Html.DisplayFor(modelItem => item.IsRequired)
                 </td>
                 <td>
-                    @switch (item.Type)
-                    {
-                        case "file":
-                            @:ملف
+                   @switch(item.Type)
+                   {
 
-                            break;
 
                         case "bool":
                             @:حقل منطقي

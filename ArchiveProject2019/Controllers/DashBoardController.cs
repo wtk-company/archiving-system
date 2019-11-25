@@ -332,6 +332,7 @@ namespace ArchiveProject2019.Controllers
 
                 info.DepartmentsCount = db.Departments.Count();
             }
+            info.Company = db.Company.Find(1);
 
             return View(info);
         }

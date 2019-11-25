@@ -199,6 +199,7 @@ namespace ArchiveProject2019.ViewModel
 
         //Groups:
          public List<GroupsUserInformation> UserGroups { set; get; }
+        public Company Company { set; get; }
 
         //Permissions:
 

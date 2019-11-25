@@ -19,7 +19,7 @@ namespace ArchiveProject2019.Controllers
 {
     public class DocumentsController : Controller
     {
-        private bool IsSaveInDb = false;
+        private bool IsSaveInDb = true;
 
         ApplicationDbContext _context;
 
@@ -126,8 +126,10 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
+
         public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string> PartyIds, IEnumerable<string> Departments, IEnumerable<string> Groups
             ,IEnumerable<string> RelatedGroups,IEnumerable<string> RelatedDepartments,IEnumerable<string> RelatedUsers)
+
         {
             ViewBag.Current = "Document";
 
@@ -266,14 +268,7 @@ namespace ArchiveProject2019.Controllers
 
 
             }//End if 
-
-
-            //Check Files Upload Exist:
-            if (UploadFile.ElementAt(0) == null)
-            {
-                Status = false;
-                ModelState.AddModelError("Document.FileUrl", "يجب إدخال ملفات ");
-            }
+            
 
             //Check Mail numbare and mail date:
             TypeMail mail = _context.TypeMails.Find(viewModel.Document.TypeMailId);
@@ -295,20 +290,7 @@ namespace ArchiveProject2019.Controllers
                 ModelState.AddModelError("PartyIds", "حدد جهات استلام البريد");
                 Status = false;
             }
-
-            // validate Departments multi select list
-            if (mail != null && mail.Type.Equals(3) && Departments == null)
-            {
-                ModelState.AddModelError("Departments", "حدد الاقسام المستهدفة");
-                Status = false;
-            }
-            // validate Groups multi select list
-            if (mail != null && mail.Type.Equals(3) && Groups == null)
-            {
-                ModelState.AddModelError("Groups", "حدد المجموعات المستهدفة");
-                Status = false;
-            }
-
+            
             var lasFile = UploadFile.Last();
             foreach (HttpPostedFileBase file in UploadFile)
             {
@@ -621,38 +603,39 @@ namespace ArchiveProject2019.Controllers
                         _context.SaveChanges();
                     }
                 }
-                // store Department and Groups for internal Mail
-                if (Departments != null && Groups != null && mail.Type == 3)
-                {
-                    // Store Departments
-                    foreach (string DeptId in Departments)
-                    {
-                        var DocDept = new DocumentTargetDepartment()
-                        {
-                            DocumentId = viewModel.Document.Id,
-                            DepartmentId = Convert.ToInt32(DeptId),
-                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
-                            CreatedById = UserId
-                        };
+                //// store Department and Groups for internal Mail
+                //if (Departments != null && Groups != null && mail.Type == 3)
+                //{
+                //    // Store Departments
+                //    foreach (string DeptId in Departments)
+                //    {
+                //        var DocDept = new DocumentTargetDepartment()
+                //        {
+                //            DocumentId = viewModel.Document.Id,
+                //            DepartmentId = Convert.ToInt32(DeptId),
+                //            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                //            CreatedById = UserId
+                //        };
 
-                        _context.DocumentTargetDepartments.Add(DocDept);
-                        _context.SaveChanges();
-                    }
-                    // Store Groups
-                    foreach (string GroupId in Groups)
-                    {
-                        var DocGroup = new DocumentTargetGroup()
-                        {
-                            DocumentId = viewModel.Document.Id,
-                            GroupId = Convert.ToInt32(GroupId),
-                            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
-                            CreatedById = UserId
-                        };
+                //        _context.DocumentTargetDepartments.Add(DocDept);
+                //        _context.SaveChanges();
+                //    }
+                //    // Store Groups
+                //    foreach (string GroupId in Groups)
+                //    {
+                //        var DocGroup = new DocumentTargetGroup()
+                //        {
+                //            DocumentId = viewModel.Document.Id,
+                //            GroupId = Convert.ToInt32(GroupId),
+                //            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                //            CreatedById = UserId
+                //        };
 
-                        _context.DocumentTargetGroups.Add(DocGroup);
-                        _context.SaveChanges();
-                    }
-                }
+                //        _context.DocumentTargetGroups.Add(DocGroup);
+                //        _context.SaveChanges();
+                //    }
+                //}
+
                 // Relate Document
                 var docId = viewModel.DocId;
                 if (docId != -1 && !viewModel.IsReplay)
@@ -968,7 +951,6 @@ namespace ArchiveProject2019.Controllers
             ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
 
 
-
             //Asmi [Return ]:
             ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name", viewModel.Document.StatusId);
 
@@ -1038,31 +1020,6 @@ namespace ArchiveProject2019.Controllers
 
 
 
-            //end return
-
-            if (UploadFile.ElementAt(0) == null && !viewModel.ExistFiles.Contains(true))
-            {
-                Status = false;
-                ModelState.AddModelError("Document.FileUrl", "يجب إدخال ملفات ");
-            }
-            else
-            {
-                var IsEmpty = true;
-                for (int i = 0; i < UploadFile.Length; i++)
-                {
-                    if (UploadFile[i] != null && viewModel.ExistFiles[i] == true)
-                    {
-                        IsEmpty = false;
-                    }
-                } 
-                if (!IsEmpty)
-                {
-                    Status = false;
-                    ModelState.AddModelError("Document.FileUrl", "يجب إدخال ملفات ");
-                }
-            }
-
-
             //Status Model=false{status==false}
             if (Status == false)
             {
@@ -1071,70 +1028,100 @@ namespace ArchiveProject2019.Controllers
 
             if (ModelState.IsValid)
             {
-                if (IsSaveInDb)
+                if (viewModel.ExistFiles != null)
                 {
-                    for (int i = 0; i < viewModel.ExistFiles.Count; i++)
+                    if (IsSaveInDb)
                     {
-                        if (viewModel.FilesStoredInDbs != null && i < viewModel.FilesStoredInDbs.Count)
+                        for (int i = 0; i < viewModel.ExistFiles.Count; i++)
                         {
-                            if (viewModel.ExistFiles[i]) // true
+                            if (viewModel.FilesStoredInDbs != null && i < viewModel.FilesStoredInDbs.Count)
                             {
-                                if (UploadFile[i] != null)
+                                if (viewModel.ExistFiles[i]) // true
                                 {
-                                    //Save File In DB
+                                    if (UploadFile[i] != null)
+                                    {
+                                        //Save File In DB
 
-                                    string FileName = Path.GetFileName(UploadFile[i].FileName);
-                                    viewModel.FilesStoredInDbs[i].FileName = FileName;
+                                        string FileName = Path.GetFileName(UploadFile[i].FileName);
+                                        viewModel.FilesStoredInDbs[i].FileName = FileName;
 
-                                    viewModel.FilesStoredInDbs[i].File = new byte[UploadFile[i].ContentLength];
-                                    UploadFile[i].InputStream.Read(viewModel.FilesStoredInDbs[i].File, 0, UploadFile[i].ContentLength);
+                                        viewModel.FilesStoredInDbs[i].File = new byte[UploadFile[i].ContentLength];
+                                        UploadFile[i].InputStream.Read(viewModel.FilesStoredInDbs[i].File, 0, UploadFile[i].ContentLength);
 
-                                    _context.Entry(viewModel.FilesStoredInDbs[i]).State = EntityState.Modified;
+                                        _context.Entry(viewModel.FilesStoredInDbs[i]).State = EntityState.Modified;
+                                        _context.SaveChanges();
+                                    }
+                                }
+                                else
+                                {
+                                    var filesStoredInDb = _context.FilesStoredInDbs.Find(viewModel.FilesStoredInDbs[i].Id);
+                                    // remove old file from DB
+                                    _context.FilesStoredInDbs.Remove(filesStoredInDb);
                                     _context.SaveChanges();
                                 }
                             }
-                            else
+                            else if (viewModel.ExistFiles[i] && UploadFile[i] != null)
                             {
-                                var filesStoredInDb = _context.FilesStoredInDbs.Find(viewModel.FilesStoredInDbs[i].Id);
-                                // remove old file from DB
-                                _context.FilesStoredInDbs.Remove(filesStoredInDb);
+                                //Save File In DB
+
+                                var FileStoredInDb = new FilesStoredInDb();
+
+                                string FileName = Path.GetFileName(UploadFile[i].FileName);
+                                FileStoredInDb.FileName = FileName;
+
+                                FileStoredInDb.File = new byte[UploadFile[i].ContentLength];
+                                UploadFile[i].InputStream.Read(FileStoredInDb.File, 0, UploadFile[i].ContentLength);
+
+                                FileStoredInDb.DocumentId = viewModel.Document.Id;
+
+                                _context.FilesStoredInDbs.Add(FileStoredInDb);
                                 _context.SaveChanges();
                             }
                         }
-                        else if (viewModel.ExistFiles[i] && UploadFile[i] != null)
-                        {
-                            //Save File In DB
-
-                            var FileStoredInDb = new FilesStoredInDb();
-
-                            string FileName = Path.GetFileName(UploadFile[i].FileName);
-                            FileStoredInDb.FileName = FileName;
-
-                            FileStoredInDb.File = new byte[UploadFile[i].ContentLength];
-                            UploadFile[i].InputStream.Read(FileStoredInDb.File, 0, UploadFile[i].ContentLength);
-
-                            FileStoredInDb.DocumentId = viewModel.Document.Id;
-
-                            _context.FilesStoredInDbs.Add(FileStoredInDb);
-                            _context.SaveChanges();
-                        }
                     }
-                }
-                else
-                {
-                    var urls = viewModel.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
-                    var url = "";
-                    var fileNames = viewModel.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
-                    var fileName = "";
-
-                    for (int i = 0; i < viewModel.ExistFiles.Count; i++)
+                    else
                     {
+                        var urls = viewModel.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                        var url = "";
+                        var fileNames = viewModel.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                        var fileName = "";
 
-                        if (i < urls.Length)
+                        for (int i = 0; i < viewModel.ExistFiles.Count; i++)
                         {
-                            if (viewModel.ExistFiles[i]) // true
+
+                            if (i < urls.Length)
                             {
-                                if (UploadFile[i] != null)
+                                if (viewModel.ExistFiles[i]) // true
+                                {
+                                    if (UploadFile[i] != null)
+                                    {
+                                        // remove old file from server
+                                        var oldPath = Request.MapPath("~/Uploads/" + urls[i]);
+                                        if (System.IO.File.Exists(oldPath))
+                                        {
+                                            System.IO.File.Delete(oldPath);
+                                        }
+
+                                        //Save File In Uploads
+                                        string FileName = Path.GetFileName(UploadFile[i].FileName);
+                                        //Save In DB:
+                                        viewModel.Document.Name = FileName;
+
+                                        string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
+                                        string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
+                                        UploadFile[i].SaveAs(path);
+
+                                        url += s1 + "_##_";
+                                        fileName += FileName + "_##_";
+                                    }
+                                    else
+                                    {
+                                        url += urls[i] + "_##_";
+                                        fileName += fileNames[i] + "_##_";
+
+                                    }
+                                }
+                                else
                                 {
                                     // remove old file from server
                                     var oldPath = Request.MapPath("~/Uploads/" + urls[i]);
@@ -1142,60 +1129,33 @@ namespace ArchiveProject2019.Controllers
                                     {
                                         System.IO.File.Delete(oldPath);
                                     }
-
-                                    //Save File In Uploads
-                                    string FileName = Path.GetFileName(UploadFile[i].FileName);
-                                    //Save In DB:
-                                    viewModel.Document.Name = FileName;
-
-                                    string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                                    string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
-                                    UploadFile[i].SaveAs(path);
-
-                                    url += s1 + "_##_";
-                                    fileName += FileName + "_##_";
-                                }
-                                else
-                                {
-                                    url += urls[i] + "_##_";
-                                    fileName += fileNames[i] + "_##_";
-
                                 }
                             }
-                            else
+                            else if (viewModel.ExistFiles[i] && UploadFile[i] != null)
                             {
-                                // remove old file from server
-                                var oldPath = Request.MapPath("~/Uploads/" + urls[i]);
-                                if (System.IO.File.Exists(oldPath))
-                                {
-                                    System.IO.File.Delete(oldPath);
-                                }
+                                //Save File In Uploads
+                                string FileName = Path.GetFileName(UploadFile[i].FileName);
+                                //Save In DB:
+                                viewModel.Document.Name = FileName;
+
+                                string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
+                                string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
+                                UploadFile[i].SaveAs(path);
+
+                                url += s1 + "_##_";
+                                fileName += FileName + "_##_";
                             }
                         }
-                        else if (viewModel.ExistFiles[i] && UploadFile[i] != null)
+                        if (url.Length > 0)
                         {
-                            //Save File In Uploads
-                            string FileName = Path.GetFileName(UploadFile[i].FileName);
-                            //Save In DB:
-                            viewModel.Document.Name = FileName;
-
-                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                            string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
-                            UploadFile[i].SaveAs(path);
-
-                            url += s1 + "_##_";
-                            fileName += FileName + "_##_";
+                            viewModel.Document.FileUrl = url.Substring(0, url.Length - 4);
+                            viewModel.Document.Name = fileName.Substring(0, fileName.Length - 4);
                         }
-                    }
-                    if (url.Length > 0)
-                    {
-                        viewModel.Document.FileUrl = url.Substring(0, url.Length - 4);
-                        viewModel.Document.Name = fileName.Substring(0, fileName.Length - 4);
-                    }
-                    else
-                    {
-                        viewModel.Document.FileUrl = "";
-                        viewModel.Document.Name = "";
+                        else
+                        {
+                            viewModel.Document.FileUrl = "";
+                            viewModel.Document.Name = "";
+                        }
                     }
                 }
 

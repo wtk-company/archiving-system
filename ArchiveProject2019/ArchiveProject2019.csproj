@@ -183,9 +183,11 @@
     <Compile Include="Controllers\BackupRestoreController.cs" />
     <Compile Include="Controllers\SealsController.cs" />
     <Compile Include="Controllers\DocumentPartiesController.cs" />
+
     <Compile Include="Controllers\DocumentTargetGroupsController.cs" />
     <Compile Include="Controllers\DocumentTargetDepartmentsController.cs" />
     <Compile Include="Controllers\DocumentUsersController.cs" />
+
     <Compile Include="Controllers\PartiesController.cs" />
     <Compile Include="Controllers\DashBoardController.cs" />
     <Compile Include="Controllers\DocumentDepartmentsController.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="Controllers\TypeMailsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\UsersGroupsController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -226,12 +229,54 @@
     <Compile Include="Migrations\201911231556295_ahmad-force.Designer.cs">
       <DependentUpon>201911231556295_ahmad-force.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201911211542364_rrrr.cs" />
+    <Compile Include="Migrations\201911211542364_rrrr.Designer.cs">
+      <DependentUpon>201911211542364_rrrr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911241534179_company.cs" />
+    <Compile Include="Migrations\201911241534179_company.Designer.cs">
+      <DependentUpon>201911241534179_company.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911241549356_companyUpdate.cs" />
+    <Compile Include="Migrations\201911241549356_companyUpdate.Designer.cs">
+      <DependentUpon>201911241549356_companyUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911241654544_companyUpdate2.cs" />
+    <Compile Include="Migrations\201911241654544_companyUpdate2.Designer.cs">
+      <DependentUpon>201911241654544_companyUpdate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911241757045_companyUpdate3.cs" />
+    <Compile Include="Migrations\201911241757045_companyUpdate3.Designer.cs">
+      <DependentUpon>201911241757045_companyUpdate3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911241839470_companyUpdate4.cs" />
+    <Compile Include="Migrations\201911241839470_companyUpdate4.Designer.cs">
+      <DependentUpon>201911241839470_companyUpdate4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911241857343_companyUpdate5.cs" />
+    <Compile Include="Migrations\201911241857343_companyUpdate5.Designer.cs">
+      <DependentUpon>201911241857343_companyUpdate5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911241956136_companyUpdate6.cs" />
+    <Compile Include="Migrations\201911241956136_companyUpdate6.Designer.cs">
+      <DependentUpon>201911241956136_companyUpdate6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911242025206_companyUpdate7.cs" />
+    <Compile Include="Migrations\201911242025206_companyUpdate7.Designer.cs">
+      <DependentUpon>201911242025206_companyUpdate7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201911242121487_companyUpdate8.cs" />
+    <Compile Include="Migrations\201911242121487_companyUpdate8.Designer.cs">
+      <DependentUpon>201911242121487_companyUpdate8.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+
     <Compile Include="Models\DocumentStatus.cs" />
     <Compile Include="Models\DocumentTargetGroup.cs" />
     <Compile Include="Models\DocumentTargetDepartment.cs" />
     <Compile Include="Models\DocumentUser.cs" />
+
     <Compile Include="Models\FilesStoredInDb.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Party.cs" />
@@ -263,6 +308,7 @@
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Models\Value.cs" />
     <Compile Include="Models\View.cs" />
+    <Compile Include="Models\Company.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\DocumentDocumentsViewModel.cs" />
@@ -1097,6 +1143,7 @@
     <Content Include="Views\Documents\Form.cshtml" />
     <Content Include="Views\Documents\GetRelatedDocument.cshtml" />
     <Content Include="Views\Documents\GetReplayDocument.cshtml" />
+
     <Content Include="Views\Documents\Index.cshtml" />
     <Content Include="Views\Documents\Relate.cshtml" />
     <Content Include="Views\Documents\Release.cshtml" />
@@ -1119,6 +1166,7 @@
     <Content Include="Views\DocumentUsers\ActiveNOnActiveReplay.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActiveRelate.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActiveSeal.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1137,6 +1185,36 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201911231556295_ahmad-force.resx">
       <DependentUpon>201911231556295_ahmad-force.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911211542364_rrrr.resx">
+      <DependentUpon>201911211542364_rrrr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911241534179_company.resx">
+      <DependentUpon>201911241534179_company.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911241549356_companyUpdate.resx">
+      <DependentUpon>201911241549356_companyUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911241654544_companyUpdate2.resx">
+      <DependentUpon>201911241654544_companyUpdate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911241757045_companyUpdate3.resx">
+      <DependentUpon>201911241757045_companyUpdate3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911241839470_companyUpdate4.resx">
+      <DependentUpon>201911241839470_companyUpdate4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911241857343_companyUpdate5.resx">
+      <DependentUpon>201911241857343_companyUpdate5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911241956136_companyUpdate6.resx">
+      <DependentUpon>201911241956136_companyUpdate6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911242025206_companyUpdate7.resx">
+      <DependentUpon>201911242025206_companyUpdate7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201911242121487_companyUpdate8.resx">
+      <DependentUpon>201911242121487_companyUpdate8.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

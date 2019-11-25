@@ -1,18 +1,17 @@
 ﻿@model ArchiveProject2019.ViewModel.DocumentFieldsValuesViewModel
-@using ArchiveProject2019.Models
+
 @{
     ViewBag.Title = "تفاصيل الوثيقة";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
-    ApplicationDbContext db = new ApplicationDbContext();
-
 }
 <style>
+    
     td, dd {
         margin: 20px;
     }
-
-    .panel-body {
-        background-color: #243f5a;
+    
+    .panel {
+        background-color: #f1f1f1;
     }
 
 </style>
@@ -22,7 +21,6 @@
 <a href="@Url.Action("index", "Documents")" class="btn btn-primary">عودة لقائمةالوثائق  <i class="glyphicon glyphicon-backward"></i></a>
 
 <div>
-
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Document.FormId)
@@ -173,9 +171,9 @@
             {
                 for (int i = 0; i < Model.Seals.Count; i++)
                 {
-                
-                    <article class="row">
-                        <div class="col-md-12 col-sm-12">
+
+                    <article class="row col-md-6 col-sm-6">
+                        <div class="">
                             <div class="panel panel-default arrow right">
                                 <div class="panel-body">
 
@@ -185,10 +183,10 @@
                                         <div class="comment-user"><span class="glyphicon glyphicon-file"></span> @Model.Seals[i].FileName</div>
                                         <label style="margin-top: 30px;">@Model.Seals[i].FileName</label>
                                         <div>
-                                            @Html.ActionLink(" فتح الملف", "DisplayDocument", "Seals",
+                                            @Html.ActionLink(" فتح", "DisplayDocument", "Seals",
                                                new { id = Model.Seals[i].Id },
                                                new { @class = "glyphicon glyphicon-open btn btn-primary" }) |
-                                            @Html.ActionLink(" تنزيل الملف", "DownloadDocument", "Seals",
+                                            @Html.ActionLink(" تنزيل", "DownloadDocument", "Seals",
                                                new { id = Model.Seals[i].Id },
                                                new { @class = "glyphicon glyphicon-download btn btn-success" })
                                         </div>
@@ -207,11 +205,7 @@
             }
         </dd>
     </dl>
-    
+
 </div>
-
-
-
-
 
 @Html.Partial("_LastView")

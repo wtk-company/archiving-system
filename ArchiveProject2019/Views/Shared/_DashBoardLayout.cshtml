@@ -279,6 +279,11 @@
 
                                 </ul>
                             </li>
+                            <li>
+                                <a href="@Url.Action("Create","Company")" class="glyphicon glyphicon-pencil info-number"
+                                   title="تهيئة معلومات الشركة" aria-expanded="false">
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -369,10 +374,25 @@
 
 
 
+<div class="modal fade" tabindex="-1" id="NewModal"
+     data-keyboard="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 id="changeText" class="modal-title">القائمة الفرعية</h4>
+            </div>
+            <div class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @* this is for fill table with datatablejs *@
 <script>
-
 
 
     $(document).ready(function () {
