@@ -1,5 +1,5 @@
 ﻿@model ArchiveProject2019.ViewModel.DocumentDocIdFieldsValuesViewModel
-@using ArchiveProject2019.Models
+
 @{
     ViewBag.Title = "تعديل وثيقة ";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
@@ -90,7 +90,7 @@
                     @Html.EditorFor(model => model.Document.DocumentNumber, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Document.DocumentNumber, "", new { @class = "text-danger" })
                 </div>
-            </div>  
+            </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
@@ -137,9 +137,9 @@
                 </div>
             </div>
         </div>
-<!-- asmi start-->
+        <!-- asmi start-->
 
- <div>
+        <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.StatusId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -149,7 +149,7 @@
             </div>
         </div>
 
-        <div>
+        <div class="col-md-6">
             <div class="form-group">
                 @Html.LabelFor(model => model.Document.ResponsibleUserId, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -158,36 +158,36 @@
                 </div>
             </div>
         </div>
-		
-		
 
-		
-		    <div class="form-group">
-        @Html.Label("الاقسام المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("RelatedDepartments", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+
+
+
+        <div class="form-group">
+            @Html.Label("الاقسام المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RelatedDepartments", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+            </div>
         </div>
-    </div>
 
 
 
-    <div class="form-group">
-        @Html.Label("المجموعات المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("RelatedGroups", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+        <div class="form-group">
+            @Html.Label("المجموعات المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RelatedGroups", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+            </div>
         </div>
-    </div>
 
 
 
-    <div class="form-group">
-        @Html.Label("العناصر المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("RelatedUsers", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+        <div class="form-group">
+            @Html.Label("العناصر المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RelatedUsers", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
+            </div>
         </div>
-    </div>
 
-<!-- ./ asmi end -->
+        <!-- ./ asmi end -->
         @if (Model.FieldsValues != null)
         {
             for (int i = 0; i < Model.FieldsValues.Values.Count; i++)
@@ -227,7 +227,7 @@
                                     break;
 
                                     @*@Html.RadioButton(Model.Values[i].FieldValue,"نعم")
-                                    @Html.RadioButton(Model.Values[i].FieldValue, "لا")*@
+                                        @Html.RadioButton(Model.Values[i].FieldValue, "لا")*@
 
                                     //break;
                             }

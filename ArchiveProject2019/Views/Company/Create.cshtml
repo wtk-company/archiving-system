@@ -16,8 +16,7 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.Logo)
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -96,11 +95,19 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Logo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (Model.Logo != null)
+
+                @if (Model != null)
                 {
-                    <p class = "text-info">
-                        الملف موجود، اذا رغبت بالتعديل اختر غيره.
-                    </p>
+
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.Logo)
+
+                    if (Model.Logo != null)
+                    {
+                        <p class = "text-info">
+                            الملف موجود، اذا رغبت بالتعديل اختر غيره.
+                        </p>
+                    }
                 }
                 <input type="file" id="file1" name="file1" />
 
