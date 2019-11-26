@@ -106,12 +106,12 @@ namespace ArchiveProject2019.Controllers
                 IsReplay = IsReplay,
             };
 
-            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name");
+        //    ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name");
    
             ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
         
-            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
-            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
+//ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name");
 
 
 
@@ -158,11 +158,6 @@ namespace ArchiveProject2019.Controllers
 
 
 
-                //اختبار الحقل من النمط صورة إذا كان ضروري او لا
-
-
-
-                //K :counter for files
                 int k = 0;
                 for (int i = 0; i < FVVM.Values.Count(); i++)
                 {
@@ -185,46 +180,7 @@ namespace ArchiveProject2019.Controllers
                 }
 
 
-                //أختبار صيغة كل ملف من الملفات
-
-
-                int j = 0;
-
-
-                for (int i = 0; i < FVVM.Values.Count(); i++)
-                {
-
-
-
-                    if (FVVM.Fields[i].Type.Equals("file"))
-                    {
-
-                        if (FieldFile.ElementAt(j) != null)
-                        {
-                            bool ImageExtention = CheckFileFormatting.PermissionFile(FieldFile.ElementAt(j));
-
-                            if (ImageExtention == false)
-                            {
-                                Status = false;
-                                ModelState.AddModelError("FieldsValues.Values[" + i + "].Id", " صيغةالملف غير مدعومةالرجاء إعادةالإدخال");
-                            }
-                            else
-                            {
-                                string FileName = Path.GetFileName(FieldFile.ElementAt(j).FileName);
-                                //Save In Server
-
-                                string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                                string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
-                                FieldFile.ElementAt(j).SaveAs(path);
-
-                                //Save In Db:
-                                viewModel.FieldsValues.Values[i].FieldValue = "~/Uploads/" + s1;
-
-                            }//else
-                        }//file Not null
-                        j++;
-                    }//If {file}
-                }
+             
 
                 //فقط سوف يتم اختبار الحقل من النمط الرقمي والأيميل ورقم الهاتف 
                 for (int i = 0; i < viewModel.FieldsValues.Values.Count(); i++)
@@ -313,10 +269,10 @@ namespace ArchiveProject2019.Controllers
 
 
             //retturn error:
-            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
+         //   ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
             ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
-            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
-            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
+         //   ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
+            ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
             //Status Model = false{status==false}
 
 
@@ -607,40 +563,7 @@ namespace ArchiveProject2019.Controllers
                         _context.SaveChanges();
                     }
                 }
-                //// store Department and Groups for internal Mail
-                //if (Departments != null && Groups != null && mail.Type == 3)
-                //{
-                //    // Store Departments
-                //    foreach (string DeptId in Departments)
-                //    {
-                //        var DocDept = new DocumentTargetDepartment()
-                //        {
-                //            DocumentId = viewModel.Document.Id,
-                //            DepartmentId = Convert.ToInt32(DeptId),
-                //            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
-                //            CreatedById = UserId
-                //        };
-
-                //        _context.DocumentTargetDepartments.Add(DocDept);
-                //        _context.SaveChanges();
-                //    }
-                //    // Store Groups
-                //    foreach (string GroupId in Groups)
-                //    {
-                //        var DocGroup = new DocumentTargetGroup()
-                //        {
-                //            DocumentId = viewModel.Document.Id,
-                //            GroupId = Convert.ToInt32(GroupId),
-                //            CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
-                //            CreatedById = UserId
-                //        };
-
-                //        _context.DocumentTargetGroups.Add(DocGroup);
-                //        _context.SaveChanges();
-                //    }
-                //}
-
-                // Relate Document
+               
                 var docId = viewModel.DocId;
                 if (docId != -1 && !viewModel.IsReplay)
                 {

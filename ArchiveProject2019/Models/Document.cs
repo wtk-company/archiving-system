@@ -24,7 +24,7 @@ namespace ArchiveProject2019.Models
 
         [Display(Name = "الموضوع")]
         [Required(ErrorMessage = "يجب إختيار الموضوع")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "طول الموضوع يجب أن يكون بين 5 و 50 محرف")]
+   
         public string Subject { get; set; }
 
 
@@ -50,7 +50,7 @@ namespace ArchiveProject2019.Models
 
 
         [Display(Name = "الوصف")]
-        [StringLength(1000, MinimumLength = 2, ErrorMessage = "طول الموضوع يجب أن يكون أكبر من 2")]
+       
         public string Description { get; set; }
 
 
@@ -78,6 +78,8 @@ namespace ArchiveProject2019.Models
 
 
         [Display(Name = "رقم الوثيقة")]
+        [Required(ErrorMessage = "يجب إختيار رقم الوثيقة ")]
+
         public string DocumentNumber { set; get; }
 
 

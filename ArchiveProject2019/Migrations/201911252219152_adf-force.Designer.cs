@@ -13,7 +13,7 @@ namespace ArchiveProject2019.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201911251446558_adf-force"; }
+            get { return "201911252219152_adf-force"; }
         }
         
         string IMigrationMetadata.Source
