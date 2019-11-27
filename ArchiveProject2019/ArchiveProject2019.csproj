@@ -221,6 +221,7 @@
     <Compile Include="HelperClasses\FormStartUp.cs" />
     <Compile Include="HelperClasses\StringDateHelper.cs" />
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
+    <Compile Include="HelperClasses\UserDocumentsID.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
     <Compile Include="Migrations\201911252219152_adf-force.cs" />
     <Compile Include="Migrations\201911252219152_adf-force.Designer.cs">
@@ -1112,6 +1113,8 @@
     <Content Include="Views\DocumentUsers\ActiveNOnActiveReplay.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActiveRelate.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActiveSeal.cshtml" />
+    <Content Include="Views\Documents\_MyDocument.cshtml" />
+    <Content Include="Views\Documents\_MoreMyDocument.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

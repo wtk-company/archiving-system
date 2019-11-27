@@ -1550,9 +1550,270 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: Documents.
+        
+            [HttpPost]
+              public ActionResult MoreDocument(string RetrievalCount, string DocumentModel, string OrderBY, string OrderType, int Page = 0)
+        {
+            //ViewBag.RecordCount = RecordCount;
+            ViewBag.Current = "Document";
+
+            ViewBag.RC = RetrievalCount;
+            ViewBag.DM = DocumentModel;
+            ViewBag.OB = OrderBY;
+            ViewBag.OT = OrderType;
+            Page = Page + 1;
+            ViewBag.Page = Page;
+
+
+
+
+            string currentUserId = this.User.Identity.GetUserId();
+            List<int> MyDocId = new List<int>();
+            // IEnumerable<Document> MyDocument = new List<int>(); ;
+            switch (DocumentModel)
+            {
+
+                case "1":
+                    MyDocId = UserDocumentsID.UserCreatedDocument(currentUserId).ToList();
+
+                    break;
+
+                case "2":
+                    MyDocId = UserDocumentsID.UserDeocumentNotification(currentUserId).ToList();
+
+                    break;
+
+                case "3":
+                    MyDocId = UserDocumentsID.UserDepartmentDocument(currentUserId).ToList();
+
+                    break;
+
+                case "4":
+                    MyDocId = UserDocumentsID.UserDocumentGroups(currentUserId).ToList();
+
+                    break;
+                case "5":
+                    MyDocId = UserDocumentsID.UserAllDocuments(currentUserId).ToList();
+
+                    break;
+
+            }
+
+
+            var documents = _context.Documents.Where(a => MyDocId.Contains(a.Id)).Include(a => a.TypeMail);
+
+            switch (OrderBY)
+            {
+                case "1":
+
+                    if (OrderType.Equals("1"))
+                    {
+                        documents = documents.OrderBy(a => a.DocumentNumber);
+                    }
+                    else
+                    {
+                        documents = documents.OrderByDescending(a => a.DocumentNumber);
+
+                    }
+
+
+
+                    break;
+
+
+                case "2":
+
+                    if (OrderType.Equals("1"))
+                    {
+                        documents = documents.OrderBy(a => a.Subject);
+                    }
+                    else
+                    {
+                        documents = documents.OrderByDescending(a => a.Subject);
+
+                    }
+
+
+
+                    break;
+
+
+                case "3":
+
+                    if (OrderType.Equals("1"))
+                    {
+                        documents = documents.OrderBy(a => a.CreatedAt);
+                    }
+                    else
+                    {
+                        documents = documents.OrderByDescending(a => a.CreatedAt);
+
+                    }
+
+
+
+                    break;
+
+
+                case "4":
+
+                    if (OrderType.Equals("1"))
+                    {
+                        documents = documents.OrderBy(a => a.DocumentDate);
+                    }
+                    else
+                    {
+                        documents = documents.OrderByDescending(a => a.DocumentDate);
+
+                    }
+
+
+
+                    break;
+            }
+
+            ViewBag.TotalDocuement = documents.Skip(Page *Convert.ToInt32( RetrievalCount)).Count();
+            documents = documents.Skip(Page *Convert.ToInt32( RetrievalCount)).Take(Convert.ToInt32(RetrievalCount));
+
+            return PartialView("_MoreMyDocument", documents);
+        }
+
+
+        [HttpPost]
+        public ActionResult Index(  string RetrievalCount,string DocumentModel,string OrderBY,string OrderType,int Page=0)
+        {
+            //ViewBag.RecordCount = RecordCount;
+            ViewBag.Current = "Document";
+
+            ViewBag.RC = RetrievalCount;
+            ViewBag.DM = DocumentModel;
+            ViewBag.OB = OrderBY;
+            ViewBag.OT = OrderType;
+            ViewBag.Page = Page;
+
+
+
+
+            string currentUserId = this.User.Identity.GetUserId();
+            List<int> MyDocId = new List<int>();
+           // IEnumerable<Document> MyDocument = new List<int>(); ;
+            switch (DocumentModel)
+            {
+
+                case "1":
+                    MyDocId = UserDocumentsID.UserCreatedDocument(currentUserId).ToList();
+                  
+                    break;
+
+                case "2":
+                    MyDocId = UserDocumentsID.UserDeocumentNotification(currentUserId).ToList();
+
+                    break;
+
+                case "3":
+                    MyDocId = UserDocumentsID.UserDepartmentDocument(currentUserId).ToList();
+
+                    break;
+
+                case "4":
+                    MyDocId = UserDocumentsID.UserDocumentGroups(currentUserId).ToList();
+
+                    break;
+                case "5":
+                    MyDocId = UserDocumentsID.UserAllDocuments(currentUserId).ToList();
+
+                    break;
+
+            }
+
+
+            var documents = _context.Documents.Where(a => MyDocId.Contains(a.Id)).Include(a => a.TypeMail);
+
+            switch(OrderBY)
+            {
+                case "1":
+
+                    if(OrderType.Equals("1"))
+                    {
+                        documents = documents.OrderBy(a => a.DocumentNumber);
+                    }
+                    else
+                    {
+                        documents = documents.OrderByDescending(a => a.DocumentNumber);
+
+                    }
+                  
+
+
+                    break;
+
+
+                case "2":
+
+                    if (OrderType.Equals("1"))
+                    {
+                        documents = documents.OrderBy(a => a.Subject);
+                    }
+                    else
+                    {
+                        documents = documents.OrderByDescending(a => a.Subject);
+
+                    }
+
+
+
+                    break;
+
+
+                case "3":
+
+                    if (OrderType.Equals("1"))
+                    {
+                        documents = documents.OrderBy(a => a.CreatedAt);
+                    }
+                    else
+                    {
+                        documents = documents.OrderByDescending(a => a.CreatedAt);
+
+                    }
+
+
+
+                    break;
+
+
+                case "4":
+
+                    if (OrderType.Equals("1"))
+                    {
+                        documents = documents.OrderBy(a => a.DocumentDate);
+                    }
+                    else
+                    {
+                        documents = documents.OrderByDescending(a => a.DocumentDate);
+
+                    }
+
+
+
+                    break;
+            }
+
+
+
+
+            ViewBag.TotalDocuement = documents.Count();
+            return PartialView("_MyDocument", documents);
+        }
+
+
+
         public ActionResult Index(string id = "none")
         {
             ViewBag.Current = "Document";
+            ViewBag.Page = 0;
+
+            
 
             if (!id.Equals("none"))
             {
@@ -1566,18 +1827,19 @@ namespace ArchiveProject2019.Controllers
             // Get all Documents.
 
             string currentUserId = this.User.Identity.GetUserId();
-            var DocRelate = _context.RelatedDocuments.Where(a => a.CreatedById.Equals(currentUserId)).Select(a => a.RelatedDocId).ToList();
-            var DocReplay = _context.ReplayDocuments.Where(a => a.CreatedById.Equals(currentUserId)).Select(a => a.ReplayDocId).ToList();
+            //var DocRelate = _context.RelatedDocuments.Where(a => a.CreatedById.Equals(currentUserId)).Select(a => a.RelatedDocId).ToList();
+            //var DocReplay = _context.ReplayDocuments.Where(a => a.CreatedById.Equals(currentUserId)).Select(a => a.ReplayDocId).ToList();
 
-            var documents = (this.IsSaveInDb)
-                ? _context.Documents.Where(a => a.CreatedById.Equals(currentUserId) && !DocRelate.Contains(a.Id) && !DocReplay.Contains(a.Id) && a.FileUrl == null).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList()
-                : _context.Documents.Where(a => a.CreatedById.Equals(currentUserId) && !DocRelate.Contains(a.Id) && !DocReplay.Contains(a.Id) && a.FileUrl != null).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
-         
-            documents = documents.OrderByDescending(a => a.CreatedAt).ToList();
+            //var documents = (this.IsSaveInDb)
+            //    ? _context.Documents.Where(a => a.CreatedById.Equals(currentUserId) && !DocRelate.Contains(a.Id) && !DocReplay.Contains(a.Id) && a.FileUrl == null).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList()
+            //    : _context.Documents.Where(a => a.CreatedById.Equals(currentUserId) && !DocRelate.Contains(a.Id) && !DocReplay.Contains(a.Id) && a.FileUrl != null).Include(c => c.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(d => d.Department).Include(a => a.CreatedBy).ToList();
+            var documents = _context.Documents.Where(a => a.CreatedById.Equals(currentUserId)).Include(a => a.TypeMail).OrderByDescending(a => a.CreatedAt).Take(10);
+            // documents = documents.OrderByDescending(a => a.CreatedAt).ToList();
 
             // Pass To View
             return View(documents);
         }
+
 
         public ActionResult Relate(int id)
         {
