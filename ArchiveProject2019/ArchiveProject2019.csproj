@@ -223,11 +223,6 @@
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDocumentsID.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201911252219152_adf-force.cs" />
-    <Compile Include="Migrations\201911252219152_adf-force.Designer.cs">
-      <DependentUpon>201911252219152_adf-force.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DocumentStatus.cs" />
     <Compile Include="Models\DocumentUser.cs" />
@@ -1129,11 +1124,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201911252219152_adf-force.resx">
-      <DependentUpon>201911252219152_adf-force.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
