@@ -89,6 +89,7 @@ namespace ArchiveProject2019.Controllers
                 {
                     FieldId = field.Id,
                 };
+
                 Values.Add(value);
             }
 
@@ -131,8 +132,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
 
-        public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string> PartyIds, IEnumerable<string> Departments, IEnumerable<string> Groups
-            ,IEnumerable<string> RelatedGroups,IEnumerable<string> RelatedDepartments,IEnumerable<string> RelatedUsers)
+        public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string> PartyIds, IEnumerable<string> RelatedGroups,IEnumerable<string> RelatedDepartments,IEnumerable<string> RelatedUsers)
 
         {
             ViewBag.Current = "Document";
@@ -331,15 +331,103 @@ namespace ArchiveProject2019.Controllers
                 if(viewModel.Document.ResponsibleUserId == null )
                 {
                     viewModel.Document.NotificationUserId = UserId;
-                }
-                else
-                {
+                } else {
                     viewModel.Document.NotificationUserId = viewModel.Document.ResponsibleUserId;
-
                 }
+
+                // document famely status (begin)
+                var parentDocId = viewModel.DocId;
+                //if (parentDocId == -1)
+                //{
+                //    viewModel.Document.FamelyState = 1; // Single
+                //} else if (parentDocId != -1 && !viewModel.IsReplay)
+                //{
+                //    viewModel.Document.FamelyState = 2; // Child(Related)
+                //    var parentDoc = _context.Documents.Find(viewModel.DocId);
+
+                //    switch (parentDoc.FamelyState)
+                //    {
+                //        case 1:
+                //            parentDoc.FamelyState = 3; // Single -> Parent(Related)
+                //            break;
+                //        case 2:
+                //            parentDoc.FamelyState = 4; // Parent(Related) -> Parent(Related)
+                //            break;
+                //        case 3:
+                //            parentDoc.FamelyState = 4; // Parent(Related) -> Parent(Related)
+                //            break;
+                //        case 4:
+                //            parentDoc.FamelyState = 4; // Parent(Related) -> Parent(Related)
+                //            break;
+                //        case 5:
+                //            parentDoc.FamelyState = 6; // Child(Replay) -> Parent(Related)
+                //            break;
+                //        case 6:
+                //            parentDoc.FamelyState = 7; // Parent(Related) -> Parent(Related)
+                //            break;
+                //    }
+                    
+                //    _context.Entry(parentDoc).State = EntityState.Modified;
+                //    _context.SaveChanges();
+
+                //} else if(parentDocId != -1 && viewModel.IsReplay)
+                //{
+                //    viewModel.Document.FamelyState = 5; // Child(Replay)
+                //    var parentDoc = _context.Documents.Find(viewModel.DocId);
+
+                //    switch (parentDoc.FamelyState)
+                //    {
+                //        case 1:
+                //            parentDoc.FamelyState = 8; // Single -> Parent(Replay)
+                //            break;
+                //        case 2:
+                //            parentDoc.FamelyState = 9; // Child(Related) -> Parent(Replay)
+                //            break;
+                //        case 3:
+                //            parentDoc.FamelyState = 9; // Parent(Replay) -> Parent(Replay)
+                //            break;
+                //        case 4:
+                //            parentDoc.FamelyState = 9; // Parent(Replay) -> Parent(Replay)
+                //            break;
+                //        case 5:
+                //            parentDoc.FamelyState = 6; // Child(Replay) -> Parent(Replay)
+                //            break;
+                //        case 6:
+                //            parentDoc.FamelyState = 9; // Parent(Replay) -> Parent(Replay)
+                //            break;
+                //    }
+
+                //    _context.Entry(parentDoc).State = EntityState.Modified;
+                //    _context.SaveChanges();
+                //}
+                //// ./-- document famely status (end)
+
                 _context.Documents.Add(viewModel.Document);
                 _context.SaveChanges();
 
+                // Save Multiple Files In Db (begin)
+                if (IsSaveInDb)
+                {
+                    foreach (HttpPostedFileBase file in UploadFile)
+                    {
+                        if (file != null)
+                        {
+                            var fileStoredInDb = new FilesStoredInDb();
+
+                            fileStoredInDb.DocumentId = viewModel.Document.Id;
+
+                            string FileName = Path.GetFileName(file.FileName);
+                            fileStoredInDb.FileName = FileName;
+
+                            fileStoredInDb.File = new byte[file.ContentLength];
+                            file.InputStream.Read(fileStoredInDb.File, 0, file.ContentLength);
+
+                            _context.FilesStoredInDbs.Add(fileStoredInDb);
+                            _context.SaveChanges();
+                        }
+                    }
+                }
+                // ./-- Save Multiple Files In Db (end)
 
 
                 //==========RelatedDepartments && Related Group======================
@@ -467,7 +555,7 @@ namespace ArchiveProject2019.Controllers
                             EnableReplay = true,
                             EnableSeal = true,
                             DocumentId = viewModel.Document.Id,
-                           UserId = User_Id,
+                            UserId = User_Id,
                             CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                             CreatedById = this.User.Identity.GetUserId()
                         };
@@ -509,28 +597,6 @@ namespace ArchiveProject2019.Controllers
 
 
 
-                if (IsSaveInDb)
-                {
-                    foreach (HttpPostedFileBase file in UploadFile)
-                    {
-                        if (file != null)
-                        {
-                            var fileStoredInDb = new FilesStoredInDb();
-
-                            fileStoredInDb.DocumentId = viewModel.Document.Id;
-
-                            string FileName = Path.GetFileName(file.FileName);
-                            fileStoredInDb.FileName = FileName;
-
-                            fileStoredInDb.File = new byte[file.ContentLength];
-                            file.InputStream.Read(fileStoredInDb.File, 0, file.ContentLength);
-
-                            _context.FilesStoredInDbs.Add(fileStoredInDb);
-                            _context.SaveChanges();
-                        }
-                    }
-                }
-                // Save Multiple Files In Db
 
                 if (FVVM != null)
                 {
@@ -563,15 +629,15 @@ namespace ArchiveProject2019.Controllers
                         _context.SaveChanges();
                     }
                 }
-               
-                var docId = viewModel.DocId;
-                if (docId != -1 && !viewModel.IsReplay)
+
+                // Relate Document
+                if (parentDocId != -1 && !viewModel.IsReplay)
                 {
                     var relateDoc = new RelatedDocument()
                     {
                         RelatedDocId = viewModel.Document.Id,
                         CreatedById = UserId,
-                        Document_id = docId,
+                        Document_id = parentDocId,
                     };
 
                     _context.RelatedDocuments.Add(relateDoc);
@@ -579,13 +645,13 @@ namespace ArchiveProject2019.Controllers
                 }
 
                 // Replay Document
-                if (docId != -1 && viewModel.IsReplay)
+                if (parentDocId != -1 && viewModel.IsReplay)
                 {
                     var relateDoc = new ReplayDocument()
                     {
                         ReplayDocId = viewModel.Document.Id,
                         CreatedById = UserId,
-                        Document_id = docId,
+                        Document_id = parentDocId,
                     };
 
                     _context.ReplayDocuments.Add(relateDoc);
