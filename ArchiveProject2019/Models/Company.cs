@@ -24,18 +24,20 @@ namespace ArchiveProject2019.Models
 
 
         [Display(Name = "رقم الأرضي الأول")]
-        public int PhoneNumber1 { get; set; }
+        public string PhoneNumber1 { get; set; }
 
         [Display(Name = "رقم الأرضي الثاني")]
-        public int PhoneNumber2 { get; set; }
+        public string PhoneNumber2 { get; set; }
 
 
         [Display(Name = "رقم الموبايل الأول")]
-        public int MobileNumber1 { get; set; }
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "رقم الموبايل غير صحيح.")]
+        public string MobileNumber1 { get; set; }
+
 
         [Display(Name = "رقم الموبايل الثاني")]
-
-        public int MobileNumber2 { get; set; }
+        [RegularExpression(@"^([0-9]{10})$", ErrorMessage = "رقم الموبايل غير صحيح.")]
+        public string MobileNumber2 { get; set; }
 
 
         [Display(Name = "البريد الالكتروني")]

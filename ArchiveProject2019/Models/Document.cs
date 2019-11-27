@@ -45,6 +45,11 @@ namespace ArchiveProject2019.Models
         [Display(Name = "رقم البريد")]
         public string MailingNumber { get; set; }
 
+
+        [Display(Name = "وضع العائلة")]
+        public int FamelyState { get; set; }
+
+
         [Display(Name = "تاريخ البريد")]
         public string MailingDate { get; set; }
 
