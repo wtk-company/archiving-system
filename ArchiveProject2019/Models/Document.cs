@@ -47,7 +47,7 @@ namespace ArchiveProject2019.Models
 
 
         [Display(Name = "وضع العائلة")]
-        public int FamelyState { get; set; }
+        public int? FamelyState { get; set; }
 
 
         [Display(Name = "تاريخ البريد")]

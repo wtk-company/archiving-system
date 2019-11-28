@@ -183,7 +183,7 @@ namespace ArchiveProject2019.Models
 
         public DbSet<SealDocument> SealDocuments { set; get; }
 
-        // Company Info
+        // Company Info 
         public DbSet<Company> Company { set; get; }
 
 

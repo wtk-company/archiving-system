@@ -1746,7 +1746,7 @@ namespace ArchiveProject2019.Controllers
 
 
         [HttpPost]
-        public ActionResult Index(  string RetrievalCount,string DocumentModel,string OrderBY,string OrderType,int Page=0)
+        public ActionResult Index( string RetrievalCount, string DocumentModel,string OrderBY,string OrderType,int Page=0)
         {
             //ViewBag.RecordCount = RecordCount;
             ViewBag.Current = "Document";
@@ -1864,6 +1864,7 @@ namespace ArchiveProject2019.Controllers
 
                     break;
             }
+            documents = documents.Skip(Page * Convert.ToInt32(RetrievalCount)).Take(Convert.ToInt32(RetrievalCount));
 
 
 
