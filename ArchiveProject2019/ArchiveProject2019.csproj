@@ -219,9 +219,15 @@
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
+<<<<<<< Updated upstream
     <Compile Include="Migrations\201911031953277_InitialModel.cs" />
     <Compile Include="Migrations\201911031953277_InitialModel.Designer.cs">
       <DependentUpon>201911031953277_InitialModel.cs</DependentUpon>
+=======
+    <Compile Include="Migrations\201911191129207_InitialModel.cs" />
+    <Compile Include="Migrations\201911191129207_InitialModel.Designer.cs">
+      <DependentUpon>201911191129207_InitialModel.cs</DependentUpon>
+>>>>>>> Stashed changes
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1083,6 +1089,41 @@
     <Content Include="Uploads\2019093004163842_-3.pdf" />
     <Content Include="Uploads\sample.BAK" />
     <Content Include="Uploads\sample.zip" />
+<<<<<<< Updated upstream
+=======
+    <Content Include="Views\PermissionsUsers\Details.cshtml" />
+    <Content Include="Views\DocumentStatus\Create.cshtml" />
+    <Content Include="Views\DocumentStatus\Index.cshtml" />
+    <Content Include="Views\DocumentStatus\Edit.cshtml" />
+    <Content Include="Views\DocumentStatus\Delete.cshtml" />
+    <Content Include="Views\Kinds\Details.cshtml" />
+    <Content Include="Views\Parties\Details.cshtml" />
+    <Content Include="Views\Forms\Details.cshtml" />
+    <Content Include="Views\TypeMails\Details.cshtml" />
+    <Content Include="Views\Roles\Details.cshtml" />
+    <Content Include="Views\DocumentStatus\Details.cshtml" />
+    <Content Include="Views\Documents\AdvancedDocumentSearch.cshtml" />
+    <Content Include="Views\Documents\Create.cshtml" />
+    <Content Include="Views\Documents\Delete.cshtml" />
+    <Content Include="Views\Documents\Details.cshtml" />
+    <Content Include="Views\Documents\Edit.cshtml" />
+    <Content Include="Views\Documents\Form.cshtml" />
+    <Content Include="Views\Documents\GetRelatedDocument.cshtml" />
+    <Content Include="Views\Documents\GetReplayDocument.cshtml" />
+    <Content Include="Views\Documents\Index.cshtml" />
+    <Content Include="Views\Documents\Relate.cshtml" />
+    <Content Include="Views\Documents\Release.cshtml" />
+    <Content Include="Views\Documents\_search.cshtml" />
+    <Content Include="Views\DocumentDepartments\ActiveNOnActive.cshtml" />
+    <Content Include="Views\DocumentDepartments\Details.cshtml" />
+    <Content Include="Views\DocumentGroups\ActiveNOnActive.cshtml" />
+    <Content Include="Views\DocumentGroups\Details.cshtml" />
+    <Content Include="Views\DocumentUsers\Index.cshtml" />
+    <Content Include="Views\DocumentUsers\Create.cshtml" />
+    <Content Include="Views\DocumentUsers\Delete.cshtml" />
+    <Content Include="Views\DocumentUsers\ActiveNOnActive.cshtml" />
+    <Content Include="Views\DocumentUsers\Details.cshtml" />
+>>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1099,8 +1140,13 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< Updated upstream
     <EmbeddedResource Include="Migrations\201911031953277_InitialModel.resx">
       <DependentUpon>201911031953277_InitialModel.cs</DependentUpon>
+=======
+    <EmbeddedResource Include="Migrations\201911191129207_InitialModel.resx">
+      <DependentUpon>201911191129207_InitialModel.cs</DependentUpon>
+>>>>>>> Stashed changes
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
