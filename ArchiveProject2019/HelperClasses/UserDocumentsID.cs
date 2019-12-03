@@ -26,7 +26,7 @@ namespace ArchiveProject2019.HelperClasses
         {
             ApplicationDbContext db = new ApplicationDbContext();
 
-            int _DepId = db.Users.Find(UserID).DepartmentId.Value;
+            int _DepId = db.Users.Find(UserID).DepartmentId.HasValue?db.Users.Find(UserID).DepartmentId.Value:-1;
             IEnumerable<int> myDoc = db.DocumentDepartments.Where(a => a.DepartmentId == _DepId).Select(a => a.DocumentId);
             return myDoc;
 
@@ -71,5 +71,64 @@ namespace ArchiveProject2019.HelperClasses
 
 
         }
+
+
+
+        //Related Document:::
+        public static IEnumerable<int> UserRelateDocument(string UserID,int DocId)
+        {
+
+
+            ApplicationDbContext db = new ApplicationDbContext();
+            List<int> RelateDocumentId = db.RelatedDocuments.Where(a => a.Document_id == DocId).Select(a=>a.RelatedDocId).ToList();
+            IEnumerable<int> MyDoc1 = db.Documents.Where(a =>RelateDocumentId.Contains(a.Id)&& a.CreatedById.Equals(UserID)).Select(a => a.Id);
+
+
+            //Department:
+            int _DepId = db.Users.Find(UserID).DepartmentId.HasValue ? db.Users.Find(UserID).DepartmentId.Value : -1;
+            IEnumerable<int> myDoc2 = db.DocumentDepartments.Where(a => RelateDocumentId.Contains(a.Id)&& a.DepartmentId == _DepId).Select(a => a.DocumentId);
+
+
+            //Groups :
+
+            IEnumerable<int> GroupId = db.UsersGroups.Where(a => a.UserId.Equals(UserID)).Select(a => a.GroupId);
+            IEnumerable<int> myDoc3 = db.DocumentGroups.Where(a =>RelateDocumentId.Contains(a.Id)&& GroupId.Contains(a.GroupId
+                )).Select(a => a.DocumentId);
+
+
+            List<int> MyDoc = MyDoc1.Union(myDoc2).Union(myDoc3).ToList();
+            return MyDoc;
+
+        }
+
+
+
+        //Related Document:::
+        public static IEnumerable<int> UserReplayDocument(string UserID, int DocId)
+        {
+
+
+            ApplicationDbContext db = new ApplicationDbContext();
+            List<int> ReplayDocumentId = db.ReplayDocuments.Where(a => a.Document_id == DocId).Select(a => a.ReplayDocId).ToList();
+            IEnumerable<int> MyDoc1 = db.Documents.Where(a => ReplayDocumentId.Contains(a.Id) && a.CreatedById.Equals(UserID)).Select(a => a.Id);
+
+
+            //Department:
+            int _DepId = db.Users.Find(UserID).DepartmentId.HasValue ? db.Users.Find(UserID).DepartmentId.Value : -1;
+            IEnumerable<int> myDoc2 = db.DocumentDepartments.Where(a => ReplayDocumentId.Contains(a.Id) && a.DepartmentId == _DepId).Select(a => a.DocumentId);
+
+
+            //Groups :
+
+            IEnumerable<int> GroupId = db.UsersGroups.Where(a => a.UserId.Equals(UserID)).Select(a => a.GroupId);
+            IEnumerable<int> myDoc3 = db.DocumentGroups.Where(a => ReplayDocumentId.Contains(a.Id) && GroupId.Contains(a.GroupId
+                )).Select(a => a.DocumentId);
+
+
+            List<int> MyDoc = MyDoc1.Union(myDoc2).Union(myDoc3).ToList();
+            return MyDoc;
+
+        }
+
     }
 }

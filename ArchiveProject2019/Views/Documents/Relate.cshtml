@@ -1,127 +1,153 @@
-﻿@model ArchiveProject2019.ViewModel.RelateDocumentsViewModel
-
+﻿@model IEnumerable<ArchiveProject2019.Models.Document>
+@using ArchiveProject2019.HelperClasses
+@using Microsoft.AspNet.Identity;
 @{
-    ViewBag.Title = "الوثائق";
+    ViewBag.Title = "وثائقي";
     Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+    string CurrentUserId = this.User.Identity.GetUserId();
+
 }
 
 
 @Html.Partial("_StartView")
 
-<a href="@Url.Action("index","Documents")" class="btn btn-default"> قائمة الوثائق  <i class="glyphicon glyphicon-backward"></i></a>
 
 
-@using (Html.BeginForm("Relate", "Documents", FormMethod.Post))
+
+    <p>
+        <a href="@Url.Action("Index","Documents")" class="btn btn-warning">عودة لقائمة الوثائق الرئيسية</a>
+
+    </p>
+
+@using (Html.BeginForm())
 {
 
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.DocId)
 
-<table id="form" class="table table-striped table-bordered table-hover dt" style="text-align:center">
-    <thead>
-        <tr>
-            <th>
-                النموذج
-            </th>
-            <th>
-                القسم
-            </th>
-
-            <th>
-                رقم الوثيقة
-            </th>
-            <th>
-                الموضوع
-            </th>
-            <th>
-                ربط؟
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.RelatedDocuments.Count; i++)
-        {
-            
+    @Html.Hidden("DocId",(int)ViewBag.DocId)
+    <table id="form" class="table table-striped  table-hover dt" style="text-align:center;font-size:12px">
+        <thead>
             <tr>
-                    @Html.HiddenFor(modelItem => Model.RelatedDocuments[i].Id)
-                    @Html.HiddenFor(modelItem => Model.DocId)
 
-                <td>
-                    @Html.DisplayFor(modelItem => Model.RelatedDocuments[i].Form)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.RelatedDocuments[i].Department)
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => Model.RelatedDocuments[i].Number)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => Model.RelatedDocuments[i].Subject)
-                </td>
-                <td>
-                   @Html.CheckBoxFor(model => Model.RelatedDocuments[i].IsRelated, new { @style = "height: 25px;width: 25px; " })
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.DocumentNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subject)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.DocumentDate)
+                </th>
+                <th>
+                    @Html.DisplayName("العمليات المتاحة")
+                </th>
             </tr>
-        }
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
 
-</table>
+                    <td>
+                        @Html.DisplayFor(model => item.DocumentNumber)
+                    </td>
 
-<div class="form-group">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
 
-    <input type="submit" value="ربط مع الوثيقة الحالية" class="btn btn-primary" />
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
 
-</div>
-        }
-<div id="SearchResult"></div>
 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocumentDate)
+                    </td>
+                    <td>
+
+
+                        <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" type="checkbox" name="Documents" value="@item.Id" />
+
+
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+
+
+    </table>
+
+
+    if (Model.Count()>0)
+    {
+        <div class="form-group">
+            <div style="display:inline-block">
+                <label>
+
+                    <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" id="checkAll" type="checkbox">تحديدالكل/عدم تحديد
+
+                </label>
+            </div>
+            <div class="col-md-offset-2 col-md-10">
+
+                <input title="ربط الوثائق" type="submit" class="btn btn-primary" value="ربط الوثائق المحددة" />
+            </div>
+        </div>
+    }
+
+}
 @Html.Partial("_LastView")
 
 
 
+@section Scripts {
 
-<div class="modal" tabindex="-1" id="NewModal" sdata-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 id="changeText" class="modal-title"></h4>
-            </div>
-            <div class="modal-body" id="partialPlaceHolder">
+    <script>
 
-            </div>
-        </div>
-    </div>
-</div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script>
+        $(document).ready(function () {
 
-    $("#btnNewModel").on("click", function () {
 
-        $("#changeText").text("القائمة الفرعية- إختيار نموذج معين");
-        var url = '@Url.Action("form", "Documents")'
+            $("#checkAll").click(function () {
 
-        $("#partialPlaceHolder").load(url, function () {
-            $('#NewModal').modal('show');
+                $("input[name='Documents']").prop("checked", this.checked);
+
+
+                $("input[name='Documents']").click(function () {
+
+
+                    if ($("input[name='Documents']").length == $("input[name='Documents']:checked").length) {
+                        $("#checkAll").prop("checked", "checked");
+                    }
+                    else {
+                        $("#checkAll").removeAttr("checked");
+
+                    }
+
+                });
+
+
+            });
+
+
+
+
+
+
+
+
+
         });
-    });
 
-    $("#form").on("click", ".js-relate", function () {
-
-        $("#changeText").text("القائمة الفرعية- إختيار نموذج معين");
-
-        var url = '@Url.Action("RelateDocument", "Documents")'
-        url = url + '/' + $(this).attr("data-form-id");
-
-        $("#partialPlaceHolder").load(url, function () {
-            $('#NewModal').modal('show');
-        });
-    });
-
-    $("#btnRefreshModel").on("click", function () {
-        window.location.replace('@Url.Action("Index","Documents",new { Id="none"})');
-    });
-</script>
-
+    </script>
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}

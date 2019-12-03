@@ -170,8 +170,12 @@ namespace ArchiveProject2019
         public void CreateForm()
         {
 
-            db.Forms.Add(FormStartUp.CreateFormStartUp());
-            db.SaveChanges();
+            if(!db.Forms.Any(a=>a.Type==1))
+            {
+                db.Forms.Add(FormStartUp.CreateFormStartUp());
+                db.SaveChanges();
+            }
+          
         }
     }
 

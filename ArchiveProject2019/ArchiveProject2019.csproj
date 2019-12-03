@@ -217,11 +217,13 @@
     <Compile Include="HelperClasses\CheckDate.cs" />
     <Compile Include="HelperClasses\DepartmentListDisplay.cs" />
     <Compile Include="HelperClasses\DepartmentsID.cs" />
+    <Compile Include="HelperClasses\DocumentOperation.cs" />
     <Compile Include="HelperClasses\DocumentStatusStartUp.cs" />
     <Compile Include="HelperClasses\FormStartUp.cs" />
     <Compile Include="HelperClasses\StringDateHelper.cs" />
     <Compile Include="HelperClasses\TypeOfMailStartup.cs" />
     <Compile Include="HelperClasses\UserDocumentsID.cs" />
+    <Compile Include="HelperClasses\UserRelatedDocumentsId.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
     <Compile Include="Migrations\201911281114189_ahmad-force.cs" />
     <Compile Include="Migrations\201911281114189_ahmad-force.Designer.cs">
@@ -548,6 +550,7 @@
     <Content Include="fonts\DroidKufi-Regular.ttf" />
     <Content Include="fonts\DroidKufi-Regular.woff" />
     <Content Include="fonts\DroidKufi-Regular.woff2" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />
     <Content Include="Scripts\chosen.proto.min.js" />
@@ -902,41 +905,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Uploads\201909290315411911.jpg" />
-    <Content Include="Uploads\2019092903154124148-512.png" />
-    <Content Include="Uploads\2019092903154124172-512.png" />
-    <Content Include="Uploads\2019092903154650%3b.jpg" />
-    <Content Include="Uploads\20190929031546531-art-logo-template-mostafa-asmer.jpg" />
-    <Content Include="Uploads\201909290315470022.jpg" />
-    <Content Include="Uploads\201909290315471041BhKPIAyjL.png" />
-    <Content Include="Uploads\20191005112331220f01079269.jpg" />
-    <Content Include="Uploads\2019100604165250172-512.png" />
-    <Content Include="Uploads\2019100607190517172-512.png" />
-    <Content Include="Uploads\201910060719291941BhKPIAyjL.png" />
-    <Content Include="Uploads\201910060820451222.jpg" />
-    <Content Include="Uploads\201910060820451841BhKPIAyjL.png" />
-    <Content Include="Uploads\201910060820453492edb0f36291c17bf125e8a120f08b9b-email-flat-icon-by-vexels.png" />
-    <Content Include="Uploads\201910070416261122.jpg" />
-    <Content Include="Uploads\2019100709094914%3b.jpg" />
-    <Content Include="Uploads\2019100802141037148-512.png" />
-    <Content Include="Uploads\201910080315125611.jpg" />
-    <Content Include="Uploads\201910080315134811.jpg" />
-    <Content Include="Uploads\2019100803151348148-512.png" />
-    <Content Include="Uploads\2019100803151348172-512.png" />
-    <Content Include="Uploads\20191008031513489d31f731441307.565091943ecf8.png" />
-    <Content Include="Uploads\20191008031516101-art-logo-template-mostafa-asmer.jpg" />
-    <Content Include="Uploads\201910080315161041BhKPIAyjL.png" />
-    <Content Include="Uploads\2019100803151705%3b.jpg" />
-    <Content Include="Uploads\20191008031517051-art-logo-template-mostafa-asmer.jpg" />
-    <Content Include="Uploads\20191008031517055d0a1fabb8189d3ca446fa2f88a4b4c3.gif" />
-    <Content Include="Uploads\2019100812005330172-512.png" />
-    <Content Include="Uploads\2019101702023754IMG_20181120_191355.jpg" />
-    <Content Include="Uploads\2019101702023905IMG_20181120_191509.jpg" />
-    <Content Include="Uploads\2019102006185945IMG_20181120_191355.jpg" />
-    <Content Include="Uploads\2019102007190148IMG_20181120_191509.jpg" />
-    <Content Include="Uploads\2019102011232459IMG_20181120_191431.jpg" />
-    <Content Include="Uploads\2019102011234144IMG_20181120_191511.jpg" />
-    <Content Include="Uploads\20191024121212042019101702023754IMG_20181120_191355.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1067,11 +1035,6 @@
     <Content Include="Views\DashBoard\SeenNotifications.cshtml" />
     <Content Include="Views\Shared\_DocumentNotificationCount.cshtml" />
     <Content Include="Views\Shared\_DocumentsNotificationMessage.cshtml" />
-    <Content Include="Uploads\2019093004160752cautrucdulieu_gtrinh_english_c_and_datastructure_dhcn_200811.pdf" />
-    <Content Include="Uploads\2019093004163830_-3.pdf" />
-    <Content Include="Uploads\2019093004163842_-3.pdf" />
-    <Content Include="Uploads\sample.BAK" />
-    <Content Include="Uploads\sample.zip" />
     <Content Include="Views\PermissionsUsers\Details.cshtml" />
     <Content Include="Views\DocumentStatus\Create.cshtml" />
     <Content Include="Views\DocumentStatus\Index.cshtml" />
@@ -1083,7 +1046,6 @@
     <Content Include="Views\TypeMails\Details.cshtml" />
     <Content Include="Views\Roles\Details.cshtml" />
     <Content Include="Views\DocumentStatus\Details.cshtml" />
-    <Content Include="Views\Documents\AdvancedDocumentSearch.cshtml" />
     <Content Include="Views\Documents\Create.cshtml" />
     <Content Include="Views\Documents\Delete.cshtml" />
     <Content Include="Views\Documents\Details.cshtml" />
@@ -1113,13 +1075,11 @@
     <Content Include="Views\DocumentUsers\ActiveNOnActiveReplay.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActiveRelate.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActiveSeal.cshtml" />
-    <Content Include="Views\Documents\_MyDocument.cshtml" />
-    <Content Include="Views\Documents\_MoreMyDocument.cshtml" />
     <Content Include="Views\Company\Create.cshtml" />
-    <Content Include="Views\Documents\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

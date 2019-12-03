@@ -361,7 +361,7 @@ namespace ArchiveProject2019.Controllers
             Document doc = db.DocumentDepartments.Include(a => a.document).SingleOrDefault(a => a.Id == id).document;
 
             DocumentDepartment documentDepartment = db.DocumentDepartments.Find(id);
-            if (documentDepartment.EnableEdit == true)
+            if (documentDepartment.EnableReplay == true)
             {
                 documentDepartment.EnableReplay = false;
                 ActiveMode = "الغاء  إمكانية الرد";
@@ -428,7 +428,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [HttpPost, ActionName("ActiveNOnActiveReplay")]
+        [HttpPost, ActionName("ActiveNOnActiveRelate")]
         [ValidateAntiForgeryToken]
         [Authorize]
         // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
@@ -441,7 +441,7 @@ namespace ArchiveProject2019.Controllers
             Document doc = db.DocumentDepartments.Include(a => a.document).SingleOrDefault(a => a.Id == id).document;
 
             DocumentDepartment documentDepartment = db.DocumentDepartments.Find(id);
-            if (documentDepartment.EnableEdit == true)
+            if (documentDepartment.EnableRelate == true)
             {
                 documentDepartment.EnableRelate = false;
                 ActiveMode = "الغاء  إمكانية الربط";
@@ -509,7 +509,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [HttpPost, ActionName("ActiveNOnActiveReplay")]
+        [HttpPost, ActionName("ActiveNOnActiveSeal")]
         [ValidateAntiForgeryToken]
         [Authorize]
         // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
@@ -522,7 +522,7 @@ namespace ArchiveProject2019.Controllers
             Document doc = db.DocumentDepartments.Include(a => a.document).SingleOrDefault(a => a.Id == id).document;
 
             DocumentDepartment documentDepartment = db.DocumentDepartments.Find(id);
-            if (documentDepartment.EnableEdit == true)
+            if (documentDepartment.EnableSeal == true)
             {
                 documentDepartment.EnableSeal = false;
                 ActiveMode = "الغاء  إمكانية التسديد";
