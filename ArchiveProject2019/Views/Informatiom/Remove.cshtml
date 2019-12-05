@@ -1,0 +1,62 @@
+﻿@model ArchiveProject2019.Models.Form
+
+@{
+    ViewBag.Title = "إوالة من المفضلة";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+
+
+<h3>هل انت متأكد من عملية إزالة النموذج من المفضلة؟</h3>
+<div>
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedAt)
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedAt)
+        </dd>
+
+
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+
+
+
+
+
+        <div class="modal-footer justify-content-center" style="margin-top:50px">
+
+            <input type="submit" title="إزالة النموذج من المفضلة" value="ازالة النموذج من المفضلة" class="btn btn-danger" />
+            <button type="button" title="إغلاق النافذة" class="btn btn-default" data-dismiss="modal">إغلاق</button>
+        </div>
+    }
+</div>

@@ -181,6 +181,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BackupRestoreController.cs" />
+    <Compile Include="Controllers\InformatiomController.cs" />
     <Compile Include="Controllers\SealsController.cs" />
     <Compile Include="Controllers\DocumentPartiesController.cs" />
     <Compile Include="Controllers\DocumentUsersController.cs" />
@@ -225,14 +226,15 @@
     <Compile Include="HelperClasses\UserDocumentsID.cs" />
     <Compile Include="HelperClasses\UserRelatedDocumentsId.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201911281114189_ahmad-force.cs" />
-    <Compile Include="Migrations\201911281114189_ahmad-force.Designer.cs">
-      <DependentUpon>201911281114189_ahmad-force.cs</DependentUpon>
+    <Compile Include="Migrations\201912050903519_asmi-force.cs" />
+    <Compile Include="Migrations\201912050903519_asmi-force.Designer.cs">
+      <DependentUpon>201912050903519_asmi-force.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DocumentStatus.cs" />
     <Compile Include="Models\DocumentUser.cs" />
+    <Compile Include="Models\FavouriteForms.cs" />
     <Compile Include="Models\FilesStoredInDb.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\Party.cs" />
@@ -905,6 +907,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\BackupRestore\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1027,7 +1030,6 @@
     <Content Include="Views\DocumentGroups\Index.cshtml" />
     <Content Include="Views\Forms\Index.cshtml" />
     <Content Include="Views\Kinds\Index.cshtml" />
-    <Content Include="Views\BackupRestore\Index.cshtml" />
     <Content Include="Views\Shared\_NotificationsCount.cshtml" />
     <Content Include="Views\Shared\_NotificationsMessage.cshtml" />
     <Content Include="Views\DashBoard\NonSeenNotifications.cshtml" />
@@ -1076,6 +1078,14 @@
     <Content Include="Views\DocumentUsers\ActiveNOnActiveRelate.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActiveSeal.cshtml" />
     <Content Include="Views\Company\Create.cshtml" />
+    <Content Include="Views\Informatiom\UserGroups.cshtml" />
+    <Content Include="Views\Informatiom\UserPermissions.cshtml" />
+    <Content Include="Views\Informatiom\UserForms.cshtml" />
+    <Content Include="Views\Seals\Create.cshtml" />
+    <Content Include="Views\Seals\Delete.cshtml" />
+    <Content Include="Views\Seals\Index.cshtml" />
+    <Content Include="Views\Informatiom\Add.cshtml" />
+    <Content Include="Views\Informatiom\Remove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1093,8 +1103,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201911281114189_ahmad-force.resx">
-      <DependentUpon>201911281114189_ahmad-force.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201912050903519_asmi-force.resx">
+      <DependentUpon>201912050903519_asmi-force.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

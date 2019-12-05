@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ArchiveProject2019.Models.PermissionsUser>
+
+
+@{
+    ViewBag.Title = "صلاحيات المستخدم";
+    Layout = "~/Views/Shared/_DashBoardLayout.cshtml";
+}
+
+
+
+@Html.Partial("_StartView")
+
+
+
+
+<table id="form" class="table table-striped  table-hover dt" style="text-align:center">
+
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PermissionId)
+            </th>
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+
+
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Is_Active)
+
+
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Permission.Name)
+                </td>
+
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Is_Active)
+                </td>
+
+
+
+
+
+            </tr>
+
+
+        }
+
+    </tbody>
+
+</table>
+
+
+
+@Html.Partial("_LastView")

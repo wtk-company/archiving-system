@@ -149,7 +149,9 @@ namespace ArchiveProject2019.Models
 
 
         public DbSet<JobTitle> JobTitles { set; get; }
-     
+        public DbSet<FavouriteForms> FavouriteForms { set; get; }
+
+
 
         public DbSet<TypeMail> TypeMails { set; get; }
         public DbSet<DocumentStatus> DocumentStatuses { set; get; }

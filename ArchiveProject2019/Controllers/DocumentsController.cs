@@ -71,14 +71,22 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: /Documents/Create
-        public ActionResult Create(int Id=0, int docId=-1, bool IsReplay=false,int Standard=0)
+        public ActionResult Create(int Id=0, int docId=-1, bool IsReplay=false,int Standard=-1)
         {
             ViewBag.Current = "Document";
 
             string CurrentUser = this.User.Identity.GetUserId();
-            if(Standard==1)
+            if(Standard!=-1)
             {
+                if(Standard==0)
+                {
+
                 Id = _context.Forms.Where(a => a.Type == 1).FirstOrDefault().Id;
+                }
+                else
+                {
+                    Id = Standard;
+                }
             }
             var Fields = _context.Fields.Include(c => c.Form).Where(f => f.FormId == Id).ToList();
 

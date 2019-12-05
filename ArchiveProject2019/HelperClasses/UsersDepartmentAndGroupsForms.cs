@@ -52,7 +52,7 @@ namespace ArchiveProject2019.HelperClasses
 
             }
 
-             Forms = _context.Forms.Where(a => AllUsersFormsId.Contains(a.Id)).ToList();
+             Forms = _context.Forms.Where(a => AllUsersFormsId.Contains(a.Id)||a.Type==1).ToList();
             return Forms;
 
 
