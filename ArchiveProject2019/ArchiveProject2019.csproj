@@ -220,6 +220,7 @@
     <Compile Include="HelperClasses\UserDepartmentForms.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <Compile Include="Migrations\201911031953277_InitialModel.cs" />
     <Compile Include="Migrations\201911031953277_InitialModel.Designer.cs">
       <DependentUpon>201911031953277_InitialModel.cs</DependentUpon>
@@ -227,6 +228,11 @@
     <Compile Include="Migrations\201911191129207_InitialModel.cs" />
     <Compile Include="Migrations\201911191129207_InitialModel.Designer.cs">
       <DependentUpon>201911191129207_InitialModel.cs</DependentUpon>
+>>>>>>> Stashed changes
+=======
+    <Compile Include="Migrations\201912031358497_first.cs" />
+    <Compile Include="Migrations\201912031358497_first.Designer.cs">
+      <DependentUpon>201912031358497_first.cs</DependentUpon>
 >>>>>>> Stashed changes
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
@@ -548,6 +554,11 @@
     <Content Include="fonts\DroidKufi-Regular.ttf" />
     <Content Include="fonts\DroidKufi-Regular.woff" />
     <Content Include="fonts\DroidKufi-Regular.woff2" />
+<<<<<<< Updated upstream
+=======
+    <None Include="Properties\PublishProfiles\arch.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+>>>>>>> Stashed changes
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />
     <Content Include="Scripts\chosen.proto.min.js" />
@@ -1076,7 +1087,6 @@
     <Content Include="Views\Documents\Release.cshtml" />
     <Content Include="Views\Forms\Index.cshtml" />
     <Content Include="Views\Kinds\Index.cshtml" />
-    <Content Include="Views\BackupRestore\Index.cshtml" />
     <Content Include="Views\Shared\_NotificationsCount.cshtml" />
     <Content Include="Views\Shared\_NotificationsMessage.cshtml" />
     <Content Include="Views\DashBoard\NonSeenNotifications.cshtml" />
@@ -1123,6 +1133,20 @@
     <Content Include="Views\DocumentUsers\Delete.cshtml" />
     <Content Include="Views\DocumentUsers\ActiveNOnActive.cshtml" />
     <Content Include="Views\DocumentUsers\Details.cshtml" />
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+    <Content Include="Views\DocumentDepartments\ActiveNOnActiveReplay.cshtml" />
+    <Content Include="Views\DocumentDepartments\ActiveNOnActiveRelate.cshtml" />
+    <Content Include="Views\DocumentDepartments\ActiveNOnActiveSeal.cshtml" />
+    <Content Include="Views\DocumentGroups\ActiveNOnActiveReplay.cshtml" />
+    <Content Include="Views\DocumentGroups\ActiveNOnActiveSeal.cshtml" />
+    <Content Include="Views\DocumentGroups\ActiveNOnActiveRelate.cshtml" />
+    <Content Include="Views\DocumentUsers\ActiveNOnActiveReplay.cshtml" />
+    <Content Include="Views\DocumentUsers\ActiveNOnActiveRelate.cshtml" />
+    <Content Include="Views\DocumentUsers\ActiveNOnActiveSeal.cshtml" />
+    <Content Include="Views\Company\Create.cshtml" />
+    <Content Include="Views\BackupRestore\Index.cshtml" />
 >>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
@@ -1141,11 +1165,16 @@
   </ItemGroup>
   <ItemGroup>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <EmbeddedResource Include="Migrations\201911031953277_InitialModel.resx">
       <DependentUpon>201911031953277_InitialModel.cs</DependentUpon>
 =======
     <EmbeddedResource Include="Migrations\201911191129207_InitialModel.resx">
       <DependentUpon>201911191129207_InitialModel.cs</DependentUpon>
+>>>>>>> Stashed changes
+=======
+    <EmbeddedResource Include="Migrations\201912031358497_first.resx">
+      <DependentUpon>201912031358497_first.cs</DependentUpon>
 >>>>>>> Stashed changes
     </EmbeddedResource>
   </ItemGroup>
