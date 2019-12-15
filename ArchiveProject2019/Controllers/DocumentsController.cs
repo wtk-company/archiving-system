@@ -151,14 +151,17 @@ namespace ArchiveProject2019.Controllers
         [ValidateInput(false)]
 
         public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string> PartyIds, IEnumerable<string> RelatedGroups,IEnumerable<string> RelatedDepartments,IEnumerable<string> RelatedUsers)
-
         {
             ViewBag.Current = "Document";
+
             string CurrentUser = this.User.Identity.GetUserId();
             bool Status = true;
 
+            
+
             FieldsValuesViewModel FVVM = new FieldsValuesViewModel();
             FVVM = viewModel.FieldsValues;
+            var sdfs1 = Request.Form.GetValues("myfile222");
 
             if (FVVM != null)
             {
@@ -327,6 +330,35 @@ namespace ArchiveProject2019.Controllers
 
                 if (!IsSaveInDb)
                 {
+                    var scannedImages = Request.Form.GetValues("myfile");
+                    if (scannedImages != null)
+                    {
+                        int i = 0;
+                        foreach (var ImgStr in scannedImages)
+                        {
+                            i++;
+                            String path = Server.MapPath("~/Uploads"); //Path
+
+                            //Check if directory exist
+                            if (!System.IO.Directory.Exists(path))
+                            {
+                                System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                            }
+                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss");
+                            string imageName = s1 + "scannedImage" + i + ".jpg";
+
+                            //set the image path
+                            string imgPath = Path.Combine(path, imageName);
+
+                            byte[] imageBytes = Convert.FromBase64String(ImgStr);
+                            
+                            System.IO.File.WriteAllBytes(imgPath, imageBytes);
+
+                            viewModel.Document.Name += imageName + "_##_";
+                            viewModel.Document.FileUrl += s1 + "_##_";
+                        }
+                    }
+
                     foreach (var file in UploadFile)
                     {
                         if (file != null)
@@ -336,6 +368,7 @@ namespace ArchiveProject2019.Controllers
 
                             string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
                             string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
+                            
                             file.SaveAs(path);
 
                             viewModel.Document.Name += FileName + "_##_";
@@ -435,6 +468,29 @@ namespace ArchiveProject2019.Controllers
                 // Save Multiple Files In Db (begin)
                 if (IsSaveInDb)
                 {
+                    var scannedImages = Request.Form.GetValues("myfile");
+                    if (scannedImages != null)
+                    {
+                        int i = 0;
+                        foreach (var ImgStr in scannedImages)
+                        {
+                            i++;
+                            var fileStoredInDb = new FilesStoredInDb();
+
+                            fileStoredInDb.DocumentId = viewModel.Document.Id;
+
+                            
+                            string imageName = "scannedImage" + i + ".jpg";
+
+                            fileStoredInDb.FileName = imageName;
+
+                            fileStoredInDb.File = new byte[ImgStr.Length];
+                            fileStoredInDb.File = Convert.FromBase64String(ImgStr);
+
+                            _context.FilesStoredInDbs.Add(fileStoredInDb);
+                            _context.SaveChanges();
+                        }
+                    }
                     foreach (HttpPostedFileBase file in UploadFile)
                     {
                         if (file != null)
