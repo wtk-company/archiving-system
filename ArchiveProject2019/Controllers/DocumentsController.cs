@@ -330,13 +330,6 @@ namespace ArchiveProject2019.Controllers
 
                 if (!IsSaveInDb)
                 {
-
-                    /*
-                    * start code
-                    * get image from scanner,
-                    * save it in server
-                    * 
-                    */
                     var scannedImages = Request.Form.GetValues("myfile");
                     if (scannedImages != null)
                     {
@@ -365,12 +358,6 @@ namespace ArchiveProject2019.Controllers
                             viewModel.Document.FileUrl += s1 + "_##_";
                         }
                     }
-                    /*
-                    * end code
-                    * get image from scanner,
-                    * save it in server
-                    * 
-                    */
 
                     foreach (var file in UploadFile)
                     {
@@ -481,12 +468,6 @@ namespace ArchiveProject2019.Controllers
                 // Save Multiple Files In Db (begin)
                 if (IsSaveInDb)
                 {
-                    /*
-                    * start code
-                    * get image from scanner,
-                    * save it in database
-                    * 
-                    */
                     var scannedImages = Request.Form.GetValues("myfile");
                     if (scannedImages != null)
                     {
@@ -497,6 +478,7 @@ namespace ArchiveProject2019.Controllers
                             var fileStoredInDb = new FilesStoredInDb();
 
                             fileStoredInDb.DocumentId = viewModel.Document.Id;
+
                             
                             string imageName = "scannedImage" + i + ".jpg";
 
@@ -509,13 +491,6 @@ namespace ArchiveProject2019.Controllers
                             _context.SaveChanges();
                         }
                     }
-                    /*
-                    * end code
-                    * get image from scanner,
-                    * save it in server
-                    * 
-                    */
-
                     foreach (HttpPostedFileBase file in UploadFile)
                     {
                         if (file != null)
@@ -1186,42 +1161,6 @@ namespace ArchiveProject2019.Controllers
                 {
                     if (IsSaveInDb)
                     {
-                        /*
-                         * start code
-                         * get image from scanner,
-                         * save it in database
-                         * 
-                         */
-                        var scannedImages = Request.Form.GetValues("myfile");
-                        if (scannedImages != null)
-                        {
-                            int i = 0;
-                            foreach (var ImgStr in scannedImages)
-                            {
-                                i++;
-                                var fileStoredInDb = new FilesStoredInDb();
-
-                                fileStoredInDb.DocumentId = viewModel.Document.Id;
-
-
-                                string imageName = "scannedImage" + i + ".jpg";
-
-                                fileStoredInDb.FileName = imageName;
-
-                                fileStoredInDb.File = new byte[ImgStr.Length];
-                                fileStoredInDb.File = Convert.FromBase64String(ImgStr);
-
-                                _context.FilesStoredInDbs.Add(fileStoredInDb);
-                                _context.SaveChanges();
-                            }
-                        }
-                        /*
-                         * end code
-                         * get image from scanner,
-                         * save it in database
-                         * 
-                         */
-
                         for (int i = 0; i < viewModel.ExistFiles.Count; i++)
                         {
                             if (viewModel.FilesStoredInDbs != null && i < viewModel.FilesStoredInDbs.Count)
@@ -1275,47 +1214,6 @@ namespace ArchiveProject2019.Controllers
                         var url = "";
                         var fileNames = viewModel.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
                         var fileName = "";
-
-                        /*
-                         * start code
-                         * get image from scanner,
-                         * save it in server
-                         * 
-                         */
-                        var scannedImages = Request.Form.GetValues("myfile");
-                        if (scannedImages != null)
-                        {
-                            int i = 0;
-                            foreach (var ImgStr in scannedImages)
-                            {
-                                i++;
-                                String path = Server.MapPath("~/Uploads"); //Path
-
-                                //Check if directory exist
-                                if (!System.IO.Directory.Exists(path))
-                                {
-                                    System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
-                                }
-                                string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss");
-                                string imageName = s1 + "scannedImage" + i + ".jpg";
-
-                                //set the image path
-                                string imgPath = Path.Combine(path, imageName);
-
-                                byte[] imageBytes = Convert.FromBase64String(ImgStr);
-
-                                System.IO.File.WriteAllBytes(imgPath, imageBytes);
-
-                                viewModel.Document.Name += imageName + "_##_";
-                                viewModel.Document.FileUrl += s1 + "_##_";
-                            }
-                        }
-                        /*
-                         * end code 
-                         * get image from scanner,
-                         * save it in server
-                         * 
-                         */
 
                         for (int i = 0; i < viewModel.ExistFiles.Count; i++)
                         {

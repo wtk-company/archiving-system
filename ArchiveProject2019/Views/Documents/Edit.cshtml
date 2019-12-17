@@ -19,234 +19,303 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+<div class="form-horizontal">
 
-        @Html.HiddenFor(a => Model.Document.Id)
-        @Html.HiddenFor(a => Model.Document.Name)
-        @Html.HiddenFor(a => Model.Document.FileUrl)
-        @Html.HiddenFor(a => Model.Document.FormId)
-        @Html.HiddenFor(a => a.Document.CreatedById)
-        @Html.HiddenFor(a => a.Document.CreatedAt)
-        @Html.HiddenFor(a => a.Document.TypeMailId)
-        @Html.HiddenFor(a => a.TypeMail)
-        @Html.HiddenFor(a => a.IsSaveInDb)
+    @Html.HiddenFor(a => Model.Document.Id)
+    @Html.HiddenFor(a => Model.Document.Name)
+    @Html.HiddenFor(a => Model.Document.FileUrl)
+    @Html.HiddenFor(a => Model.Document.FormId)
+    @Html.HiddenFor(a => a.Document.CreatedById)
+    @Html.HiddenFor(a => a.Document.CreatedAt)
+    @Html.HiddenFor(a => a.Document.TypeMailId)
+    @Html.HiddenFor(a => a.TypeMail)
+    @Html.HiddenFor(a => a.IsSaveInDb)
 
 
-        <div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.DepartmentId, htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-11">
-                    @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
-                    @Html.ValidationMessageFor(model => model.Document.DepartmentId, "", new { @class = "text-danger" })
-                </div>
+    <div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.DepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Document.DepartmentId, ViewBag.Departments as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
+                @Html.ValidationMessageFor(model => model.Document.DepartmentId, "", new { @class = "text-danger" })
             </div>
         </div>
+    </div>
 
+
+  
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.DocumentNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Document.DocumentNumber, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Document.DocumentNumber, "", new { @class = "text-danger" })
+        </div>
+        @*</div>*@
+
+        @*<div class="form-group">*@
+        @Html.LabelFor(model => model.Document.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Document.Subject, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Document.Subject, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Document.Address, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Document.Address, "", new { @class = "text-danger" })
+        </div>
+        @*</div>*@
+
+        @*<div class="form-group">*@
+        @Html.LabelFor(model => model.Document.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Document.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Document.Description, "", new { @class = "text-danger" })
+        </div>
+    </div><div class="form-group">
+        @*<div class="form-group">*@
+        @Html.LabelFor(model => model.Document.KindId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.DropDownListFor(model => model.Document.KindId, ViewBag.kinds as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
+            @Html.ValidationMessageFor(model => model.Document.KindId, "", new { @class = "text-danger" })
+        </div>
+        @*</div>*@
+
+
+
+
+        @*<div class="form-group">*@
+        @Html.LabelFor(model => model.Document.StatusId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.DropDownListFor(model => model.Document.StatusId, ViewBag.StatusId as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
+            @Html.ValidationMessageFor(model => model.Document.StatusId, "", new { @class = "text-danger" })
+        </div>
+        @*</div>*@
+    </div>
+
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.DocumentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Document.DocumentDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
+            @Html.ValidationMessageFor(model => model.Document.DocumentDate, "", new { @class = "text-danger" })
+        </div>
+        @*</div>*@
+
+
+
+
+        @*<div class="form-group">*@
+        @Html.LabelFor(model => model.Document.NotificationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Document.NotificationDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
+            @Html.ValidationMessageFor(model => model.Document.NotificationDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+
+    @if (Model.TypeMail == 1)
+    {
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Document.MailingNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Document.MailingNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Document.DocumentNumber, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.Document.DocumentNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Document.DocumentNumber, "", new { @class = "text-danger" })
-            </div>
-            @*</div>*@
-
-            @*<div class="form-group">*@
-            @Html.LabelFor(model => model.Document.Subject, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.Document.Subject, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Document.Subject, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Document.MailingDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
+                @Html.ValidationMessageFor(model => model.Document.MailingDate, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Document.Address, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.Document.Address, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Document.Address, "", new { @class = "text-danger" })
-            </div>
-            @*</div>*@
-
-            @*<div class="form-group">*@
-            @Html.LabelFor(model => model.Document.Description, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.Document.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Document.Description, "", new { @class = "text-danger" })
-            </div>
-        </div><div class="form-group">
-            @*<div class="form-group">*@
-            @Html.LabelFor(model => model.Document.KindId, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-5">
-                @Html.DropDownListFor(model => model.Document.KindId, ViewBag.kinds as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
-                @Html.ValidationMessageFor(model => model.Document.KindId, "", new { @class = "text-danger" })
-            </div>
-            @*</div>*@
-
-
-
-
-            @*<div class="form-group">*@
-            @Html.LabelFor(model => model.Document.StatusId, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-5">
-                @Html.DropDownListFor(model => model.Document.StatusId, ViewBag.StatusId as SelectList, htmlAttributes: new { @class = "form-control chosen-select" })
-                @Html.ValidationMessageFor(model => model.Document.StatusId, "", new { @class = "text-danger" })
-            </div>
-            @*</div>*@
-        </div>
-
-
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Document.DocumentDate, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-5">
-                @Html.TextBoxFor(model => model.Document.DocumentDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
-                @Html.ValidationMessageFor(model => model.Document.DocumentDate, "", new { @class = "text-danger" })
-            </div>
-            @*</div>*@
-
-
-
-
-            @*<div class="form-group">*@
-            @Html.LabelFor(model => model.Document.NotificationDate, htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-5">
-                @Html.TextBoxFor(model => model.Document.NotificationDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
-                @Html.ValidationMessageFor(model => model.Document.NotificationDate, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.Document.PartyId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Document.PartyId, new SelectList(ViewBag.Parties, "Value", "Text"), htmlAttributes: new { @class = "form-control chosen-select" })
+                @Html.ValidationMessageFor(model => model.Document.PartyId, "", new { @class = "text-danger" })
             </div>
         </div>
 
+    }
+    @*End Take Mail*@
 
 
 
 
-        @if (Model.TypeMail == 1)
+    @if ((bool)ViewBag.CanEdit == true)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.Document.ResponsibleUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Document.ResponsibleUserId, ViewBag.ResponsibleUserId as SelectList, "اختر المسؤول", htmlAttributes: new { @class = "form-control chosen-select" })
+                @Html.ValidationMessageFor(model => model.Document.ResponsibleUserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+    else
+    {
+
+        @Html.HiddenFor(model => model.Document.ResponsibleUserId)
+    }
+
+
+
+
+
+    @if (Model.FieldsValues != null)
+    {
+        for (int i = 0; i < Model.FieldsValues.Values.Count; i++)
         {
 
+            @Html.HiddenFor(a => a.FieldsValues.Values[i].CreatedAt)
+            @Html.HiddenFor(a => a.FieldsValues.Values[i].CreatedById)
+            @Html.HiddenFor(a => a.FieldsValues.Values[i].Id)
+
+
             <div class="form-group">
-                @Html.LabelFor(model => model.Document.MailingNumber, htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-11">
-                    @Html.EditorFor(model => model.Document.MailingNumber, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Document.MailingNumber, "", new { @class = "text-danger" })
+                <div class="control-label col-md-2">
+                    @Model.FieldsValues.Fields[i].Name
+                </div>
+
+                <div class="col-md-10">
+                    @switch (Model.FieldsValues.Fields[i].Type)
+                    {
+                        case "bool":
+                            @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "true")@:نعم
+                            @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "false")@:لا
+
+                            break;
+
+
+                        case "float":
+                        case "text":
+                        case "phone":
+                        case "email":
+
+                            @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control" })
+                            break;
+
+                        case "date":
+                            @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control", @type = "date" })
+                            break;
+
+                    }
+                    @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
                 </div>
             </div>
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.MailingDate, htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-11">
-                    @Html.TextBoxFor(model => model.Document.MailingDate, "{0:dd/MM/yyyy}", new { @class = "form-control", @type = "date" })
-                    @Html.ValidationMessageFor(model => model.Document.MailingDate, "", new { @class = "text-danger" })
-                </div>
-            </div>
+            <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
 
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.PartyId, htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-11">
-                    @Html.DropDownListFor(model => model.Document.PartyId, new SelectList(ViewBag.Parties, "Value", "Text"), htmlAttributes: new { @class = "form-control chosen-select" })
-                    @Html.ValidationMessageFor(model => model.Document.PartyId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
+            @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
+            @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
+            @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
+            @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
         }
-        @*End Take Mail*@
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label  col-md-1" })
+        <div class="col-md-10">
 
 
-
-
-        @if ((bool)ViewBag.CanEdit == true)
-        {
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.ResponsibleUserId, htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-11">
-                    @Html.DropDownListFor(model => model.Document.ResponsibleUserId, ViewBag.ResponsibleUserId as SelectList, "اختر المسؤول", htmlAttributes: new { @class = "form-control chosen-select" })
-                    @Html.ValidationMessageFor(model => model.Document.ResponsibleUserId, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        }
-        else
-        {
-
-            @Html.HiddenFor(model => model.Document.ResponsibleUserId)
-        }
-
-
-
-
-
-        @if (Model.FieldsValues != null)
-        {
-            for (int i = 0; i < Model.FieldsValues.Values.Count; i++)
+            @if (Model.IsSaveInDb)
             {
+                <div id="fileForm">
+                    @for (int i = 0; i < Model.FilesStoredInDbs.Count; i++)
+                    {
+                        @Html.HiddenFor(model => model.FilesStoredInDbs[i].Id)
+                        @Html.HiddenFor(model => model.FilesStoredInDbs[i].File)
+                        @Html.HiddenFor(model => model.FilesStoredInDbs[i].FileName)
+                        @Html.HiddenFor(model => model.FilesStoredInDbs[i].DocumentId)
 
-                @Html.HiddenFor(a => a.FieldsValues.Values[i].CreatedAt)
-                @Html.HiddenFor(a => a.FieldsValues.Values[i].CreatedById)
-                @Html.HiddenFor(a => a.FieldsValues.Values[i].Id)
+                        <div class="col-lg-6" id="fileForm__@i">
+                            <label style="margin-top: 30px;">@Model.FilesStoredInDbs[i].FileName</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" hidden name="UploadFile[@i]" id="UploadFile[@i]" value="@Model.FilesStoredInDbs[i].File" title="@Model.FilesStoredInDbs[i].FileName" />
+                                <span class="input-group-addon ">
+                                    @Html.CheckBoxFor(model => model.ExistFiles[i])
+                                </span>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    }
 
-
-                <div class="form-group">
-                    <div class="control-label col-md-1">
-                        @Model.FieldsValues.Fields[i].Name
-                    </div>
-
-                    <div class="col-md-11">
-                        @switch (Model.FieldsValues.Fields[i].Type)
-                        {
-                            case "bool":
-                                @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "true")@:نعم
-                                @Html.RadioButtonFor(model => Model.FieldsValues.Values[i].FieldValue, "false")@:لا
-
-                                break;
-
-
-                            case "float":
-                            case "text":
-                            case "phone":
-                            case "email":
-
-                                @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control" })
-                                break;
-
-                            case "date":
-                                @Html.TextBoxFor(model => model.FieldsValues.Values[i].FieldValue, new { @class = "form-control", @type = "date" })
-                                break;
-
-                        }
-                        @Html.ValidationMessageFor(model => Model.FieldsValues.Values[i].Id, "", new { @class = "text-danger" })
-                    </div>
+                    <div class="col-lg-6" id="btnNewField">
+                        <label style="margin-top: 30px;">ملف جديد</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" onclick="NewFile(@Model.FilesStoredInDbs.Count)" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </div><!-- /.col-lg-6 -->
                 </div>
-
-
-                <div style="outline: 2px solid yellow;margin:1em;display:inline-block;overflow:visible"></div>
-
-                @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
-                @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
-                @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
-                @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
             }
-        }
+            else
+            {
+                var urls = Model.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                var names = Model.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
+
+                <div id="fileForm">
+                    @for (int i = 0; i < urls.Length; i++)
+                    {
+                        <div class="col-lg-6" id="fileForm__@i">
+                            <label style="margin-top: 30px;">@names[i]</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" hidden name="UploadFile[@i]" id="UploadFile[@i]" value="@urls[i]" title="@names[i]" />
+                                <span class="input-group-addon ">
+                                    @Html.CheckBoxFor(model => model.ExistFiles[i])
+                                </span>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    }
+                    <div class="col-lg-6" id="btnNewField">
+                        <label style="margin-top: 30px;">ملف جديد</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" onclick="NewFile(@urls.Length)" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </div><!-- /.col-lg-6 -->
+                </div>
+            }
 
 
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Document.Notes, htmlAttributes: new { @id = "NoteId", style = "color:blue", title = "انقر لإظهار خانة الملاحظة", @class = "control-label col-md-1 " })        <div id="NoteSlide" class="col-md-10">
-                @*<textarea class="ckeditor" name="Notes"></textarea>*@
-
-                @Html.TextAreaFor(model => model.Document.Notes, new { @id = "ck", @class = "ckeditor" })
-                @Html.ValidationMessageFor(model => model.Document.Notes, "", new { @class = "text-danger" })
-            </div>
+            @Html.ValidationMessageFor(model => model.Document.FileUrl, "", new { @class = "text-danger" })
         </div>
+    </div>
 
 
-        @*@if ((bool)ViewBag.CanEdit == true)
-            {*@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Document.Notes, htmlAttributes: new { @id = "NoteId", style = "color:blue", title = "انقر لإظهار خانة الملاحظة", @class = "control-label col-md-2 " })        <div id="NoteSlide" class="col-md-10">
+            @*<textarea class="ckeditor" name="Notes"></textarea>*@
+
+            @Html.TextAreaFor(model => model.Document.Notes, new { @id = "ck", @class = "ckeditor" })
+            @Html.ValidationMessageFor(model => model.Document.Notes, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    @*@if ((bool)ViewBag.CanEdit == true)
+    {*@
 
         <div class="form-group">
-            @Html.Label("الاقسام المرتبطة", htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-11">
+            @Html.Label("الاقسام المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
                 @Html.DropDownList("RelatedDepartments", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
             </div>
         </div>
@@ -254,8 +323,8 @@
 
 
         <div class="form-group">
-            @Html.Label("المجموعات المرتبطة", htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-11">
+            @Html.Label("المجموعات المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
                 @Html.DropDownList("RelatedGroups", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
             </div>
         </div>
@@ -263,95 +332,16 @@
 
 
         <div class="form-group">
-            @Html.Label("العناصر المرتبطة", htmlAttributes: new { @class = "control-label col-md-1" })
-            <div class="col-md-11">
+            @Html.Label("العناصر المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
                 @Html.DropDownList("RelatedUsers", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
             </div>
         </div>
 
-        @*}*@
-        <div>
-
+    @*}*@
+   <div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label  col-md-1" })
-                <div class="col-md-11">
-
-
-                    @if (Model.IsSaveInDb)
-                    {
-                        <div id="fileForm">
-                            @for (int i = 0; i < Model.FilesStoredInDbs.Count; i++)
-                    {
-                                @Html.HiddenFor(model => model.FilesStoredInDbs[i].Id)
-                                @Html.HiddenFor(model => model.FilesStoredInDbs[i].File)
-                                @Html.HiddenFor(model => model.FilesStoredInDbs[i].FileName)
-                                @Html.HiddenFor(model => model.FilesStoredInDbs[i].DocumentId)
-
-                                <div class="col-lg-6" id="fileForm__@i">
-                                    <label style="margin-top: 30px;">@Model.FilesStoredInDbs[i].FileName</label>
-                                    <div class="input-group">
-                                        <input type="file" class="form-control" hidden name="UploadFile[@i]" id="UploadFile[@i]" value="@Model.FilesStoredInDbs[i].File" title="@Model.FilesStoredInDbs[i].FileName" />
-                                        <span class="input-group-addon ">
-                                            @Html.CheckBoxFor(model => model.ExistFiles[i])
-                                        </span>
-                                    </div><!-- /input-group -->
-                                </div><!-- /.col-lg-6 -->
-                            }
-
-                            <div class="col-lg-6" id="btnNewField">
-                                <label style="margin-top: 30px;">ملف جديد</label>
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary" onclick="NewFile(@Model.FilesStoredInDbs.Count)" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </span>
-                                </div><!-- /input-group -->
-                            </div><!-- /.col-lg-6 -->
-                        </div>
-                    }
-                    else
-                    {
-                        var urls = Model.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
-                        var names = Model.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
-
-                        <div id="fileForm">
-                            @for (int i = 0; i < urls.Length; i++)
-                    {
-                                <div class="col-lg-6" id="fileForm__@i">
-                                    <label style="margin-top: 30px;">@names[i]</label>
-                                    <div class="input-group">
-                                        <input type="file" class="form-control" hidden name="UploadFile[@i]" id="UploadFile[@i]" value="@urls[i]" title="@names[i]" />
-                                        <span class="input-group-addon ">
-                                            @Html.CheckBoxFor(model => model.ExistFiles[i])
-                                        </span>
-                                    </div><!-- /input-group -->
-                                </div><!-- /.col-lg-6 -->
-                            }
-                            <div class="col-lg-6" id="btnNewField">
-                                <label style="margin-top: 30px;">ملف جديد</label>
-                                <div class="input-group">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-primary" onclick="NewFile(@urls.Length)" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-                                    </span>
-                                </div><!-- /input-group -->
-                            </div><!-- /.col-lg-6 -->
-                        </div>
-                    }
-
-
-                    @Html.ValidationMessageFor(model => model.Document.FileUrl, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label col-md-1" })
-                <div class="col-md-11">
-                    <button type="button" class="btn btn-info" onclick="scanToJpg();">مسح ضوئي</button>
-                </div>
-            </div>
-            <div id="images"></div>
-            <hr />
-            <div class="form-group">
-                <div class="col-md-offset-1 col-md-11">
+                <div class="">
                     <input type="submit" value="تعديل الوثيقة " class="btn btn-primary" />
                 </div>
             </div>
@@ -363,64 +353,11 @@
 @Html.Partial("_LastView")
 
 @section Scripts {
-    <script>
-        //
-        // Please read scanner.js developer's guide at: http://asprise.com/document-scan-upload-image-browser/ie-chrome-firefox-scanner-docs.html
-        //
-        /** Initiates a scan */
-        function scanToJpg() {
-            scanner.scan(displayImagesOnPage,
-                {
-                    "output_settings": [
-                        {
-                            "type": "return-base64",
-                            "format": "jpg"
-                        }
-                    ]
-                }
-            );
-        }
-        /** Processes the scan result */
-        function displayImagesOnPage(successful, mesg, response) {
-            if (!successful) { // On error
-                console.error('Failed: ' + mesg);
-                return;
-            }
-            if (successful && mesg != null && mesg.toLowerCase().indexOf('user cancel') >= 0) { // User cancelled.
-                console.info('User cancelled');
-                return;
-            }
-            var scannedImages = scanner.getScannedImages(response, true, false); // returns an array of ScannedImage
-            for (var i = 0; (scannedImages instanceof Array) && i < scannedImages.length; i++) {
-                var scannedImage = scannedImages[i];
-                processScannedImage(scannedImage);
-            }
-        }
-        /** Images scanned so far. */
-        var imagesScanned = [];
-        /** Processes a ScannedImage */
-        function processScannedImage(scannedImage) {
-            imagesScanned.push(scannedImage);
-            var elementImg = scanner.createDomElementFromModel({
-                'name': 'input',
-                'attributes': {
-                    'class': 'scanned',
-                    'name': 'myfile',
-                    'display': 'none',
-                    'value': scannedImage.src
-                }
-            });
-            document.getElementById('images').appendChild(elementImg);
-        }
-
-    </script>
-
-
 
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
-
+     
 
         function NewFile(fileSelector) {
             var form =
@@ -484,16 +421,9 @@
 
 
 <style>
-    img.scanned {
-        height: 200px; /** Sets the display size */
-        margin-right: 12px;
-    }
-
-    div#images {
-        margin-top: 20px;
-    }
 
     #NoteSlide {
         display: none;
     }
+
 </style>

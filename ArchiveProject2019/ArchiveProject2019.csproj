@@ -75,6 +75,9 @@
     <Reference Include="Dynamsoft.WPF.Viewer, Version=8.0.0.510, Culture=neutral, PublicKeyToken=298ad97013b423eb, processorArchitecture=MSIL">
       <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.WPF.Viewer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\TwainDotNet.1.0.0\lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
@@ -140,6 +143,15 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="TwainDotNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3cd6e1539fa8c71, processorArchitecture=x86">
+      <HintPath>..\packages\TwainDotNet.1.0.0\lib\TwainDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="TwainDotNet.WinFroms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3cd6e1539fa8c71, processorArchitecture=x86">
+      <HintPath>..\packages\TwainDotNet.1.0.0\lib\TwainDotNet.WinFroms.dll</HintPath>
+    </Reference>
+    <Reference Include="TwainDotNet.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3cd6e1539fa8c71, processorArchitecture=x86">
+      <HintPath>..\packages\TwainDotNet.1.0.0\lib\TwainDotNet.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -256,10 +268,6 @@
     <Compile Include="Migrations\201912062112168_intial.cs" />
     <Compile Include="Migrations\201912062112168_intial.Designer.cs">
       <DependentUpon>201912062112168_intial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912150851287_uu.cs" />
-    <Compile Include="Migrations\201912150851287_uu.Designer.cs">
-      <DependentUpon>201912150851287_uu.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -940,6 +948,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\scanner.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\BackupRestore\Index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1118,7 +1127,6 @@
     <Content Include="Views\Seals\Index.cshtml" />
     <Content Include="Views\Informatiom\Add.cshtml" />
     <Content Include="Views\Informatiom\Remove.cshtml" />
-    <Content Include="Views\BackupRestore\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1138,9 +1146,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201912062112168_intial.resx">
       <DependentUpon>201912062112168_intial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912150851287_uu.resx">
-      <DependentUpon>201912150851287_uu.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
