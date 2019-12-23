@@ -7,13 +7,13 @@ namespace ArchiveProject2019.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class asmiforce : IMigrationMetadata
+    public sealed partial class intial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(asmiforce));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(intial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201912050903519_asmi-force"; }
+            get { return "201912062112168_intial"; }
         }
         
         string IMigrationMetadata.Source
