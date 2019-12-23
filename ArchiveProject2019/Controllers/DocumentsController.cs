@@ -833,6 +833,28 @@ namespace ArchiveProject2019.Controllers
 
             //================= End Related Opertaions==================
 
+            //Party ids:
+            if(document.TypeMailId==2)
+            {
+
+                List<SelectListItem> ListS4 = new List<SelectListItem>();
+                foreach (var G in _context.Parties.ToList())
+
+                {
+                    sl = new SelectListItem()
+                    {
+
+                        Text = G.Name,
+                        Value = G.Id.ToString(),
+                        Selected = _context.DocumentParties.Any(a => a.DocumentId == document.Id && a.PartyId == G.Id) ? true : false
+                    };
+
+                    ListS4.Add(sl);
+
+                }
+                ViewBag.PartyIds = ListS4;
+
+            }
 
             if (IsSaveInDb)
             {
@@ -874,7 +896,9 @@ namespace ArchiveProject2019.Controllers
         [ValidateInput(false)]
         public ActionResult Edit(DocumentDocIdFieldsValuesViewModel viewModel, HttpPostedFileBase[] UploadFile, IEnumerable<HttpPostedFileBase> FieldFile
             ,IEnumerable<string> RelatedDepartments, IEnumerable<string> RelatedGroups
-            , IEnumerable<string> RelatedUsers)
+            , IEnumerable<string> RelatedUsers,
+            
+            IEnumerable<string> PartyIds)
         {
 
             ViewBag.Current = "Document";
@@ -885,26 +909,47 @@ namespace ArchiveProject2019.Controllers
 
 
             bool CanEdit = false;
-           
 
 
-            ViewBag.CanEdit = false;
 
-            if (viewModel.Document.CreatedById.Equals(CurrentUser))
+            //ViewBag.CanEdit = false;
+
+            //if (viewModel.Document.CreatedById.Equals(CurrentUser))
+            //{
+            //    CanEdit = true;
+            //    ViewBag.CanEdit = true;
+            //}
+
+            //if (!string.IsNullOrEmpty(viewModel.Document.ResponsibleUserId))
+            //{
+            //    if (viewModel.Document.ResponsibleUserId.Equals(CurrentUser))
+            //    {
+            //        CanEdit = true;
+
+            //        ViewBag.CanEdit = true;
+
+            //    }
+            //}
+
+            if (viewModel.Document.TypeMailId==2 && PartyIds == null)
             {
-                CanEdit = true;
-                ViewBag.CanEdit = true;
+                ModelState.AddModelError("PartyIds", "حدد جهات استلام البريد");
+                Status = false;
             }
 
-            if (!string.IsNullOrEmpty(viewModel.Document.ResponsibleUserId))
+
+
+
+            if (viewModel.Document.TypeMailId == 1 && viewModel.Document.MailingDate == null)
             {
-                if (viewModel.Document.ResponsibleUserId.Equals(CurrentUser))
-                {
-                    CanEdit = true;
+                ModelState.AddModelError("Document.MailingDate", "ادخل تاريخ ورود البريد");
+                Status = false;
+            }
 
-                    ViewBag.CanEdit = true;
-
-                }
+            if (viewModel.Document.TypeMailId == 1 && viewModel.Document.MailingNumber == null)
+            {
+                ModelState.AddModelError("Document.MailingNumber", "ادخل رقم ورود البريد ");
+                Status = false;
             }
 
             FieldsValuesViewModel FVVM = new FieldsValuesViewModel();
@@ -1091,8 +1136,28 @@ namespace ArchiveProject2019.Controllers
                 }
                 ViewBag.RelatedUsers = ListS3;
 
+            if (viewModel.Document.TypeMailId == 2)
+            {
 
-           
+                List<SelectListItem> ListS4 = new List<SelectListItem>();
+                foreach (var G in _context.Parties.ToList())
+
+                {
+                    sl = new SelectListItem()
+                    {
+
+                        Text = G.Name,
+                        Value = G.Id.ToString(),
+                        Selected = _context.DocumentParties.Any(a => a.DocumentId ==viewModel.Document .Id && a.PartyId == G.Id) ? true : false
+                    };
+
+                    ListS4.Add(sl);
+
+                }
+                ViewBag.PartyIds = ListS4;
+
+            }
+
             //Status Model=false{status==false}
             if (Status == false)
             {
@@ -1674,6 +1739,68 @@ namespace ArchiveProject2019.Controllers
                     }
 
                     _context.SaveChanges();
+
+
+
+
+
+                //Party Ids:
+
+                if (viewModel.Document.TypeMailId==2)
+                {
+                    List<string> SelectedDocumentPartyId = new List<string>();
+                    SelectedDocumentPartyId = _context.DocumentParties.Where(a => a.DocumentId == viewModel.Document.Id).Select(a => a.PartyId.ToString()).ToList();
+                    if (PartyIds != null)
+                    {
+                        DocumentParty _Documentparty = null;
+                        List<string> ExpectDocumentParties = new List<string>();
+                        ExpectDocumentParties = SelectedDocumentPartyId.Except(PartyIds).ToList();
+                        foreach (string _DocumentParty_Id in PartyIds)
+                        {
+
+
+                            if (SelectedDocumentPartyId.Contains(_DocumentParty_Id))
+                            {
+
+                                continue;
+                            }
+                            _Documentparty = new DocumentParty()
+                            {
+
+                                DocumentId = viewModel.Document.Id,
+                                PartyId = Convert.ToInt32(_DocumentParty_Id),
+
+                                CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
+                                CreatedById = this.User.Identity.GetUserId()
+                            };
+
+                            _context.DocumentParties.Add(_Documentparty);
+
+
+                        }
+                        _context.SaveChanges();
+
+                        DocumentParty deleteDocumentParty;
+                        foreach (string s in ExpectDocumentParties)
+                        {
+                            deleteDocumentParty = _context.DocumentParties.Where(a => a.DocumentId == viewModel.Document.Id && a.PartyId.ToString().Equals(s)).SingleOrDefault();
+
+                            _context.DocumentParties.Remove(deleteDocumentParty);
+
+
+
+
+                        }
+                        _context.SaveChanges();
+
+                    }
+
+
+
+                    _context.SaveChanges();
+                }
+               
+
 
 
 

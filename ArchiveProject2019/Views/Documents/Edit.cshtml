@@ -43,7 +43,7 @@
     </div>
 
 
-  
+
     <div class="form-group">
         @Html.LabelFor(model => model.Document.DocumentNumber, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-4">
@@ -150,6 +150,17 @@
             </div>
         </div>
 
+    }
+
+    @if (Model.TypeMail == 2)
+    {
+        <div class="form-group">
+            @Html.Label("الجهات المستلمة", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("PartyIds", new SelectList(ViewBag.Parties, "Value", "Text"), htmlAttributes: new { multiple = "multiple", @class = "form-control chosen-select" })
+                @Html.ValidationMessage("PartyIds", "", new { @class = "text-danger" })
+            </div>
+        </div>
     }
     @*End Take Mail*@
 
@@ -311,43 +322,43 @@
 
 
     @*@if ((bool)ViewBag.CanEdit == true)
-    {*@
+        {*@
 
-        <div class="form-group">
-            @Html.Label("الاقسام المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("RelatedDepartments", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
-            </div>
+    <div class="form-group">
+        @Html.Label("الاقسام المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("RelatedDepartments", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
         </div>
+    </div>
 
 
 
-        <div class="form-group">
-            @Html.Label("المجموعات المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("RelatedGroups", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
-            </div>
+    <div class="form-group">
+        @Html.Label("المجموعات المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("RelatedGroups", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
         </div>
+    </div>
 
 
 
-        <div class="form-group">
-            @Html.Label("العناصر المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("RelatedUsers", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
-            </div>
+    <div class="form-group">
+        @Html.Label("العناصر المرتبطة", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("RelatedUsers", null, htmlAttributes: new { style = "padding:2px", multiple = "multiple", @class = "form-control chosen-select" })
         </div>
+    </div>
 
     @*}*@
-   <div>
-            <div class="form-group">
-                <div class="">
-                    <input type="submit" value="تعديل الوثيقة " class="btn btn-primary" />
-                </div>
+    <div>
+        <div class="form-group">
+            <div class="">
+                <input type="submit" value="تعديل الوثيقة " class="btn btn-primary" />
             </div>
         </div>
-
     </div>
+
+</div>
 }
 
 @Html.Partial("_LastView")

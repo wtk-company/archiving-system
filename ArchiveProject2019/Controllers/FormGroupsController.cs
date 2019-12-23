@@ -358,6 +358,14 @@ namespace ArchiveProject2019.Controllers
 
             db.SaveChanges();
 
+            List<string> UsersIdForDepartment = Users.Select(a => a.Id).ToList();
+            List<FavouriteForms> favoriteForms = db.FavouriteForms.Where(a => a.FormId == Form_id && UsersIdForDepartment.Contains(a.UserId)).ToList();
+            foreach (FavouriteForms f in favoriteForms)
+            {
+                db.FavouriteForms.Remove(f);
+
+            }
+            db.SaveChanges();
             return RedirectToAction("Index", new { @id = Form_id, @msg = "DeleteSuccess" });
         }
 

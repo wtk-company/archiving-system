@@ -12,7 +12,8 @@
     ApplicationDbContext db = new ApplicationDbContext();
 
     List<FavouriteForms> UserFavoriteFormId = new List<FavouriteForms>();
-    UserFavoriteFormId = db.FavouriteForms.Where(a => a.UserId.Equals(CurrentUserId)).Include(a => a.Form).ToList();
+    List<int> UserFormId = UsersDepartmentAndGroupsForms.GetUsersForms(CurrentUserId).Select(a => a.Id).ToList();
+    UserFavoriteFormId = db.FavouriteForms.Where(a => a.UserId.Equals(CurrentUserId)&& UserFormId.Contains(a.FormId)).Include(a => a.Form).ToList();
 }
 
 

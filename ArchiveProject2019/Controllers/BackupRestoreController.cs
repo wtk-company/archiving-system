@@ -122,7 +122,9 @@ namespace ArchiveProject2019.Controllers
                 string Q1 = "ALTER DATABASE archive_db SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
                 String query = "restore database " + "archive_db" + "  from disk='" + backup + "' WITH REPLACE";
                 //  String mycon = "Data Source=DESKTOP-B3DK4HG; Initial Catalog=master; Integrated Security=true";
-                String mycon = "Data Source=DESKTOP-B3DK4HG;Initial Catalog=master;Integrated Security=True";
+                String mycon = ConfigurationManager.ConnectionStrings["BackupConnection"].ConnectionString;
+
+            //    SqlConnection con = new SqlConnection(mycon);
                 SqlConnection con = new SqlConnection(mycon);
                if(con.State==System.Data.ConnectionState.Closed)
                 {
@@ -183,7 +185,7 @@ namespace ArchiveProject2019.Controllers
             catch {
 
 
-                String mycon = "Data Source=DESKTOP-B3DK4HG;Initial Catalog=master;Integrated Security=True";
+                String mycon = ConfigurationManager.ConnectionStrings["BackupConnection"].ConnectionString;
                 SqlConnection con = new SqlConnection(mycon);
            
                 SqlCommand cmd = new SqlCommand();
