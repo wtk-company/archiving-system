@@ -14,12 +14,15 @@ using System.Net;
 using ArchiveProject2019.HelperClasses;
 using System.Globalization;
 using System.Diagnostics;
+using ArchiveProject2019.Security;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ArchiveProject2019.Controllers
 {
     public class DocumentsController : Controller
     {
-        private bool IsSaveInDb = true;
+        private bool IsSaveInDb;
+        private bool IsCipher;
 
         ApplicationDbContext _context;
 
@@ -27,6 +30,7 @@ namespace ArchiveProject2019.Controllers
         {
             this._context = new ApplicationDbContext();
             this.IsSaveInDb = true;
+            this.IsCipher = true;
         }
         public ActionResult Form()
         {
@@ -145,20 +149,29 @@ namespace ArchiveProject2019.Controllers
             return View(myModel);
         }
 
+        public static byte[] DecodeUrlBase64(string s)
+        {
+            //s = s.Replace('-', '+').Replace('_', '/').PadRight(4 * ((s.Length + 3) / 4), '=');
+            var arrayOfString = s.Split(',');
+            
+            return Convert.FromBase64String(arrayOfString[1]);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-
         public ActionResult Create(DocumentDocIdFieldsValuesViewModel viewModel, IEnumerable<HttpPostedFileBase> UploadFile, IEnumerable<HttpPostedFileBase> FieldFile, IEnumerable<string> PartyIds, IEnumerable<string> RelatedGroups,IEnumerable<string> RelatedDepartments,IEnumerable<string> RelatedUsers)
-
         {
             ViewBag.Current = "Document";
+
             string CurrentUser = this.User.Identity.GetUserId();
             bool Status = true;
 
+            
+
             FieldsValuesViewModel FVVM = new FieldsValuesViewModel();
             FVVM = viewModel.FieldsValues;
+            
 
             if (FVVM != null)
             {
@@ -327,6 +340,53 @@ namespace ArchiveProject2019.Controllers
 
                 if (!IsSaveInDb)
                 {
+
+                    /*
+                    * start code
+                    * get image from scanner,
+                    * save it in server
+                    * 
+                    */
+                    var scannedImages = Request.Form.GetValues("myfile");
+                    if (scannedImages != null)
+                    {
+                        int i = 0;
+                        foreach (var ImgStr in scannedImages)
+                        {
+                            i++;
+                            String path = Server.MapPath("~/Uploads"); //Path
+
+                            //Check if directory exist
+                            if (!System.IO.Directory.Exists(path))
+                            {
+                                System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                            }
+                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss");
+                            string imageName = s1 + "scannedImage" + i + ".jpg";
+
+                            //set the image path
+                            string imgPath = Path.Combine(path, imageName);
+                            byte[] imageBytes = DecodeUrlBase64(ImgStr);
+
+                            if (IsCipher)
+                            {
+                                ManagedAes.EncryptFile(imageBytes, imgPath);
+                            }
+                            else
+                            {
+                                System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                            }
+
+                            viewModel.Document.Name += imageName + "_##_";
+                            viewModel.Document.FileUrl += imageName + "_##_";
+                        }
+                    }
+                    /*
+                    * end code
+                    * get image from scanner,
+                    * save it in server
+                    */
+
                     foreach (var file in UploadFile)
                     {
                         if (file != null)
@@ -336,11 +396,18 @@ namespace ArchiveProject2019.Controllers
 
                             string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
                             string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
-                            file.SaveAs(path);
+
+                            if (IsCipher)
+                            {
+                                ManagedAes.EncryptFile(file, path);
+                            }
+                            else
+                            {
+                                file.SaveAs(path);
+                            }
 
                             viewModel.Document.Name += FileName + "_##_";
                             viewModel.Document.FileUrl += s1 + "_##_";
-
                         }
                     }
 
@@ -362,72 +429,23 @@ namespace ArchiveProject2019.Controllers
                     viewModel.Document.NotificationUserId = viewModel.Document.ResponsibleUserId;
                 }
 
-                // document famely status (begin)
-                var parentDocId = viewModel.DocId;
-                //if (parentDocId == -1)
-                //{
-                //    viewModel.Document.FamelyState = 1; // Single
-                //} else if (parentDocId != -1 && !viewModel.IsReplay)
-                //{
-                //    viewModel.Document.FamelyState = 2; // Child(Related)
-                //    var parentDoc = _context.Documents.Find(viewModel.DocId);
-
-                //    switch (parentDoc.FamelyState)
-                //    {
-                //        case 1:
-                //            parentDoc.FamelyState = 3; // Single -> Parent(Related)
-                //            break;
-                //        case 2:
-                //            parentDoc.FamelyState = 4; // Parent(Related) -> Parent(Related)
-                //            break;
-                //        case 3:
-                //            parentDoc.FamelyState = 4; // Parent(Related) -> Parent(Related)
-                //            break;
-                //        case 4:
-                //            parentDoc.FamelyState = 4; // Parent(Related) -> Parent(Related)
-                //            break;
-                //        case 5:
-                //            parentDoc.FamelyState = 6; // Child(Replay) -> Parent(Related)
-                //            break;
-                //        case 6:
-                //            parentDoc.FamelyState = 7; // Parent(Related) -> Parent(Related)
-                //            break;
-                //    }
-                    
-                //    _context.Entry(parentDoc).State = EntityState.Modified;
-                //    _context.SaveChanges();
-
-                //} else if(parentDocId != -1 && viewModel.IsReplay)
-                //{
-                //    viewModel.Document.FamelyState = 5; // Child(Replay)
-                //    var parentDoc = _context.Documents.Find(viewModel.DocId);
-
-                //    switch (parentDoc.FamelyState)
-                //    {
-                //        case 1:
-                //            parentDoc.FamelyState = 8; // Single -> Parent(Replay)
-                //            break;
-                //        case 2:
-                //            parentDoc.FamelyState = 9; // Child(Related) -> Parent(Replay)
-                //            break;
-                //        case 3:
-                //            parentDoc.FamelyState = 9; // Parent(Replay) -> Parent(Replay)
-                //            break;
-                //        case 4:
-                //            parentDoc.FamelyState = 9; // Parent(Replay) -> Parent(Replay)
-                //            break;
-                //        case 5:
-                //            parentDoc.FamelyState = 6; // Child(Replay) -> Parent(Replay)
-                //            break;
-                //        case 6:
-                //            parentDoc.FamelyState = 9; // Parent(Replay) -> Parent(Replay)
-                //            break;
-                //    }
-
-                //    _context.Entry(parentDoc).State = EntityState.Modified;
-                //    _context.SaveChanges();
-                //}
-                //// ./-- document famely status (end)
+                // Encrypt Document Attributes.
+                if (IsCipher)
+                {
+                    viewModel.Document.Address = ManagedAes.EncryptText(viewModel.Document.Address);
+                    viewModel.Document.CreatedAt = ManagedAes.EncryptText(viewModel.Document.CreatedAt);
+                    viewModel.Document.Description = ManagedAes.EncryptText(viewModel.Document.Description);
+                    viewModel.Document.DocumentDate = ManagedAes.EncryptText(viewModel.Document.DocumentDate);
+                    viewModel.Document.DocumentNumber = ManagedAes.EncryptText(viewModel.Document.DocumentNumber);
+                    viewModel.Document.FileUrl = ManagedAes.EncryptText(viewModel.Document.FileUrl);
+                    viewModel.Document.MailingDate = ManagedAes.EncryptText(viewModel.Document.MailingDate);
+                    viewModel.Document.MailingNumber = ManagedAes.EncryptText(viewModel.Document.MailingNumber);
+                    viewModel.Document.Name = ManagedAes.EncryptText(viewModel.Document.Name);
+                    viewModel.Document.Notes = ManagedAes.EncryptText(viewModel.Document.Notes);
+                    viewModel.Document.NotificationDate = ManagedAes.EncryptText(viewModel.Document.NotificationDate);
+                    viewModel.Document.Subject = ManagedAes.EncryptText(viewModel.Document.Subject);
+                    viewModel.Document.UpdatedAt = ManagedAes.EncryptText(viewModel.Document.UpdatedAt);
+                }
 
                 _context.Documents.Add(viewModel.Document);
                 _context.SaveChanges();
@@ -435,6 +453,56 @@ namespace ArchiveProject2019.Controllers
                 // Save Multiple Files In Db (begin)
                 if (IsSaveInDb)
                 {
+                    /*
+                    * start code
+                    * get image from scanner,
+                    * save it in database
+                    * 
+                    */
+                    var scannedImages = Request.Form.GetValues("myfile");
+                    if (scannedImages != null)
+                    {
+                        int i = 0;
+                        foreach (var ImgStr in scannedImages)
+                        {
+                            i++;
+                            var fileStoredInDb = new FilesStoredInDb();
+
+                            fileStoredInDb.DocumentId = viewModel.Document.Id;
+                            
+                            string imageName = "scannedImage" + i + ".jpg";
+
+                            var imgAsByteArray = DecodeUrlBase64(ImgStr);
+
+                            if (IsCipher)
+                            {
+                                // Encrypt File Name.
+                                fileStoredInDb.FileName = ManagedAes.EncryptText(imageName);
+                                // Encrypt File.
+                                var EncryptedImgAsByteArray = ManagedAes.EncryptArrayByte(imgAsByteArray);
+                                fileStoredInDb.File = new byte[EncryptedImgAsByteArray.Length];
+                                fileStoredInDb.File = EncryptedImgAsByteArray;
+                            }
+                            else
+                            {
+                                // File Name.
+                                fileStoredInDb.FileName = imageName;
+                                // File.
+                                fileStoredInDb.File = new byte[imgAsByteArray.Length];
+                                fileStoredInDb.File = imgAsByteArray;
+                            }
+                            
+                            _context.FilesStoredInDbs.Add(fileStoredInDb);
+                            _context.SaveChanges();
+                        }
+                    }
+                    /*
+                     * end code
+                     * get image from scanner,
+                     * save it in server
+                     * 
+                     */
+
                     foreach (HttpPostedFileBase file in UploadFile)
                     {
                         if (file != null)
@@ -448,6 +516,14 @@ namespace ArchiveProject2019.Controllers
 
                             fileStoredInDb.File = new byte[file.ContentLength];
                             file.InputStream.Read(fileStoredInDb.File, 0, file.ContentLength);
+
+                            if (IsCipher)
+                            {
+                                // Encrypt File Name.
+                                fileStoredInDb.FileName = ManagedAes.EncryptText(FileName);
+                                // Encrypt File.
+                                fileStoredInDb.File = ManagedAes.EncryptArrayByte(fileStoredInDb.File);
+                            }
 
                             _context.FilesStoredInDbs.Add(fileStoredInDb);
                             _context.SaveChanges();
@@ -656,6 +732,8 @@ namespace ArchiveProject2019.Controllers
                         _context.SaveChanges();
                     }
                 }
+                // document famely status (begin)
+                var parentDocId = viewModel.DocId;
 
                 // Relate Document
                 if (parentDocId != -1 && !viewModel.IsReplay)
@@ -713,31 +791,31 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
 
-            var document = _context.Documents.Include(a => a.Department).Include(d => d.FilesStoredInDbs).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(a => a.Values).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
-            if (document == null)
+            var Document = _context.Documents.Include(a => a.Department).Include(d => d.FilesStoredInDbs).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(a => a.Values).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
+            if (Document == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
             ViewBag.CanEdit = false;
 
-            if (document.CreatedById.Equals(CurrentUser))
+            if (Document.CreatedById.Equals(CurrentUser))
             {
                 ViewBag.CanEdit = true;
             }
            
-            if(!string.IsNullOrEmpty( document.ResponsibleUserId))
+            if(!string.IsNullOrEmpty(Document.ResponsibleUserId))
             {
-                if(document.ResponsibleUserId.Equals(CurrentUser))
+                if(Document.ResponsibleUserId.Equals(CurrentUser))
                 {
                     ViewBag.CanEdit = true;
 
                 }
             }
 
-            var Fields = _context.Fields.Include(c => c.Form).Where(f => f.FormId == document.FormId).ToList();
+            var Fields = _context.Fields.Include(c => c.Form).Where(f => f.FormId == Document.FormId).ToList();
             List<Value> Values = new List<Value>();
-            Values = document.Values.ToList();
+            Values = Document.Values.ToList();
             FieldsValuesViewModel viewModel = new FieldsValuesViewModel
             {
                 Fields = Fields,
@@ -753,20 +831,20 @@ namespace ArchiveProject2019.Controllers
             }
             else
             {
-                ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", document.DepartmentId);
+                ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", Document.DepartmentId);
 
             }
-            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name", document.PartyId);
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name", Document.PartyId);
             ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
             ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
             ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
 
 
-   //[Asmi new]:
-            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name",document.StatusId);
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", document.KindId);
+            //[Asmi new]:
+            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name", Document.StatusId);
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", Document.KindId);
 
-            ViewBag.ResponsibleUserId = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName", document.ResponsibleUserId);
+            ViewBag.ResponsibleUserId = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName", Document.ResponsibleUserId);
 
             //[Related Departments]:
 
@@ -781,7 +859,7 @@ namespace ArchiveProject2019.Controllers
 
                     Text = G.Name,
                     Value = G.Id.ToString(),
-                    Selected = _context.DocumentDepartments.Any(a=>a.DocumentId==document.Id && a.DepartmentId==G.Id) ? true : false
+                    Selected = _context.DocumentDepartments.Any(a=>a.DocumentId== Document.Id && a.DepartmentId==G.Id) ? true : false
                 };
 
                 ListSl.Add(sl);
@@ -803,7 +881,7 @@ namespace ArchiveProject2019.Controllers
 
                     Text = G.Name,
                     Value = G.Id.ToString(),
-                    Selected = _context.DocumentGroups.Any(a => a.DocumentId == document.Id && a.GroupId == G.Id) ? true : false
+                    Selected = _context.DocumentGroups.Any(a => a.DocumentId == Document.Id && a.GroupId == G.Id) ? true : false
                 };
 
                 ListS2.Add(sl);
@@ -821,7 +899,7 @@ namespace ArchiveProject2019.Controllers
 
                     Text = U.FullName,
                     Value = U.Id.ToString(),
-                    Selected = _context.DocumentUsers.Any(a => a.DocumentId == document.Id && a.UserId == U.Id) ? true : false
+                    Selected = _context.DocumentUsers.Any(a => a.DocumentId == Document.Id && a.UserId == U.Id) ? true : false
                 };
 
                 ListS3.Add(sl);
@@ -856,18 +934,107 @@ namespace ArchiveProject2019.Controllers
 
             }
 
+            //Party ids:
+            if(Document.TypeMailId==2)
+            {
+
+                List<SelectListItem> ListS4 = new List<SelectListItem>();
+                foreach (var G in _context.Parties.ToList())
+
+                {
+                    sl = new SelectListItem()
+                    {
+
+                        Text = G.Name,
+                        Value = G.Id.ToString(),
+                        Selected = _context.DocumentParties.Any(a => a.DocumentId == Document.Id && a.PartyId == G.Id) ? true : false
+                    };
+
+                    ListS4.Add(sl);
+
+                }
+                ViewBag.PartyIds = ListS4;
+
+            }
+            // Decrypt Document Attributes.
+            if (IsCipher)
+            {
+                Document.Address = ManagedAes.DecryptText(Document.Address);
+                Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
+                Document.Description = ManagedAes.DecryptText(Document.Description);
+                Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
+                Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
+                Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
+                Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
+                Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
+                Document.Name = ManagedAes.DecryptText(Document.Name);
+                Document.Notes = ManagedAes.DecryptText(Document.Notes);
+                Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                Document.Subject = ManagedAes.DecryptText(Document.Subject);
+                Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
+
+
+                var files = Document.FilesStoredInDbs.ToList();
+                var filesStoredInDbs = new List<FilesStoredInDb>(files.Count);
+                for (int i = 0; i < files.Count; i++)
+                {
+                    filesStoredInDbs.Add(
+                        new FilesStoredInDb
+                        {
+                            FileName = ManagedAes.DecryptText(files[i].FileName),
+                            DocumentId = files[i].DocumentId,
+                            File = ManagedAes.DecryptArrayByte(files[i].File),
+                            Id = files[i].Id
+                        }
+                        );
+                }
+
+                if (IsSaveInDb)
+                {
+                    var names = Document.FilesStoredInDbs.Count;
+                    var existfiles = Enumerable.Repeat(true, names).ToList();
+
+                    var myModel = new DocumentDocIdFieldsValuesViewModel()
+                    {
+                        Document = Document,
+                        FieldsValues = viewModel,
+                        ExistFiles = existfiles,
+                        FilesStoredInDbs = filesStoredInDbs,
+                        TypeMail = Document.TypeMail.Type,
+                        IsSaveInDb = IsSaveInDb,
+                    };
+
+                    return View(myModel);
+                }
+                else
+                {
+                    var urls = Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                    var existfiles = Enumerable.Repeat(true, urls.Length).ToList();
+
+                    var myModel = new DocumentDocIdFieldsValuesViewModel()
+                    {
+                        Document = Document,
+                        FieldsValues = viewModel,
+                        ExistFiles = existfiles,
+                    };
+
+                    return View(myModel);
+                }
+
+            }
+
             if (IsSaveInDb)
             {
-                var names = document.FilesStoredInDbs.Count;
+                var names = Document.FilesStoredInDbs.Count;
                 var existfiles = Enumerable.Repeat(true, names).ToList();
 
                 var myModel = new DocumentDocIdFieldsValuesViewModel()
                 {
-                    Document = document,
+                    Document = Document,
                     FieldsValues = viewModel,
                     ExistFiles = existfiles,
-                    FilesStoredInDbs = document.FilesStoredInDbs.ToList(),
-                    TypeMail = document.TypeMail.Type,
+                    FilesStoredInDbs = Document.FilesStoredInDbs.ToList(),
+                    TypeMail = Document.TypeMail.Type,
                     IsSaveInDb = IsSaveInDb,
                 };
 
@@ -875,12 +1042,12 @@ namespace ArchiveProject2019.Controllers
             }
             else
             {
-                var urls = document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                var urls = Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
                 var existfiles = Enumerable.Repeat(true, urls.Length).ToList();
 
                 var myModel = new DocumentDocIdFieldsValuesViewModel()
                 {
-                    Document = document,
+                    Document = Document,
                     FieldsValues = viewModel,
                     ExistFiles = existfiles,
                 };
@@ -1170,6 +1337,57 @@ namespace ArchiveProject2019.Controllers
                 {
                     if (IsSaveInDb)
                     {
+                        /*
+                         * start code
+                         * get image from scanner,
+                         * save it in database
+                         * 
+                         */
+                        var scannedImages = Request.Form.GetValues("myfile");
+                        if (scannedImages != null)
+                        {
+                            int i = 0;
+                            foreach (var ImgStr in scannedImages)
+                            {
+                                i++;
+                                var fileStoredInDb = new FilesStoredInDb();
+
+                                fileStoredInDb.DocumentId = viewModel.Document.Id;
+
+
+                                string imageName = "scannedImage" + i + ".jpg";
+
+                                var imgAsByteArray = DecodeUrlBase64(ImgStr);
+
+                                if (IsCipher)
+                                {
+                                    // Encrypt File Name.
+                                    fileStoredInDb.FileName = ManagedAes.EncryptText(imageName);
+                                    // Encrypt File.
+                                    var EncryptedImgAsByteArray = ManagedAes.EncryptArrayByte(imgAsByteArray);
+                                    fileStoredInDb.File = new byte[EncryptedImgAsByteArray.Length];
+                                    fileStoredInDb.File = EncryptedImgAsByteArray;
+                                }
+                                else
+                                {
+                                    // File Name.
+                                    fileStoredInDb.FileName = imageName;
+                                    // File.
+                                    fileStoredInDb.File = new byte[imgAsByteArray.Length];
+                                    fileStoredInDb.File = imgAsByteArray;
+                                }
+
+                                _context.FilesStoredInDbs.Add(fileStoredInDb);
+                                _context.SaveChanges();
+                            }
+                        }
+                        /*
+                         * end code
+                         * get image from scanner,
+                         * save it in database
+                         * 
+                         */
+
                         for (int i = 0; i < viewModel.ExistFiles.Count; i++)
                         {
                             if (viewModel.FilesStoredInDbs != null && i < viewModel.FilesStoredInDbs.Count)
@@ -1186,6 +1404,14 @@ namespace ArchiveProject2019.Controllers
                                         viewModel.FilesStoredInDbs[i].File = new byte[UploadFile[i].ContentLength];
                                         UploadFile[i].InputStream.Read(viewModel.FilesStoredInDbs[i].File, 0, UploadFile[i].ContentLength);
 
+                                        if (IsCipher)
+                                        {
+                                            // Encrypt File Name.
+                                            viewModel.FilesStoredInDbs[i].FileName = ManagedAes.EncryptText(FileName);
+                                            // Encrypt File.
+                                            viewModel.FilesStoredInDbs[i].File = ManagedAes.EncryptArrayByte(viewModel.FilesStoredInDbs[i].File);
+                                        }
+
                                         _context.Entry(viewModel.FilesStoredInDbs[i]).State = EntityState.Modified;
                                         _context.SaveChanges();
                                     }
@@ -1193,6 +1419,13 @@ namespace ArchiveProject2019.Controllers
                                 else
                                 {
                                     var filesStoredInDb = _context.FilesStoredInDbs.Find(viewModel.FilesStoredInDbs[i].Id);
+
+                                    if (IsCipher)
+                                    {
+                                        filesStoredInDb.FileName = ManagedAes.DecryptText(filesStoredInDb.FileName);
+                                        filesStoredInDb.File = ManagedAes.DecryptArrayByte(filesStoredInDb.File);
+                                    }
+
                                     // remove old file from DB
                                     _context.FilesStoredInDbs.Remove(filesStoredInDb);
                                     _context.SaveChanges();
@@ -1212,6 +1445,14 @@ namespace ArchiveProject2019.Controllers
 
                                 FileStoredInDb.DocumentId = viewModel.Document.Id;
 
+                                if (IsCipher)
+                                {
+                                    // Encrypt File Name.
+                                    viewModel.FilesStoredInDbs[i].FileName = ManagedAes.EncryptText(FileName);
+                                    // Encrypt File.
+                                    viewModel.FilesStoredInDbs[i].File = ManagedAes.EncryptArrayByte(viewModel.FilesStoredInDbs[i].File);
+                                }
+
                                 _context.FilesStoredInDbs.Add(FileStoredInDb);
                                 _context.SaveChanges();
                             }
@@ -1223,6 +1464,54 @@ namespace ArchiveProject2019.Controllers
                         var url = "";
                         var fileNames = viewModel.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
                         var fileName = "";
+
+                        /*
+                         * start code
+                         * get image from scanner,
+                         * save it in server
+                         * 
+                         */
+                        var scannedImages = Request.Form.GetValues("myfile");
+                        if (scannedImages != null)
+                        {
+                            int i = 0;
+                            foreach (var ImgStr in scannedImages)
+                            {
+                                i++;
+                                String path = Server.MapPath("~/Uploads"); //Path
+
+                                //Check if directory exist
+                                if (!System.IO.Directory.Exists(path))
+                                {
+                                    System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                                }
+                                string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss");
+                                string imageName = s1 + "scannedImage" + i + ".jpg";
+
+                                //set the image path
+                                string imgPath = Path.Combine(path, imageName);
+
+                                byte[] imageBytes = DecodeUrlBase64(ImgStr);
+
+                                if (IsCipher)
+                                {
+                                    ManagedAes.EncryptFile(imageBytes, imgPath);
+                                }
+                                else
+                                {
+                                    System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                                }
+
+                                viewModel.Document.Name += imageName + "_##_";
+                                viewModel.Document.FileUrl += s1 + "_##_";
+                            }
+                        }
+                        /*
+                         * end code 
+                         * get image from scanner,
+                         * save it in server
+                         * 
+                         */
 
                         for (int i = 0; i < viewModel.ExistFiles.Count; i++)
                         {
@@ -1247,7 +1536,15 @@ namespace ArchiveProject2019.Controllers
 
                                         string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
                                         string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
-                                        UploadFile[i].SaveAs(path);
+                                        //UploadFile[i].SaveAs(path);
+                                        if (IsCipher)
+                                        {
+                                            ManagedAes.EncryptFile(UploadFile[i], path);
+                                        }
+                                        else
+                                        {
+                                            UploadFile[i].SaveAs(path);
+                                        }
 
                                         url += s1 + "_##_";
                                         fileName += FileName + "_##_";
@@ -1311,6 +1608,25 @@ namespace ArchiveProject2019.Controllers
                     viewModel.Document.NotificationUserId = viewModel.Document.ResponsibleUserId;
 
                 }
+                
+                // Encrypt Document Attributes.
+                if (IsCipher)
+                {
+                    viewModel.Document.Address = ManagedAes.EncryptText(viewModel.Document.Address);
+                    viewModel.Document.CreatedAt = ManagedAes.EncryptText(viewModel.Document.CreatedAt);
+                    viewModel.Document.Description = ManagedAes.EncryptText(viewModel.Document.Description);
+                    viewModel.Document.DocumentDate = ManagedAes.EncryptText(viewModel.Document.DocumentDate);
+                    viewModel.Document.DocumentNumber = ManagedAes.EncryptText(viewModel.Document.DocumentNumber);
+                    viewModel.Document.FileUrl = ManagedAes.EncryptText(viewModel.Document.FileUrl);
+                    viewModel.Document.MailingDate = ManagedAes.EncryptText(viewModel.Document.MailingDate);
+                    viewModel.Document.MailingNumber = ManagedAes.EncryptText(viewModel.Document.MailingNumber);
+                    viewModel.Document.Name = ManagedAes.EncryptText(viewModel.Document.Name);
+                    viewModel.Document.Notes = ManagedAes.EncryptText(viewModel.Document.Notes);
+                    viewModel.Document.NotificationDate = ManagedAes.EncryptText(viewModel.Document.NotificationDate);
+                    viewModel.Document.Subject = ManagedAes.EncryptText(viewModel.Document.Subject);
+                    viewModel.Document.UpdatedAt = ManagedAes.EncryptText(viewModel.Document.UpdatedAt);
+                }
+
                 _context.Entry(viewModel.Document).State = EntityState.Modified;
                 _context.SaveChanges();
 
@@ -1982,6 +2298,27 @@ namespace ArchiveProject2019.Controllers
             string currentUserId = this.User.Identity.GetUserId();
             var documents = _context.Documents.Where(a => a.CreatedById.Equals(currentUserId)).Include(a => a.TypeMail).OrderByDescending(a => a.CreatedAt).Take(10);
 
+            // Decrypt Document Attributes.
+            if (IsCipher)
+            {
+                foreach (var Document in documents)
+                {
+                    Document.Address = ManagedAes.DecryptText(Document.Address);
+                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
+                    Document.Description = ManagedAes.DecryptText(Document.Description);
+                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
+                    Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
+                    Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
+                    Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
+                    Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
+                    Document.Name = ManagedAes.DecryptText(Document.Name);
+                    Document.Notes = ManagedAes.DecryptText(Document.Notes);
+                    Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                    Document.Subject = ManagedAes.DecryptText(Document.Subject);
+                    Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
+                }
+            }
+
             return View(documents);
         }
 
@@ -2143,7 +2480,26 @@ namespace ArchiveProject2019.Controllers
             documents = documents.Take(Convert.ToInt32(RetrievalCount)).ToList();
 
 
-
+            // Decrypt Document Attributes.
+            if (IsCipher)
+            {
+                foreach (var Document in documents)
+                {
+                    Document.Address = ManagedAes.DecryptText(Document.Address);
+                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
+                    Document.Description = ManagedAes.DecryptText(Document.Description);
+                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
+                    Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
+                    Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
+                    Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
+                    Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
+                    Document.Name = ManagedAes.DecryptText(Document.Name);
+                    Document.Notes = ManagedAes.DecryptText(Document.Notes);
+                    Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                    Document.Subject = ManagedAes.DecryptText(Document.Subject);
+                    Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
+                }
+            }
 
 
             return PartialView("_search", documents);
@@ -2280,8 +2636,7 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "RelatedDocument";
 
             var relDoc = _context.RelatedDocuments.Find(id);
-
-
+            
             _context.RelatedDocuments.Remove(relDoc);
             _context.SaveChanges();
 
@@ -2301,15 +2656,65 @@ namespace ArchiveProject2019.Controllers
             var Document = _context.Documents.Include(d => d.FilesStoredInDbs).Include(a => a.Form).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail)
                 .Include(a => a.Department).Include(a => a.CreatedBy)
                 .FirstOrDefault(a => a.Id == id);
+
             var Fields = _context.Fields.Where(f => f.FormId == Document.FormId).ToList();
             var Values = _context.Values.Where(a => a.Document_id == Document.Id).ToList();
             var seals = _context.SealDocuments.Where(s => s.DocumentId == Document.Id).Include(s => s.Document).Include(s => s.CreatedBy).ToList();
+
             if (Document == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
-            var viewModel = new DocumentFieldsValuesViewModel
+            if (IsCipher)
+            {
+                // Decrypt Document Attributes.
+                if (IsCipher)
+                {
+                    Document.Address = ManagedAes.DecryptText(Document.Address);
+                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
+                    Document.Description = ManagedAes.DecryptText(Document.Description);
+                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
+                    Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
+                    Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
+                    Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
+                    Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
+                    Document.Name = ManagedAes.DecryptText(Document.Name);
+                    Document.Notes = ManagedAes.DecryptText(Document.Notes);
+                    Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                    Document.Subject = ManagedAes.DecryptText(Document.Subject);
+                    Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
+                }
+
+                var files = Document.FilesStoredInDbs.ToList();
+                var filesStoredInDbs = new List<FilesStoredInDb>(files.Count);
+                for (int i = 0; i < files.Count; i++)
+                {
+                    filesStoredInDbs.Add(
+                        new FilesStoredInDb
+                        {
+                            FileName = ManagedAes.DecryptText(files[i].FileName),
+                            DocumentId = files[i].DocumentId,
+                            File = ManagedAes.DecryptArrayByte(files[i].File),
+                            Id = files[i].Id
+                        }
+                        );
+                }
+                var viewModel = new DocumentFieldsValuesViewModel
+                {
+                    Document = Document,
+                    Fields = Fields,
+                    Values = Values,
+                    FilesStoredInDbs = filesStoredInDbs,
+                    IsSaveInDb = this.IsSaveInDb,
+                    Seals = seals,
+                };
+            
+                return View(viewModel);
+            }
+
+
+            var ViewModel = new DocumentFieldsValuesViewModel
             {
                 Document = Document,
                 Fields = Fields,
@@ -2319,7 +2724,7 @@ namespace ArchiveProject2019.Controllers
                 Seals = seals,
             };
 
-            return View(viewModel);
+            return View(ViewModel);
         }
 
 
@@ -2328,13 +2733,22 @@ namespace ArchiveProject2019.Controllers
             if (id == null)
             {
                 string filePath = Server.MapPath("~/Uploads/").Replace(@"\", "/") + fileName;
-                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                byte[] fileBytes = ManagedAes.DecryptFile(filePath);
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
             else
             {
                 var FileStoredInDb = _context.FilesStoredInDbs.Find(id);
-                return File(FileStoredInDb.File, System.Net.Mime.MediaTypeNames.Application.Octet, FileStoredInDb.FileName);
+                var file = FileStoredInDb.File;
+                fileName = FileStoredInDb.FileName;
+
+                if (IsCipher)
+                {
+                    fileName = ManagedAes.DecryptText(FileStoredInDb.FileName);
+                    file = ManagedAes.DecryptArrayByte(FileStoredInDb.File);
+                }
+
+                return File(file, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
         }
         public FileResult DisplayDocument(int? id, string fileName)
@@ -2343,6 +2757,38 @@ namespace ArchiveProject2019.Controllers
             {
                 string filePath = Server.MapPath("~/Uploads/").Replace(@"\", "/") + fileName;
 
+                if (IsCipher)
+                {
+                    var file = ManagedAes.DecryptFile(filePath);
+                    MemoryStream memStream = new MemoryStream();
+                    BinaryFormatter binForm = new BinaryFormatter();
+                    memStream.Write(file, 0, file.Length);
+                    memStream.Seek(0, SeekOrigin.Begin);
+                    
+                    // Images
+                    if (filePath.EndsWith("jpeg") || filePath.EndsWith("JPEG"))
+                        return new FileStreamResult(memStream, "image/jpeg");
+
+                    if (filePath.EndsWith("jpg") || filePath.EndsWith("JPG"))
+                        return new FileStreamResult(memStream, "image/jpg");
+
+                    if (filePath.EndsWith("png") || filePath.EndsWith("PNG"))
+                        return new FileStreamResult(memStream, "image/png");
+
+                    if (filePath.EndsWith("gif") || filePath.EndsWith("GIF"))
+                        return new FileStreamResult(memStream, "image/gif");
+
+                    // Files
+                    if (filePath.EndsWith("pdf") || filePath.EndsWith("PDF"))
+                        return new FileStreamResult(memStream, "application/pdf");
+
+                    if (filePath.EndsWith("doc") || filePath.EndsWith("DOC") ||
+                        filePath.EndsWith("docx") || filePath.EndsWith("DOCX") ||
+                        filePath.EndsWith("xlsx") || filePath.EndsWith("XLSX") ||
+                        filePath.EndsWith("pptx") || filePath.EndsWith("PPTX"))
+                        return new FileStreamResult(memStream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                }
+                
                 var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
                 // Images
@@ -2371,23 +2817,31 @@ namespace ArchiveProject2019.Controllers
             else
             {
                 var FileStoredInDb = _context.FilesStoredInDbs.Find(id);
+                var file = FileStoredInDb.File;
+                fileName = FileStoredInDb.FileName;
+
+                if (IsCipher)
+                {
+                    fileName = ManagedAes.DecryptText(FileStoredInDb.FileName);
+                    file = ManagedAes.DecryptArrayByte(FileStoredInDb.File);
+                }
 
                 // Images
-                if (FileStoredInDb.FileName.EndsWith("jpeg") || FileStoredInDb.FileName.EndsWith("JPEG"))
-                    return File(FileStoredInDb.File, "image/jpeg");
+                if (fileName.EndsWith("jpeg") || fileName.EndsWith("JPEG"))
+                    return File(file, "image/jpeg");
 
-                if (FileStoredInDb.FileName.EndsWith("jpg") || FileStoredInDb.FileName.EndsWith("JPG"))
-                    return File(FileStoredInDb.File, "image/jpg");
+                if (fileName.EndsWith("jpg") || fileName.EndsWith("JPG"))
+                    return File(file, "image/jpg");
 
-                if (FileStoredInDb.FileName.EndsWith("png") || FileStoredInDb.FileName.EndsWith("PNG"))
-                    return File(FileStoredInDb.File, "image/png");
+                if (fileName.EndsWith("png") || fileName.EndsWith("PNG"))
+                    return File(file, "image/png");
 
-                if (FileStoredInDb.FileName.EndsWith("gif") || FileStoredInDb.FileName.EndsWith("GIF"))
-                    return File(FileStoredInDb.File, "image/gif");
+                if (fileName.EndsWith("gif") || fileName.EndsWith("GIF"))
+                    return File(file, "image/gif");
 
                 // Pdf
-                if (FileStoredInDb.FileName.EndsWith("pdf") || FileStoredInDb.FileName.EndsWith("PDF"))
-                    return File(FileStoredInDb.File, "application/pdf");
+                if (fileName.EndsWith("pdf") || fileName.EndsWith("PDF"))
+                    return File(file, "application/pdf");
 
             }
 

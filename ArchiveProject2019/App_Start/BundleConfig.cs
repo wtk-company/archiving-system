@@ -50,8 +50,10 @@ namespace ArchiveProject2019
               "~/Content/DashBoard/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css",
               
               //Custom Theme Style
-              "~/Content/DashBoard/build/css/custom.min.css"
-             
+              "~/Content/DashBoard/build/css/custom.min.css",
+
+              // Custom Scanner css
+              "~/Content/scanner.css"
 
              ));
 
@@ -88,11 +90,14 @@ namespace ArchiveProject2019
 
                "~/Content/DashBoard/build/js/custom.min.js",
                "~/Content/DashBoard/vendors/iCheck/icheck.min.js",
+
                //DataTables:
                "~/Scripts/DataTables/jquery.dataTables.min.js",
-               "~/Scripts/DataTables/dataTables.bootstrap.js"
+               "~/Scripts/DataTables/dataTables.bootstrap.js",
 
-              
+               // Custom Scanner js
+               "~/Scripts/scanner.js"
+
 
 
               ));
