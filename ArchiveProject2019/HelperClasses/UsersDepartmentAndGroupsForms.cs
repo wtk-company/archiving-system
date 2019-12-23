@@ -30,7 +30,7 @@ namespace ArchiveProject2019.HelperClasses
             else
             {
                 int DepUserId = _context.Users.Find(UsertID).DepartmentId.Value;
-                List<int> FM = _context.FormDepartments.Where(a => a.DepartmentId == DepUserId).Select(a => a.FormId).ToList();
+                List<int> FM = _context.FormDepartments.Where(a => a.DepartmentId == DepUserId&& a.Is_Active==true).Select(a => a.FormId).ToList();
                   UserFormsID = _context.Forms.Where(a => FM.Contains(a.Id)).Select(a => a.Id).ToList();
 
                       
@@ -39,7 +39,7 @@ namespace ArchiveProject2019.HelperClasses
                 List<int> UserGroupsFormsId = new List<int>();
                 if (UserGroupsId.Count() > 0)
                 {
-                    UserGroupsFormsId = _context.FormGroups.Where(a => UserGroupsId.Contains(a.GroupId)).Select(a => a.FormId).ToList();
+                    UserGroupsFormsId = _context.FormGroups.Where(a => UserGroupsId.Contains(a.GroupId)&&a.Is_Active==true).Select(a => a.FormId).ToList();
                     AllUsersFormsId = UserFormsID.Union(UserGroupsFormsId).Distinct().ToList();
               
 
