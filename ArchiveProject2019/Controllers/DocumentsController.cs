@@ -913,7 +913,7 @@ namespace ArchiveProject2019.Controllers
 
 
             //Party ids:
-            if(document.TypeMailId==2)
+            if(Document.TypeMailId==2)
             {
 
                 List<SelectListItem> ListS4 = new List<SelectListItem>();
@@ -925,7 +925,7 @@ namespace ArchiveProject2019.Controllers
 
                         Text = G.Name,
                         Value = G.Id.ToString(),
-                        Selected = _context.DocumentParties.Any(a => a.DocumentId == document.Id && a.PartyId == G.Id) ? true : false
+                        Selected = _context.DocumentParties.Any(a => a.DocumentId == Document.Id && a.PartyId == G.Id) ? true : false
                     };
 
                     ListS4.Add(sl);
