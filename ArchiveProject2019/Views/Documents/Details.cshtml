@@ -148,7 +148,7 @@
                     <label style="margin-top: 30px;">@names[i]</label>
                     <div>
                         @Html.ActionLink(" فتح الملف", "DisplayDocument", "Documents", new { fileName = urls[i] }, new { @class = "glyphicon glyphicon-open btn btn-primary" }) |
-                        @Html.ActionLink(" تنزيل الملف", "Download", "Documents", new { fileName = urls[i] }, new { @class = "glyphicon glyphicon-download btn btn-success" })
+                        @Html.ActionLink(" تنزيل الملف", "DownloadDocument", "Documents", new { fileName = urls[i] }, new { @class = "glyphicon glyphicon-download btn btn-success" })
                     </div>
                 }
             }

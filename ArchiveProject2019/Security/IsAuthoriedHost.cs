@@ -25,7 +25,7 @@ namespace ArchiveProject2019.Security
             if (dd == ff)
             {
                 //Debug.WriteLine("__HHHH__");
-                Process.Start("iisreset /stop");
+                //Process.Start("iisreset /stop");
                 
             }
         }

@@ -93,8 +93,8 @@ namespace ArchiveProject2019.Security
          */
         public static string EncryptText(string input)
         {
-            if (input == "")
-                return input;
+            if (input == null || input == "")
+                return "";
             // Get the bytes of the string
             byte[] bytesToBeEncrypted = Encoding.UTF8.GetBytes(input);
             byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
@@ -111,8 +111,8 @@ namespace ArchiveProject2019.Security
 
         public static string DecryptText(string input)
         {
-            if (input == "")
-                return input;
+            if (input == null || input == "")
+                return "";
             // Get the bytes of the string
             byte[] bytesToBeDecrypted = Convert.FromBase64String(input);
             byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
@@ -163,99 +163,10 @@ namespace ArchiveProject2019.Security
          * Encrypting Array Byte End
          */
 
+
         /*
          * Encrypting File Start
          */
-
-        //public static void EncryptFile(HttpPostedFileBase file, string path)
-        //{
-        //    // Get the bytes of the string
-        //    byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-
-        //    // Hash the password with SHA256
-        //    passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
-
-        //    // Set your salt here, change it to meet your flavor:
-        //    // The salt bytes must be at least 8 bytes.
-        //    byte[] saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-
-        //    FileStream fsCrypt = new FileStream(path, FileMode.Create);
-        //    RijndaelManaged AES = new RijndaelManaged();
-        //    AES.KeySize = 256;
-        //    AES.BlockSize = 128;
-
-        //    var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
-        //    AES.Key = key.GetBytes(AES.KeySize / 8);
-        //    AES.IV = key.GetBytes(AES.BlockSize / 8);
-
-        //    AES.Mode = CipherMode.CBC;
-
-        //    ICryptoTransform encryptor = AES.CreateEncryptor();
-        //    CryptoStream cs = new CryptoStream(fsCrypt, encryptor, CryptoStreamMode.Write);
-        //    int data;
-        //    while ((data = file.InputStream.ReadByte()) != -1)
-        //    {
-        //        cs.WriteByte((byte)data);
-        //    }
-        //    file.InputStream.Close();
-        //    cs.Close();
-        //    fsCrypt.Close();
-        //}
-
-
-        //public static FileStreamResult DecryptFile(string path)
-        //{
-        //    // Get the bytes of the string
-        //    byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
-
-        //    // Hash the password with SHA256
-        //    passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
-
-        //    // Set your salt here, change it to meet your flavor:
-        //    // The salt bytes must be at least 8 bytes.
-        //    byte[] saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
-
-
-
-        //    var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
-
-        //    byte[] buffer = new byte[16 * 1024];
-        //    byte[] bytesToBeDecrypted = new byte[16 * 1024];
-
-        //    using (MemoryStream ms = new MemoryStream())
-        //    {
-        //        int read;
-        //        while ((read = fileStream.Read(buffer, 0, buffer.Length)) > 0)
-        //        {
-        //            ms.Write(buffer, 0, read);
-        //        }
-        //        bytesToBeDecrypted = ms.ToArray();
-        //    }
-
-        //    using (MemoryStream ms = new MemoryStream())
-        //    {
-        //        using (RijndaelManaged AES = new RijndaelManaged())
-        //        {
-        //            AES.KeySize = 256;
-        //            AES.BlockSize = 128;
-
-        //            var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
-        //            AES.Key = key.GetBytes(AES.KeySize / 8);
-        //            AES.IV = key.GetBytes(AES.BlockSize / 8);
-
-        //            AES.Mode = CipherMode.CBC;
-
-        //            using (var cs = new CryptoStream(ms, AES.CreateDecryptor(), CryptoStreamMode.Write))
-        //            {
-        //                cs.Write(bytesToBeDecrypted, 0, bytesToBeDecrypted.Length);
-        //                cs.Close();
-        //            }
-        //            return new FileStreamResult(ms, "image/jpg");
-        //        }
-        //    }
-
-        //}
-
         public static void EncryptFile(HttpPostedFileBase file, string path)
         {
             if (file != null && path != "")
@@ -299,7 +210,36 @@ namespace ArchiveProject2019.Security
             }
         }
 
-        public static void DecryptFile(string path)
+        public static byte[] DecryptFile(string path)
+        {
+            byte[] bytesDecrypted = null;
+            if (path != "")
+            {
+                byte[] bytesToBeDecrypted = null;
+                var file = new FileStream(path, FileMode.Open, FileAccess.Read);
+
+                using (Stream inputStream = file)
+                {
+                    MemoryStream memoryStream = inputStream as MemoryStream;
+                    if (memoryStream == null)
+                    {
+                        memoryStream = new MemoryStream();
+                        inputStream.CopyTo(memoryStream);
+                    }
+                    bytesToBeDecrypted = memoryStream.ToArray();
+                }
+
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
+
+                bytesDecrypted = AES_Decrypt(bytesToBeDecrypted, passwordBytes);
+
+                //File.WriteAllBytes(path, bytesDecrypted);
+            }
+                return bytesDecrypted;
+        }
+
+        public static void DecryptFileInSaveFile(string path)
         {
             if (path != "")
             {
@@ -325,6 +265,7 @@ namespace ArchiveProject2019.Security
                 File.WriteAllBytes(path, bytesDecrypted);
             }
         }
+
         /*
         * Encrypting File End
         */
