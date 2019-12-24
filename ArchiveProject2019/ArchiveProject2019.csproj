@@ -52,36 +52,6 @@
     <Reference Include="DotNetZip, Version=1.13.4.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.13.4\lib\net40\DotNetZip.dll</HintPath>
     </Reference>
-    <Reference Include="Dynamsoft.BarcodeGenerator, Version=8.0.0.510, Culture=neutral, PublicKeyToken=298ad97013b423eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.BarcodeGenerator.dll</HintPath>
-    </Reference>
-    <Reference Include="Dynamsoft.BarcodeReader, Version=6.1.0.514, Culture=neutral, PublicKeyToken=ad0967c36e09320a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.BarcodeReader.dll</HintPath>
-    </Reference>
-    <Reference Include="Dynamsoft.Camera, Version=8.0.0.510, Culture=neutral, PublicKeyToken=298ad97013b423eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.Camera.dll</HintPath>
-    </Reference>
-    <Reference Include="Dynamsoft.Forms.Viewer, Version=8.0.0.510, Culture=neutral, PublicKeyToken=298ad97013b423eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.Forms.Viewer.dll</HintPath>
-    </Reference>
-    <Reference Include="Dynamsoft.ImageCore, Version=8.0.0.510, Culture=neutral, PublicKeyToken=298ad97013b423eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.ImageCore.dll</HintPath>
-    </Reference>
-    <Reference Include="Dynamsoft.OCR, Version=8.0.0.510, Culture=neutral, PublicKeyToken=298ad97013b423eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.OCR.dll</HintPath>
-    </Reference>
-    <Reference Include="Dynamsoft.PDF, Version=8.0.0.510, Culture=neutral, PublicKeyToken=298ad97013b423eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.PDF.dll</HintPath>
-    </Reference>
-    <Reference Include="Dynamsoft.Twain, Version=8.0.0.510, Culture=neutral, PublicKeyToken=298ad97013b423eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.Twain.dll</HintPath>
-    </Reference>
-    <Reference Include="Dynamsoft.WPF.Viewer, Version=8.0.0.510, Culture=neutral, PublicKeyToken=298ad97013b423eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dynamsoft.DotNet.TWAIN.8.0.0\lib\net40\Dynamsoft.WPF.Viewer.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\TwainDotNet.1.0.0\lib\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
@@ -156,15 +126,6 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="TwainDotNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3cd6e1539fa8c71, processorArchitecture=x86">
-      <HintPath>..\packages\TwainDotNet.1.0.0\lib\TwainDotNet.dll</HintPath>
-    </Reference>
-    <Reference Include="TwainDotNet.WinFroms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3cd6e1539fa8c71, processorArchitecture=x86">
-      <HintPath>..\packages\TwainDotNet.1.0.0\lib\TwainDotNet.WinFroms.dll</HintPath>
-    </Reference>
-    <Reference Include="TwainDotNet.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d3cd6e1539fa8c71, processorArchitecture=x86">
-      <HintPath>..\packages\TwainDotNet.1.0.0\lib\TwainDotNet.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
