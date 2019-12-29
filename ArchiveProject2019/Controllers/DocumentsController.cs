@@ -752,7 +752,7 @@ namespace ArchiveProject2019.Controllers
                     _context.RelatedDocuments.Add(relateDoc);
                     _context.SaveChanges();
 
-                    return RedirectToAction("GetRelatedDocument", new { Id = viewModel.Document.Id, msg = "CreateSuccess" });
+                    return RedirectToAction("GetRelatedDocument", new { Id = parentDocId, msg = "CreateSuccess" });
 
                 }
 
@@ -769,7 +769,7 @@ namespace ArchiveProject2019.Controllers
                     _context.ReplayDocuments.Add(relateDoc);
                     _context.SaveChanges();
 
-                    return RedirectToAction("GetReplayDocument", new { Id = viewModel.Document.Id, msg = "CreateSuccess" });
+                    return RedirectToAction("GetReplayDocument", new { Id = parentDocId, msg = "CreateSuccess" });
 
                 }
                 return RedirectToAction("Index", new { id = viewModel.Document.Id });
