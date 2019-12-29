@@ -48,37 +48,7 @@ namespace ArchiveProject2019.HelperClasses
 
                 
 
-               if (userRoleName.Equals("Master"))
-                {
-
-                    ApplicationUser user = db.Users.Find(CurrentUserId);
-                    if (user.LockoutEnabled == true)
-                    {
-
-                        filterContext.Result = new RedirectResult("~/ErrorController/AccountLockout");
-
-
-                    }
-                    else
-                    {
-
-                        List<int> NonActiveUserPermissions = db.PermissionUsers.Where(a => a.UserId.Equals(CurrentUserId) && a.Is_Active == false).Select(a => a.PermissionId).ToList();
-                        List<string> PermissionsAction = db.Permissions.Where(a => NonActiveUserPermissions.Contains(a.Id)).Select(a => a.Action).ToList();
-
-                        if (PermissionsAction.Contains(ActionName))
-                        {
-
-                            filterContext.Result = new RedirectResult("~/ErrorController/AccessDenied");
-                        }
-
-
-                    }
-                }
-
-
-                else
-                {
-
+            
                     //Lock Account
                     ApplicationUser user = db.Users.Find(CurrentUserId);
                     if (user.LockoutEnabled == true)
@@ -110,7 +80,7 @@ namespace ArchiveProject2019.HelperClasses
 
                 }
 
-            }
+            
 
 
 

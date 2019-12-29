@@ -163,16 +163,16 @@
                 </td>
                 <td>
 
-                    <button data-form-id="@item.Id" title="تعديل المسمى الوظيفي" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
+                    <button data-form-id="@item.Id" title="تعديل المسمى الوظيفي" class="js-Edit  btn-xs btn-success "><span class="glyphicon glyphicon-edit"></span></button>
+
+
+                    <button data-form-id="@item.Id" title="تفاصيل المسمى الوظيفي" class="btn-default js-Details  btn-xs  glyphicon glyphicon-book"></button>
 
                     @if (CheckDelete.CheckJobTitleDelete(item.Id) == true)
                     {
-                        <button data-form-id="@item.Id" title=" حذف المسمى المحدد " class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                        <button data-form-id="@item.Id" title=" حذف المسمى المحدد " class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
 
                     }
-                    <button data-form-id="@item.Id" title="تفاصيل المسمى الوظيفي" class="btn-link js-Details  btn-xs  glyphicon glyphicon-book"></button>
-
-
                 </td>
             </tr>
         }

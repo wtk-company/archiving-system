@@ -13,8 +13,8 @@ namespace ArchiveProject2019.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage ="يجب إدخال اسم الفورم")]
-        [Display(Name = "اسم فورم الوثيقة")]
-        [StringLength(maximumLength: 50, MinimumLength = 4, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 3")]
+        [Display(Name = "اسم النموذج ")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
 
         public string Name { get; set; }
 

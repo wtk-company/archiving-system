@@ -275,7 +275,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-            //User Permissions:
+            //User Favorite Form:
 
             if(!db.Users.Find(CurrentUserId).RoleName.Equals("Master"))
             {
@@ -283,34 +283,11 @@ namespace ArchiveProject2019.Controllers
 
 
 
-                string userRoleName = db.Users.Find(CurrentUserId).RoleName;
-                string UserRoleId = db.Roles.Where(a => a.Name.Equals(userRoleName)).FirstOrDefault().Id;
+                List<int> FavoriteFormId = db.FavouriteForms.Where(a => a.UserId.Equals(CurrentUserId)).Select(a => a.FormId).ToList(); ;
 
 
-                List<Permission> RolePermissions = db.PermissionRoles.Where(a => a.RoleId.Equals(UserRoleId)).Include(a => a.Permission).Select(a => a.Permission).ToList();
-
-
-                List<PermissionsUser> UserPermissionsList = new List<PermissionsUser>();
-                PermissionsUser puser = null;
-                foreach (Permission p in RolePermissions)
-                {
-                    puser = new PermissionsUser()
-                    {
-                        Permission = p,
-                        Is_Active = db.PermissionUsers.Where(a => a.UserId.Equals(CurrentUserId)).Any(a => a.PermissionId == p.Id) ?
-
-                       db.PermissionUsers.Where(a => a.UserId.Equals(CurrentUserId) && a.PermissionId == p.Id).FirstOrDefault().Is_Active :
-
-                       db.PermissionRoles.Where(a => a.RoleId.Equals(UserRoleId) && a.PermissionId == p.Id).FirstOrDefault().Is_Active
-
-                    };
-                    UserPermissionsList.Add(puser);
-
-                }
-
-
-                info.UserPermissions = new List<PermissionsUser>();
-                info.UserPermissions = UserPermissionsList;
+                info.FavoriteForm = new List<Form>();
+                info.FavoriteForm = db.Forms.Where(a => FavoriteFormId.Contains(a.Id)).ToList();
 
 
             }
@@ -328,7 +305,7 @@ namespace ArchiveProject2019.Controllers
 
                 
                 info.MyGroupsCount = db.UsersGroups.Where(a => a.UserId.Equals(CurrentUserId)).Count();
-                info.LastMyDocumentCreate = db.Departments.Count() != 0 ? db.Departments.OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "";
+                info.LastMyDocumentCreate = db.Documents.Where(a=>a.CreatedById.Equals(CurrentUserId)).Count() != 0 ? db.Documents.Where(a=>a.CreatedById.Equals(CurrentUserId)).OrderByDescending(a => a.CreatedAt).FirstOrDefault().CreatedAt : "0/0/0";
 
                 info.DepartmentsCount = db.Departments.Count();
             }
@@ -337,35 +314,49 @@ namespace ArchiveProject2019.Controllers
             return View(info);
         }
 
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
+
         public ActionResult NotificationsUserCount()
         {
             string CurrentUserId = this.User.Identity.GetUserId();
-            int count = db.Notifications.Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).Count();
+            int count = db.Notifications.Where(a => a.UserId.Equals(CurrentUserId)).Count();
             ViewBag.NotCount = count;
             return PartialView("_NotificationsCount");
         }
 
+        [Authorize]
+
+        [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
 
         public ActionResult NotificationsUserMessage()
         {
             string CurrentUserId = this.User.Identity.GetUserId();
-            List<Notification> Not = db.Notifications.Include(a=>a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).OrderByDescending(a=>a.CreatedAt).Take(5).ToList() ;
+            List<Notification> Not = db.Notifications.Include(a=>a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) ).OrderByDescending(a=>a.CreatedAt).Take(5).ToList() ;
             
             return PartialView("_NotificationsMessage",Not);
         }
+
+        [Authorize]
+
+        [AccessDeniedAuthorizeattribute(ActionName = "NonSeenNotificationList")]
 
         public ActionResult NonSeenNotifications()
         {
             ViewBag.Current = "Notification";
             string CurrentUserId = this.User.Identity.GetUserId();
-            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).OrderByDescending(a => a.CreatedAt).ToList();
+            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId)).OrderByDescending(a => a.CreatedAt).ToList();
 
 
 
             return View(Not);
         }
 
+        [Authorize]
+
         [HttpPost]
+        [AccessDeniedAuthorizeattribute(ActionName = "NonSeenNotificationListPost")]
+
         public ActionResult NonSeenNotifications(List<string> NotificationId)
         {
             ViewBag.Current = "Notification";
@@ -380,8 +371,8 @@ namespace ArchiveProject2019.Controllers
             {
                 int NotId = Convert.ToInt32(Id);
                 Notification not = db.Notifications.Find(NotId);
-                not.Active = true;
-                db.Entry(not).State = EntityState.Modified;
+
+                db.Notifications.Remove(not);
             }
 
             db.SaveChanges();
@@ -395,6 +386,10 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+
+        [Authorize]
+
+        [AccessDeniedAuthorizeattribute(ActionName = "NonSeenNotificationListAllPost")]
         public ActionResult ConvertAllToSeen()
         {
             ViewBag.Current = "Notification";
@@ -405,8 +400,7 @@ namespace ArchiveProject2019.Controllers
             foreach(int n in NotifId)
             {
                 Notification not = db.Notifications.Find(n);
-                not.Active = true;
-                db.Entry(not).State = EntityState.Modified;
+                db.Notifications.Remove(not);
 
             }
             db.SaveChanges();
@@ -417,71 +411,14 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        public ActionResult SeenNotifications()
-        {
-            ViewBag.Current = "Notification";
-            string CurrentUserId = this.User.Identity.GetUserId();
-            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == true).OrderByDescending(a => a.CreatedAt).ToList();
-
-
-
-            return View(Not);
-        }
-
-
-
-        [HttpPost]
-        public ActionResult SeenNotifications(List<string> NotificationId)
-        {
-            ViewBag.Current = "Notification";
-
-            if (NotificationId == null)
-            {
-                return RedirectToAction("SeenNotifications");
-
-            }
-
-            foreach (string Id in NotificationId)
-            {
-                int NotId = Convert.ToInt32(Id);
-                Notification not = db.Notifications.Find(NotId);
-
-                db.Notifications.Remove(not);
-            }
-
-            db.SaveChanges();
-
-            string CurrentUserId = this.User.Identity.GetUserId();
-            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == true).OrderByDescending(a => a.CreatedAt).ToList();
-
-
-
-            return View("SeenNotifications", Not);
-        }
-
-        //
-        public ActionResult DeleteAllSeen()
-        {
-            ViewBag.Current = "Notification";
-            string CurrentUserId = this.User.Identity.GetUserId();
-
-            List<int> NotifId = db.Notifications.
-                Where(a => a.UserId.Equals(CurrentUserId) && a.Active == true).Select(a => a.Id).ToList();
-            foreach (int n in NotifId)
-            {
-                Notification not = db.Notifications.Find(n);
-                db.Notifications.Remove(not);
-
-            }
-            db.SaveChanges();
-
-            return RedirectToAction("SeenNotifications");
-
-        }
 
 
 
 
+
+        [Authorize]
+
+        [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
         public ActionResult DocumentNotificationsUserCount()
         {
 
@@ -494,6 +431,10 @@ namespace ArchiveProject2019.Controllers
             return PartialView("_DocumentNotificationCount");
         }
 
+
+        [Authorize]
+
+        [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
 
         public ActionResult DocumentsNotificationUserMessage()
         {
@@ -530,11 +471,28 @@ namespace ArchiveProject2019.Controllers
             
             return PartialView("_DocumentsNotificationMessage", NotificationList.ToList());
         }
+
+
+
+
+
         [NonAction]
+
+
         public bool EqualDate(string s1, DateTime s2)
         {
+            try
+            {
+
+
             s1 = s1.Replace("-", "/");
             return DateTime.ParseExact(s1, "yyyy/MM/dd", null) == s2;
+            }
+            catch(Exception e)
+            {
+                return false;
+
+            }
 
         }
 

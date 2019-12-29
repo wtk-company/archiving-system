@@ -14,11 +14,11 @@ namespace ArchiveProject2019.Models
 
         [Required(ErrorMessage = "يجب إدخال اسم المجموعة")]
         [Display(Name = "اسم المجموعة")]
-        [StringLength(maximumLength: 50, MinimumLength = 2, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
 
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "يجب إدخال الوصف")]
+     //   [Required(ErrorMessage = "يجب إدخال الوصف")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "طول الوصف يجب أن يكون على الأقل 3 محارف")]
 
         [Display(Name = "الوصف")]

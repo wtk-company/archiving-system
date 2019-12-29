@@ -14,6 +14,10 @@ namespace ArchiveProject2019.Controllers
     {
         // GET: Informatiom
         ApplicationDbContext db = new ApplicationDbContext();
+
+
+        [AccessDeniedAuthorizeattribute(ActionName = "InformationUserGroups")]
+
         public ActionResult UserGroups()
         {
             ViewBag.Current = "Information";
@@ -28,39 +32,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        public ActionResult UserPermissions()
-        {
-            ViewBag.Current = "Information";
-
-            string CurrentUserId = this.User.Identity.GetUserId();
-
-            string userRoleName = db.Users.Find(CurrentUserId).RoleName;
-            string UserRoleId = db.Roles.Where(a => a.Name.Equals(userRoleName)).FirstOrDefault().Id;
-
-
-            List<Permission> RolePermissions = db.PermissionRoles.Where(a => a.RoleId.Equals(UserRoleId)).Include(a => a.Permission).Select(a => a.Permission).ToList();
-
-
-            List<PermissionsUser> UserPermissionsList = new List<PermissionsUser>();
-            PermissionsUser puser = null;
-            foreach (Permission p in RolePermissions)
-            {
-                puser = new PermissionsUser()
-                {
-                    Permission = p,
-                    Is_Active = db.PermissionUsers.Where(a => a.UserId.Equals(CurrentUserId)).Any(a => a.PermissionId == p.Id) ?
-
-                   db.PermissionUsers.Where(a => a.UserId.Equals(CurrentUserId) && a.PermissionId == p.Id).FirstOrDefault().Is_Active :
-
-                   db.PermissionRoles.Where(a => a.RoleId.Equals(UserRoleId) && a.PermissionId == p.Id).FirstOrDefault().Is_Active
-
-                };
-                UserPermissionsList.Add(puser);
-
-            }
-
-            return View(UserPermissionsList);
-        }
+        [AccessDeniedAuthorizeattribute(ActionName = "InformationUserForms")]
 
         public ActionResult UserForms()
         {
@@ -74,6 +46,9 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+
+
+        [AccessDeniedAuthorizeattribute(ActionName = "InformationUserAddFavoriteForms")]
 
         public ActionResult Add(int? id)
         {
@@ -101,6 +76,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ActionName("Add")]
+        [AccessDeniedAuthorizeattribute(ActionName = "InformationUserAddFavoriteForms")]
+
         public ActionResult AddConfirm (int id)
         {
             ViewBag.Current = "Information";
@@ -118,6 +95,8 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("UserForms");
         }
 
+
+        [AccessDeniedAuthorizeattribute(ActionName = "InformationUserDeleteFavoriteForms")]
 
         public ActionResult Remove(int? id)
         {
@@ -145,6 +124,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ActionName("Remove")]
+        [AccessDeniedAuthorizeattribute(ActionName = "InformationUserDeleteFavoriteForms")]
+
         public ActionResult RemoveConfirm(int id)
         {
             ViewBag.Current = "Information";

@@ -22,7 +22,7 @@ namespace ArchiveProject2019.Models
 
         public int FormId { set; get; }
         [ForeignKey("FormId")]
-        public Form Form { set; get; }
+        public virtual Form Form { set; get; }
 
 
 

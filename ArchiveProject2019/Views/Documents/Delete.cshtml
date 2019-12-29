@@ -8,103 +8,78 @@
 
 
 
-<div>
-   
-    <dl class="dl-horizontal">
+    <div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Subject)
-        </dt>
+        <dl class="dl-horizontal">
 
-        <dd>
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FormId)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.DocumentNumber)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Form.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DocumentNumber)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Subject)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Kind)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Subject)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Kind)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TypeOfMail)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TypeOfMail)
-        </dd>
 
-        @if (Model.TypeOfMail == "وارد")
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DepartmentId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Department.Name)
+            </dd>
+
+
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedAt)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedById)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy.UserName)
+            </dd>
+
+
+
+
+
+
+        </dl>
+
+        @using (Html.BeginForm())
         {
-            <dt>
-                @Html.DisplayNameFor(model => model.MailingNumber)
-            </dt>
+            @Html.AntiForgeryToken()
 
-            <dd>
-                @Html.DisplayFor(model => model.MailingNumber)
-            </dd>
+            <div class="modal-footer justify-content-center" style="margin-top:50px">
+                <input title="حذف الوثيقة المحددة" type="submit" value="حذف الوثيقة" class="btn btn-danger" />
 
-            <dt>
-                @Html.DisplayNameFor(model => model.MailingDate)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.MailingDate)
-            </dd>
+                <button title="إغلاق النافذة" type="button" class="btn btn-warning" data-dismiss="modal">إغلاق</button>
+            </div>
         }
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Party)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Party)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedById)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedBy.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DepartmentId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Department.Name)
-        </dd>
-      
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-
-      
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="حذف وثيقة" class="btn btn-danger" /> 
-          
-        </div>
-    }
-</div>
+    </div>

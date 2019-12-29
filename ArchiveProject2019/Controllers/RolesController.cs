@@ -329,7 +329,7 @@ namespace ArchiveProject2019.Controllers
         }
 
         [Authorize]
-       // [AccessDeniedAuthorizeattribute(ActionName = "RolesDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "RolesDetails")]
         public ActionResult Details(string id)
         {
             ViewBag.Current = "Roles";

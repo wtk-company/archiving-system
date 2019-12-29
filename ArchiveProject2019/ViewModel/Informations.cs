@@ -203,7 +203,7 @@ namespace ArchiveProject2019.ViewModel
 
         //Permissions:
 
-        public List<PermissionsUser> UserPermissions { set; get; }
+        public List<Form> FavoriteForm { set; get; }
 
 
 

@@ -1,4 +1,5 @@
 ﻿
+using ArchiveProject2019.HelperClasses;
 using ArchiveProject2019.Models;
 using Ionic.Zip;
 using System;
@@ -16,6 +17,9 @@ namespace ArchiveProject2019.Controllers
     public class BackupRestoreController : Controller
     {
         // GET: BackupRestore
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "BackupRestoreIndex")]
+
         public ViewResult Index(string Id="none")
         {
             ViewBag.Current = "Backup";
@@ -34,6 +38,10 @@ namespace ArchiveProject2019.Controllers
             //return "OK";
             return View();
         }
+
+        [Authorize]
+
+        [AccessDeniedAuthorizeattribute(ActionName = "BackupRestoreDownloadDB")]
 
         public ActionResult DownloadDbBackUp()
 
@@ -75,7 +83,11 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+        [Authorize]
         [HttpPost]
+
+        [AccessDeniedAuthorizeattribute(ActionName = "BackupRestoreRestoreDB")]
+
         public ActionResult UploadBackupDb(HttpPostedFileBase BackupFile)
         {
 
@@ -121,7 +133,7 @@ namespace ArchiveProject2019.Controllers
                 string backup = Server.MapPath("~/Uploads/") + BackupFile.FileName;
                 string Q1 = "ALTER DATABASE archive_db SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
                 String query = "restore database " + "archive_db" + "  from disk='" + backup + "' WITH REPLACE";
-                //  String mycon = "Data Source=DESKTOP-B3DK4HG; Initial Catalog=master; Integrated Security=true";
+                //String mycon = "Data Source=DESKTOP-B3DK4HG; Initial Catalog=master; Integrated Security=true";
                 String mycon = ConfigurationManager.ConnectionStrings["BackupConnection"].ConnectionString;
 
             //    SqlConnection con = new SqlConnection(mycon);
@@ -221,6 +233,10 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+        [Authorize]
+
+
+        [AccessDeniedAuthorizeattribute(ActionName = "BackupRestoreDownloadFiles")]
 
 
         public ActionResult BackUpFiles()
@@ -268,9 +284,12 @@ namespace ArchiveProject2019.Controllers
 
 
 
+        [Authorize]
 
 
         [HttpPost]
+        [AccessDeniedAuthorizeattribute(ActionName = "BackupRestoreRestoreFiles")]
+
         public ActionResult UploadArchiveFiles(HttpPostedFileBase BackupFile)
         {
 

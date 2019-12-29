@@ -279,7 +279,7 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-    //    [AccessDeniedAuthorizeattribute(ActionName = "FormsDelete")]
+       [AccessDeniedAuthorizeattribute(ActionName = "FormsDetails")]
         public ActionResult Details(int? id)
         {
 

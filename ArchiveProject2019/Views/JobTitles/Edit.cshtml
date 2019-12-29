@@ -12,6 +12,9 @@
 
     @Html.Hidden("OldName", (string)ViewBag.OldName)
     @Html.HiddenFor(a => a.Id)
+    @Html.HiddenFor(a => a.CreatedAt)
+    @Html.HiddenFor(a => a.CreatedById)
+
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

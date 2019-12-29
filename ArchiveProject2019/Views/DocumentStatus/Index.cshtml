@@ -136,19 +136,19 @@
                
                 <td>
 
-                    <button data-mail-id="@item.Id" title=" تفاصيل حالة معينة" class="js-Details  btn-xs btn-link "><span class="glyphicon glyphicon-book"></span></button>
+                    <button data-mail-id="@item.Id" title=" تفاصيل حالة معينة" class="js-Details  btn-xs btn-default "><span class="glyphicon glyphicon-book"></span></button>
 
                     @if (CheckDelete.CheckDocumentStatusEdit(item.Id))
                     {
 
-                        <button data-mail-id="@item.Id" title=" تعديل حالة معينة" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
+                        <button data-mail-id="@item.Id" title=" تعديل حالة معينة" class="js-Edit  btn-xs btn-success "><span class="glyphicon glyphicon-edit"></span></button>
 
                     }
 
                     @if (CheckDelete.CheckDocumentStatusDelete(item.Id))
                     {
 
-                        <button data-mail-id="@item.Id" title="حذف حالة معينة" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                        <button data-mail-id="@item.Id" title="حذف حالة معينة" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                     }
 
                 </td>

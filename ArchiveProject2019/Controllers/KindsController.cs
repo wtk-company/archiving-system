@@ -40,7 +40,7 @@ namespace ArchiveProject2019.Controllers
 
             ViewBag.Current = "Kind";
             var DocKinds = _context.Kinds.Include(a=>a.CreatedBy).Include(a=>a.UpdatedBy).ToList();
-            return View(DocKinds.OrderByDescending(a=>a.CreatedAt).ToList());
+            return View(DocKinds.OrderBy(a=>a.CreatedAt).ToList());
         }
 
         [Authorize]
@@ -258,7 +258,7 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-     //   [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDetails")]
 
         public ActionResult Details(int? id)
         {

@@ -14,6 +14,7 @@ namespace ArchiveProject2019.Models
 
         public int RelatedDocId { get; set; }
 
+     
 
         [Display(Name = " أنشأ بواسطة ")]
         public string CreatedById { set; get; }

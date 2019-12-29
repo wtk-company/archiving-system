@@ -40,7 +40,39 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Type)
+            @switch (Model.Type)
+            {
+
+
+
+
+                case "float":
+                    @:حقل رقمي
+
+                    break;
+
+
+                case "date":
+                    @:تاريخ
+
+                    break;
+
+                case "text":
+                    @:حقل نصي
+
+                    break;
+                case "phone":
+                    @:رقم هاتف
+
+                    break;
+                case "email":
+                    @:بريد ألكتروني
+
+                    break;
+
+
+            }
+
         </dd>
 
 

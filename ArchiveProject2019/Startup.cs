@@ -51,7 +51,7 @@ namespace ArchiveProject2019
 
                 PermissionRole prole;
                 //Add All Permission to Super Admin
-                IEnumerable<Permission> Permissions = db.Permissions;
+                IEnumerable<Permission> Permissions = db.Permissions.Where(a=>a.TypeMaster==true);
                 foreach (Permission myPermission in Permissions)
                 {
 
@@ -87,7 +87,8 @@ namespace ArchiveProject2019
                 //Add Permission To DB:
                 if(!PermissionsDb.Any(a=>a.Action.Equals(myPermission.ActionName,StringComparison.OrdinalIgnoreCase)))
                 {
-                    per = new Permission() { Name=myPermission.Name,Action=myPermission.ActionName};
+                    per = new Permission() { Name=myPermission.Name,Action=myPermission.ActionName,TypeUser=myPermission.Type,
+                    TypeMaster=myPermission.TypeMaster};
 
                     db.Permissions.Add(per);
 

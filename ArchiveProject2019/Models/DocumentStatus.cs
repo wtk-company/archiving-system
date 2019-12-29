@@ -16,7 +16,7 @@ namespace ArchiveProject2019.Models
         [Required(ErrorMessage = "يجب إدخال نوع الوثيقة")]
         [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
 
-        [Display(Name = "نوع الوثيقة")]
+        [Display(Name = "الاسم")]
         public string Name { get; set; }
 
 

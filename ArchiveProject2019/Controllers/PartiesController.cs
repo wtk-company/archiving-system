@@ -196,6 +196,13 @@ namespace ArchiveProject2019.Controllers
 
             }
 
+            if (CheckDelete.CheckPartydelete(party.Id) == false)
+            {
+                return RedirectToAction("Index", new { Id = "DeleteError" });
+
+
+            }
+
             return View(party);
         }
 
@@ -238,7 +245,7 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-      //  [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
+      [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDetails")]
 
         public ActionResult Details(int? id)
         {

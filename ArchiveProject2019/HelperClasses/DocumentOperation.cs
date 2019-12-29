@@ -8,6 +8,106 @@ namespace ArchiveProject2019.HelperClasses
 {
     public class DocumentOperation
     {
+
+
+
+        public static bool DocumentHasChild( int DocumentId)
+        {
+
+
+            ApplicationDbContext db = new ApplicationDbContext();
+
+
+            if (db.RelatedDocuments.Any(a => a.Document_id == DocumentId))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public static bool DocumentHasParent(int DocumentId)
+        {
+
+
+            ApplicationDbContext db = new ApplicationDbContext();
+
+
+            if (db.RelatedDocuments.Any(a => a.RelatedDocId == DocumentId))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        public static bool DocumentRemoveChild(string UID,int DocumentId)
+        {
+
+
+            if (DocumentCanRelate(UID, DocumentId) == false)
+                return false;
+
+            if (DocumentHasChild(DocumentId) == false)
+            {
+                return false;
+            }
+
+
+
+            return true;
+        }
+
+
+        public static bool DocumentRemoveParent(string UID,int DocumentId)
+        {
+
+            if (DocumentCanRelate(UID, DocumentId) == false)
+            {
+
+                return false;
+            }
+
+            if(DocumentHasParent(DocumentId)==false)
+            {
+                return false;
+            }
+
+           
+
+            return true;
+        }
+
+
+
+        public static bool DocumentCanDelete(string UserId, int DocumentId)
+        {
+
+            //Create || Response:
+            ApplicationDbContext db = new ApplicationDbContext();
+            if (!db.Documents.Find(DocumentId).ResponsibleUserId.Equals(UserId))
+            {
+                return false;
+            }
+
+            //Related Documents:
+
+            if(db.RelatedDocuments.Any(a=>a.Document_id==DocumentId))
+            {
+                return false;
+            }
+
+            if (db.ReplayDocuments.Any(a => a.Document_id == DocumentId))
+            {
+                return false;
+            }
+
+
+
+            return true;
+        }
         public static bool DocumentCanEdit(string UserId,int DocumentId)
         {
 

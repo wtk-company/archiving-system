@@ -16,11 +16,42 @@ namespace ArchiveProject2019.HelperClasses
 
             ApplicationDbContext db = new ApplicationDbContext();
 
-            IEnumerable<int> MyDoc = db.Documents.Where(a => a.CreatedById.Equals(UserID)).Select(a=>a.Id);
+            IEnumerable<int> MyDoc = db.Documents.Where(a => a.CreatedById.Equals(UserID)||a.ResponsibleUserId.Equals(UserID)).Select(a=>a.Id);
             return MyDoc;
 
         }
 
+
+        public static IEnumerable<int> UserNotificationTodayDocument(string UserID)
+        {
+
+
+           
+            ApplicationDbContext db = new ApplicationDbContext();
+            DateTime TodayDate = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd").Replace("-", "/"), "yyyy/MM/dd", null);
+
+            IEnumerable<Document> MyDoc = db.Documents.Where(a => a.NotificationUserId.Equals(UserID) && a.NotificationDate != null).ToList();
+            MyDoc = MyDoc.Where(a => EqualDate(a.NotificationDate, TodayDate)).OrderByDescending(a => a.NotificationDate);
+            List<int> DocIds = MyDoc.Select(a => a.Id).ToList();
+
+            return DocIds;
+
+        }
+
+
+
+
+
+
+        public static IEnumerable<int> UserMyDepartmentDocument(string UserID)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            int _DepId = db.Users.Find(UserID).DepartmentId.HasValue ? db.Users.Find(UserID).DepartmentId.Value : -1;
+            IEnumerable<int> myDoc = db.Documents.Where(a => a.DepartmentId == _DepId).Select(a => a.Id);
+            return myDoc;
+
+        }
 
         public static IEnumerable<int>UserDepartmentDocument(string UserID)
         {
@@ -64,8 +95,8 @@ namespace ArchiveProject2019.HelperClasses
             IEnumerable<int> Doc2 = UserDepartmentDocument(UserId);
             IEnumerable<int> Doc3 = UserDocumentGroups(UserId);
             IEnumerable<int> Doc4 = UserDeocumentNotification(UserId);
-
-            IEnumerable<int> AllDoc = Doc1.Union(Doc2).Union(Doc3).Union(Doc4);
+            IEnumerable<int> Doc5 = UserMyDepartmentDocument(UserId);
+            IEnumerable<int> AllDoc = Doc1.Union(Doc2).Union(Doc3).Union(Doc4).Union(Doc5);
             return AllDoc;
 
 
@@ -130,5 +161,23 @@ namespace ArchiveProject2019.HelperClasses
 
         }
 
+
+
+        public static bool EqualDate(string s1, DateTime s2)
+        {
+            try
+            {
+
+
+                s1 = s1.Replace("-", "/");
+                return DateTime.ParseExact(s1, "yyyy/MM/dd", null) == s2;
+            }
+            catch (Exception e)
+            {
+                return false;
+
+            }
+
+        }
     }
 }

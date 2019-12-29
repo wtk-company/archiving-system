@@ -42,33 +42,41 @@
         </dt>
 
         <dd>
-            @switch (Model.Type)
-            {
-
-                case "bool":
-                    @Html.Display("حقل منطقي")
-
-                    break;
+            
+                @switch (Model.Type)
+                {
 
 
-                case "float":
-                    @Html.Display("حقل رقمي")
-
-                    break;
 
 
-                case "date":
-                    @Html.Display("تاريخ")
+                    case "float":
+                        @:حقل رقمي
 
-                    break;
-
-                case "text":
-                    @Html.Display("حقل نصي")
-
-                    break;
+                        break;
 
 
-            }
+                    case "date":
+                        @:تاريخ
+
+                        break;
+
+                    case "text":
+                        @:حقل نصي
+
+                        break;
+                    case "phone":
+                        @:رقم هاتف
+
+                        break;
+                    case "email":
+                        @:بريد ألكتروني
+
+                        break;
+
+
+                }
+           
+
         </dd>
 
         <dt>

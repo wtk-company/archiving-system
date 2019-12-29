@@ -72,7 +72,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        // GET: Fields/Details/5
+      
 
 
         [Authorize]

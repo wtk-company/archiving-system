@@ -96,7 +96,7 @@ namespace ArchiveProject2019.Controllers
             List<int> Role_Permission = db.PermissionRoles.Where(a => a.RoleId.Equals(r)).ToList().Select(a => a.PermissionId).ToList();
 
             //All permission Expect current role Permission:
-            List<int> NPermission = db.Permissions.Select(a => a.Id).ToList().Except(Role_Permission).ToList();
+            List<int> NPermission = db.Permissions.Where(a=>a.TypeUser==true).Select(a => a.Id).ToList().Except(Role_Permission).ToList();
             ViewBag.RoleId = Session["Role_Id"];
 
             //Permissions:

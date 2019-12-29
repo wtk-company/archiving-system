@@ -34,8 +34,8 @@
                 </div>
 
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-newspaper-o"></i> @Html.DisplayNameFor(a => Model.MyTotalDocument)</span>
-                    <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.MyTotalDocument)</div>
+                    <span class="count_top"><i class="fa  fa-clone"></i> @Html.DisplayNameFor(a => Model.TotalFormsCount)</span>
+                    <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.TotalFormsCount)</div>
                 </div>
 
                 <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
@@ -67,15 +67,7 @@
                         <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.LastMyDocumentCreate)</div>
 
                     </div>
-                    @*<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                        <span class="count_top"><i class="fa fa-newspaper-o"></i> @Html.DisplayNameFor(a => Model.TotalDocumentCount)</span>
-                        <div style="text-align:center" class="count green">@Html.DisplayFor(a => Model.TotalDocumentCount)</div>
-
-                    </div>
-                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                        <span class="count_top"><i class="fa fa-newspaper-o"></i> @Html.DisplayNameFor(a => Model.MyTotalDocument)</span>
-                        <div style="text-align:center" class="count green">@Html.DisplayFor(a => Model.MyTotalDocument)</div>
-                    </div>*@
+              
                 </div>
             }
         </div>
@@ -98,7 +90,7 @@
                             <b>
 
 
-                                صلاحياتي
+                               نماذجي المفضلة
                             </b>
 
                         </h2>
@@ -122,9 +114,9 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>@Html.DisplayNameFor(a => Model.UserPermissions.FirstOrDefault().Permission.Name)</th>
+                                        <th>@Html.DisplayNameFor(a => Model.FavoriteForm.FirstOrDefault().Name)</th>
 
-                                        <th>@Html.DisplayNameFor(a => Model.UserPermissions.FirstOrDefault().Is_Active)</th>
+                                      
 
                                     </tr>
                                 </thead>
@@ -133,12 +125,12 @@
                                     @{
                                         int ii = 1;
                                     }
-                                    @foreach (var v in Model.UserPermissions)
+                                    @foreach (var v in Model.FavoriteForm)
                                     {
                                         <tr>
                                             <td>@ii</td>
-                                            <td>@v.Permission.Name</td>
-                                            <td>@Html.DisplayFor(a => v.Is_Active)</td>
+                                            <td>@v.Name</td>
+                                         
 
                                         </tr>
                                         ii++;
@@ -342,136 +334,156 @@
                 </div>
                 <div class="x_content jumbotron">
 
-                    <div class="container-fluid bg-grey" style="padding: 30px;">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                @{
-                                    var base64 = Convert.ToBase64String(Model.Company.Logo);
-                                    var filesrc = String.Format("data:image/gif;base64,{0}", base64);
+                    @if (Model.Company.Name != null)
+                    {
+                        <h5 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.Name):
+                                @Html.DisplayFor(a => Model.Company.Name)
 
-                                    <img src='@filesrc' class="thumbnail" style="border-radius: 30px; width: 300px; height: 300px;">
-                                }
-                                @if (Model.Company.Name != null)
-                                {
-                                    <h4 style="padding: 10px;">
-                                        <strong>
-                                        <i class="glyphicon glyphicon-chevron-left"></i>
-                                        @Html.DisplayNameFor(a => Model.Company.Name):
-                                        @Html.DisplayFor(a => Model.Company.Name)
+                            </strong>
+                        </h5>
+                    }
+                    @if (Model.Company.Address != null)
+                    {
+                        <h4 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.Address):
+                                @Html.DisplayFor(a => Model.Company.Address)
 
-                                        </strong>
-                                    </h4>
-                                }
-                                @if (Model.Company.Address != null)
-                                {
-                                    <h4 style="padding: 10px;">
-                                        <strong>
-                                        <i class="glyphicon glyphicon-chevron-left"></i>
-                                        @Html.DisplayNameFor(a => Model.Company.Address):
-                                        @Html.DisplayFor(a => Model.Company.Address)
-
-                                        </strong>
-                                    </h4>
-                                }
+                            </strong>
+                        </h4>
+                    }
 
 
-                                @if (Model.Company.Mail != null)
-                                {
-                                    <h4 style="padding: 10px;">
-                                        <strong>
-                                        <i class="glyphicon glyphicon-chevron-left"></i>
-                                        @Html.DisplayNameFor(a => Model.Company.Mail):
-                                        @Html.DisplayFor(a => Model.Company.Mail)
+                    @if (Model.Company.Mail != null)
+                    {
+                        <h4 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.Mail):
+                                @Html.DisplayFor(a => Model.Company.Mail)
 
-                                        </strong>
-                                    </h4>
-                                }
+                            </strong>
+                        </h4>
+                    }
 
-                                @if (Model.Company.PhoneNumber1 != null)
-                                {
-                                    <h4 style="padding: 10px;">
-                                        <strong>
-                                        <i class="glyphicon glyphicon-chevron-left"></i>
-                                        @Html.DisplayNameFor(a => Model.Company.MobileNumber1):
-                                        @Html.DisplayFor(a => Model.Company.MobileNumber1)
+                    @if (Model.Company.PhoneNumber1 != null)
+                    {
+                        <h4 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.MobileNumber1):
+                                @Html.DisplayFor(a => Model.Company.MobileNumber1)
 
-                                        </strong>
-                                    </h4>
-                                }
+                            </strong>
+                        </h4>
+                    }
 
-                                @if (Model.Company.MobileNumber2 != null)
-                                {
-                                    <h4 style="padding: 10px;">
-                                        <strong>
-                                        <i class="glyphicon glyphicon-chevron-left"></i>
-                                        @Html.DisplayNameFor(a => Model.Company.MobileNumber2):
-                                        @Html.DisplayFor(a => Model.Company.MobileNumber2)
+                    @if (Model.Company.MobileNumber2 != null)
+                    {
+                        <h4 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.MobileNumber2):
+                                @Html.DisplayFor(a => Model.Company.MobileNumber2)
 
-                                        </strong>
-                                    </h4>
-                                }
+                            </strong>
+                        </h4>
+                    }
 
 
-                                @if (Model.Company.PhoneNumber1 != null)
-                                {
-                                    <h4 style="padding: 10px;">
-                                        <strong>
-                                        <i class="glyphicon glyphicon-chevron-left"></i>
-                                        @Html.DisplayNameFor(a => Model.Company.PhoneNumber1):
-                                        @Html.DisplayFor(a => Model.Company.PhoneNumber1)
+                    @if (Model.Company.PhoneNumber1 != null)
+                    {
+                        <h5 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.PhoneNumber1):
+                                @Html.DisplayFor(a => Model.Company.PhoneNumber1)
 
-                                        </strong>
-                                    </h4>
-                                }
+                            </strong>
+                        </h5>
+                    }
 
-                                @if (Model.Company.PhoneNumber2 != null)
-                                {
-                                    <h4 style="padding: 10px;">
-                                        <strong>
-                                        <i class="glyphicon glyphicon-chevron-left"></i>
-                                        @Html.DisplayNameFor(a => Model.Company.PhoneNumber2):
-                                        @Html.DisplayFor(a => Model.Company.PhoneNumber2)
+                    @if (Model.Company.PhoneNumber2 != null)
+                    {
+                        <h5 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.PhoneNumber2):
+                                @Html.DisplayFor(a => Model.Company.PhoneNumber2)
 
-                                        </strong>
-                                    </h4>
-                                }
+                            </strong>
+                        </h5>
+                    }
 
-                                @if (Model.Company.CompanyDate != null)
-                                {
-                                    <h4 style="padding: 10px;">
-                                        <strong>
-                                            <i class="glyphicon glyphicon-chevron-left"></i>
-                                            @Html.DisplayNameFor(a => Model.Company.CompanyDate):
-                                            @Html.DisplayFor(a => Model.Company.CompanyDate)
+                    @if (Model.Company.CompanyDate != null)
+                    {
+                        <h5 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.CompanyDate):
+                                @Html.DisplayFor(a => Model.Company.CompanyDate)
 
-                                        </strong>
-                                    </h4>
-                                }
+                            </strong>
+                        </h5>
+                    }
 
-                                @if (Model.Company.CreatedAt != null)
-                                {
-                                    <h4 style="padding: 10px;">
-                                        <strong>
-                                        <i class="glyphicon glyphicon-chevron-left"></i>
-                                        @Html.DisplayNameFor(a => Model.Company.CreatedAt):
-                                        @Html.DisplayFor(a => Model.Company.CreatedAt)
+                    @if (Model.Company.CreatedAt != null)
+                    {
+                        <h5 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.CreatedAt):
+                                @Html.DisplayFor(a => Model.Company.CreatedAt)
 
-                                        </strong>
-                                    </h4>
-                                }
+                            </strong>
+                        </h5>
+                    }
 
+                    @if (Model.Company.Description != null)
+                    {
+                        <h5 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.Description):
+                                @Html.DisplayFor(a => Model.Company.Description)
+
+                            </strong>
+                        </h5>
+                    }
+
+
+
+                    @if (Model.Company.Logo != null)
+                    {
+                        <div>
+                        <h5 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.Logo):
+                            </strong>
+
+
+
+
+                        </h5>
+
+                        @{
+                            var base64 = Convert.ToBase64String(Model.Company.Logo);
+                            var filesrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                            <img src='@filesrc' class="thumbnail" style="border-radius: 30px; width: 400px; height: 300px;">
+                        }
                             </div>
-                            <div class="col-sm-6">
-                                <h2><strong>@Html.DisplayNameFor(a => Model.Company.Description)</strong></h2><br>
-                                <p>
-                                    @Model.Company.Description
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    }
 
                 </div>
-            </div>
+                          
+                        </div>
+                 
         </div>
         }
        

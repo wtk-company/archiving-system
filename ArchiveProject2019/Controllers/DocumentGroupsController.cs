@@ -243,7 +243,7 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveEdit")]
         public ActionResult ActiveNOnActive(int? id)
         {
             ViewBag.Current = "Document";
@@ -267,7 +267,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("ActiveNOnActive")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveEdit")]
+
         public ActionResult ActiveNOnActiveConfirm(int id)
         {
             ViewBag.Current = "Document";
@@ -331,7 +332,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveReplay")]
+
         public ActionResult ActiveNOnActiveReplay(int? id)
         {
             ViewBag.Current = "Document";
@@ -355,7 +357,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("ActiveNOnActiveReplay")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveReplay")]
+
         public ActionResult ActiveNOnActiveConfirmReplay(int id)
         {
             ViewBag.Current = "Document";
@@ -416,7 +419,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveSeal")]
+
         public ActionResult ActiveNOnActiveSeal(int? id)
         {
             ViewBag.Current = "Document";
@@ -440,7 +444,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("ActiveNOnActiveSeal")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveSeal")]
+
         public ActionResult ActiveNOnActiveConfirmSeal(int id)
         {
             ViewBag.Current = "Document";
@@ -502,7 +507,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveRelate")]
+
         public ActionResult ActiveNOnActiveRelate(int? id)
         {
             ViewBag.Current = "Document";
@@ -526,7 +532,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("ActiveNOnActiveRelate")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveRelate")]
+
         public ActionResult ActiveNOnActiveConfirmRelate(int id)
         {
             ViewBag.Current = "Document";
@@ -586,7 +593,7 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDetails")]
         public ActionResult Details(int? id)
         {
             if (id == null)

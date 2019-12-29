@@ -139,13 +139,13 @@
 
             <td>
 
-                <button data-Party-id="@item.Id" title="تفاصيل" class="js-Details  btn-xs btn-link "><span class="glyphicon glyphicon-book"></span></button> 
+                <button data-Party-id="@item.Id" title="تعديل" class="js-Edit  btn-xs btn-success "><span class="glyphicon glyphicon-edit"></span></button> 
+                <button data-Party-id="@item.Id" title="تفاصيل" class="js-Details  btn-xs btn-default "><span class="glyphicon glyphicon-book"></span></button> 
 
-                <button data-Party-id="@item.Id" title="تعديل" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button> 
                @if(CheckDelete.CheckPartydelete(item.Id)==true)
                {
 
-                <button data-Party-id="@item.Id" title="حذف" class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                <button data-Party-id="@item.Id" title="حذف" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                }
             </td>
         </tr>

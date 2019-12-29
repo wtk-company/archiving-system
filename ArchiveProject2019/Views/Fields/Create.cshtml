@@ -43,7 +43,7 @@
            new SelectListItem() { Text="بريد إلكتروني",Value="email"},
            new SelectListItem() { Text="رقم هاتف",Value="phone"},
 
-           new SelectListItem(){Value="bool" ,Text="حقل منطقي"},
+           //new SelectListItem(){Value="bool" ,Text="حقل منطقي"},
             new SelectListItem(){Value="date" ,Text="تاريخ"},
            new SelectListItem() { Value = "text", Text = " حقل نصي" }} , "اختيار نوع معين",new { @style="padding:4px",@class="form-control"})
             @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })

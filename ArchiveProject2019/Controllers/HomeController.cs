@@ -15,15 +15,17 @@ namespace ArchiveProject2019.Controllers
         Microsoft.AspNet.Identity.UserManager<ApplicationUser> UserManager;
 
 
+
+       
         public HomeController()
         {
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
         }
 
-       
-       
-        
+
+
+        [Authorize]
         public ActionResult Index()
         {
             return View();

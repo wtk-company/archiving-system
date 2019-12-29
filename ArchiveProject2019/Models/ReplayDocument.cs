@@ -15,6 +15,8 @@ namespace ArchiveProject2019.Models
         public int ReplayDocId { get; set; }
 
 
+
+
         [Display(Name = " أنشأ بواسطة ")]
         public string CreatedById { set; get; }
         [ForeignKey("CreatedById")]

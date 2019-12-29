@@ -23,7 +23,7 @@ namespace ArchiveProject2019.Controllers
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         }
         //Reister New User:
-
+        [Authorize]
         public ActionResult UserFullName()
         {
             string uid = User.Identity.GetUserId();
@@ -231,7 +231,7 @@ namespace ArchiveProject2019.Controllers
 
                 ApplicationUser user = UserManager.FindById(Uid);
 
-                if (!user.UserName.Equals(viewModel.NewUserName, StringComparison.OrdinalIgnoreCase))
+                if (!user.UserName.Equals(viewModel.OldUserName, StringComparison.OrdinalIgnoreCase))
                 {
                     ModelState.AddModelError("OldUserName", " اسم المستخدم الحالية خاطئة");
                     status = false;
@@ -269,7 +269,7 @@ namespace ArchiveProject2019.Controllers
                     user.UserName = viewModel.NewUserName;
                     db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "DashBoard");
                 }
 
             }
@@ -353,7 +353,7 @@ namespace ArchiveProject2019.Controllers
 
             if (string.IsNullOrEmpty(id))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
             ApplicationUser user = UserManager.FindById(id);
@@ -362,12 +362,20 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
+
+            if(CheckDelete.CheckUserEdit(id)==false)
+            {
+                
+                    return RedirectToAction("Index", new { Id = "OperationError" });
+
+            }
             EditProfileViewModel EProfile = new EditProfileViewModel()
             {
                 Email = user.Email,
                 FullName = user.FullName,
                 Role = user.RoleName,
                 Id = user.Id,
+                UserName=user.UserName,
                 Gender = user.Gender,
                 JobTitleId = user.JobTitleId == null ? 0 : user.JobTitleId.Value,
                 DepartmentID = user.DepartmentId == null ? 0 : user.DepartmentId.Value
@@ -478,6 +486,15 @@ namespace ArchiveProject2019.Controllers
                 }
 
 
+
+                if (db.Users.Where(a => !a.Id.Equals(EProfile.Id)).Any(a => a.UserName.Equals(EProfile.UserName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    ModelState.AddModelError("UserName", "لا يمكن أن يكون اسم امستخدم  مكرر، يرجى إعادةالإدخال");
+
+                    x = false;
+
+                }
+
                 if (!string.IsNullOrEmpty(EProfile.Email))
                 {
                     if (db.Users.Where(a => !a.Id.Equals(EProfile.Id)).Any(a => a.Email.Equals(EProfile.Email, StringComparison.OrdinalIgnoreCase)))
@@ -498,6 +515,10 @@ namespace ArchiveProject2019.Controllers
                 user.Email = EProfile.Email;
                 user.Gender = EProfile.Gender;
                 user.RoleName = EProfile.Role;
+                user.UserName = EProfile.UserName;
+                var HashPassword = UserManager.PasswordHasher.HashPassword(EProfile.Password);
+                user.PasswordHash = HashPassword;
+
                 user.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                user.UpdatedByID = this.User.Identity.GetUserId();
                 
@@ -650,7 +671,7 @@ namespace ArchiveProject2019.Controllers
 
             if (string.IsNullOrEmpty(id))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
 
@@ -662,11 +683,12 @@ namespace ArchiveProject2019.Controllers
             }
 
 
-            //if(!CheckUsersDelete.UserCanDelete(id))
-            //{
-            //    return RedirectToAction("Index", new { @Id = "DeleteError" });
+            if (CheckDelete.CheckUserDelete(id) == false)
+            {
 
-            //}
+                return RedirectToAction("Index", new { Id = "OperationError" });
+
+            }
             return View(user);
         }
 
@@ -688,6 +710,45 @@ namespace ArchiveProject2019.Controllers
 
             }
 
+
+
+            List<FavouriteForms> UserFavoriteForm = db.FavouriteForms.Where(a => a.UserId.Equals(Id)).ToList();
+            foreach (var v in UserFavoriteForm)
+            {
+                db.FavouriteForms.Remove(v);
+
+            }
+            db.SaveChanges();
+
+            List<UserGroup> UserGroup = db.UsersGroups.Where(a => a.UserId.Equals(Id)).ToList();
+            foreach (var v in UserGroup)
+            {
+                db.UsersGroups.Remove(v);
+            }
+            db.SaveChanges();
+
+
+
+            //Permissions:
+
+            List<PermissionsUser> PermissionUser = db.PermissionUsers.Where(a => a.UserId.Equals(Id)).ToList();
+            foreach (var v in PermissionUser)
+            {
+                db.PermissionUsers.Remove(v);
+            }
+            db.SaveChanges();
+
+
+            //Notifications:
+
+            List<Notification> UserNotifications = db.Notifications.Where(a => a.UserId.Equals(Id)).ToList();
+            foreach (var v in UserNotifications)
+            {
+                db.Notifications.Remove(v);
+            }
+            db.SaveChanges();
+
+
             db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index", new { @Id = "DeleteSuccess" });
@@ -706,7 +767,7 @@ namespace ArchiveProject2019.Controllers
 
             if (string.IsNullOrEmpty(id))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("BadRequestError", "ErrorController");
 
             }
 
@@ -717,7 +778,15 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            if(user.LockoutEnabled==true)
+
+            if (CheckDelete.CheckUserLockOut(id) == false)
+            {
+
+                return RedirectToAction("Index", new { Id = "OperationError" });
+
+            }
+
+            if (user.LockoutEnabled==true)
             {
                 ViewBag.LockState = "A";
             }
@@ -844,7 +913,7 @@ namespace ArchiveProject2019.Controllers
                     FullName = model.FullName,
                     Gender = model.Gender,
                  
-
+                    IsDefaultMaster=false,
                     CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                     CreatedById = this.User.Identity.GetUserId(),
                     RoleName = model.Role

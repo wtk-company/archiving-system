@@ -1,4 +1,5 @@
-﻿using ArchiveProject2019.Models;
+﻿using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,11 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
-        // GET: Company/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        [AccessDeniedAuthorizeattribute(ActionName = "CompanyCreate")]
 
-        // GET: Company/Create
         public ActionResult Create()
         {
+            ViewBag.Current = "Company";
             var comp = _context.Company.Find(1);
             if (comp != null)
             {
@@ -38,8 +35,12 @@ namespace ArchiveProject2019.Controllers
 
         // POST: Company/Create
         [HttpPost]
+        [AccessDeniedAuthorizeattribute(ActionName = "CompanyCreate")]
+
         public ActionResult Create(Company Company, HttpPostedFileBase file1)
         {
+            ViewBag.Current = "Company";
+
             if (Company == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -78,49 +79,7 @@ namespace ArchiveProject2019.Controllers
             return View(Company);
         }
 
-        // GET: Company/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Company/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Company/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Company/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+    
 
         protected override void Dispose(bool disposing)
         {

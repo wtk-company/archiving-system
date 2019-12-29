@@ -48,7 +48,7 @@ namespace ArchiveProject2019.Controllers
             {
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
-            JobTitle jobTitle = db.JobTitles.Include(a => a.CreatedBy).SingleOrDefault(a=>a.Id==id);
+            JobTitle jobTitle = db.JobTitles.Include(a=>a.UpdatedBy).Include(a => a.CreatedBy).SingleOrDefault(a=>a.Id==id);
             if (jobTitle == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -149,7 +149,7 @@ namespace ArchiveProject2019.Controllers
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
-        public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember")] JobTitle jobTitle,string OldName)
+        public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember,CreatedAt,CreatedById")] JobTitle jobTitle,string OldName)
         {
             ViewBag.Current = "JobTitles";
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace ArchiveProject2019.HelperClasses
 {
@@ -34,7 +35,25 @@ namespace ArchiveProject2019.HelperClasses
 
 
 
+            if(db.DocumentDepartments.Any(a=>a.DepartmentId==id))
+            {
+                return false;
+            }
+
+
+            //Documents:
+            if(db.Documents.Any(a=>a.DepartmentId==id))
+            {
+                return false;
+            }
            
+
+            //Users:
+
+            if(db.Users.Any(a=>a.DepartmentId==id))
+            {
+                return false;
+            }
            
             return true;
 
@@ -50,7 +69,7 @@ namespace ArchiveProject2019.HelperClasses
 
             }
 
-           string CurerentUserId= HttpContext.Current.User.Identity.GetUserId();
+       
 
          
 
@@ -81,7 +100,12 @@ namespace ArchiveProject2019.HelperClasses
 
             }
 
-           
+           //Document
+
+            if(db.DocumentGroups.Where(a=>a.GroupId==id).Count()>0)
+            {
+                return false;
+            }
 
 
             return true;
@@ -249,15 +273,106 @@ namespace ArchiveProject2019.HelperClasses
 
             }
 
-            List<int> Documents = db.Documents.Where(a => a.CreatedById.Equals(id)).Select(a => a.Id).ToList();
-            if(Documents.Count()>0)
+            
+
+            //created by|| Updated by:
+           if(db.Users.Any(a=>a.CreatedById.Equals(id)||a.UpdatedByID.Equals(id)))
             {
                 return false;
-
+            }
+            if (db.Company.Any(a => a.CreateById.Equals(id)))
+            {
+                return false;
             }
 
+            if (db.Departments.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
 
+            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdateById.Equals(id)))
+            {
+                return false;
+            }
 
+            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdateById.Equals(id)))
+            {
+                return false;
+            }
+            if (db.DocumentStatuses.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.DocumentStatuses.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+            if (db.Fields.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.FormDepartments.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.FormGroups.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.Forms.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+            if (db.Groups.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.JobTitles.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.Kinds.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.Parties.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.TypeMails.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.SealDocuments.Any(a => a.CreatedById.Equals(id) ))
+            {
+                return false;
+            }
+
+            if (db.UsersGroups.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
+
+            if (db.Users.Any(a => a.CreatedById.Equals(id) || a.UpdatedByID.Equals(id)))
+            {
+                return false;
+            }
+
+            RoleManager<ApplicationRoles> manger= new RoleManager<ApplicationRoles>(new RoleStore<ApplicationRoles>(db));
+
+            if(manger.Roles.Any(a=>a.CreatedById.Equals(id)||a.UpdatedById.Equals(id)))
+            {
+                return false;
+            }
             return true;
 
 
@@ -280,6 +395,36 @@ namespace ArchiveProject2019.HelperClasses
 
         }
 
+
+        public static bool CheckUserEdit(string id)
+        {
+
+            ApplicationUser user = db.Users.Find(id);
+            if (user.RoleName.Equals("Master") && user.IsDefaultMaster == true)
+            {
+                return false;
+
+            }
+            return true;
+
+
+
+        }
+
+        public static bool CheckDocumentDepartmentDelete(int docId,int DepId)
+        {
+
+            int DocumentdepId = db.Documents.Find(DepId).DepartmentId;
+            if(DocumentdepId==DepId)
+            {
+                return true;
+            }
+
+            return false;
+
+
+
+        }
 
     }
 }

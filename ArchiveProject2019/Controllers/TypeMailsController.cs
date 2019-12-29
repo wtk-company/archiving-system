@@ -249,7 +249,7 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-       // [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
+       [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDetails")]
         public ActionResult Details(int? id)
         {
             ViewBag.Current = "TypeMails";

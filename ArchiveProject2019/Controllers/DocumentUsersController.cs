@@ -1,4 +1,5 @@
-﻿using ArchiveProject2019.Models;
+﻿using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace ArchiveProject2019.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         [Authorize]
-       // [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIndex")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
 
@@ -54,7 +55,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-      //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsCreate")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserCreate")]
+
 
         public ActionResult Create(int? Id)
         {
@@ -101,7 +103,8 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [Authorize]
-   //     [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsCreate")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserCreate")]
+
         public ActionResult Create(int DocumentIdValue, List<string> Users)
         {
 
@@ -173,7 +176,8 @@ namespace ArchiveProject2019.Controllers
         }
 
         [Authorize]
-       // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserDelete")]
+
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -194,7 +198,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize]
-       // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserDelete")]
+
         public ActionResult DeleteConfirmed(int id)
         {
            
@@ -233,7 +238,8 @@ namespace ArchiveProject2019.Controllers
         }
 
         [Authorize]
-        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveEdit")]
+
         public ActionResult ActiveNOnActive(int? id)
         {
             if (id == null)
@@ -254,7 +260,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("ActiveNOnActive")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveEdit")]
+
         public ActionResult ActiveNOnActiveConfirm(int id)
         {
             string ActiveMode = string.Empty;
@@ -307,6 +314,11 @@ namespace ArchiveProject2019.Controllers
 
 
 
+
+
+
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveReplay")]
+
         public ActionResult ActiveNOnActiveReplay(int? id)
         {
             if (id == null)
@@ -327,7 +339,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("ActiveNOnActiveReplay")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveReplay")]
+
         public ActionResult ActiveNOnActiveConfirmReplay (int id)
         {
             string ActiveMode = string.Empty;
@@ -381,6 +394,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveRelate")]
 
         public ActionResult ActiveNOnActiveRelate(int? id)
         {
@@ -402,7 +416,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("ActiveNOnActiveRelate")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveRelate")]
+
         public ActionResult ActiveNOnActiveConfirmRelate(int id)
         {
             string ActiveMode = string.Empty;
@@ -455,6 +470,9 @@ namespace ArchiveProject2019.Controllers
 
 
 
+
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveSeal")]
+
         public ActionResult ActiveNOnActiveSeal(int? id)
         {
             if (id == null)
@@ -475,7 +493,8 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("ActiveNOnActiveSeal")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        // [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveSeal")]
+
         public ActionResult ActiveNOnActiveConfirmSeal(int id)
         {
             string ActiveMode = string.Empty;
@@ -529,7 +548,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-        //  [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserDelails")]
+
         public ActionResult Details(int? id)
         {
             if (id == null)

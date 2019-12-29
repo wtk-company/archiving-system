@@ -143,17 +143,17 @@
 
             <td>
 
-                <button data-form-id="@item.Id" title="تفاصيل  الدور" class="js-Details  btn-xs btn-link "><span class="glyphicon glyphicon-book"></span></button>
+                <button data-form-id="@item.Id" title="تفاصيل  الدور" class="js-Details  btn-xs btn-default "><span class="glyphicon glyphicon-book"></span></button>
 
-                <button data-form-id="@item.Id" title="تعديل اسم الدور" class="js-Edit  btn-xs btn-link "><span class="glyphicon glyphicon-edit"></span></button>
+                <button data-form-id="@item.Id" title="تعديل اسم الدور" class="js-Edit  btn-xs btn-success "><span class="glyphicon glyphicon-edit"></span></button>
 
                 @if (CheckDelete.CheckRoleDelete(item.Id) == true)
                 {
-                    <button data-form-id="@item.Id" title=" حذف الدور المحدد " class="js-delete btn-xs btn-link"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button data-form-id="@item.Id" title=" حذف الدور المحدد " class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
 
                 }
 
-                @Html.ActionLink("الصلاحيّات", "Index", new { controller = "PermissionRoles", Id = item.Id })
+                @Html.ActionLink("الصلاحيّات", "Index", new { controller = "PermissionRoles", Id = item.Id})
 
 
             </td>

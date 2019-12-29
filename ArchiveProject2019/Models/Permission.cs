@@ -16,6 +16,11 @@ namespace ArchiveProject2019.Models
         [Display(Name = "اسم الصلاحية")]
         public string Name { set; get; }
 
+
+        public bool TypeUser { set; get; }
+        public bool TypeMaster { set; get; }
+
+
         public ICollection<PermissionRole> PermissionRoles { set; get; }
        
 

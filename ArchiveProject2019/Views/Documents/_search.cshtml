@@ -68,7 +68,7 @@
                         </button>
                         <ul class="dropdown-menu">
 
-                            @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                            @if (DocumentOperation.DocumentCanRelate(CurrentUserId, item.Id))
                             {
 
                                 <li>
@@ -77,8 +77,39 @@
 
                                 </li>
 
+                                <li>
+
+                                    <a href="@Url.Action("Relate", "Documents", new { id = item.Id })" title="ربط وثائق" class="btn-link  btn-sm">ربط مع وثائق</a>
+
+                                </li>
+
+                            }
 
 
+                            @if (DocumentOperation.DocumentRemoveParent(CurrentUserId, item.Id) == true)
+                            {
+                                <li>
+
+                                    <a href="#" data-form-id="@item.Id" title=" تحرير الإرتباط الأعلى" class="btn-link js-RemoveRelateParent btn-sm">تحرير الإرتباط الأعلى  </a>
+
+                                </li>
+                            }
+
+
+
+                            @if (DocumentOperation.DocumentRemoveChild(CurrentUserId, item.Id) == true)
+                            {
+                                <li>
+
+                                    <a href="#" data-form-id="@item.Id" title=" تحرير الإرتباط الأدنى" class="btn-link js-RemoveRelateChild btn-sm">تحرير الإرتباط الأدنى  </a>
+
+
+                                </li>
+                            }
+
+
+                            @if (DocumentOperation.DocumentCanSeal(CurrentUserId, item.Id))
+                            {
 
                                 <li>
 
@@ -92,7 +123,7 @@
 
                             </li>
 
-                            @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                            @if (DocumentOperation.DocumentCanReplay(CurrentUserId, item.Id))
                             {
 
                                 <li>
@@ -113,20 +144,12 @@
 
                             </li>
 
-                            @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                            {
 
-                                <li>
-
-                                    <a href="@Url.Action("Relate", "Documents", new { id = item.Id })" title="ربط وثائق" class="btn-link  btn-sm">ربط مع وثائق</a>
-
-                                </li>
-
-                            }
 
 
                         </ul>
                     </div>
+
 
 
                     <div class="btn-group" role="group">
@@ -136,6 +159,19 @@
                         </button>
                         <ul class="dropdown-menu">
 
+
+
+
+                            @if (DocumentOperation.DocumentCanDelete(CurrentUserId, item.Id) == true)
+                            {
+                                <li>
+
+                                    <a href="#" data-form-id="@item.Id" title="حذف الوثيقة" class="btn-link js-Delete btn-sm">حذف الوثيقة </a>
+
+
+
+                                </li>
+                            }
 
                             @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
                             {

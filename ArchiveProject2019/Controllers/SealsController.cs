@@ -1,4 +1,5 @@
-﻿using ArchiveProject2019.Models;
+﻿using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,10 @@ namespace ArchiveProject2019.Controllers
         }
 
         // GET: Seal
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsIndex")]
         public ActionResult Index(int? id)
         {
             if (id == null)
@@ -37,7 +42,9 @@ namespace ArchiveProject2019.Controllers
             return View(seals);
         }
 
-        // GET: Seal/Details/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsDetails")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -55,7 +62,9 @@ namespace ArchiveProject2019.Controllers
             return View(seal);
         }
 
-        // GET: Seal/Create
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsCreate")]
         public ActionResult Create(int id)
         {
             var seal = new SealDocument()
@@ -68,6 +77,9 @@ namespace ArchiveProject2019.Controllers
 
         // POST: Seal/Create
         [HttpPost]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsCreate")]
         public ActionResult Create(SealDocument Seal, HttpPostedFileBase SealFile)
         {
             if (SealFile == null)
@@ -99,7 +111,12 @@ namespace ArchiveProject2019.Controllers
             
         }
 
-        // GET: Seal/Edit/5
+
+
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsEdit")]
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -119,6 +136,9 @@ namespace ArchiveProject2019.Controllers
 
         // POST: Seal/Edit/5
         [HttpPost]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsEdit")]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try
@@ -133,7 +153,9 @@ namespace ArchiveProject2019.Controllers
             }
         }
 
-        // GET: Seal/Delete/5
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsDelete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -154,6 +176,9 @@ namespace ArchiveProject2019.Controllers
         // POST: Seal/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsDelete")]
         public ActionResult Confirm(int? id)
         {
             if (id == null)
@@ -174,11 +199,14 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { id = seal.DocumentId });
         }
 
+
+        [Authorize]
         public FileResult DownloadDocument(int? id)
         {
             var seal = _context.SealDocuments.Find(id);
             return File(seal.File, System.Net.Mime.MediaTypeNames.Application.Octet, seal.FileName);
         }
+        [Authorize]
         public FileResult DisplayDocument(int? id)
         {
             if (id != null)

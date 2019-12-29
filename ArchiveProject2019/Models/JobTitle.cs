@@ -15,7 +15,7 @@ namespace ArchiveProject2019.Models
 
         [Display(Name = "الاسم الوظيفي ")]
         [Required(ErrorMessage = "يجب إدخال اسم القسم")]
-        [StringLength(maximumLength: 50, MinimumLength = 4, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 3")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
         public string Name { get; set; }
 
 

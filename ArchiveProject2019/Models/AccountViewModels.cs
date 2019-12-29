@@ -166,11 +166,28 @@ namespace ArchiveProject2019.Models
         public int JobTitleId { get; set; }
 
 
+        [Required(ErrorMessage = "يجب إدخال اسم المستخدم ")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "طول  اسم المستخدم يجب أن يكون بين 3 و 50 محرف")]
+        [Display(Name = "اسم المستخدم")]
+        public string UserName { get; set; }
+
+
+
+
+        [Required(ErrorMessage = "يجب إدخال كلمة السر")]
+        [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 5", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "كلمة السر")]
+        public string Password { get; set; }
 
 
 
 
 
+        [DataType(DataType.Password)]
+        [Display(Name = "تأكيد كلمة السر")]
+        [Compare("Password", ErrorMessage = "كلمة السر وتأكيدها غير متوافقتين، يرجى إعادةالأدخال ")]
+        public string ConfirmPassword { get; set; }
     }
 
 

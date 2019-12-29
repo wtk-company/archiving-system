@@ -170,8 +170,13 @@
                     <button data-form-id="@item.Id" title="تفعيل الربط" class="js-EnableRelate btn-xs btn-success">تفعيل الربط</button>
                 }
 
+                @if(CheckDelete.CheckDocumentDepartmentDelete(item.DocumentId,item.DepartmentId)==false)
+                {
 
-                <button data-form-id="@item.Id" title="إزالة القسم" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                <butcton data-form-id="@item.Id" title="إزالة القسم" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></butcton>
+
+                }
+
 
                 <button data-form-id="@item.Id" title="تفاصيل" class="js-Details btn-xs btn-default"><span class="glyphicon glyphicon-book"></span></button>
 

@@ -33,7 +33,7 @@
 
 
                 @Html.Hidden("Id", v.Id)
-                <div style="opacity:0.8" class="alert alert-success enterRemove alert-dismissible" role="alert">
+                <div style="opacity:0.8" class="alert alert-success  alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <input style="width:20px;height:20px" type="checkbox" name="NotificationId" class="btn btn-default btn-xs" value="@v.Id" />
                     <strong><i>@(v.NotificationOwner.FullName + " في الوقت :" + v.CreatedAt)</i></strong>

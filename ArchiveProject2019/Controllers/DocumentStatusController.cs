@@ -23,7 +23,7 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-      //  [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsIndex")]
+       [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusIndex")]
 
         public ActionResult Index(string Id = "none")
         {
@@ -43,7 +43,8 @@ namespace ArchiveProject2019.Controllers
         }
 
         [Authorize]
-       // [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusCreate")]
+
         public ActionResult Create()
         {
 
@@ -58,7 +59,8 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
         [Authorize]
-    //    [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusCreate")]
+
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] DocumentStatus Status)
 
         {
@@ -112,7 +114,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusEdit")]
+
         public ActionResult Edit(int? id)
         {
             ViewBag.Current = "DocumentStatus";
@@ -137,7 +140,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-        //[AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusEdit")]
+
         public ActionResult Edit(DocumentStatus status,string OldName)
 
         {
@@ -186,7 +190,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-       // [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusDelete")]
+
         public ActionResult Delete(int? id)
         {
             ViewBag.Current = "DocumentStatus";
@@ -210,7 +215,8 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
         [Authorize]
-     //   [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusDelete")]
+
         public ActionResult Confirm(int? id)
         {
             ViewBag.Current = "DocumentStatus";
@@ -249,7 +255,8 @@ namespace ArchiveProject2019.Controllers
 
 
         [Authorize]
-        // [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusDetails")]
+
         public ActionResult Details(int? id)
         {
             ViewBag.Current = "DocumentStatus";
