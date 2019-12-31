@@ -31,7 +31,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
 
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentCreate")]
 
@@ -51,7 +51,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "RelateDocumentCreate")]
         public ActionResult RelateDocument(int id)
         {
@@ -67,7 +67,7 @@ namespace ArchiveProject2019.Controllers
             return View("Form", viewModel);
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "ReplayDocumentCreate")]
         public ActionResult ReplayDocument(int id)
         {
@@ -85,7 +85,7 @@ namespace ArchiveProject2019.Controllers
 
         // GET: /Documents/Create
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentCreate")]
         public ActionResult Create(int Id = 0, int docId = -1, bool IsReplay = false, int Standard = -1)
         {
@@ -158,7 +158,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -779,7 +779,7 @@ namespace ArchiveProject2019.Controllers
         [HttpGet]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentEdit")]
         public ActionResult Edit(int? id)
         {
@@ -1063,7 +1063,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -2159,7 +2159,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentIndex")]
         public ActionResult Index(string id = "none",string Notf="none")
         {
@@ -2227,7 +2227,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [HttpPost]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentIndex")]
         public ActionResult Index(string RetrievalCount, string DocumentSubject, string DocumentModel, string OrderBY, string OrderType, string DocumentNumber, string DocumentForm, string DocumentKind, string DocumentMail, string DocFirstDate, string DocEndDate)
@@ -2295,6 +2295,11 @@ namespace ArchiveProject2019.Controllers
 
                 case "7":
                     MyDocId = UserDocumentsID.UserMyDepartmentDocument(currentUserId).ToList();
+
+                    break;
+
+                case "8":
+                    MyDocId = UserDocumentsID.UserDocumentTrend(currentUserId).ToList();
 
                     break;
 
@@ -2422,7 +2427,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "RelateDocumentCreateList")]
         public ActionResult Relate(int? Id)
         {
@@ -2490,7 +2495,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "RelateDocumentCreateList")]
         public ActionResult Relate(List<int> Documents, int DocId)
         {
@@ -2528,7 +2533,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDelete")]
         public ActionResult Delete(int? id)
         {
@@ -2578,7 +2583,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -2658,7 +2663,7 @@ namespace ArchiveProject2019.Controllers
 
         //Child:
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentRemoveChildRate")]
 
         public ActionResult RemoveChildRate(int? id)
@@ -2687,7 +2692,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        [Authorize]
+        
          [HttpPost, ActionName("RemoveChildRate")]
         [ValidateAntiForgeryToken]
 
@@ -2717,7 +2722,7 @@ namespace ArchiveProject2019.Controllers
         //Parent:
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentRemoveParentRate")]
 
         public ActionResult RemoveParentRate(int? id)
@@ -2750,7 +2755,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentRemoveParentRate")]
 
         public ActionResult RemoveParentRateConfirm(int? id)
@@ -2810,7 +2815,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDetails")]
         public ActionResult Details(int? id)
         {
@@ -3046,7 +3051,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentIndex")]
         public ActionResult GetRelatedDocument(int id, string msg = "none")
         {
@@ -3099,7 +3104,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentIndex")]
         public ActionResult GetReplayDocument(int id, string msg = "none")
         {

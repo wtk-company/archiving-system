@@ -18,7 +18,7 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
       
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesIndex")]
         public ActionResult Index(string Id,string msg="none")
         {
@@ -61,7 +61,7 @@ namespace ArchiveProject2019.Controllers
             return View(permissionRoles.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesDetails")]
         public ActionResult Details(int? id)
         {
@@ -79,7 +79,7 @@ namespace ArchiveProject2019.Controllers
             return View(permissionRole);
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesCreate")]
         public ActionResult Create()
         {
@@ -108,7 +108,7 @@ namespace ArchiveProject2019.Controllers
      
         [HttpPost]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesCreate")]
 
         public ActionResult Create(string RoleId,List<int>Sel)
@@ -177,7 +177,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesActive")]
         public ActionResult Active(int? id)
         {
@@ -205,7 +205,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost,ActionName("Active")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesActive")]
         public ActionResult confirm(int id)
         {
@@ -259,7 +259,7 @@ namespace ArchiveProject2019.Controllers
 
 
         }
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesDelete")]
         public ActionResult Delete(int? id)
         {
@@ -287,7 +287,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesDelete")]
         public ActionResult DeleteConfirmed(int id)
         {

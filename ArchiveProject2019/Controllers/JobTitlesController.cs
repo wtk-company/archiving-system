@@ -17,7 +17,7 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesIndex")]
         public ActionResult Index(string Id="none")
         {
@@ -38,7 +38,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesDetails")]
         public ActionResult Details(int? id)
         {
@@ -57,7 +57,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesCreate")]
         public ActionResult Create()
         {
@@ -67,7 +67,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesCreate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -122,7 +122,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
         public ActionResult Edit(int? id)
         {
@@ -147,7 +147,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
         public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember,CreatedAt,CreatedById")] JobTitle jobTitle,string OldName)
         {
@@ -220,7 +220,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesDelete")]
         public ActionResult Delete(int? id)
         {
@@ -248,7 +248,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesDelete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

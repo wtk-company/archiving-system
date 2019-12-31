@@ -23,7 +23,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsIndex")]
  
         public ActionResult Index(string Id = "none")
@@ -43,7 +43,7 @@ namespace ArchiveProject2019.Controllers
             return View(DocKinds.OrderBy(a=>a.CreatedAt).ToList());
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsCreate")]
 
         public ActionResult Create()
@@ -57,7 +57,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] Kind Kind)
 
@@ -109,7 +109,7 @@ namespace ArchiveProject2019.Controllers
 
        
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsEdit")]
 
         public ActionResult Edit(int? id)
@@ -137,7 +137,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsEdit")]
         public ActionResult Edit(Kind kinds,string OldName)
 
@@ -190,7 +190,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
 
         public ActionResult Delete(int? id)
@@ -223,7 +223,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -257,7 +257,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDetails")]
 
         public ActionResult Details(int? id)

@@ -20,7 +20,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FieldsIndex")]
         // GET: Fields
         public ActionResult Index(int ?Id,string msg="none")
@@ -75,7 +75,7 @@ namespace ArchiveProject2019.Controllers
       
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FieldsDetails")]
         public ActionResult Details(int? id)
         {
@@ -107,7 +107,7 @@ namespace ArchiveProject2019.Controllers
         // GET: Fields/Create
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FieldsCreate")]
         public ActionResult Create()
         {
@@ -128,7 +128,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FieldsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,IsRequired,Type")] Field field)
         {
@@ -162,7 +162,7 @@ namespace ArchiveProject2019.Controllers
 
         // GET: Fields/Edit/5
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FieldsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -205,7 +205,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FieldsEdit")]
         public ActionResult Edit([Bind(Include = "Id,Name,IsRequired,Type,CreatedAt,CreatedById,FormId")] Field field)
         {
@@ -236,7 +236,7 @@ namespace ArchiveProject2019.Controllers
         // GET: Fields/Delete/5
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FieldsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -278,7 +278,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FieldsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {

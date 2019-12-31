@@ -16,7 +16,7 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
@@ -51,7 +51,7 @@ namespace ArchiveProject2019.Controllers
             return View(documentGroups.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsCreate")]
         public ActionResult Create(int? Id)
         {
@@ -97,7 +97,7 @@ namespace ArchiveProject2019.Controllers
 
 
        [HttpPost]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsCreate")]
         public ActionResult Create(int DocumentIdValue, List<int> Groups)
         {
@@ -174,7 +174,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -196,7 +196,7 @@ namespace ArchiveProject2019.Controllers
         // POST: FormDepartments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -242,7 +242,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveEdit")]
         public ActionResult ActiveNOnActive(int? id)
         {
@@ -266,7 +266,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActive")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveEdit")]
 
         public ActionResult ActiveNOnActiveConfirm(int id)
@@ -331,7 +331,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveReplay")]
 
         public ActionResult ActiveNOnActiveReplay(int? id)
@@ -356,7 +356,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveReplay")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveReplay")]
 
         public ActionResult ActiveNOnActiveConfirmReplay(int id)
@@ -418,7 +418,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveSeal")]
 
         public ActionResult ActiveNOnActiveSeal(int? id)
@@ -443,7 +443,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveSeal")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveSeal")]
 
         public ActionResult ActiveNOnActiveConfirmSeal(int id)
@@ -506,7 +506,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveRelate")]
 
         public ActionResult ActiveNOnActiveRelate(int? id)
@@ -531,7 +531,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveRelate")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveRelate")]
 
         public ActionResult ActiveNOnActiveConfirmRelate(int id)
@@ -592,7 +592,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
          [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDetails")]
         public ActionResult Details(int? id)
         {

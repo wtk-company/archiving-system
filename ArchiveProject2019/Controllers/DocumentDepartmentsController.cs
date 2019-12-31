@@ -16,7 +16,6 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
@@ -54,7 +53,7 @@ namespace ArchiveProject2019.Controllers
             return View(DocumentDepartments.OrderByDescending(a => a.CreatedAt).ToList());
         }
 
-        [Authorize]
+   
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsCreate")]
 
         public ActionResult Create(int? Id)
@@ -102,9 +101,9 @@ namespace ArchiveProject2019.Controllers
 
 
         [HttpPost]
-        [Authorize]
+  
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsCreate")]
-        //[ValidateAntiForgeryToken]
+     
         public ActionResult Create(int DocumentIdValue, List<int> Departments)
         {
 
@@ -182,7 +181,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+       
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -203,7 +202,7 @@ namespace ArchiveProject2019.Controllers
         // POST: FormDepartments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+   
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -247,7 +246,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+       
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveEdit")]
 
         public ActionResult ActiveNOnActive(int? id)
@@ -269,7 +268,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActive")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+    
        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveEdit")]
         public ActionResult ActiveNOnActiveConfirm (int id)
         {
@@ -328,9 +327,6 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        //Replay:
-
-        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveReplay")]
 
         public ActionResult ActiveNOnActiveReplay(int? id)
@@ -352,7 +348,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveReplay")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+      
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveReplay")]
 
         public ActionResult ActiveNOnActiveConfirmReplay(int id)
@@ -412,7 +408,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+  
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveRelate")]
 
         public ActionResult ActiveNOnActiveRelate(int? id)
@@ -434,7 +430,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveRelate")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+     
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveRelate")]
 
         public ActionResult ActiveNOnActiveConfirmRelate(int id)
@@ -495,7 +491,6 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveSeal")]
 
         public ActionResult ActiveNOnActiveSeal(int? id)
@@ -517,7 +512,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveSeal")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+       
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveSeal")]
 
         public ActionResult ActiveNOnActiveConfirmSeal(int id)
@@ -578,7 +573,7 @@ namespace ArchiveProject2019.Controllers
 
         
 
-        [Authorize]
+     
           [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDetails")]
         public ActionResult Details(int? id)
         {

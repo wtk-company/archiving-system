@@ -21,9 +21,7 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
-        // GET: Forms
-
-        [Authorize]
+      
         [AccessDeniedAuthorizeattribute(ActionName = "FormsIndex")]
         public ActionResult Index(string Id="none")
         {
@@ -44,7 +42,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsCreate")]
         public ActionResult Create()
         {
@@ -58,7 +56,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] Form form)
         {///
@@ -112,7 +110,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -140,7 +138,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsEdit")]
         public ActionResult Edit([Bind(Include = "Id,Name,CreatedAt,CreatedById")] Form form,string OldName)
         {
@@ -198,7 +196,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -230,7 +228,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -278,7 +276,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
        [AccessDeniedAuthorizeattribute(ActionName = "FormsDetails")]
         public ActionResult Details(int? id)
         {

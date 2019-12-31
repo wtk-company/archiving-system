@@ -14,7 +14,7 @@ namespace ArchiveProject2019.Controllers
     public class DocumentUsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
@@ -54,7 +54,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserCreate")]
 
 
@@ -102,7 +102,7 @@ namespace ArchiveProject2019.Controllers
 
 
         [HttpPost]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserCreate")]
 
         public ActionResult Create(int DocumentIdValue, List<string> Users)
@@ -175,7 +175,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserDelete")]
 
         public ActionResult Delete(int? id)
@@ -197,7 +197,7 @@ namespace ArchiveProject2019.Controllers
         // POST: FormDepartments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserDelete")]
 
         public ActionResult DeleteConfirmed(int id)
@@ -237,7 +237,7 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { @id = Form_id, @msg = "DeleteSuccess" });
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveEdit")]
 
         public ActionResult ActiveNOnActive(int? id)
@@ -259,7 +259,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActive")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveEdit")]
 
         public ActionResult ActiveNOnActiveConfirm(int id)
@@ -338,7 +338,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveReplay")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveReplay")]
 
         public ActionResult ActiveNOnActiveConfirmReplay (int id)
@@ -415,7 +415,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveRelate")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveRelate")]
 
         public ActionResult ActiveNOnActiveConfirmRelate(int id)
@@ -492,7 +492,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveSeal")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserActiveNonActiveSeal")]
 
         public ActionResult ActiveNOnActiveConfirmSeal(int id)
@@ -547,7 +547,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentUserDelails")]
 
         public ActionResult Details(int? id)

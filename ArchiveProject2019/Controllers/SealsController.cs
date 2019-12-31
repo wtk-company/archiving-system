@@ -28,7 +28,7 @@ namespace ArchiveProject2019.Controllers
         // GET: Seal
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsIndex")]
         public ActionResult Index(int? id)
         {
@@ -69,7 +69,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        //[Authorize]
+        //
         //[AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsDetails")]
 
 
@@ -95,7 +95,7 @@ namespace ArchiveProject2019.Controllers
 
         // GET: Seal/Create
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsCreate")]
         public ActionResult Create(int id)
         {
@@ -117,7 +117,7 @@ namespace ArchiveProject2019.Controllers
 
         // POST: Seal/Create
         [HttpPost]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsCreate")]
         public ActionResult Create(SealDocument Seal, IEnumerable<HttpPostedFileBase> SealFiles)
         {
@@ -307,7 +307,7 @@ namespace ArchiveProject2019.Controllers
 
         //// POST: Seal/Edit/5
         //[HttpPost]
-        //[Authorize]
+        //
         //[AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsEdit")]
         //public ActionResult Edit(int? id)
         //{
@@ -343,7 +343,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -373,7 +373,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -402,7 +402,7 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { id = seal.DocumentId });
         }
 
-        [Authorize]
+        
         public FileResult DownloadDocument(int? id)
         {
             var SealFiles = _context.SealFiles.Find(id);
@@ -432,7 +432,7 @@ namespace ArchiveProject2019.Controllers
             }
         }
 
-        [Authorize]
+        
         public FileResult DisplayDocument(int? id)
         {
             var SealFiles = _context.SealFiles.Find(id);

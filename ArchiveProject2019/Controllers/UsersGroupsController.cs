@@ -22,7 +22,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsIndex")]
         public ActionResult Index(int? Id)
         {
@@ -67,7 +67,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsIndex")]
         public ActionResult Create(List<GroupUserViewModel> viewModel)
         {
@@ -128,7 +128,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsShowUsersGroup")]
         public ActionResult ShowUsersGroup(int? Id,string msg="none")
         {
@@ -161,7 +161,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -186,7 +186,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ActionName("Edit")]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsEdit")]
         public ActionResult ConfirmEdit(int?id)
         {
@@ -215,7 +215,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsEdit")]
         public ActionResult Details(int ?Id)
         {
@@ -237,7 +237,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -264,7 +264,7 @@ namespace ArchiveProject2019.Controllers
         [ActionName("Delete")]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "UsersGroupsDelete")]
         public ActionResult ConfirmDelete(int? id)
         {
