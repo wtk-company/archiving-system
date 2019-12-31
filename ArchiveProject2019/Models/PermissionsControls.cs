@@ -74,7 +74,7 @@ namespace ArchiveProject2019.Models
 
 
 
-                new PermissionsControls() {Name="قائمة المجموعات الخاصة بالوثيقة ",ActionName="DocumentGroups",Type=true  ,TypeMaster=false  },
+                new PermissionsControls() {Name="قائمة المجموعات الخاصة بالوثيقة ",ActionName="DocumentGroupsIndex",Type=true  ,TypeMaster=false  },
                 new PermissionsControls() {Name="إضافة  وثيقة للمجموعات ",ActionName="DocumentGroupsCreate" ,Type=true  ,TypeMaster=false },
                 new PermissionsControls() {Name=" إزالة   وثيقة من المجموعات",ActionName="DocumentGroupsDelete" ,Type=true  ,TypeMaster=false },
                 new PermissionsControls() {Name="تفاصيل اسناد الوثيقة للمجموعات",ActionName="DocumentGroupsDetails" ,Type=true  ,TypeMaster=false },
@@ -256,10 +256,10 @@ namespace ArchiveProject2019.Models
 
 
 
-                new PermissionsControls() {Name="مجموعات المستخدم",ActionName="InformationUserGroups",Type=false  ,TypeMaster=true },
-                new PermissionsControls() {Name=" نماذج المستخدم",ActionName="InformationUserForms",Type=false  ,TypeMaster=true },
-                new PermissionsControls() {Name="اضافة نماذج مفضلة",ActionName="InformationUserAddFavoriteForms",Type=false  ,TypeMaster=true },
-                new PermissionsControls() {Name="حذف نماذج مفضلة",ActionName="InformationUserDeleteFavoriteForms",Type=false  ,TypeMaster=true },
+                new PermissionsControls() {Name="مجموعات المستخدم",ActionName="InformationUserGroups",Type=true  ,TypeMaster=false },
+                new PermissionsControls() {Name=" نماذج المستخدم",ActionName="InformationUserForms",Type=true  ,TypeMaster=false },
+                new PermissionsControls() {Name="اضافة نماذج مفضلة",ActionName="InformationUserAddFavoriteForms",Type=true  ,TypeMaster=false },
+                new PermissionsControls() {Name="حذف نماذج مفضلة",ActionName="InformationUserDeleteFavoriteForms",Type=true  ,TypeMaster=false },
 
 
                 
