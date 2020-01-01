@@ -38,27 +38,13 @@ namespace ArchiveProject2019.Controllers
             }
 
             var seals = _context.SealDocuments.Where(s => s.DocumentId == id).Include(s => s.Files).Include(s => s.Document).Include(s => s.CreatedBy).ToList();
-            
+
             if (seals == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
-            return View(seals);
-        }
-
-
-        [Authorize]
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsDetails")]
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return RedirectToAction("BadRequestError", "ErrorController");
-            }
-
             if (ManagedAes.IsCipher && seals.Count != 0)
-
             {
                 seals[0].Document.Subject = ManagedAes.DecryptText(seals[0].Document.Subject);
             }
@@ -81,6 +67,10 @@ namespace ArchiveProject2019.Controllers
 
             return View(seals);
         }
+
+
+        //[Authorize]
+        //[AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsDetails")]
 
 
 
@@ -130,13 +120,15 @@ namespace ArchiveProject2019.Controllers
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsCreate")]
         public ActionResult Create(SealDocument Seal, IEnumerable<HttpPostedFileBase> SealFiles)
-
         {
-            foreach (var file in SealFiles)
+            if (SealFiles != null)
             {
-                if (!CheckFileFormatting.PermissionFile(file))
+                foreach (var file in SealFiles)
                 {
-                    ModelState.AddModelError("File", "صيغة الملف غير مدعومة!");
+                    if (!CheckFileFormatting.PermissionFile(file))
+                    {
+                        ModelState.AddModelError("File", "صيغة الملف غير مدعومة!");
+                    }
                 }
             }
 
@@ -154,22 +146,6 @@ namespace ArchiveProject2019.Controllers
 
                 _context.SealDocuments.Add(Seal);
                 _context.SaveChanges();
-            }
-        }
-
-
-
-        [Authorize]
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentSealsEdit")]
-
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return RedirectToAction("BadRequestError", "ErrorController");
-            }
-
-            var seal = _context.SealDocuments.Find(id);
 
                 if (ManagedAes.IsSaveInDb)
                 {
@@ -327,6 +303,7 @@ namespace ArchiveProject2019.Controllers
             }
             return View(Seal);
         }
+    
 
         //// POST: Seal/Edit/5
         //[HttpPost]
@@ -388,7 +365,7 @@ namespace ArchiveProject2019.Controllers
                 seal.FileName = ManagedAes.DecryptText(seal.FileName);
                 seal.Message = ManagedAes.DecryptText(seal.Message);
             }
-            
+
             return View(seal);
         }
 
@@ -424,7 +401,7 @@ namespace ArchiveProject2019.Controllers
 
             return RedirectToAction("Index", new { id = seal.DocumentId });
         }
-s
+
         [Authorize]
         public FileResult DownloadDocument(int? id)
         {
@@ -454,6 +431,7 @@ s
                 return File(SealFiles.File, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
         }
+
         [Authorize]
         public FileResult DisplayDocument(int? id)
         {
@@ -558,62 +536,6 @@ s
 
             return DownloadDocument(id);
         }
-
-
-        //public FileResult DownloadDocument(int? id)
-        //{
-
-        //    var seal = _context.SealFiles.Find(id);
-
-        //    var file = seal.File;
-        //    var fileName = seal.FileName;
-
-        //    if (ManagedAes.IsCipher)
-        //    {
-        //        fileName = ManagedAes.DecryptText(seal.FileName);
-        //        file = ManagedAes.DecryptArrayByte(seal.File);
-        //    }
-
-        //    return File(file, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-        //}
-        //public FileResult DisplayDocument(int? id)
-        //{
-        //    if (id != null)
-        //    { 
-
-        //        var seal = _context.SealFiles.Find(id);
-
-        //        var file = seal.File;
-        //        var fileName = seal.FileName;
-
-        //        if (ManagedAes.IsCipher)
-        //        {
-        //            fileName = ManagedAes.DecryptText(seal.FileName);
-        //            file = ManagedAes.DecryptArrayByte(seal.File);
-        //        }
-
-        //        // Images
-        //        if (fileName.EndsWith("jpeg") || fileName.EndsWith("JPEG"))
-        //            return File(file, "image/jpeg");
-
-        //        if (fileName.EndsWith("jpg") || fileName.EndsWith("JPG"))
-        //            return File(file, "image/jpg");
-
-        //        if (fileName.EndsWith("png") || fileName.EndsWith("PNG"))
-        //            return File(file, "image/png");
-
-        //        if (fileName.EndsWith("gif") || fileName.EndsWith("GIF"))
-        //            return File(file, "image/gif");
-
-        //        // Pdf
-        //        if (fileName.EndsWith("pdf") || fileName.EndsWith("PDF"))
-        //            return File(file, "application/pdf");
-
-        //    }
-        //    return DownloadDocument(id);
-
-        //}
-
 
         protected override void Dispose(bool disposing)
         {

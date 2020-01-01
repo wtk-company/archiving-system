@@ -2190,8 +2190,8 @@ namespace ArchiveProject2019.Controllers
                 string CurrentUserId = this.User.Identity.GetUserId();
                 DateTime TodayDate = DateTime.ParseExact(DateTime.Now.ToString("yyyy/MM/dd").Replace("-", "/"), "yyyy/MM/dd", null);
 
-                List<Document> Documents = _context.Documents.Include(a=>a.TypeMail).Where(a => a.NotificationUserId.Equals(CurrentUserId) && a.NotificationDate != null).ToList();
-                documents = Documents.Where(a => EqualDate(a.NotificationDate, TodayDate)).OrderByDescending(a=>a.NotificationDate);
+                documents = _context.Documents.Include(a=>a.TypeMail).Where(a => a.NotificationUserId.Equals(CurrentUserId) && a.NotificationDate != null).ToList();
+                documents = documents.Where(a => EqualDate(a.NotificationDate, TodayDate)).OrderByDescending(a=>a.NotificationDate);
             }
             else
             {

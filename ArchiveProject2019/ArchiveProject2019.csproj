@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -239,25 +239,9 @@
     <Compile Include="HelperClasses\UserDocumentsID.cs" />
     <Compile Include="HelperClasses\UserRelatedDocumentsId.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-    <Compile Include="Migrations\201912291339414_ah-force.cs" />
-    <Compile Include="Migrations\201912291339414_ah-force.Designer.cs">
-      <DependentUpon>201912291339414_ah-force.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912260809555_sdfd.cs" />
-    <Compile Include="Migrations\201912260809555_sdfd.Designer.cs">
-      <DependentUpon>201912260809555_sdfd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912270504483_aaaa.cs" />
-    <Compile Include="Migrations\201912270504483_aaaa.Designer.cs">
-      <DependentUpon>201912270504483_aaaa.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912270909391_required.cs" />
-    <Compile Include="Migrations\201912270909391_required.Designer.cs">
-      <DependentUpon>201912270909391_required.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912272028141_FileUrl.cs" />
-    <Compile Include="Migrations\201912272028141_FileUrl.Designer.cs">
-      <DependentUpon>201912272028141_FileUrl.cs</DependentUpon>
+    <Compile Include="Migrations\202001010559085_bbb.cs" />
+    <Compile Include="Migrations\202001010559085_bbb.Designer.cs">
+      <DependentUpon>202001010559085_bbb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1140,20 +1124,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201912291339414_ah-force.resx">
-      <DependentUpon>201912291339414_ah-force.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912260809555_sdfd.resx">
-      <DependentUpon>201912260809555_sdfd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912270504483_aaaa.resx">
-      <DependentUpon>201912270504483_aaaa.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912270909391_required.resx">
-      <DependentUpon>201912270909391_required.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912272028141_FileUrl.resx">
-      <DependentUpon>201912272028141_FileUrl.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202001010559085_bbb.resx">
+      <DependentUpon>202001010559085_bbb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -1189,7 +1161,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.3.3.1\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
