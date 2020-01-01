@@ -188,6 +188,9 @@ namespace ArchiveProject2019.Models
         // Company Info 
         public DbSet<Company> Company { set; get; }
 
+        public DbSet<SealFiles> SealFiles { set; get; }
+        
+
 
 
         public ApplicationDbContext()

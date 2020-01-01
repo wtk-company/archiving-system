@@ -243,6 +243,22 @@
     <Compile Include="Migrations\201912291339414_ah-force.Designer.cs">
       <DependentUpon>201912291339414_ah-force.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912260809555_sdfd.cs" />
+    <Compile Include="Migrations\201912260809555_sdfd.Designer.cs">
+      <DependentUpon>201912260809555_sdfd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912270504483_aaaa.cs" />
+    <Compile Include="Migrations\201912270504483_aaaa.Designer.cs">
+      <DependentUpon>201912270504483_aaaa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912270909391_required.cs" />
+    <Compile Include="Migrations\201912270909391_required.Designer.cs">
+      <DependentUpon>201912270909391_required.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201912272028141_FileUrl.cs" />
+    <Compile Include="Migrations\201912272028141_FileUrl.Designer.cs">
+      <DependentUpon>201912272028141_FileUrl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DocumentStatus.cs" />
@@ -275,6 +291,7 @@
     <Compile Include="Models\ReplayDocument.cs" />
     <Compile Include="Models\RoleViewModel.cs" />
     <Compile Include="Models\SealDocument.cs" />
+    <Compile Include="Models\SealFiles.cs" />
     <Compile Include="Models\TypeMail.cs" />
     <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Models\Value.cs" />
@@ -1125,6 +1142,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201912291339414_ah-force.resx">
       <DependentUpon>201912291339414_ah-force.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912260809555_sdfd.resx">
+      <DependentUpon>201912260809555_sdfd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912270504483_aaaa.resx">
+      <DependentUpon>201912270504483_aaaa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912270909391_required.resx">
+      <DependentUpon>201912270909391_required.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912272028141_FileUrl.resx">
+      <DependentUpon>201912272028141_FileUrl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
