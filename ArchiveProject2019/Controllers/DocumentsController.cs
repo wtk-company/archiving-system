@@ -21,16 +21,14 @@ namespace ArchiveProject2019.Controllers
 {
     public class DocumentsController : Controller
     {
-        private bool IsSaveInDb;
-        private bool IsCipher;
+        
 
         ApplicationDbContext _context;
 
         public DocumentsController()
         {
             this._context = new ApplicationDbContext();
-            this.IsSaveInDb = true;
-            this.IsCipher = true;
+            
         }
         public ActionResult Form()
         {
@@ -149,13 +147,7 @@ namespace ArchiveProject2019.Controllers
             return View(myModel);
         }
 
-        public static byte[] DecodeUrlBase64(string s)
-        {
-            //s = s.Replace('-', '+').Replace('_', '/').PadRight(4 * ((s.Length + 3) / 4), '=');
-            var arrayOfString = s.Split(',');
-            
-            return Convert.FromBase64String(arrayOfString[1]);
-        }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -338,7 +330,7 @@ namespace ArchiveProject2019.Controllers
                 // Get Current User Id
                 var UserId = User.Identity.GetUserId();
 
-                if (!IsSaveInDb)
+                if (!ManagedAes.IsSaveInDb)
                 {
 
                     /*
@@ -361,14 +353,14 @@ namespace ArchiveProject2019.Controllers
                             {
                                 System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
                             }
-                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss");
-                            string imageName = s1 + "scannedImage" + i + ".jpg";
+                            string imageName = "scannedImage" + i + ".jpg";
+                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss")+ imageName;
 
                             //set the image path
                             string imgPath = Path.Combine(path, imageName);
-                            byte[] imageBytes = DecodeUrlBase64(ImgStr);
+                            byte[] imageBytes = ManagedAes.DecodeUrlBase64(ImgStr);
 
-                            if (IsCipher)
+                            if (ManagedAes.IsCipher)
                             {
                                 ManagedAes.EncryptFile(imageBytes, imgPath);
                             }
@@ -378,7 +370,7 @@ namespace ArchiveProject2019.Controllers
                             }
 
                             viewModel.Document.Name += imageName + "_##_";
-                            viewModel.Document.FileUrl += imageName + "_##_";
+                            viewModel.Document.FileUrl += s1 + "_##_";
                         }
                     }
                     /*
@@ -397,7 +389,7 @@ namespace ArchiveProject2019.Controllers
                             string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
                             string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
 
-                            if (IsCipher)
+                            if (ManagedAes.IsCipher)
                             {
                                 ManagedAes.EncryptFile(file, path);
                             }
@@ -430,7 +422,7 @@ namespace ArchiveProject2019.Controllers
                 }
 
                 // Encrypt Document Attributes.
-                if (IsCipher)
+                if (ManagedAes.IsCipher)
                 {
                     viewModel.Document.Address = ManagedAes.EncryptText(viewModel.Document.Address);
                     viewModel.Document.CreatedAt = ManagedAes.EncryptText(viewModel.Document.CreatedAt);
@@ -451,7 +443,7 @@ namespace ArchiveProject2019.Controllers
                 _context.SaveChanges();
 
                 // Save Multiple Files In Db (begin)
-                if (IsSaveInDb)
+                if (ManagedAes.IsSaveInDb)
                 {
                     /*
                     * start code
@@ -472,9 +464,9 @@ namespace ArchiveProject2019.Controllers
                             
                             string imageName = "scannedImage" + i + ".jpg";
 
-                            var imgAsByteArray = DecodeUrlBase64(ImgStr);
+                            var imgAsByteArray = ManagedAes.DecodeUrlBase64(ImgStr);
 
-                            if (IsCipher)
+                            if (ManagedAes.IsCipher)
                             {
                                 // Encrypt File Name.
                                 fileStoredInDb.FileName = ManagedAes.EncryptText(imageName);
@@ -517,7 +509,7 @@ namespace ArchiveProject2019.Controllers
                             fileStoredInDb.File = new byte[file.ContentLength];
                             file.InputStream.Read(fileStoredInDb.File, 0, file.ContentLength);
 
-                            if (IsCipher)
+                            if (ManagedAes.IsCipher)
                             {
                                 // Encrypt File Name.
                                 fileStoredInDb.FileName = ManagedAes.EncryptText(FileName);
@@ -912,7 +904,7 @@ namespace ArchiveProject2019.Controllers
             //================= End Related Opertaions==================
 
             //Party ids:
-            if(document.TypeMailId==2)
+            if(Document.TypeMailId==2)
             {
 
                 List<SelectListItem> ListS4 = new List<SelectListItem>();
@@ -924,7 +916,7 @@ namespace ArchiveProject2019.Controllers
 
                         Text = G.Name,
                         Value = G.Id.ToString(),
-                        Selected = _context.DocumentParties.Any(a => a.DocumentId == document.Id && a.PartyId == G.Id) ? true : false
+                        Selected = _context.DocumentParties.Any(a => a.DocumentId == Document.Id && a.PartyId == G.Id) ? true : false
                     };
 
                     ListS4.Add(sl);
@@ -957,7 +949,7 @@ namespace ArchiveProject2019.Controllers
 
             }
             // Decrypt Document Attributes.
-            if (IsCipher)
+            if (ManagedAes.IsCipher)
             {
                 Document.Address = ManagedAes.DecryptText(Document.Address);
                 Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
@@ -989,7 +981,7 @@ namespace ArchiveProject2019.Controllers
                         );
                 }
 
-                if (IsSaveInDb)
+                if (ManagedAes.IsSaveInDb)
                 {
                     var names = Document.FilesStoredInDbs.Count;
                     var existfiles = Enumerable.Repeat(true, names).ToList();
@@ -1001,7 +993,7 @@ namespace ArchiveProject2019.Controllers
                         ExistFiles = existfiles,
                         FilesStoredInDbs = filesStoredInDbs,
                         TypeMail = Document.TypeMail.Type,
-                        IsSaveInDb = IsSaveInDb,
+                        IsSaveInDb = ManagedAes.IsSaveInDb,
                     };
 
                     return View(myModel);
@@ -1023,7 +1015,7 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            if (IsSaveInDb)
+            if (ManagedAes.IsSaveInDb)
             {
                 var names = Document.FilesStoredInDbs.Count;
                 var existfiles = Enumerable.Repeat(true, names).ToList();
@@ -1035,7 +1027,7 @@ namespace ArchiveProject2019.Controllers
                     ExistFiles = existfiles,
                     FilesStoredInDbs = Document.FilesStoredInDbs.ToList(),
                     TypeMail = Document.TypeMail.Type,
-                    IsSaveInDb = IsSaveInDb,
+                    IsSaveInDb = ManagedAes.IsSaveInDb,
                 };
 
                 return View(myModel);
@@ -1335,7 +1327,7 @@ namespace ArchiveProject2019.Controllers
             {
                 if (viewModel.ExistFiles != null)
                 {
-                    if (IsSaveInDb)
+                    if (ManagedAes.IsSaveInDb)
                     {
                         /*
                          * start code
@@ -1357,9 +1349,9 @@ namespace ArchiveProject2019.Controllers
 
                                 string imageName = "scannedImage" + i + ".jpg";
 
-                                var imgAsByteArray = DecodeUrlBase64(ImgStr);
+                                var imgAsByteArray = ManagedAes.DecodeUrlBase64(ImgStr);
 
-                                if (IsCipher)
+                                if (ManagedAes.IsCipher)
                                 {
                                     // Encrypt File Name.
                                     fileStoredInDb.FileName = ManagedAes.EncryptText(imageName);
@@ -1404,7 +1396,7 @@ namespace ArchiveProject2019.Controllers
                                         viewModel.FilesStoredInDbs[i].File = new byte[UploadFile[i].ContentLength];
                                         UploadFile[i].InputStream.Read(viewModel.FilesStoredInDbs[i].File, 0, UploadFile[i].ContentLength);
 
-                                        if (IsCipher)
+                                        if (ManagedAes.IsCipher)
                                         {
                                             // Encrypt File Name.
                                             viewModel.FilesStoredInDbs[i].FileName = ManagedAes.EncryptText(FileName);
@@ -1420,7 +1412,7 @@ namespace ArchiveProject2019.Controllers
                                 {
                                     var filesStoredInDb = _context.FilesStoredInDbs.Find(viewModel.FilesStoredInDbs[i].Id);
 
-                                    if (IsCipher)
+                                    if (ManagedAes.IsCipher)
                                     {
                                         filesStoredInDb.FileName = ManagedAes.DecryptText(filesStoredInDb.FileName);
                                         filesStoredInDb.File = ManagedAes.DecryptArrayByte(filesStoredInDb.File);
@@ -1445,7 +1437,7 @@ namespace ArchiveProject2019.Controllers
 
                                 FileStoredInDb.DocumentId = viewModel.Document.Id;
 
-                                if (IsCipher)
+                                if (ManagedAes.IsCipher)
                                 {
                                     // Encrypt File Name.
                                     viewModel.FilesStoredInDbs[i].FileName = ManagedAes.EncryptText(FileName);
@@ -1491,9 +1483,9 @@ namespace ArchiveProject2019.Controllers
                                 //set the image path
                                 string imgPath = Path.Combine(path, imageName);
 
-                                byte[] imageBytes = DecodeUrlBase64(ImgStr);
+                                byte[] imageBytes = ManagedAes.DecodeUrlBase64(ImgStr);
 
-                                if (IsCipher)
+                                if (ManagedAes.IsCipher)
                                 {
                                     ManagedAes.EncryptFile(imageBytes, imgPath);
                                 }
@@ -1537,7 +1529,7 @@ namespace ArchiveProject2019.Controllers
                                         string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
                                         string path = Path.Combine(Server.MapPath("~/Uploads/"), s1);
                                         //UploadFile[i].SaveAs(path);
-                                        if (IsCipher)
+                                        if (ManagedAes.IsCipher)
                                         {
                                             ManagedAes.EncryptFile(UploadFile[i], path);
                                         }
@@ -1610,7 +1602,7 @@ namespace ArchiveProject2019.Controllers
                 }
                 
                 // Encrypt Document Attributes.
-                if (IsCipher)
+                if (ManagedAes.IsCipher)
                 {
                     viewModel.Document.Address = ManagedAes.EncryptText(viewModel.Document.Address);
                     viewModel.Document.CreatedAt = ManagedAes.EncryptText(viewModel.Document.CreatedAt);
@@ -2296,30 +2288,30 @@ namespace ArchiveProject2019.Controllers
 
 
             string currentUserId = this.User.Identity.GetUserId();
-            var documents = _context.Documents.Where(a => a.CreatedById.Equals(currentUserId)).Include(a => a.TypeMail).OrderByDescending(a => a.CreatedAt).Take(10);
+            var Documents = _context.Documents.Where(a => a.CreatedById.Equals(currentUserId)).Include(a => a.TypeMail).OrderByDescending(a => a.CreatedAt).Take(10).ToList();
 
             // Decrypt Document Attributes.
-            if (IsCipher)
+            if (ManagedAes.IsCipher)
             {
-                foreach (var Document in documents)
+                foreach (var Document in Documents)
                 {
-                    Document.Address = ManagedAes.DecryptText(Document.Address);
-                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
-                    Document.Description = ManagedAes.DecryptText(Document.Description);
-                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
                     Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
-                    Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
-                    Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
-                    Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
-                    Document.Name = ManagedAes.DecryptText(Document.Name);
-                    Document.Notes = ManagedAes.DecryptText(Document.Notes);
-                    Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
                     Document.Subject = ManagedAes.DecryptText(Document.Subject);
-                    Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
+                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
+                    //Document.Address = ManagedAes.DecryptText(Document.Address);
+                    //Document.Description = ManagedAes.DecryptText(Document.Description);
+                    //Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
+                    //Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
+                    //Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
+                    //Document.Name = ManagedAes.DecryptText(Document.Name);
+                    //Document.Notes = ManagedAes.DecryptText(Document.Notes);
+                    //Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                    //Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
                 }
             }
-
-            return View(documents);
+            
+            return View(Documents);
         }
 
 
@@ -2386,6 +2378,26 @@ namespace ArchiveProject2019.Controllers
 
             documents = _context.Documents.Where(a => MyDocId.Contains(a.Id)).Include(a => a.TypeMail).ToList();
 
+            // Decrypt Document Attributes.
+            if (ManagedAes.IsCipher)
+            {
+                foreach (var Document in documents)
+                {
+                    Document.Address = ManagedAes.DecryptText(Document.Address);
+                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
+                    Document.Description = ManagedAes.DecryptText(Document.Description);
+                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
+                    Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
+                    Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
+                    Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
+                    Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
+                    Document.Name = ManagedAes.DecryptText(Document.Name);
+                    Document.Notes = ManagedAes.DecryptText(Document.Notes);
+                    Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                    Document.Subject = ManagedAes.DecryptText(Document.Subject);
+                    Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
+                }
+            }
 
             documents = (from d in documents
                          where
@@ -2478,55 +2490,71 @@ namespace ArchiveProject2019.Controllers
                     break;
             }
             documents = documents.Take(Convert.ToInt32(RetrievalCount)).ToList();
-
-
-            // Decrypt Document Attributes.
-            if (IsCipher)
-            {
-                foreach (var Document in documents)
-                {
-                    Document.Address = ManagedAes.DecryptText(Document.Address);
-                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
-                    Document.Description = ManagedAes.DecryptText(Document.Description);
-                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
-                    Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
-                    Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
-                    Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
-                    Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
-                    Document.Name = ManagedAes.DecryptText(Document.Name);
-                    Document.Notes = ManagedAes.DecryptText(Document.Notes);
-                    Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
-                    Document.Subject = ManagedAes.DecryptText(Document.Subject);
-                    Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
-                }
-            }
-
-
+            
+            
             return PartialView("_search", documents);
         }
 
         public ActionResult Relate(int? Id)
         {
             string CurrentUserId = this.User.Identity.GetUserId();
+
             if (Id == null)
             {
                 return RedirectToAction("BadRequestError", "ErrorController");
 
             }
 
-            Document document = _context.Documents.Find(Id);
-            if (document == null)
-            {
-                return RedirectToAction("HttpNotFoundError", "ErrorController");
+            //Document document = _context.Documents.Find(Id);
 
+            //if (ManagedAes.IsCipher)
+            //{
+            //    document.Address = ManagedAes.DecryptText(document.Address);
+            //    document.CreatedAt = ManagedAes.DecryptText(document.CreatedAt);
+            //    document.Description = ManagedAes.DecryptText(document.Description);
+            //    document.DocumentDate = ManagedAes.DecryptText(document.DocumentDate);
+            //    //document.DocumentNumber = ManagedAes.DecryptText(document.DocumentNumber);
+            //    //document.FileUrl = ManagedAes.DecryptText(document.FileUrl);
+            //    //document.MailingDate = ManagedAes.DecryptText(document.MailingDate);
+            //    //document.MailingNumber = ManagedAes.DecryptText(document.MailingNumber);
+            //    //document.Name = ManagedAes.DecryptText(document.Name);
+            //    //document.Notes = ManagedAes.DecryptText(document.Notes);
+            //    //document.NotificationDate = ManagedAes.DecryptText(document.NotificationDate);
+            //    //document.Subject = ManagedAes.DecryptText(document.Subject);
+            //    //document.UpdatedAt = ManagedAes.DecryptText(document.UpdatedAt);
+            //}
 
-            }
+            //if (document == null)
+            //{
+            //    return RedirectToAction("HttpNotFoundError", "ErrorController");
+            //}
 
             List<int> DocumentRelate = UserRelatedDocumentsId.UserAllDocuments(CurrentUserId).ToList();
             DocumentRelate = DocumentRelate.Except(new List<int>() {Id.Value }).ToList();
-            List<Document> Mydoc = _context.Documents.Where(a => DocumentRelate.Contains(a.Id)).ToList();
+            List<Document> Documents = _context.Documents.Where(a => DocumentRelate.Contains(a.Id)).ToList();
             ViewBag.DocId = Id.Value;
-            return View(Mydoc);
+
+            if (ManagedAes.IsCipher)
+            {
+                foreach (var Document in Documents)
+                {
+                    Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
+                    Document.Subject = ManagedAes.DecryptText(Document.Subject);
+                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
+                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
+                    //Document.Address = ManagedAes.DecryptText(Document.Address);
+                    //Document.Description = ManagedAes.DecryptText(Document.Description);
+                    //Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
+                    //Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
+                    //Document.MailingNumbefr = ManagedAes.DecryptText(Document.MailingNumber);
+                    //Document.Name = ManagedAes.DecryptText(Document.Name);
+                    //Document.Notes = ManagedAes.DecryptText(Document.Notes);
+                    //Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                    //Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
+                }
+            }
+
+            return View(Documents);
 
         }
 
@@ -2535,6 +2563,7 @@ namespace ArchiveProject2019.Controllers
         {
             string CurrentUserid = this.User.Identity.GetUserId();
             RelatedDocument Relatedocument = null;
+
             if(Documents!=null)
             {
 
@@ -2545,8 +2574,7 @@ namespace ArchiveProject2019.Controllers
                     {
                         Document_id=DocId,
                         RelatedDocId=DId,
-
-                        CreatedById=CurrentUserid
+                        CreatedById=CurrentUserid,
                     };
 
                     _context.RelatedDocuments.Add(Relatedocument);
@@ -2559,9 +2587,7 @@ namespace ArchiveProject2019.Controllers
 
             else
             {
-                return RedirectToAction("GetRelatedDocument", new { Id = DocId, msg = "CreateError" });
-
-
+                return RedirectToAction("GetRelatedDocument", new { Id = DocId, msg = "CreateError" });                
             }
           
         }
@@ -2577,7 +2603,25 @@ namespace ArchiveProject2019.Controllers
             {
                 return RedirectToAction("BadRequestError", "ErrorController");
             }
-            Document document = _context.Documents.Include(a => a.Department).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(b => b.CreatedBy).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
+            var document = _context.Documents.Include(a => a.Department).Include(dk => dk.Kind).Include(p => p.Party).Include(t => t.TypeMail).Include(b => b.CreatedBy).Include(a => a.Form).FirstOrDefault(a => a.Id == id);
+
+            if (ManagedAes.IsCipher)
+            {
+                document.Address = ManagedAes.DecryptText(document.Address);
+                document.CreatedAt = ManagedAes.DecryptText(document.CreatedAt);
+                document.Description = ManagedAes.DecryptText(document.Description);
+                document.DocumentDate = ManagedAes.DecryptText(document.DocumentDate);
+                //document.DocumentNumber = ManagedAes.DecryptText(document.DocumentNumber);
+                //document.FileUrl = ManagedAes.DecryptText(document.FileUrl);
+                //document.MailingDate = ManagedAes.DecryptText(document.MailingDate);
+                //document.MailingNumber = ManagedAes.DecryptText(document.MailingNumber);
+                //document.Name = ManagedAes.DecryptText(document.Name);
+                //document.Notes = ManagedAes.DecryptText(document.Notes);
+                //document.NotificationDate = ManagedAes.DecryptText(document.NotificationDate);
+                //document.Subject = ManagedAes.DecryptText(document.Subject);
+                //document.UpdatedAt = ManagedAes.DecryptText(document.UpdatedAt);
+            }
+
             if (document == null)
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
@@ -2594,6 +2638,23 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "Document";
 
             var document = _context.Documents.Find(id);
+
+            if (ManagedAes.IsCipher)
+            {
+                document.Address = ManagedAes.DecryptText(document.Address);
+                document.CreatedAt = ManagedAes.DecryptText(document.CreatedAt);
+                document.Description = ManagedAes.DecryptText(document.Description);
+                document.DocumentDate = ManagedAes.DecryptText(document.DocumentDate);
+                document.DocumentNumber = ManagedAes.DecryptText(document.DocumentNumber);
+                document.FileUrl = ManagedAes.DecryptText(document.FileUrl);
+                document.MailingDate = ManagedAes.DecryptText(document.MailingDate);
+                document.MailingNumber = ManagedAes.DecryptText(document.MailingNumber);
+                document.Name = ManagedAes.DecryptText(document.Name);
+                document.Notes = ManagedAes.DecryptText(document.Notes);
+                document.NotificationDate = ManagedAes.DecryptText(document.NotificationDate);
+                document.Subject = ManagedAes.DecryptText(document.Subject);
+                document.UpdatedAt = ManagedAes.DecryptText(document.UpdatedAt);
+            }
 
             //Beacuse sycle when cascade:
             var values = _context.Values.Where(v => v.Document_id == id).ToList();
@@ -2666,12 +2727,9 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
-            if (IsCipher)
+            if (ManagedAes.IsCipher)
             {
-                // Decrypt Document Attributes.
-                if (IsCipher)
-                {
-                    Document.Address = ManagedAes.DecryptText(Document.Address);
+                 Document.Address = ManagedAes.DecryptText(Document.Address);
                     Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
                     Document.Description = ManagedAes.DecryptText(Document.Description);
                     Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
@@ -2684,7 +2742,7 @@ namespace ArchiveProject2019.Controllers
                     Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
                     Document.Subject = ManagedAes.DecryptText(Document.Subject);
                     Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
-                }
+            
 
                 var files = Document.FilesStoredInDbs.ToList();
                 var filesStoredInDbs = new List<FilesStoredInDb>(files.Count);
@@ -2706,7 +2764,7 @@ namespace ArchiveProject2019.Controllers
                     Fields = Fields,
                     Values = Values,
                     FilesStoredInDbs = filesStoredInDbs,
-                    IsSaveInDb = this.IsSaveInDb,
+                    IsSaveInDb = ManagedAes.IsSaveInDb,
                     Seals = seals,
                 };
             
@@ -2720,7 +2778,7 @@ namespace ArchiveProject2019.Controllers
                 Fields = Fields,
                 Values = Values,
                 FilesStoredInDbs = Document.FilesStoredInDbs.ToList(),
-                IsSaveInDb = this.IsSaveInDb,
+                IsSaveInDb = ManagedAes.IsSaveInDb,
                 Seals = seals,
             };
 
@@ -2742,7 +2800,7 @@ namespace ArchiveProject2019.Controllers
                 var file = FileStoredInDb.File;
                 fileName = FileStoredInDb.FileName;
 
-                if (IsCipher)
+                if (ManagedAes.IsCipher)
                 {
                     fileName = ManagedAes.DecryptText(FileStoredInDb.FileName);
                     file = ManagedAes.DecryptArrayByte(FileStoredInDb.File);
@@ -2757,7 +2815,7 @@ namespace ArchiveProject2019.Controllers
             {
                 string filePath = Server.MapPath("~/Uploads/").Replace(@"\", "/") + fileName;
 
-                if (IsCipher)
+                if (ManagedAes.IsCipher)
                 {
                     var file = ManagedAes.DecryptFile(filePath);
                     MemoryStream memStream = new MemoryStream();
@@ -2820,7 +2878,7 @@ namespace ArchiveProject2019.Controllers
                 var file = FileStoredInDb.File;
                 fileName = FileStoredInDb.FileName;
 
-                if (IsCipher)
+                if (ManagedAes.IsCipher)
                 {
                     fileName = ManagedAes.DecryptText(FileStoredInDb.FileName);
                     file = ManagedAes.DecryptArrayByte(FileStoredInDb.File);
@@ -2902,8 +2960,29 @@ namespace ArchiveProject2019.Controllers
 
             }
             List<int> DocIds = new List<int>();
-           DocIds = UserDocumentsID.UserRelateDocument(CurrentUserId,id).ToList();
+            DocIds = UserDocumentsID.UserRelateDocument(CurrentUserId, id).ToList();
             var documents = _context.Documents.Where(a => DocIds.Contains(a.Id)).OrderByDescending(a=>a.CreatedAt).Include(a => a.TypeMail).ToList();
+
+            // Decrypt Document Attributes.
+            if (ManagedAes.IsCipher)
+            {
+                foreach (var Document in documents)
+                {
+                    Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
+                    Document.Subject = ManagedAes.DecryptText(Document.Subject);
+                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
+                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
+                    //Document.Address = ManagedAes.DecryptText(Document.Address);
+                    //Document.Description = ManagedAes.DecryptText(Document.Description);
+                    //Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
+                    //Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
+                    //Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
+                    //Document.Name = ManagedAes.DecryptText(Document.Name);
+                    //Document.Notes = ManagedAes.DecryptText(Document.Notes);
+                    //Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                    //Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
+                }
+            }
 
             return View(documents);
         }
@@ -2933,6 +3012,27 @@ namespace ArchiveProject2019.Controllers
 
             DocIds = UserDocumentsID.UserReplayDocument(CurrentUserId, id).ToList();
             var documents = _context.Documents.Where(a => DocIds.Contains(a.Id)).OrderByDescending(a => a.CreatedAt).Include(a => a.TypeMail).ToList();
+
+            // Decrypt Document Attributes.
+            if (ManagedAes.IsCipher)
+            {
+                foreach (var Document in documents)
+                {
+                    Document.DocumentNumber = ManagedAes.DecryptText(Document.DocumentNumber);
+                    Document.Subject = ManagedAes.DecryptText(Document.Subject);
+                    Document.CreatedAt = ManagedAes.DecryptText(Document.CreatedAt);
+                    Document.DocumentDate = ManagedAes.DecryptText(Document.DocumentDate);
+                    //Document.Address = ManagedAes.DecryptText(Document.Address);
+                    //Document.Description = ManagedAes.DecryptText(Document.Description);
+                    //Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
+                    //Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
+                    //Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
+                    //Document.Name = ManagedAes.DecryptText(Document.Name);
+                    //Document.Notes = ManagedAes.DecryptText(Document.Notes);
+                    //Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
+                    //Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
+                }
+            }
 
             return View(documents);
         }

@@ -14,15 +14,13 @@ namespace ArchiveProject2019.Models
 
 
         [Display(Name = "نص التسديد")]
+        [Required]
         public string Message { get; set; }
 
 
         [Display(Name = "اسم الملف")]
         public string FileName { get; set; }
-
-
-        [Display(Name = "الملف")]
-        public byte[] File { get; set; }
+        
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         [Display(Name = "تاريخ الإنشاء")]
@@ -40,5 +38,9 @@ namespace ArchiveProject2019.Models
         public int DocumentId { get; set; }
         [ForeignKey("DocumentId")]
         public Document Document { get; set; }
+
+
+        // Files Collection
+        public ICollection<SealFiles> Files { set; get; }
     }
 }

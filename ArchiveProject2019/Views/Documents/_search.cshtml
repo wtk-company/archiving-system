@@ -2,7 +2,7 @@
 @using ArchiveProject2019.HelperClasses
 @using Microsoft.AspNet.Identity;
 @{
-    
+
     string CurrentUserId = this.User.Identity.GetUserId();
 }
 
@@ -34,10 +34,6 @@
     </thead>
     <tbody id="TBod">
 
-
-
-
-
         @foreach (var item in Model)
         {
             <tr>
@@ -59,8 +55,6 @@
                     @Html.DisplayFor(modelItem => item.DocumentDate)
                 </td>
                 <td>
-
-
                     <div class="btn-group" role="group">
                         <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             الوثائق المرتبطة
@@ -70,61 +64,40 @@
 
                             @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
                             {
-
+                                
                                 <li>
-
                                     <a href="#" data-form-id="@item.Id" title="ربط وثيقة" class="btn-link js-relate btn-sm">ربط وثيقة جديدة</a>
-
                                 </li>
-
-
-
 
                                 <li>
-
-                                    <a href="@Url.Action("Create", "Seals", new { id = item.Id })" title="تسديد" class="btn-link  btn-sm">تسديد</a>
-
+                                    <a href="@Url.Action("Create", "Seals", new { id = item.Id, IsCipher = ArchiveProject2019.Security.ManagedAes.IsCipher })" title="تسديد" class="btn-link  btn-sm">تسديد</a>
                                 </li>
                             }
+
                             <li>
-
-                                <a href="@Url.Action("Index","Seals",new { id=item.Id})" title="عرض تسديدات الوثيقة" class="btn-link  btn-sm">تسديدات الوثيقة</a>
-
+                                <a href="@Url.Action("Index", "Seals", new { id=item.Id, IsCipher = ArchiveProject2019.Security.ManagedAes.IsCipher})" title="عرض تسديدات الوثيقة" class="btn-link  btn-sm">تسديدات الوثيقة</a>
                             </li>
 
                             @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
                             {
-
                                 <li>
-
                                     <a href="#" data-form-id="@item.Id" title="رد وثيقة" class="btn-link js-replay btn-sm">رد وثيقة</a>
-
                                 </li>
-
                             }
+
                             <li>
-
                                 <a href="@Url.Action("GetRelatedDocument","Documents",new { id=item.Id})" title="عرض الوثائق المرتبطة" class="btn-link  btn-sm">عرض الوثائق المرتبطة</a>
-
                             </li>
                             <li>
-
                                 <a href="@Url.Action("GetReplayDocument","Documents",new { id=item.Id})" title="عرض الرد" class="btn-link  btn-sm">عرض الوثائق الرد</a>
-
                             </li>
 
                             @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
                             {
-
                                 <li>
-
                                     <a href="@Url.Action("Relate", "Documents", new { id = item.Id })" title="ربط وثائق" class="btn-link  btn-sm">ربط مع وثائق</a>
-
                                 </li>
-
                             }
-
-
                         </ul>
                     </div>
 
@@ -196,10 +169,7 @@
                             }
 
                             <li>
-
                                 <a href="@Url.Action("Index","DocumentUsers",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> العناصر الخاصة بالوثيقة </a>
-
-
                             </li>
 
 
@@ -207,19 +177,17 @@
                             {
                                 if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
                                 {
-
                                     <li>
                                         <a href="@Url.Action("Create", "DocumentParties", new { id = item.Id })" title="إضافة جهات مستهدفة" class="btn-link btn-sm">إضافة جهات مستهدفة</a>
                                     </li>
                                 }
+
                                 <li>
                                     <a href="@Url.Action("Index","DocumentParties",new { id=item.Id})" title="الجهات المستهدفة" class="btn-link  btn-sm"> الجهات المستهدفة </a>
                                 </li>
                             }
                         </ul>
                     </div>
-
-
                 </td>
             </tr>
         }
