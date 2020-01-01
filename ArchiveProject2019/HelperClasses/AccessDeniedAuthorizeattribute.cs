@@ -24,14 +24,15 @@ namespace ArchiveProject2019.HelperClasses
             if (false)
             {
 
-                filterContext.Result = new RedirectResult("~/ErrorController/ApplicationClosed");
+               filterContext.Result = new RedirectResult("~/ErrorController/ApplicationClosed");
                 return;
 
 
             }
+          
 
-            if (!ActionName.Equals("Access"))
-            {
+            //if (!ActionName.Equals("Access"))
+            //{
 
 
 
@@ -114,7 +115,9 @@ namespace ArchiveProject2019.HelperClasses
                 }
 
 
-            }
+           // }
+
+          
         }
 
     }

@@ -13,7 +13,7 @@ using ArchiveProject2019.HelperClasses;
 
 namespace ArchiveProject2019.Controllers
 {
-    [Authorize]
+   
     public class AccountController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -58,7 +58,7 @@ namespace ArchiveProject2019.Controllers
 
         //
         // GET: /Account/Login
-        [AccessDeniedAuthorizeattribute(ActionName = "Access")]
+       // [AccessDeniedAuthorizeattribute(ActionName = "Access")]
 
         public ActionResult Login(string returnUrl)
         {
@@ -72,7 +72,7 @@ namespace ArchiveProject2019.Controllers
      
         [ValidateAntiForgeryToken]
 
-        [AccessDeniedAuthorizeattribute(ActionName = "Access")]
+     //   [AccessDeniedAuthorizeattribute(ActionName = "Access")]
 
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {

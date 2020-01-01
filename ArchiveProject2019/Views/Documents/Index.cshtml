@@ -117,6 +117,8 @@
 <p>
 
     <a href="@Url.Action("Create","Documents", new {docId=-1,IsReplay=false,Standard=0 })" title="إضافةوثيقة تقليدية" class="btn btn-default">إضافةوثيقة تقليدية</a>
+        <a href="@Url.Action("Create","Documents", new {docId=-1,IsReplay=false,Standard=0,IsGeneralize=true })" title="إضافةوثيقة تعميم" class="btn btn-default">إضافةوثيقة تعميم</a>
+
 
     @foreach (var formId in UserFavoriteFormId)
     {

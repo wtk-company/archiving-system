@@ -26,7 +26,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [AccessDeniedAuthorizeattribute(ActionName = "Access")]
+       // [AccessDeniedAuthorizeattribute(ActionName = "Access")]
 
         public ActionResult Index()
         {

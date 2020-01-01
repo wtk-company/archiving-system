@@ -87,7 +87,7 @@ namespace ArchiveProject2019.Controllers
 
         
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentCreate")]
-        public ActionResult Create(int Id = 0, int docId = -1, bool IsReplay = false, int Standard = -1)
+        public ActionResult Create(int Id = 0, int docId = -1, bool IsReplay = false, int Standard = -1,bool IsGeneralize=false)
         {
             ViewBag.Current = "Document";
 
@@ -133,6 +133,8 @@ namespace ArchiveProject2019.Controllers
             };
 
 
+
+            ViewBag.Gereralize = IsGeneralize;
 
             ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
 

@@ -13,6 +13,8 @@ namespace ArchiveProject2019.Models
         public int Id { get; set; }
 
 
+        public bool IsGeneralize { set; get; }
+
         [Display(Name = "اسم الملف")]
 
         public string Name { get; set; }

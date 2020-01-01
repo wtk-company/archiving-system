@@ -128,6 +128,8 @@
             </div>
         </div>
 
+        @((bool) ViewBag.Gereralize!=true){
+
         <div class="form-group">
             @*<div class="form-group">*@
             @Html.LabelFor(model => model.Document.KindId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -150,7 +152,7 @@
         </div>
 
 
-
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.Document.ResponsibleUserId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -170,6 +172,8 @@
             </div>
             @*</div>*@
         </div>
+
+        }
 
 
 
