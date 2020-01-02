@@ -524,7 +524,12 @@ namespace ArchiveProject2019.Controllers
 
 
 
-                List<string> RelatedDep = RelatedDepartments.ToList();
+                List<string> RelatedDep = new List<string>();
+                if(RelatedDepartments!=null)
+                {
+
+                    RelatedDep= RelatedDepartments.ToList();
+                }
                 RelatedDep.Add(UserDepId.ToString());
 
 
@@ -1647,7 +1652,12 @@ namespace ArchiveProject2019.Controllers
                 SelectedDocumentDepartments = _context.DocumentDepartments.Where(a => a.DocumentId == viewModel.Document.Id).Select(a => a.DepartmentId.ToString()).ToList();
 
 
-                List<string> RelatedDep = RelatedDepartments.ToList();
+                List<string> RelatedDep = new List<string>();
+                    if(RelatedDepartments!=null)
+                {
+
+                    RelatedDep=RelatedDepartments.ToList();
+                }
                 RelatedDep.Add(viewModel.Document.DepartmentId.ToString());
                 if (RelatedDep != null)
                 {
