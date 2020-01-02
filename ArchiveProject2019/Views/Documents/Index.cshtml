@@ -444,22 +444,7 @@
                         </div>
 
 
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                خيارات إضافية
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-
-
-                                @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                {
-                                    <li>
-
-                                        <a href="@Url.Action("Edit","Documents",new { id=item.Id})" title="تعديل الوثيقة" class="btn-link  btn-xs">تعديل الوثيقة</a>
-
-                                </li>
-                                }
+                      
                             <div class="btn-group" role="group" >
                                 <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     خيارات إضافية
