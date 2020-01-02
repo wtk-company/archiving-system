@@ -455,86 +455,97 @@
 
 
 
-                                    @if (DocumentOperation.DocumentCanDelete(CurrentUserId, item.Id)==true)
+                                    @if (DocumentOperation.DocumentCanDelete(CurrentUserId, item.Id) == true)
                                     {
-                                    <li>
-
-                                        <a href="#" data-form-id="@item.Id" title="حذف الوثيقة" class="btn-link js-Delete btn-sm">حذف الوثيقة </a>
-
-
-
-                                    </li>
-                                    }
-
-                                <li>
-
-                                    <a href="@Url.Action("Details","Documents",new { id=item.Id})" title="تفاصيل الوثيقة" class="btn-link js-Details  btn-xs">تفاصيل الوثيقة</a>
-
-                                </li>
-
-
-                                @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                {
-                                    <li>
-
-                                        <a href="@Url.Action("Create", "DocumentDepartments", new { id = item.Id })" title="إضافة الاقسام للوثيقة" class="btn-link btn-sm">إضافة اقسام للوثيقة</a>
-
-                                    </li>
-
-                                }
-                                <li>
-
-                                    <a href="@Url.Action("Index","DocumentDepartments",new { id=item.Id})" title="الاقسام الخاصة بالوثيقة" class="btn-link  btn-sm"> الأقسام الخاصة بالوثيقة </a>
-
-                                </li>
-
-                                @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                {
-                                    <li>
-
-                                        <a href="@Url.Action("Create", "DocumentGroups", new { id = item.Id })" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة مجموعات للوثيقة</a>
-
-                                    </li>
-                                }
-
-                                <li>
-
-                                    <a href="@Url.Action("Index","DocumentGroups",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> المجموعات الخاصة بالوثيقة </a>
-
-                                </li>
-
-
-                                @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                {
-                                    <li>
-
-                                        <a href="@Url.Action("Create", "DocumentUsers", new { id = item.Id })" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة عناصر للوثيقة</a>
-
-                                    </li>
-                                }
-
-                                <li>
-
-                                    <a href="@Url.Action("Index","DocumentUsers",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> العناصر الخاصة بالوثيقة </a>
-
-
-                                </li>
-
-
-                                @if (item.TypeMail.Type == 2)
-                                {
-                                    if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                    {
-
                                         <li>
-                                            <a href="@Url.Action("Create", "DocumentParties", new { id = item.Id })" title="إضافة جهات مستهدفة" class="btn-link btn-sm">إضافة جهات مستهدفة</a>
+
+                                            <a href="#" data-form-id="@item.Id" title="حذف الوثيقة" class="btn-link js-Delete btn-sm">حذف الوثيقة </a>
+
+
+
                                         </li>
                                     }
+
                                     <li>
-                                        <a href="@Url.Action("Index","DocumentParties",new { id=item.Id})" title="الجهات المستهدفة" class="btn-link  btn-sm"> الجهات المستهدفة </a>
+
+                                        <a href="@Url.Action("Details","Documents",new { id=item.Id})" title="تفاصيل الوثيقة" class="btn-link js-Details  btn-xs">تفاصيل الوثيقة</a>
+
                                     </li>
-                                }
-                            </ul>
+
+
+                                    @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                    {
+                                        <li>
+
+                                            <a href="@Url.Action("Create", "DocumentDepartments", new { id = item.Id })" title="إضافة الاقسام للوثيقة" class="btn-link btn-sm">إضافة اقسام للوثيقة</a>
+
+                                        </li>
+
+                                    }
+
+
+                                    @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                    {
+                                        <li>
+
+                                            <a href="@Url.Action("Edit", "Documents", new { id = item.Id })" title="تعديل الوثيقة" class="btn-link btn-sm">تعديل وثيقة</a>
+
+                                        </li>
+
+                                    }
+                                    <li>
+
+                                        <a href="@Url.Action("Index","DocumentDepartments",new { id=item.Id})" title="الاقسام الخاصة بالوثيقة" class="btn-link  btn-sm"> الأقسام الخاصة بالوثيقة </a>
+
+                                    </li>
+
+                                    @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                    {
+                                        <li>
+
+                                            <a href="@Url.Action("Create", "DocumentGroups", new { id = item.Id })" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة مجموعات للوثيقة</a>
+
+                                        </li>
+                                    }
+
+                                    <li>
+
+                                        <a href="@Url.Action("Index","DocumentGroups",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> المجموعات الخاصة بالوثيقة </a>
+
+                                    </li>
+
+
+                                    @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                    {
+                                        <li>
+
+                                            <a href="@Url.Action("Create", "DocumentUsers", new { id = item.Id })" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة عناصر للوثيقة</a>
+
+                                        </li>
+                                    }
+
+                                    <li>
+
+                                        <a href="@Url.Action("Index","DocumentUsers",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> العناصر الخاصة بالوثيقة </a>
+
+
+                                    </li>
+
+
+                                    @if (item.TypeMail.Type == 2)
+                                    {
+                                        if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                        {
+
+                                            <li>
+                                                <a href="@Url.Action("Create", "DocumentParties", new { id = item.Id })" title="إضافة جهات مستهدفة" class="btn-link btn-sm">إضافة جهات مستهدفة</a>
+                                            </li>
+                                        }
+                                        <li>
+                                            <a href="@Url.Action("Index","DocumentParties",new { id=item.Id})" title="الجهات المستهدفة" class="btn-link  btn-sm"> الجهات المستهدفة </a>
+                                        </li>
+                                    }
+                                </ul>
                         </div>
 
 
