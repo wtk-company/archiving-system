@@ -13,7 +13,7 @@ namespace ArchiveProject2019.Security
     {
 
         public static bool IsSaveInDb = false;
-        public static bool IsCipher = true;
+        public static bool IsCipher = false;
 
 
         // Encryption Key

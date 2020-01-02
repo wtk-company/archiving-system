@@ -63,6 +63,11 @@ namespace ArchiveProject2019.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+
+            if (false)
+            {
+                return RedirectToAction("ApplicationClosed", "ErrorController");
+            }
             return View();
         }
 

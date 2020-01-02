@@ -333,12 +333,7 @@ namespace ArchiveProject2019.Controllers
                 if (!ManagedAes.IsSaveInDb)
                 {
 
-                    /*
-                    * start code
-                    * get image from scanner,
-                    * save it in server
-                    * 
-                    */
+
                     var scannedImages = Request.Form.GetValues("myfile");
                     if (scannedImages != null)
                     {
@@ -354,7 +349,7 @@ namespace ArchiveProject2019.Controllers
                                 System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
                             }
                             string imageName = "scannedImage" + i + ".jpg";
-                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss")+ imageName;
+                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + imageName;
 
                             //set the image path
                             string imgPath = Path.Combine(path, imageName);
@@ -373,41 +368,42 @@ namespace ArchiveProject2019.Controllers
                             viewModel.Document.FileUrl += s1 + "_##_";
                         }
                     }
-                    /*
-                    * end code
-                    * get image from scanner,
-                    * save it in server
-                    */
 
-                    foreach (var file in UploadFile)
+
+
+                    if (UploadFile!=null)
                     {
-                        if (file != null)
+
+
+                        foreach (var file in UploadFile)
                         {
-                            //Save File In Uploads
-                            string FileName = Path.GetFileName(file.FileName);
-
-                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                            string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
-
-                            if (ManagedAes.IsCipher)
+                            if (file != null)
                             {
-                                ManagedAes.EncryptFile(file, path);
-                            }
-                            else
-                            {
-                                file.SaveAs(path);
-                            }
+                                //Save File In Uploads
+                                string FileName = Path.GetFileName(file.FileName);
 
-                            viewModel.Document.Name += FileName + "_##_";
-                            viewModel.Document.FileUrl += s1 + "_##_";
+                                string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
+                                string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
+
+                                if (ManagedAes.IsCipher)
+                                {
+                                    ManagedAes.EncryptFile(file, path);
+                                }
+                                else
+                                {
+                                    file.SaveAs(path);
+                                }
+
+                                viewModel.Document.Name += FileName + "_##_";
+                                viewModel.Document.FileUrl += s1 + "_##_";
+                            }
                         }
+
+                        // Cut last 4 split string
+                        viewModel.Document.Name = viewModel.Document.Name.Substring(0, viewModel.Document.Name.Length - 4);
+                        viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
                     }
-
-                    // Cut last 4 split string
-                    viewModel.Document.Name = viewModel.Document.Name.Substring(0, viewModel.Document.Name.Length - 4);
-                    viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
                 }
-
 
                 // Document Details:
                 viewModel.Document.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -449,12 +445,7 @@ namespace ArchiveProject2019.Controllers
                 // Save Multiple Files In Db (begin)
                 if (ManagedAes.IsSaveInDb)
                 {
-                    /*
-                    * start code
-                    * get image from scanner,
-                    * save it in database
-                    * 
-                    */
+                    
                     var scannedImages = Request.Form.GetValues("myfile");
                     if (scannedImages != null)
                     {
@@ -492,12 +483,7 @@ namespace ArchiveProject2019.Controllers
                             _context.SaveChanges();
                         }
                     }
-                    /*
-                     * end code
-                     * get image from scanner,
-                     * save it in server
-                     * 
-                     */
+             
 
                     foreach (HttpPostedFileBase file in UploadFile)
                     {

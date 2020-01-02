@@ -30,6 +30,11 @@ namespace ArchiveProject2019.Controllers
 
         public ActionResult Index()
         {
+            //
+            if(false)
+            {
+                return RedirectToAction("ApplicationClosed", "ErrorController");
+            }
             return View();
         }
        
