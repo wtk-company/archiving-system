@@ -123,7 +123,7 @@
     @foreach (var formId in UserFavoriteFormId)
     {
 
-        <a href="@Url.Action("Create", "Documents", new { docId = -1, IsReplay = false, Standard = formId.FormId })" title="@formId.Form.Name" class="btn btn-default">@formId.Form.Name</a>
+        <a href="@Url.Action("Create", "Documents", new { docId = -1, IsReplay = false, Standard = formId.FormId })" title="@formId.Form.FormName" class="btn btn-default">@formId.Form.FormName</a>
     }
     <button title="إضافةوثيقة جديدة" id="btnNewModel" class="btn btn-primary">إضافةوثيقة جديدة</button>
 

@@ -138,7 +138,7 @@ namespace ArchiveProject2019.Controllers
 
             };
                 string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                string PermissionName = db.Permissions.Find(P_Id).Name;
+                string PermissionName = db.Permissions.Find(P_Id).PermissionName;
 
                 db.PermissionRoles.Add(PR);
 
@@ -157,7 +157,7 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
                         Message = "تم إضافة صلاحية جديدة : " + PermissionName+" للدور :"+RoleName,
                         NotificationOwnerId = UserId
@@ -223,7 +223,7 @@ namespace ArchiveProject2019.Controllers
                 ActiveState = " إعادةالتفعيل";
             }
 
-            PermissionRole.Updatedat = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            PermissionRole.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
             PermissionRole.UpdatedById = this.User.Identity.GetUserId();
             db.Entry(PermissionRole).State = EntityState.Modified;
 
@@ -232,7 +232,7 @@ namespace ArchiveProject2019.Controllers
             string Role_ID = Session["Role_Id"].ToString();
             string RoleName = db.Roles.Find(Role_ID).Name;
             string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-            string PermissionName = db.Permissions.Find(PermissionRole.PermissionId).Name;
+            string PermissionName = db.Permissions.Find(PermissionRole.PermissionId).PermissionName;
 
             db.SaveChanges();
 
@@ -246,7 +246,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تمت  عملية  : " + ActiveState + " للصلاحية :" + PermissionName+" للدور :"+RoleName,
                     NotificationOwnerId = UserId
@@ -300,7 +300,7 @@ namespace ArchiveProject2019.Controllers
             string Role_ID = Session["Role_Id"].ToString();
             string RoleName = db.Roles.Find(Role_ID).Name;
             string UserId = User.Identity.GetUserId();
-            string PermissionName = db.Permissions.Find(permissionRole.PermissionId).Name;
+            string PermissionName = db.Permissions.Find(permissionRole.PermissionId).PermissionName;
 
             Notification notification = null;
             List<ApplicationUser> Users = db.Users.Where(a => !a.Id.Equals(UserId) && a.RoleName.Equals(RoleName)).ToList();
@@ -311,7 +311,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تم حذف صلاحية  : " + PermissionName + " من الدور :" + RoleName,
                     NotificationOwnerId = UserId

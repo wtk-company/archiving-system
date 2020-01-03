@@ -239,6 +239,11 @@
     <Compile Include="HelperClasses\UserDocumentsID.cs" />
     <Compile Include="HelperClasses\UserRelatedDocumentsId.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
+    <Compile Include="Migrations\202001032326440_raeedInitilModel.cs" />
+    <Compile Include="Migrations\202001032326440_raeedInitilModel.Designer.cs">
+      <DependentUpon>202001032326440_raeedInitilModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DocumentStatus.cs" />
     <Compile Include="Models\DocumentUser.cs" />
@@ -1113,6 +1118,7 @@
     <Content Include="Views\Shared\ApplicationClosed.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
@@ -1125,8 +1131,10 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-
   <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001032326440_raeedInitilModel.resx">
+      <DependentUpon>202001032326440_raeedInitilModel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\main_lang.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>main_lang.Designer.cs</LastGenOutput>

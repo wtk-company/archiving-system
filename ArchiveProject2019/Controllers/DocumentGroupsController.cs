@@ -138,7 +138,7 @@ namespace ArchiveProject2019.Controllers
 
                     NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                     UsersId = db.UsersGroups.Where(a => a.GroupId == i).Select(a => a.UserId).ToList();
-                    string GroupName = db.Groups.Find(i).Name;
+                    string GroupName = db.Groups.Find(i).GroupName;
                     Notification notification = null;
 
                     List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
@@ -149,9 +149,9 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             CreatedAt = NotificationTime,
-                            Active = false,
+                            Is_Active = false,
                             UserId = user.Id,
-                            Message = "تم إضافة وثيقة جديدة للمجموعة :"+GroupName+"، رقم الوثيقة :"+doc.Name+" ، موضوع الوثيقة:"+doc.Subject+
+                            Message = "تم إضافة وثيقة جديدة للمجموعة :"+GroupName+"، رقم الوثيقة :"+doc.DocName+" ، موضوع الوثيقة:"+doc.Subject+
                             " ، عنوان الوثيقة:"+doc.Address+" ،وصف الوثيقة :"+doc.Description
                            ,
                             NotificationOwnerId = UserId
@@ -213,7 +213,7 @@ namespace ArchiveProject2019.Controllers
             Document doc = db.Documents.Find(documentGroup.DocumentId);
             NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
             UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
-            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            string GroupName = db.Groups.Find(documentGroup.GroupId).GroupName;
             Notification notification = null;
 
             List<ApplicationUser> Users = db.Users.Where(a => UsersId.Contains(a.Id)).ToList();
@@ -224,9 +224,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف وثيقة من المجموعة :" + GroupName + "، رقم الوثيقة :" + doc.Name + " ، موضوع الوثيقة:" + doc.Subject +
+                    Message = "تم حذف وثيقة من المجموعة :" + GroupName + "، رقم الوثيقة :" + doc.DocName + " ، موضوع الوثيقة:" + doc.Subject +
                     " ، عنوان الوثيقة:" + doc.Address + " ،وصف الوثيقة :" + doc.Description
                    ,
                     NotificationOwnerId = UserId
@@ -299,7 +299,7 @@ namespace ArchiveProject2019.Controllers
             int Form_id = documentGroup.DocumentId;
 
             UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
-            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            string GroupName = db.Groups.Find(documentGroup.GroupId).GroupName;
             Notification notification = null;
             NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
@@ -311,7 +311,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تمت عملية  " + ActiveMode +" في المجموعة "+GroupName+" رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
@@ -389,7 +389,7 @@ namespace ArchiveProject2019.Controllers
             int Form_id = documentGroup.DocumentId;
 
             UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
-            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            string GroupName = db.Groups.Find(documentGroup.GroupId).GroupName;
             Notification notification = null;
             NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
@@ -401,7 +401,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تمت عملية  " + ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
@@ -476,7 +476,7 @@ namespace ArchiveProject2019.Controllers
             int Form_id = documentGroup.DocumentId;
 
             UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
-            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            string GroupName = db.Groups.Find(documentGroup.GroupId).GroupName;
             Notification notification = null;
             NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
@@ -488,7 +488,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تمت عملية  " + ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
@@ -564,7 +564,7 @@ namespace ArchiveProject2019.Controllers
             int Form_id = documentGroup.DocumentId;
 
             UsersId = db.UsersGroups.Where(a => a.GroupId == documentGroup.GroupId).Select(a => a.UserId).ToList();
-            string GroupName = db.Groups.Find(documentGroup.GroupId).Name;
+            string GroupName = db.Groups.Find(documentGroup.GroupId).GroupName;
             Notification notification = null;
             NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 
@@ -576,7 +576,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تمت عملية  " + ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description

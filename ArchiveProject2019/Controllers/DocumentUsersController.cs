@@ -150,9 +150,9 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             CreatedAt = NotificationTime,
-                            Active = false,
+                            Is_Active = false,
                             UserId = i,
-                            Message = "تم إضافة وثيقة جديدة  :" +""+"، رقم الوثيقة :" + doc.Name + " ، موضوع الوثيقة:" + doc.Subject +
+                            Message = "تم إضافة وثيقة جديدة  :" +""+"، رقم الوثيقة :" + doc.DocName + " ، موضوع الوثيقة:" + doc.Subject +
                             " ، عنوان الوثيقة:" + doc.Address + " ،وصف الوثيقة :" + doc.Description
                            ,
                             NotificationOwnerId = UserId
@@ -222,7 +222,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = User_Id,
                     Message = "تم  إزالة وثيقة    ، رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
@@ -297,7 +297,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = documentUser.UserId,
                     Message = "تمت عملية  " + ActiveMode + "   للوثيقة  ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
@@ -376,7 +376,7 @@ namespace ArchiveProject2019.Controllers
             {
 
                 CreatedAt = NotificationTime,
-                Active = false,
+                Is_Active = false,
                 UserId = documentUser.UserId,
                 Message = "تمت عملية  " + ActiveMode + "   للوثيقة  ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                 + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
@@ -453,7 +453,7 @@ namespace ArchiveProject2019.Controllers
             {
 
                 CreatedAt = NotificationTime,
-                Active = false,
+                Is_Active = false,
                 UserId = documentUser.UserId,
                 Message = "تمت عملية  " + ActiveMode + "   للوثيقة  ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                 + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
@@ -530,7 +530,7 @@ namespace ArchiveProject2019.Controllers
             {
 
                 CreatedAt = NotificationTime,
-                Active = false,
+                Is_Active = false,
                 UserId = documentUser.UserId,
                 Message = "تمت عملية  " + ActiveMode + "   للوثيقة  ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                 + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
