@@ -62,7 +62,7 @@ namespace ArchiveProject2019.Controllers
         {///
             ViewBag.Current = "Forms";
 
-            if (_context.Forms.Any(a => a.Name.Equals(form.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Forms.Any(a => a.FormName.Equals(form.FormName, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -91,9 +91,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة نموذج جديد : " + form.Name
+                        Message = "تم إضافة نموذج جديد : " + form.FormName
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -130,7 +130,7 @@ namespace ArchiveProject2019.Controllers
             }
 
 
-            ViewBag.Oldname = form.Name;
+            ViewBag.Oldname = form.FormName;
 
             return View(form);
         }
@@ -145,7 +145,7 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "Forms";
 
 
-            if (_context.Forms.Where(a=>a.Id!=form.Id).Any(a=>a.Name.Equals(form.Name,StringComparison.OrdinalIgnoreCase)))
+            if (_context.Forms.Where(a=>a.Id!=form.Id).Any(a=>a.FormName.Equals(form.FormName,StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "EditError" });
 
@@ -179,9 +179,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم النموذج من :" + OldName + " إلى :" + form.Name
+                        Message = "تم تعديل اسم النموذج من :" + OldName + " إلى :" + form.FormName
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -262,9 +262,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تم إزالة نموذج  : " + cat.Name
+                    Message = "تم إزالة نموذج  : " + cat.FormName
                    ,
                     NotificationOwnerId = UserId
                 };

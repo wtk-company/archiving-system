@@ -184,7 +184,7 @@ namespace ArchiveProject2019.HelperClasses
                 s1 = s1.Replace("-", "/");
                 return DateTime.ParseExact(s1, "yyyy/MM/dd", null) == s2;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
 

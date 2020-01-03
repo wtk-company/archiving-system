@@ -153,7 +153,7 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             CreatedAt = NotificationTime,
-                            Active = false,
+                            Is_Active = false,
                             UserId = user.Id,
                             Message = "تم إضافة وثيقة جديدة للقسم الحالي، رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                             + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
@@ -230,7 +230,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تم  إزالة وثيقة من  القسم الحالي، رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
@@ -270,9 +270,9 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
     
        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveEdit")]
-        public ActionResult ActiveNOnActiveConfirm (int id)
+        public ActionResult Is_ActiveNOnIs_ActiveConfirm (int id)
         {
-            string ActiveMode = string.Empty;
+            string Is_ActiveMode = string.Empty;
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
             string UserId = User.Identity.GetUserId();
@@ -282,12 +282,12 @@ namespace ArchiveProject2019.Controllers
             if(documentDepartment.EnableEdit==true)
             {
                 documentDepartment.EnableEdit = false;
-                ActiveMode = "الغاء  التعديل";
+                Is_ActiveMode = "الغاء  التعديل";
             }
             else
             {
                 documentDepartment.EnableEdit = true;
-                ActiveMode = "تفعيل التعديل";
+                Is_ActiveMode = "تفعيل التعديل";
 
             }
             documentDepartment.UpdatedAt= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -309,9 +309,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تمت عملية  "+ActiveMode+" في القسم الحالي ، رقم الوثيقة"+"" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    Message = "تمت عملية  "+Is_ActiveMode+" في القسم الحالي ، رقم الوثيقة"+"" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
                    ,
                     NotificationOwnerId = UserId
@@ -327,7 +327,14 @@ namespace ArchiveProject2019.Controllers
 
 
 
+<<<<<<< HEAD
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveReplay")]
+=======
+        //Replay:
+
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsIs_ActiveNonIs_ActiveReplay")]
+>>>>>>> raeed-3-1-2020
 
         public ActionResult ActiveNOnActiveReplay(int? id)
         {
@@ -348,12 +355,17 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveReplay")]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
       
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveReplay")]
+=======
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsIs_ActiveNonIs_ActiveReplay")]
+>>>>>>> raeed-3-1-2020
 
-        public ActionResult ActiveNOnActiveConfirmReplay(int id)
+        public ActionResult Is_ActiveNOnIs_ActiveConfirmReplay(int id)
         {
-            string ActiveMode = string.Empty;
+            string Is_ActiveMode = string.Empty;
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
             string UserId = User.Identity.GetUserId();
@@ -363,12 +375,12 @@ namespace ArchiveProject2019.Controllers
             if (documentDepartment.EnableReplay == true)
             {
                 documentDepartment.EnableReplay = false;
-                ActiveMode = "الغاء  إمكانية الرد";
+                Is_ActiveMode = "الغاء  إمكانية الرد";
             }
             else
             {
                 documentDepartment.EnableReplay = true;
-                ActiveMode = "تفعيل إمكانية الرد";
+                Is_ActiveMode = "تفعيل إمكانية الرد";
 
             }
             documentDepartment.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -390,9 +402,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تمت عملية  " + ActiveMode + " في القسم الحالي ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    Message = "تمت عملية  " + Is_ActiveMode + " في القسم الحالي ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
                    ,
                     NotificationOwnerId = UserId
@@ -408,8 +420,13 @@ namespace ArchiveProject2019.Controllers
 
 
 
+<<<<<<< HEAD
   
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveRelate")]
+=======
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsIs_ActiveNonIs_ActiveRelate")]
+>>>>>>> raeed-3-1-2020
 
         public ActionResult ActiveNOnActiveRelate(int? id)
         {
@@ -430,12 +447,17 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveRelate")]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
      
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveRelate")]
+=======
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsIs_ActiveNonIs_ActiveRelate")]
+>>>>>>> raeed-3-1-2020
 
-        public ActionResult ActiveNOnActiveConfirmRelate(int id)
+        public ActionResult Is_ActiveNOnIs_ActiveConfirmRelate(int id)
         {
-            string ActiveMode = string.Empty;
+            string Is_ActiveMode = string.Empty;
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
             string UserId = User.Identity.GetUserId();
@@ -445,12 +467,12 @@ namespace ArchiveProject2019.Controllers
             if (documentDepartment.EnableRelate == true)
             {
                 documentDepartment.EnableRelate = false;
-                ActiveMode = "الغاء  إمكانية الربط";
+                Is_ActiveMode = "الغاء  إمكانية الربط";
             }
             else
             {
                 documentDepartment.EnableRelate = true;
-                ActiveMode = "تفعيل إمكانية الربط";
+                Is_ActiveMode = "تفعيل إمكانية الربط";
 
             }
             documentDepartment.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -472,9 +494,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تمت عملية  " + ActiveMode + " في القسم الحالي ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    Message = "تمت عملية  " + Is_ActiveMode + " في القسم الحالي ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
                    ,
                     NotificationOwnerId = UserId
@@ -491,7 +513,12 @@ namespace ArchiveProject2019.Controllers
 
 
 
+<<<<<<< HEAD
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveSeal")]
+=======
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsIs_ActiveNonIs_ActiveSeal")]
+>>>>>>> raeed-3-1-2020
 
         public ActionResult ActiveNOnActiveSeal(int? id)
         {
@@ -512,12 +539,17 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveSeal")]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsActiveNonActiveSeal")]
+=======
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsIs_ActiveNonIs_ActiveSeal")]
+>>>>>>> raeed-3-1-2020
 
-        public ActionResult ActiveNOnActiveConfirmSeal(int id)
+        public ActionResult Is_ActiveNOnIs_ActiveConfirmSeal(int id)
         {
-            string ActiveMode = string.Empty;
+            string Is_ActiveMode = string.Empty;
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
             string UserId = User.Identity.GetUserId();
@@ -527,12 +559,12 @@ namespace ArchiveProject2019.Controllers
             if (documentDepartment.EnableSeal == true)
             {
                 documentDepartment.EnableSeal = false;
-                ActiveMode = "الغاء  إمكانية التسديد";
+                Is_ActiveMode = "الغاء  إمكانية التسديد";
             }
             else
             {
                 documentDepartment.EnableSeal = true;
-                ActiveMode = "تفعيل إمكانية التسديد";
+                Is_ActiveMode = "تفعيل إمكانية التسديد";
 
             }
             documentDepartment.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -554,9 +586,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تمت عملية  " + ActiveMode + " في القسم الحالي ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    Message = "تمت عملية  " + Is_ActiveMode + " في القسم الحالي ، رقم الوثيقة" + "" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
                    ,
                     NotificationOwnerId = UserId

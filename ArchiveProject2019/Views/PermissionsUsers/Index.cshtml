@@ -63,9 +63,9 @@
                 </th>
 
                 <th>
-                    @Html.DisplayNameFor(model => model.Is_Active)
+                    @Html.DisplayNameFor(model => model.Active)
                 </th>
-            
+
 
                 <th>
                     @Html.DisplayName(" اختر الصلاحيات للتعديل")
@@ -79,14 +79,14 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Permission.Name)
+                        @Html.DisplayFor(modelItem => item.Permission.PermissionName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CreatedAt)
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.Is_Active)
+                        @Html.DisplayFor(modelItem => item.Active)
                     </td>
 
                     <td>
@@ -110,12 +110,12 @@
 
             </label>
         </div>
-     
-            <div class="col-md-offset-2 col-md-10">
 
-                <input title=" تعديل حالة الصلاحيات المحددة" type="submit" class="btn btn-primary" value=" تعديل حالة صلاحيات المستخدم " />
-            </div>
-       
+        <div class="col-md-offset-2 col-md-10">
+
+            <input title=" تعديل حالة الصلاحيات المحددة" type="submit" class="btn btn-primary" value=" تعديل حالة صلاحيات المستخدم " />
+        </div>
+
     </div>
 }
 @Html.Partial("_LastView")
@@ -128,8 +128,8 @@
 <script>
 
 
-    
-   
+
+
 
 
 

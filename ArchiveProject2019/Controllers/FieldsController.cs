@@ -137,7 +137,7 @@ namespace ArchiveProject2019.Controllers
 
             //Duplicated Field Name:
             int idx = Convert.ToInt32(Session["Form_Id"]);
-            if (db.Fields.Where(a=>a.FormId==idx ).Any(a => a.Name.Equals(field.Name, StringComparison.OrdinalIgnoreCase)) == true)
+            if (db.Fields.Where(a=>a.FormId==idx ).Any(a => a.FieldName.Equals(field.FieldName, StringComparison.OrdinalIgnoreCase)) == true)
             {
 
                 return RedirectToAction("Index", new { Id = Convert.ToInt32(Session["Form_Id"]),msg="CreateError" });
@@ -212,7 +212,7 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "Forms";
 
             int idx = Convert.ToInt32(Session["Form_Id"]);
-            if (db.Fields.Where(a => a.FormId == idx && a.Id!=field.Id).Any(a => a.Name.Equals(field.Name, StringComparison.OrdinalIgnoreCase)) == true)
+            if (db.Fields.Where(a => a.FormId == idx && a.Id!=field.Id).Any(a => a.FieldName.Equals(field.FieldName, StringComparison.OrdinalIgnoreCase)) == true)
             {
 
                 return RedirectToAction("Index", new { Id = Convert.ToInt32(Session["Form_Id"]), msg = "EditError" });

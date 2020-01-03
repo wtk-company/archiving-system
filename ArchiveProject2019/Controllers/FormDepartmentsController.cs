@@ -169,9 +169,9 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             CreatedAt = NotificationTime,
-                            Active = false,
+                            Is_Active = false,
                             UserId = user.Id,
-                            Message = "تم إضافة نموذج جديد إلى القسم، النموذج :"+db.Forms.Find(FormIdValue).Name,
+                            Message = "تم إضافة نموذج جديد إلى القسم، النموذج :"+db.Forms.Find(FormIdValue).FormName,
                             NotificationOwnerId = UserId
                         };
                         db.Notifications.Add(notification);
@@ -236,7 +236,7 @@ namespace ArchiveProject2019.Controllers
             Notification notification = null;
 
             int Form_Id = formDepartment.FormId;
-            formDepartment.Updatedat = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            formDepartment.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
             if(formDepartment.Is_Active==true)
             {
                 formDepartment.Is_Active = false;
@@ -254,7 +254,7 @@ namespace ArchiveProject2019.Controllers
             db.Entry(formDepartment).State = EntityState.Modified;
              db.SaveChanges();
 
-            FormName = db.Forms.Find(formDepartment.FormId).Name;
+            FormName = db.Forms.Find(formDepartment.FormId).FormName;
             List<ApplicationUser> Users = db.Users.Where(a => a.DepartmentId == formDepartment.DepartmentId).ToList();
             foreach (ApplicationUser user in Users)
             {
@@ -263,7 +263,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = Message+" "+FormName,
                     NotificationOwnerId = UserId
@@ -321,7 +321,7 @@ namespace ArchiveProject2019.Controllers
             FormDepartment formDepartment = db.FormDepartments.Find(id);
             db.FormDepartments.Remove(formDepartment);
             int Form_id = formDepartment.FormId;
-            FormName = db.Forms.Find(formDepartment.FormId).Name;
+            FormName = db.Forms.Find(formDepartment.FormId).FormName;
             int DepartmentId = formDepartment.DepartmentId;
 
             List<ApplicationUser> Users = db.Users.Where(a => a.DepartmentId == DepartmentId).ToList();
@@ -332,7 +332,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تم إزالةالنموذج من القسم، النموذج: " + " " + FormName,
                     NotificationOwnerId = UserId

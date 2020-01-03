@@ -57,7 +57,7 @@ namespace ArchiveProject2019.Controllers
         {
             ViewBag.Current = "Group";
             
-            if (_context.Groups.Any(g => g.Name.Equals(Group.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Groups.Any(g => g.GroupName.Equals(Group.GroupName, StringComparison.OrdinalIgnoreCase)))
                     return RedirectToAction("Index", new { Id = "CreateError" });
 
             if (ModelState.IsValid)
@@ -81,9 +81,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة مجموعة جديدة : " + Group.Name
+                        Message = "تم إضافة مجموعة جديدة : " + Group.GroupName
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -113,7 +113,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("HttpNotFoundError","ErrorController");
             }
             
-            ViewBag.OldName = Group.Name;
+            ViewBag.OldName = Group.GroupName;
 
             return View(Group);
         }
@@ -124,7 +124,7 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsEdit")]
         public ActionResult Edit(Group Group,string OldName)
         {
-            if (_context.Groups.Where(a => a.Id != Group.Id).Any(a => a.Name.Equals(Group.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Groups.Where(a => a.Id != Group.Id).Any(a => a.GroupName.Equals(Group.GroupName, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
             
             if (ModelState.IsValid)
@@ -150,9 +150,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل المجموعة من :"+OldName +" إلى :"+ Group.Name
+                        Message = "تم تعديل المجموعة من :"+OldName +" إلى :"+ Group.GroupName
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -216,9 +216,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف المجموعة  : " + Group.Name
+                    Message = "تم حذف المجموعة  : " + Group.GroupName
                    ,
                     NotificationOwnerId = UserId
                 };

@@ -161,7 +161,7 @@ namespace ArchiveProject2019.Controllers
                     notification = new Notification() {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
                         Message = "تم إضافة قسم جديد: " + DepartmentListDisplay.CreateDepartmentDisplay(department.Id),
                         NotificationOwnerId= UserId
@@ -252,7 +252,7 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
                         Message = "تم تعديل اسم القسم من: " + OldName+" إلى:"+Newname,
                         NotificationOwnerId = UserId
@@ -323,7 +323,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تم حذف القسم : "+ DepartmentName,
                     NotificationOwnerId = UserId

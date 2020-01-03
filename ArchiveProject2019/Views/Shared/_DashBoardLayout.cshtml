@@ -87,102 +87,97 @@
                             @if (RoleName.Equals("Master"))
                             {
 
-                            <ul class="nav side-menu">
-                                <li>
-                                    <a href="@Url.Action("Index","DashBoard")"><i class="fa fa-home"></i>الرئيسية <span class="fa"></span></a>
+                                <ul class="nav side-menu">
+                                    <li>
+                                        <a href="@Url.Action("Index","DashBoard")"><i class="fa fa-home"></i>الرئيسية <span class="fa"></span></a>
 
-                                </li>
-                                <li class="@(ViewBag.Current == "Department" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","Departments")"><i class="fa fa-sitemap"></i>الأقسام <span class="fa"></span></a>
-                                </li>
-
-
-                                <li class="@(ViewBag.Current == "JobTitles" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","JobTitles")"><i class="fa fa-wheelchair"></i>المسمّيات الوظيفية <span class="fa"></span></a>
-
-                                </li>
+                                    </li>
+                                    <li class="@(ViewBag.Current == "Department" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","Departments")"><i class="fa fa-sitemap"></i>الأقسام <span class="fa"></span></a>
+                                    </li>
 
 
-                                <li class="@(ViewBag.Current == "Group" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","Groups")"><i class="fa fa-codepen"></i>المجموعات <span class="fa"></span></a>
+                                    <li class="@(ViewBag.Current == "JobTitles" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","JobTitles")"><i class="fa fa-wheelchair"></i>المسمّيات الوظيفية <span class="fa"></span></a>
 
-                                </li>
-
-                                <li class="@(ViewBag.Current == "Kinds" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","Kinds")"><i class="fa fa-file-pdf-o"></i>أنواع الوثائق <span class="fa"></span></a>
-
-                                </li>
+                                    </li>
 
 
-                                <li class="@(ViewBag.Current == "Partys" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","Parties")"><i class="fa fa-paper-plane-o"></i>الجهات المعنية <span class="fa"></span></a>
+                                    <li class="@(ViewBag.Current == "Group" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","Groups")"><i class="fa fa-codepen"></i>المجموعات <span class="fa"></span></a>
 
-                                </li>
-                                <li class="@(ViewBag.Current == "TypeMails" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","TypeMails")"><i class="fa fa-envelope-o"></i>أنواع البريد <span class="fa"></span></a>
+                                    </li>
 
-                                </li>
+                                    <li class="@(ViewBag.Current == "Kinds" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","Kinds")"><i class="fa fa-file-pdf-o"></i>أنواع الوثائق <span class="fa"></span></a>
 
-
-                                <li class="@(ViewBag.Current == "DocumentStatus" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","DocumentStatus")"><i class="fa fa-leaf"></i> حالات الوثائق <span class="fa"></span></a>
-
-                                </li>
-
-                                <li class="@(ViewBag.Current == "Forms" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","Forms")"><i class="fa fa-clone"></i>النماذج <span class="fa"></span></a>
-                                </li>
+                                    </li>
 
 
+                                    <li class="@(ViewBag.Current == "Partys" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","Parties")"><i class="fa fa-paper-plane-o"></i>الجهات المعنية <span class="fa"></span></a>
 
-                                <li class="@(ViewBag.Current == "Notification" ? "current-page" : "")">
-                                    <a href="@Url.Action("NonSeenNotifications","DashBoard")"> <span class="fa fa-bell"></span>الإشعارات غير المقروءة</a>
-                                </li>
+                                    </li>
+                                    <li class="@(ViewBag.Current == "TypeMails" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","TypeMails")"><i class="fa fa-envelope-o"></i>أنواع البريد <span class="fa"></span></a>
+
+                                    </li>
+
+
+                                    <li class="@(ViewBag.Current == "DocumentStatus" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","DocumentStatus")"><i class="fa fa-leaf"></i> حالات الوثائق <span class="fa"></span></a>
+
+                                    </li>
+
+                                    <li class="@(ViewBag.Current == "Forms" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","Forms")"><i class="fa fa-clone"></i>النماذج <span class="fa"></span></a>
+                                    </li>
 
 
 
+                                    <li class="@(ViewBag.Current == "Notification" ? "current-page" : "")">
+                                        <a href="@Url.Action("NonSeenNotifications","DashBoard")"> <span class="fa fa-bell"></span>الإشعارات غير المقروءة</a>
+                                    </li>
 
 
 
+                                    <li class="@(ViewBag.Current == "Users" ? "current-page" : "")">
+                                        <a><i class="fa fa-user"></i>المستخدمين <span class="fa fa-chevron-down"></span></a>
 
-
-                                <li class="@(ViewBag.Current == "Users" ? "current-page" : "")">
-                                    <a><i class="fa fa-user"></i>المستخدمين <span class="fa fa-chevron-down"></span></a>
-
-                                    <ul class="nav child_menu">
-                                        <li><a href="@Url.Action("Index","Users")"><span class="fa fa-male"></span>المستخدمين </a></li>
-                                        <li><a href="@Url.Action("Register", "Users")"><span class="fa fa-plus"></span>إضافة مستخدم جديد</a></li>
-
-
-
-                                        @if(IsDefault!=true)
-                                        {
-
-                                        <li><a href="@Url.Action("ChangeProfile","Users")"><span class="fa fa-edit"></span> تعديل حسابي</a></li>
-                                        }
-
-                                    </ul>
-
-                                </li>
-
-                                <li class="@(ViewBag.Current == "Roles" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","Roles")"><i class="fa fa-group"></i>الأدوار <span class="fa"></span></a>
-
-                                </li>
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("Index","Users")"><span class="fa fa-male"></span>المستخدمين </a></li>
+                                            <li><a href="@Url.Action("Register", "Users")"><span class="fa fa-plus"></span>إضافة مستخدم جديد</a></li>
 
 
 
-                                <li class="@(ViewBag.Current == "Company" ? "current-page" : "")">
-                                    <a href="@Url.Action("Create","Company")"><i class="fa fa-institution"></i>تهيئة معلومات الشركة <span class="fa"></span></a>
+                                            @if (IsDefault != true)
+                                            {
 
-                                </li>
+                                                <li><a href="@Url.Action("ChangeProfile","Users")"><span class="fa fa-edit"></span> تعديل حسابي</a></li>
+                                            }
+
+                                        </ul>
+
+                                    </li>
+
+                                    <li class="@(ViewBag.Current == "Roles" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","Roles")"><i class="fa fa-group"></i>الأدوار <span class="fa"></span></a>
+
+                                    </li>
 
 
 
-                                <li class="@(ViewBag.Current == "Backup" ? "current-page" : "")">
-                                    <a href="@Url.Action("Index","BackupRestore")"><i class="fa fa-database"></i>النسخ والاسترجاع <span class="fa"></span></a>
+                                    <li class="@(ViewBag.Current == "Company" ? "current-page" : "")">
+                                        <a href="@Url.Action("Create","Company")"><i class="fa fa-institution"></i>تهيئة معلومات الشركة <span class="fa"></span></a>
 
-                                </li>
+                                    </li>
+
+
+
+                                    <li class="@(ViewBag.Current == "Backup" ? "current-page" : "")">
+                                        <a href="@Url.Action("Index","BackupRestore")"><i class="fa fa-database"></i>النسخ والاسترجاع <span class="fa"></span></a>
+
+                                    </li>
 
 
 
@@ -193,18 +188,16 @@
 
 
 
-                            </ul>
+                                </ul>
                             }
                             else
                             {
 
-                        <ul class="nav side-menu">
-                            <li>
-                                <a href="@Url.Action("Index","DashBoard")"><i class="fa fa-home"></i>الرئيسية <span class="fa"></span></a>
+                                <ul class="nav side-menu">
+                                    <li>
+                                        <a href="@Url.Action("Index","DashBoard")"><i class="fa fa-home"></i>الرئيسية <span class="fa"></span></a>
 
-                            </li>
-
-
+                                    </li>
 
 
 
@@ -212,52 +205,54 @@
 
 
 
-                            <li class="@(ViewBag.Current == "Document" ? "current-page" : "")">
-                                <a><i class="fa fa-table"></i>الوثائق <span class="fa fa-chevron-down"></span></a>
 
-                                <ul class="nav child_menu">
-                                    <li><a href="@Url.Action("Index","Documents")"> <span class="fa fa-newspaper-o"></span>وثائقي</a></li>
+
+                                    <li class="@(ViewBag.Current == "Document" ? "current-page" : "")">
+                                        <a><i class="fa fa-table"></i>الوثائق <span class="fa fa-chevron-down"></span></a>
+
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("Index","Documents")"> <span class="fa fa-newspaper-o"></span>وثائقي</a></li>
+
+
+                                        </ul>
+
+                                    </li>
+
+                                    <li class="@(ViewBag.Current == "Notification" ? "current-page" : "")">
+                                        <a href="@Url.Action("NonSeenNotifications","DashBoard")"> <span class="fa fa-bell"></span>الإشعارات غير المقروءة</a>
+                                    </li>
+
+
+
+
+                                    <li class="@(ViewBag.Current == "Information" ? "current-page" : "")">
+                                        <a><i class="fa fa-qrcode"></i>معلومات <span class="fa fa-chevron-down"></span></a>
+
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("UserGroups","Informatiom")"><span class="fa fa-codepen"></span>مجموعاتي</a></li>
+                                            <li><a href="@Url.Action("UserForms","Informatiom")"><span class="fa fa-clone"></span> النماذج</a></li>
+
+                                        </ul>
+
+                                    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                                 </ul>
-
-                            </li>
-
-                            <li class="@(ViewBag.Current == "Notification" ? "current-page" : "")">
-                                <a href="@Url.Action("NonSeenNotifications","DashBoard")"> <span class="fa fa-bell"></span>الإشعارات غير المقروءة</a>
-                            </li>
-
-
-
-
-                            <li class="@(ViewBag.Current == "Information" ? "current-page" : "")">
-                                <a><i class="fa fa-qrcode"></i>معلومات <span class="fa fa-chevron-down"></span></a>
-
-                                <ul class="nav child_menu">
-                                    <li><a href="@Url.Action("UserGroups","Informatiom")"><span class="fa fa-codepen"></span>مجموعاتي</a></li>
-                                    <li><a href="@Url.Action("UserForms","Informatiom")"><span class="fa fa-clone"></span> النماذج</a></li>
-
-                                </ul>
-
-                            </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        </ul>
                             }
 
 
@@ -299,9 +294,9 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
 
-                                    @if(IsDefault!=true)
+                                    @if (IsDefault != true)
                                     {
-                                    <li><a href="@Url.Action("ChangeProfile","Users")">تعديل الحساب</a></li>
+                                        <li><a href="@Url.Action("ChangeProfile","Users")">تعديل الحساب</a></li>
 
                                     }
                                     <li><a href="@Url.Action("LogOut","Account")"><i class="fa fa-sign-out pull-right"></i> خروج</a></li>
@@ -327,7 +322,7 @@
 
 
                                     </li>
-                               
+
                                 </ul>
                             </li>
 
@@ -340,29 +335,29 @@
 
 
 
-                            <li role="presentation" class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
-                                   title="تنبيهات الوثائق" aria-expanded="false">
-                                    <i class="fa fa-bell"></i>
-                                    <span class="badge bg-red">@Html.Action("DocumentNotificationsUserCount", "DashBoard")</span>
-                                </a>
-                                <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                <li role="presentation" class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
+                                       title="تنبيهات الوثائق" aria-expanded="false">
+                                        <i class="fa fa-bell"></i>
+                                        <span class="badge bg-red">@Html.Action("DocumentNotificationsUserCount", "DashBoard")</span>
+                                    </a>
+                                    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
 
-                                    @Html.Action("DocumentsNotificationUserMessage", "DashBoard")
+                                        @Html.Action("DocumentsNotificationUserMessage", "DashBoard")
 
-                                    <li>
-                                        <div class="text-center">
-                                            <a href="@Url.Action("Index",new { controller="Documents",Notf="Notf"})">
-                                                <strong>عرض كل التنبيهات  المتاحة</strong>
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </div>
+                                        <li>
+                                            <div class="text-center">
+                                                <a href="@Url.Action("Index",new { controller="Documents",Notf="Notf"})">
+                                                    <strong>عرض كل التنبيهات  المتاحة</strong>
+                                                    <i class="fa fa-angle-right"></i>
+                                                </a>
+                                            </div>
 
 
-                                    </li>
+                                        </li>
 
-                                </ul>
-                            </li>
+                                    </ul>
+                                </li>
                             }
                         </ul>
                     </nav>
@@ -475,60 +470,60 @@
 <script>
 
 
-    $(document).ready(function () {
+        $(document).ready(function () {
 
 
 
 
-        var modal, loading;
-        function ShowProgress() {
-            modal = document.createElement("DIV");
-            modal.className = "modall";
-            document.body.appendChild(modal);
-            loading = document.getElementsByClassName("loadingg")[0];
-            loading.style.display = "block";
-            var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0);
-            var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0);
-            loading.style.top = top + "px";
-            loading.style.left = left + "px";
-        };
+            var modal, loading;
+            function ShowProgress() {
+                modal = document.createElement("DIV");
+                modal.className = "modall";
+                document.body.appendChild(modal);
+                loading = document.getElementsByClassName("loadingg")[0];
+                loading.style.display = "block";
+                var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0);
+                var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0);
+                loading.style.top = top + "px";
+                loading.style.left = left + "px";
+            };
 
 
-        $(".clickloading").click(function () {
+            $(".clickloading").click(function () {
 
-            ShowProgress();
-        });
-
-
+                ShowProgress();
+            });
 
 
-        $('.dt').dataTable({
-            "language": {
-                "search": "البحث:",
-                "zeroRecords": "لا يوجد أي نتائج اطلاقاً لعملية البحث",
-                "pagingType": "full_numbers",
-                "info": "اظهار الصفحة _PAGE_ من _PAGES_",
-                "infoFiltered": " - الفلترة من _MAX_ سطر",
-                "lengthMenu": "إظهار _MENU_ سطر",
 
-                "infoEmpty": "لا يوجد سجلات",
-                "paginate": {
-                    "next": "التالي",
-                    "previous": "السابق",
-                    "first": "الصفحة الأولى",
-                    "last": "الصفحة الأخيرة"
 
+            $('.dt').dataTable({
+                "language": {
+                    "search": "البحث:",
+                    "zeroRecords": "لا يوجد أي نتائج اطلاقاً لعملية البحث",
+                    "pagingType": "full_numbers",
+                    "info": "اظهار الصفحة _PAGE_ من _PAGES_",
+                    "infoFiltered": " - الفلترة من _MAX_ سطر",
+                    "lengthMenu": "إظهار _MENU_ سطر",
+
+                    "infoEmpty": "لا يوجد سجلات",
+                    "paginate": {
+                        "next": "التالي",
+                        "previous": "السابق",
+                        "first": "الصفحة الأولى",
+                        "last": "الصفحة الأخيرة"
+
+                    }
                 }
-            }
+            });
+
+
+
+            $(".enterRemove").click(function () {
+
+                $(this).hide(600);
+            });
         });
-
-
-
-        $(".enterRemove").click(function () {
-
-            $(this).hide(600);
-        });
-    });
 </script>
 
 
@@ -552,6 +547,4 @@
     /*.col-sm-6 {
         width: 30%;
     }*/
-
-
 </style>

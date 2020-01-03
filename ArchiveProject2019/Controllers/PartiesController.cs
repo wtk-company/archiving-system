@@ -58,12 +58,12 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] Party Party)
+        public ActionResult Create([Bind(Include = "Id,PartyName,CreatedAt")] Party Party)
 
         {
             ViewBag.Current = "Partys";
 
-            if (_context.Parties.Any(a => a.Name.Equals(Party.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Parties.Any(a => a.PartyName.Equals(Party.PartyName, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -88,9 +88,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة نوع جديد من الجهات : " + Party.Name,
+                        Message = "تم إضافة نوع جديد من الجهات : " + Party.PartyName,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -123,7 +123,7 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
-            ViewBag.OldName = party.Name;
+            ViewBag.OldName = party.PartyName;
             return View(party);
         }
 
@@ -133,7 +133,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Party party,string OldName)
         {
-            if (_context.Parties.Where(a => a.Id != party.Id).Any(a => a.Name.Equals(party.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Parties.Where(a => a.Id != party.Id).Any(a => a.PartyName.Equals(party.PartyName, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
@@ -157,9 +157,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم الجهة من :"+OldName+" إلى الاسم :" + party.Name,
+                        Message = "تم تعديل اسم الجهة من :"+OldName+" إلى الاسم :" + party.PartyName,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -230,9 +230,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف اسم الجهة  :" + party.Name,
+                    Message = "تم حذف اسم الجهة  :" + party.PartyName,
                     NotificationOwnerId = UserId
                 };
                 _context.Notifications.Add(notification);

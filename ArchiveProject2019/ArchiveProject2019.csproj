@@ -239,9 +239,15 @@
     <Compile Include="HelperClasses\UserDocumentsID.cs" />
     <Compile Include="HelperClasses\UserRelatedDocumentsId.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
+<<<<<<< HEAD
     <Compile Include="Migrations\202001011051024_ah-force.cs" />
     <Compile Include="Migrations\202001011051024_ah-force.Designer.cs">
       <DependentUpon>202001011051024_ah-force.cs</DependentUpon>
+=======
+    <Compile Include="Migrations\202001031513114_initial_____.cs" />
+    <Compile Include="Migrations\202001031513114_initial_____.Designer.cs">
+      <DependentUpon>202001031513114_initial_____.cs</DependentUpon>
+>>>>>>> raeed-3-1-2020
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -282,6 +288,11 @@
     <Compile Include="Models\View.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\main_lang.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>main_lang.resx</DependentUpon>
+    </Compile>
     <Compile Include="Security\IsAuthoriedHost.cs" />
     <Compile Include="Security\ManagedAes.cs" />
     <Compile Include="Startup.cs" />
@@ -574,7 +585,9 @@
     </None>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen.proto.js" />
     <Content Include="Scripts\chosen.proto.min.js" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />
@@ -1126,8 +1139,17 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <EmbeddedResource Include="Migrations\202001011051024_ah-force.resx">
       <DependentUpon>202001011051024_ah-force.cs</DependentUpon>
+=======
+    <EmbeddedResource Include="Migrations\202001031513114_initial_____.resx">
+      <DependentUpon>202001031513114_initial_____.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\main_lang.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>main_lang.Designer.cs</LastGenOutput>
+>>>>>>> raeed-3-1-2020
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

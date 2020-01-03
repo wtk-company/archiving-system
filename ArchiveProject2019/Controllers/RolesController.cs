@@ -49,7 +49,7 @@ namespace ArchiveProject2019.Controllers
             {
                 roleViewModel = new RoleViewModel();
                 roleViewModel.Id = R.Id;
-                roleViewModel.Name = R.Name;
+                roleViewModel.RoleName = R.Name;
                 roleViewModel.UpdatedAt = R.UpdatedAt;
                 roleViewModel.CreatedAt = R.CreatedAt;
      
@@ -82,14 +82,14 @@ namespace ArchiveProject2019.Controllers
             if (ModelState.IsValid)
             {
                 //Duplicated Role Name in DB:
-                if (manger.Roles.Any(a => a.Name.Equals(RoleView.Name, StringComparison.OrdinalIgnoreCase)))
+                if (manger.Roles.Any(a => a.Name.Equals(RoleView.RoleName, StringComparison.OrdinalIgnoreCase)))
                 {
                     return RedirectToAction("Index", new { Id = "CreateError" });
 
                 }
                 ApplicationRoles role = new ApplicationRoles()
                 {
-                    Name = RoleView.Name,
+                    Name = RoleView.RoleName ,
                     CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                     CreatedById = this.User.Identity.GetUserId()
 
@@ -110,10 +110,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة دور جديد : " + role.Name
-                       ,
+                        Message = "تم إضافة دور جديد : " + role.Name,
                         NotificationOwnerId = UserId
                     };
                     db.Notifications.Add(notification);
@@ -151,7 +150,7 @@ namespace ArchiveProject2019.Controllers
 
             RoleViewModel RVM = new RoleViewModel()
             {
-                Name = AppRole.Name
+                RoleName  = AppRole.Name
                 
             };
             
@@ -179,13 +178,13 @@ namespace ArchiveProject2019.Controllers
                 {
                     return RedirectToAction("HttpNotFoundError", "ErrorController");
                 }
-                if (manger.Roles.Where(a =>! a.Id.Equals(RoleId)).Any(a => a.Name.Equals(RoleView.Name, StringComparison.OrdinalIgnoreCase)))
+                if (manger.Roles.Where(a =>! a.Id.Equals(RoleId)).Any(a => a.Name.Equals(RoleView.RoleName, StringComparison.OrdinalIgnoreCase)))
                 {
                     return RedirectToAction("Index", new { Id = "EditError" });
 
                 }
 
-                AppRole.Name = RoleView.Name;
+                AppRole.Name = RoleView.RoleName;
                 string NotificationTime = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 AppRole.UpdatedById = this.User.Identity.GetUserId();
 
@@ -211,7 +210,7 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
                        Message = "تم تعديل اسم الدور  من : " + OldName + " إلى :" + AppRole.Name
                        ,
@@ -260,7 +259,7 @@ namespace ArchiveProject2019.Controllers
             }
             RoleViewModel RVM = new RoleViewModel()
             {
-                Name = AppRole.Name,
+                RoleName = AppRole.Name,
                 CreatedAt=AppRole.CreatedAt,
                 UpdatedAt=AppRole.UpdatedAt,
                CreatedByFullName = db.Users.Find(AppRole.CreatedById).FullName,
@@ -314,7 +313,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تم حذف الدور  : " + AppRole.Name
                    ,
@@ -349,7 +348,7 @@ namespace ArchiveProject2019.Controllers
           
             RoleViewModel RVM = new RoleViewModel()
             {
-                Name = AppRole.Name,
+                RoleName = AppRole.Name,
                 CreatedAt = AppRole.CreatedAt,
                 UpdatedAt = AppRole.UpdatedAt==null?"": AppRole.UpdatedAt,
                 CreatedByFullName = db.Users.Find(AppRole.CreatedById).FullName,

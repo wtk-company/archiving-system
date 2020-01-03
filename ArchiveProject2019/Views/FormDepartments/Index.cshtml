@@ -96,7 +96,7 @@
                 @Html.DisplayNameFor(model => model.Form.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Is_Active)
+                @Html.DisplayNameFor(model => model.Active)
             </th>
 
 
@@ -122,13 +122,13 @@
                     @Html.DisplayFor(modelItem => item.Form.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Is_Active)
+                    @Html.DisplayFor(modelItem => item.Active)
                 </td>
 
 
 
                 <td>
-                    <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-active btn-xs btn-success"><span class="glyphicon glyphicon-check"></span></button>
+                    <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-Active btn-xs btn-success"><span class="glyphicon glyphicon-check"></span></button>
                     <button data-form-id="@item.Id" title="إزالة القسم" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                     <button data-form-id="@item.Id" title=" تفاصيل اسنادالقسم للنموذج" class="js-details btn-xs btn-default"><span class="glyphicon glyphicon-book"></span></button>
 
@@ -179,7 +179,7 @@
 
 
 
-    $("#form").on("click", ".js-active", function () {
+    $("#form").on("click", ".js-Active", function () {
         $("#changeText").text("تعديل حقل معين");
 
                        var url = '@Url.Action("Edit", "FormDepartments")';
