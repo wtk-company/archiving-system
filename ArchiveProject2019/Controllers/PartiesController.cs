@@ -21,7 +21,7 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesIndex")]
 
         public ActionResult Index(string Id = "none")
@@ -42,7 +42,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesCreate")]
         public ActionResult Create()
         {
@@ -52,7 +52,7 @@ namespace ArchiveProject2019.Controllers
             return View();
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesCreate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -106,7 +106,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesEdit")]
         public ActionResult Edit(int? id)
         {
@@ -127,7 +127,7 @@ namespace ArchiveProject2019.Controllers
             return View(party);
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesEdit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -175,7 +175,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
 
         public ActionResult Delete(int? id)
@@ -208,7 +208,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -244,7 +244,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
       [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDetails")]
 
         public ActionResult Details(int? id)

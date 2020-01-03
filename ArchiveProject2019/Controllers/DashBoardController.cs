@@ -18,7 +18,7 @@ namespace ArchiveProject2019.Controllers
         // GET: DashBoard
 
 
-       
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
         public ActionResult Index()
         {
@@ -314,7 +314,7 @@ namespace ArchiveProject2019.Controllers
             return View(info);
         }
 
-    
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
 
         public ActionResult NotificationsUserCount()
@@ -325,7 +325,7 @@ namespace ArchiveProject2019.Controllers
             return PartialView("_NotificationsCount");
         }
 
-     
+        [Authorize]
 
         [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
 
@@ -337,7 +337,7 @@ namespace ArchiveProject2019.Controllers
             return PartialView("_NotificationsMessage",Not);
         }
 
-       
+        [Authorize]
 
         [AccessDeniedAuthorizeattribute(ActionName = "NonSeenNotificationList")]
 
@@ -352,7 +352,7 @@ namespace ArchiveProject2019.Controllers
             return View(Not);
         }
 
-       
+        [Authorize]
 
         [HttpPost]
         [AccessDeniedAuthorizeattribute(ActionName = "NonSeenNotificationListPost")]
@@ -387,7 +387,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
 
         [AccessDeniedAuthorizeattribute(ActionName = "NonSeenNotificationListAllPost")]
         public ActionResult ConvertAllToSeen()
@@ -416,7 +416,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-      
+        [Authorize]
 
         [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
         public ActionResult DocumentNotificationsUserCount()
@@ -432,7 +432,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-     
+        [Authorize]
 
         [AccessDeniedAuthorizeattribute(ActionName = "DashBoard")]
 

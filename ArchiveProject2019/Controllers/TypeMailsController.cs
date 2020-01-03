@@ -22,7 +22,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsIndex")]
 
         public ActionResult Index(string Id = "none")
@@ -42,7 +42,7 @@ namespace ArchiveProject2019.Controllers
             return View(TypeMails.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
         public ActionResult Create()
         {
@@ -57,7 +57,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] TypeMail TypeMail)
 
@@ -110,7 +110,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -135,7 +135,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
         public ActionResult Edit(TypeMail mail,string OldName)
 
@@ -184,7 +184,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -208,7 +208,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -248,7 +248,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDetails")]
         public ActionResult Details(int? id)
         {

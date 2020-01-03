@@ -34,18 +34,6 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        public ActionResult NonAuthorize()
-        {
-            return View("NonAuthorizeError");
-        }
-
-        
-
-        public ActionResult ApplicationClosed()
-        {
-            return View("ApplicationClosed");
-        }
-
 
         public ActionResult AccountLockout()
         {

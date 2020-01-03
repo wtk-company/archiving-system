@@ -16,7 +16,7 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
@@ -51,7 +51,7 @@ namespace ArchiveProject2019.Controllers
             return View(documentGroups.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsCreate")]
         public ActionResult Create(int? Id)
         {
@@ -97,7 +97,7 @@ namespace ArchiveProject2019.Controllers
 
 
        [HttpPost]
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsCreate")]
         public ActionResult Create(int DocumentIdValue, List<int> Groups)
         {
@@ -174,7 +174,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -196,7 +196,7 @@ namespace ArchiveProject2019.Controllers
         // POST: FormDepartments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -242,8 +242,8 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveEdit")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIs_ActiveNonIs_ActiveEdit")]
         public ActionResult ActiveNOnActive(int? id)
         {
             ViewBag.Current = "Document";
@@ -266,14 +266,14 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActive")]
         [ValidateAntiForgeryToken]
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveEdit")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIs_ActiveNonIs_ActiveEdit")]
 
-        public ActionResult ActiveNOnActiveConfirm(int id)
+        public ActionResult Is_ActiveNOnIs_ActiveConfirm(int id)
         {
             ViewBag.Current = "Document";
 
-            string ActiveMode = string.Empty;
+            string Is_ActiveMode = string.Empty;
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
             string UserId = User.Identity.GetUserId();
@@ -283,12 +283,12 @@ namespace ArchiveProject2019.Controllers
             if (documentGroup.EnableEdit == true)
             {
                 documentGroup.EnableEdit = false;
-                ActiveMode = "الغاء  التعديل";
+                Is_ActiveMode = "الغاء  التعديل";
             }
             else
             {
                 documentGroup.EnableEdit = true;
-                ActiveMode = "تفعيل التعديل";
+                Is_ActiveMode = "تفعيل التعديل";
 
             }
             documentGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -313,7 +313,7 @@ namespace ArchiveProject2019.Controllers
                     CreatedAt = NotificationTime,
                     Is_Active = false,
                     UserId = user.Id,
-                    Message = "تمت عملية  " + ActiveMode +" في المجموعة "+GroupName+" رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    Message = "تمت عملية  " + Is_ActiveMode +" في المجموعة "+GroupName+" رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
                    ,
                     NotificationOwnerId = UserId
@@ -331,8 +331,8 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveReplay")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIs_ActiveNonIs_ActiveReplay")]
 
         public ActionResult ActiveNOnActiveReplay(int? id)
         {
@@ -356,14 +356,14 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveReplay")]
         [ValidateAntiForgeryToken]
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveReplay")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIs_ActiveNonIs_ActiveReplay")]
 
-        public ActionResult ActiveNOnActiveConfirmReplay(int id)
+        public ActionResult Is_ActiveNOnIs_ActiveConfirmReplay(int id)
         {
             ViewBag.Current = "Document";
 
-            string ActiveMode = string.Empty;
+            string Is_ActiveMode = string.Empty;
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
             string UserId = User.Identity.GetUserId();
@@ -373,12 +373,12 @@ namespace ArchiveProject2019.Controllers
             if (documentGroup.EnableReplay == true)
             {
                 documentGroup.EnableReplay = false;
-                ActiveMode = "الغاء  إمكانية الرد";
+                Is_ActiveMode = "الغاء  إمكانية الرد";
             }
             else
             {
                 documentGroup.EnableReplay = true;
-                ActiveMode = "تفعيل إمكانية الرد";
+                Is_ActiveMode = "تفعيل إمكانية الرد";
 
             }
             documentGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -403,7 +403,7 @@ namespace ArchiveProject2019.Controllers
                     CreatedAt = NotificationTime,
                     Is_Active = false,
                     UserId = user.Id,
-                    Message = "تمت عملية  " + ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    Message = "تمت عملية  " + Is_ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
                    ,
                     NotificationOwnerId = UserId
@@ -418,8 +418,8 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveSeal")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIs_ActiveNonIs_ActiveSeal")]
 
         public ActionResult ActiveNOnActiveSeal(int? id)
         {
@@ -443,14 +443,14 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveSeal")]
         [ValidateAntiForgeryToken]
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveSeal")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIs_ActiveNonIs_ActiveSeal")]
 
-        public ActionResult ActiveNOnActiveConfirmSeal(int id)
+        public ActionResult Is_ActiveNOnIs_ActiveConfirmSeal(int id)
         {
             ViewBag.Current = "Document";
 
-            string ActiveMode = string.Empty;
+            string Is_ActiveMode = string.Empty;
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
             string UserId = User.Identity.GetUserId();
@@ -460,12 +460,12 @@ namespace ArchiveProject2019.Controllers
             if (documentGroup.EnableSeal == true)
             {
                 documentGroup.EnableSeal = false;
-                ActiveMode = "الغاء  إمكانية التسديد";
+                Is_ActiveMode = "الغاء  إمكانية التسديد";
             }
             else
             {
                 documentGroup.EnableSeal = true;
-                ActiveMode = "تفعيل إمكانية التسديد";
+                Is_ActiveMode = "تفعيل إمكانية التسديد";
 
             }
             documentGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -490,7 +490,7 @@ namespace ArchiveProject2019.Controllers
                     CreatedAt = NotificationTime,
                     Is_Active = false,
                     UserId = user.Id,
-                    Message = "تمت عملية  " + ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    Message = "تمت عملية  " + Is_ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
                    ,
                     NotificationOwnerId = UserId
@@ -506,8 +506,8 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveRelate")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIs_ActiveNonIs_ActiveRelate")]
 
         public ActionResult ActiveNOnActiveRelate(int? id)
         {
@@ -531,14 +531,14 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("ActiveNOnActiveRelate")]
         [ValidateAntiForgeryToken]
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsActiveNonActiveRelate")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "DocumentGroupsIs_ActiveNonIs_ActiveRelate")]
 
-        public ActionResult ActiveNOnActiveConfirmRelate(int id)
+        public ActionResult Is_ActiveNOnIs_ActiveConfirmRelate(int id)
         {
             ViewBag.Current = "Document";
 
-            string ActiveMode = string.Empty;
+            string Is_ActiveMode = string.Empty;
             List<string> UsersId = new List<string>();
             string NotificationTime = string.Empty;
             string UserId = User.Identity.GetUserId();
@@ -548,12 +548,12 @@ namespace ArchiveProject2019.Controllers
             if (documentGroup.EnableRelate == true)
             {
                 documentGroup.EnableRelate = false;
-                ActiveMode = "الغاء  إمكانية الربط";
+                Is_ActiveMode = "الغاء  إمكانية الربط";
             }
             else
             {
                 documentGroup.EnableRelate = true;
-                ActiveMode = "تفعيل إمكانية الربط";
+                Is_ActiveMode = "تفعيل إمكانية الربط";
 
             }
             documentGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -578,7 +578,7 @@ namespace ArchiveProject2019.Controllers
                     CreatedAt = NotificationTime,
                     Is_Active = false,
                     UserId = user.Id,
-                    Message = "تمت عملية  " + ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
+                    Message = "تمت عملية  " + Is_ActiveMode + " في المجموعة " + GroupName + " رقم الوثيقة :" + doc.DocumentNumber + " موضوع الوثيقة :" + doc.Subject
                     + " ،عنوان الوثيقة :" + doc.Address + "،وصف الوثيقة :" + doc.Description
                    ,
                     NotificationOwnerId = UserId
@@ -592,7 +592,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
          [AccessDeniedAuthorizeattribute(ActionName = "DocumentDepartmentsDetails")]
         public ActionResult Details(int? id)
         {

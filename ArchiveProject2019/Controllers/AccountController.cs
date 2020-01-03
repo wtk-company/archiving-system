@@ -9,11 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ArchiveProject2019.Models;
-using ArchiveProject2019.HelperClasses;
 
 namespace ArchiveProject2019.Controllers
 {
-   
+    [Authorize]
     public class AccountController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -58,27 +57,18 @@ namespace ArchiveProject2019.Controllers
 
         //
         // GET: /Account/Login
-       // [AccessDeniedAuthorizeattribute(ActionName = "Access")]
-
+        [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-
-            if (false)
-            {
-                return RedirectToAction("ApplicationClosed", "ErrorController");
-            }
             return View();
         }
 
         //
-   
+        // POST: /Account/Login
         [HttpPost]
-     
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-
-     //   [AccessDeniedAuthorizeattribute(ActionName = "Access")]
-
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
@@ -425,10 +415,9 @@ namespace ArchiveProject2019.Controllers
       
 
         [HttpGet]
-
-
-        [AccessDeniedAuthorizeattribute(ActionName = "Access")]
-
+        
+  
+      //  [ValidateAntiForgeryToken]
         public ActionResult LogOut()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);

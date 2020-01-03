@@ -19,7 +19,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsIndex")]
         public ActionResult Index(int? Id,string msg="none")
         {
@@ -56,7 +56,7 @@ namespace ArchiveProject2019.Controllers
 
         // GET: FormDepartments/Details/5
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDetails")]
         public ActionResult Details(int? id)
         {
@@ -77,7 +77,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsCreate")]
         public ActionResult Create(int ?Id)
         {
@@ -123,7 +123,7 @@ namespace ArchiveProject2019.Controllers
     
         [HttpPost]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsCreate")]
         public ActionResult Create(int FormIdValue,List<int>Departments)
         {
@@ -192,7 +192,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -214,7 +214,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsEdit")]
         public ActionResult Edit(int Id)
         {
@@ -280,7 +280,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -304,7 +304,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {

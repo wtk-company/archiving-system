@@ -3,7 +3,7 @@ namespace ArchiveProject2019.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class raeedInitilModel : DbMigration
+    public partial class initial_____ : DbMigration
     {
         public override void Up()
         {
@@ -178,7 +178,6 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        IsGeneralize = c.Boolean(nullable: false),
                         DocName = c.String(),
                         FileUrl = c.String(),
                         Subject = c.String(nullable: false),

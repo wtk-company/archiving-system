@@ -17,7 +17,7 @@ namespace ArchiveProject2019.Controllers
     public class BackupRestoreController : Controller
     {
         // GET: BackupRestore
-      
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "BackupRestoreIndex")]
 
         public ViewResult Index(string Id="none")
@@ -83,6 +83,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
+        [Authorize]
         [HttpPost]
 
         [AccessDeniedAuthorizeattribute(ActionName = "BackupRestoreRestoreDB")]
@@ -232,7 +233,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-     
+        [Authorize]
 
 
         [AccessDeniedAuthorizeattribute(ActionName = "BackupRestoreDownloadFiles")]
@@ -283,7 +284,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-       
+        [Authorize]
 
 
         [HttpPost]

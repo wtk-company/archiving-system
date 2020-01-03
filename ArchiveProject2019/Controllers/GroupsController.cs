@@ -19,7 +19,7 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsIndex")]
         public ActionResult Index(string Id = "none")
         {
@@ -39,7 +39,7 @@ namespace ArchiveProject2019.Controllers
             
             return View(Groups.OrderByDescending(a=>a.CreatedAt).ToList());
         }
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsCreate")]
         public ActionResult Create()
         {
@@ -51,7 +51,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsCreate")]
         public ActionResult Create(Group Group)
         {
@@ -96,7 +96,7 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { Id = "CreateError" });
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -120,7 +120,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsEdit")]
         public ActionResult Edit(Group Group,string OldName)
         {
@@ -165,7 +165,7 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("Index", new { Id = "EditError" });
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -194,7 +194,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -230,7 +230,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "GroupsDetails")]
         public ActionResult Details(int? id)
         {

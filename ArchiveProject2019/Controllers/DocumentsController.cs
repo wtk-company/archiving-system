@@ -31,7 +31,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
 
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentCreate")]
 
@@ -51,7 +51,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RelateDocumentCreate")]
         public ActionResult RelateDocument(int id)
         {
@@ -67,7 +67,7 @@ namespace ArchiveProject2019.Controllers
             return View("Form", viewModel);
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "ReplayDocumentCreate")]
         public ActionResult ReplayDocument(int id)
         {
@@ -85,9 +85,9 @@ namespace ArchiveProject2019.Controllers
 
         // GET: /Documents/Create
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentCreate")]
-        public ActionResult Create(int Id = 0, int docId = -1, bool IsReplay = false, int Standard = -1,bool IsGeneralize=false)
+        public ActionResult Create(int Id = 0, int docId = -1, bool IsReplay = false, int Standard = -1)
         {
             ViewBag.Current = "Document";
 
@@ -132,21 +132,19 @@ namespace ArchiveProject2019.Controllers
                 IsReplay = IsReplay,
             };
 
-
-
-            ViewBag.Gereralize = IsGeneralize;
-
-            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name");
-
-
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "PartyName");
+            
+           
             //Asmi :
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
-            ViewBag.RelatedGroups = new SelectList(_context.Groups.ToList(), "Id", "Name");
-            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name");
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "TypeMailName");
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "KindName");
+            ViewBag.RelatedGroups = new SelectList(_context.Groups.ToList(), "Id", "GroupName");
+            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "StatusName");
             ViewBag.RelatedDepartments = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name");
             ViewBag.RelatedUsers = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName");
             ViewBag.ResponsibleUserId = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName");
+
+
             return View(myModel);
         }
 
@@ -160,7 +158,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -287,32 +285,28 @@ namespace ArchiveProject2019.Controllers
                 ModelState.AddModelError("PartyIds", "حدد جهات استلام البريد");
                 Status = false;
             }
-
-            var lasFile = UploadFile.Last();
+            
             foreach (HttpPostedFileBase file in UploadFile)
             {
                 //Image Extentions:
-                bool ImageExtention = CheckFileFormatting.PermissionFile(file);
-
-                if (ImageExtention == false)
+                if (file != null)
                 {
-                    Status = false;
-                    ModelState.AddModelError("Document.FileUrl", "صيغة الملف المحمل غير مدعومة أعد الإدخال مرة أخرى");
-                    return View(viewModel);
+                    bool ImageExtention = CheckFileFormatting.PermissionFile(file);
+
+                    if (ImageExtention == false)
+                    {
+                        Status = false;
+                        ModelState.AddModelError("Document.FileUrl", "صيغة الملف المحمل غير مدعومة أعد الإدخال مرة أخرى");
+                        return View(viewModel);
+                    }
                 }
             }
-
-
-
-
-
-
-
+            
             //Error:
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name", viewModel.Document.TypeMailId);
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", viewModel.Document.KindId);
-            ViewBag.RelatedGroups = new SelectList(_context.Groups.ToList(), "Id", "Name");
-            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name", viewModel.Document.StatusId);
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "TypeMailName", viewModel.Document.TypeMailId);
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "KindName", viewModel.Document.KindId);
+            ViewBag.RelatedGroups = new SelectList(_context.Groups.ToList(), "Id", "GroupName");
+            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "StatusName", viewModel.Document.StatusId);
             ViewBag.RelatedDepartments = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay().Where(a=>a.Id!= UserDepId), "Id", "Name");
             ViewBag.RelatedUsers = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName");
             ViewBag.ResponsibleUserId = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName", viewModel.Document.ResponsibleUserId);
@@ -333,7 +327,12 @@ namespace ArchiveProject2019.Controllers
                 if (!ManagedAes.IsSaveInDb)
                 {
 
-
+                    /*
+                    * start code
+                    * get image from scanner,
+                    * save it in server
+                    * 
+                    */
                     var scannedImages = Request.Form.GetValues("myfile");
                     if (scannedImages != null)
                     {
@@ -349,7 +348,7 @@ namespace ArchiveProject2019.Controllers
                                 System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
                             }
                             string imageName = "scannedImage" + i + ".jpg";
-                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + imageName;
+                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss")+ imageName;
 
                             //set the image path
                             string imgPath = Path.Combine(path, imageName);
@@ -368,42 +367,44 @@ namespace ArchiveProject2019.Controllers
                             viewModel.Document.FileUrl += s1 + "_##_";
                         }
                     }
+                    /*
+                    * end code
+                    * get image from scanner,
+                    * save it in server
+                    */
 
-
-
-                    if (UploadFile!=null)
+                    foreach (var file in UploadFile)
                     {
-
-
-                        foreach (var file in UploadFile)
+                        if (file != null)
                         {
-                            if (file != null)
+                            //Save File In Uploads
+                            string FileName = Path.GetFileName(file.FileName);
+
+                            string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
+                            string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
+
+                            if (ManagedAes.IsCipher)
                             {
-                                //Save File In Uploads
-                                string FileName = Path.GetFileName(file.FileName);
-
-                                string s1 = DateTime.Now.ToString("yyyyMMddhhHHmmss") + FileName;
-                                string path = Path.Combine(Server.MapPath("~/Uploads"), s1);
-
-                                if (ManagedAes.IsCipher)
-                                {
-                                    ManagedAes.EncryptFile(file, path);
-                                }
-                                else
-                                {
-                                    file.SaveAs(path);
-                                }
-
-                                viewModel.Document.DocName += FileName + "_##_";
-                                viewModel.Document.FileUrl += s1 + "_##_";
+                                ManagedAes.EncryptFile(file, path);
                             }
-                        }
+                            else
+                            {
+                                file.SaveAs(path);
+                            }
 
-                        // Cut last 4 split string
+                            viewModel.Document.DocName += FileName + "_##_";
+                            viewModel.Document.FileUrl += s1 + "_##_";
+                        }
+                    }
+
+                    // Cut last 4 split string
+                    if (viewModel.Document.DocName != null)
+                    {
                         viewModel.Document.DocName = viewModel.Document.DocName.Substring(0, viewModel.Document.DocName.Length - 4);
                         viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
                     }
                 }
+
 
                 // Document Details:
                 viewModel.Document.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -445,7 +446,12 @@ namespace ArchiveProject2019.Controllers
                 // Save Multiple Files In Db (begin)
                 if (ManagedAes.IsSaveInDb)
                 {
-                    
+                    /*
+                    * start code
+                    * get image from scanner,
+                    * save it in database
+                    * 
+                    */
                     var scannedImages = Request.Form.GetValues("myfile");
                     if (scannedImages != null)
                     {
@@ -463,7 +469,7 @@ namespace ArchiveProject2019.Controllers
 
                             if (ManagedAes.IsCipher)
                             {
-                                // Encrypt File Name.
+                                // Encrypt File GroupName.
                                 fileStoredInDb.FileName = ManagedAes.EncryptText(imageName);
                                 // Encrypt File.
                                 var EncryptedImgAsByteArray = ManagedAes.EncryptArrayByte(imgAsByteArray);
@@ -472,7 +478,7 @@ namespace ArchiveProject2019.Controllers
                             }
                             else
                             {
-                                // File Name.
+                                // File GroupName.
                                 fileStoredInDb.FileName = imageName;
                                 // File.
                                 fileStoredInDb.File = new byte[imgAsByteArray.Length];
@@ -483,7 +489,12 @@ namespace ArchiveProject2019.Controllers
                             _context.SaveChanges();
                         }
                     }
-             
+                    /*
+                     * end code
+                     * get image from scanner,
+                     * save it in server
+                     * 
+                     */
 
                     foreach (HttpPostedFileBase file in UploadFile)
                     {
@@ -501,7 +512,7 @@ namespace ArchiveProject2019.Controllers
 
                             if (ManagedAes.IsCipher)
                             {
-                                // Encrypt File Name.
+                                // Encrypt File GroupName.
                                 fileStoredInDb.FileName = ManagedAes.EncryptText(FileName);
                                 // Encrypt File.
                                 fileStoredInDb.File = ManagedAes.EncryptArrayByte(fileStoredInDb.File);
@@ -524,12 +535,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-                List<string> RelatedDep = new List<string>();
-                if(RelatedDepartments!=null)
-                {
-
-                    RelatedDep= RelatedDepartments.ToList();
-                }
+                List<string> RelatedDep = RelatedDepartments.ToList();
                 RelatedDep.Add(UserDepId.ToString());
 
 
@@ -772,7 +778,7 @@ namespace ArchiveProject2019.Controllers
         [HttpGet]
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentEdit")]
         public ActionResult Edit(int? id)
         {
@@ -823,23 +829,23 @@ namespace ArchiveProject2019.Controllers
             if (_context.Users.Find(CurrentUser).DepartmentId.HasValue)
             {
                 int Dep_Id = _context.Users.Find(CurrentUser).DepartmentId.Value;
-                ViewBag.Departments = new SelectList(_context.Departments.Where(a => a.Id == Dep_Id).ToList(), "Id", "Name");
+                ViewBag.Departments = new SelectList(_context.Departments.Where(a => a.Id == Dep_Id).ToList(), "Id", "GroupName");
 
             }
             else
             {
-                ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", Document.DepartmentId);
+                ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "GroupName", Document.DepartmentId);
 
             }
-            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name", Document.PartyId);
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
-            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
-            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "PartyName", Document.PartyId);
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "TypeMailName");
+            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "GroupName");
+            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "GroupName");
 
 
             //[Asmi new]:
-            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name", Document.StatusId);
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", Document.KindId);
+            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "StatusName", Document.StatusId);
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "KindName", Document.KindId);
 
             ViewBag.ResponsibleUserId = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName", Document.ResponsibleUserId);
 
@@ -1056,7 +1062,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
@@ -1222,24 +1228,24 @@ namespace ArchiveProject2019.Controllers
             if (_context.Users.Find(CurrentUser).DepartmentId.HasValue)
             {
                 int Dep_Id = _context.Users.Find(CurrentUser).DepartmentId.Value;
-                ViewBag.Departments = new SelectList(_context.Departments.Where(a => a.Id == Dep_Id).ToList(), "Id", "Name");
+                ViewBag.Departments = new SelectList(_context.Departments.Where(a => a.Id == Dep_Id).ToList(), "Id", "GroupName");
 
             }
             else
             {
-                ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "Name", viewModel.Document.DepartmentId);
+                ViewBag.Departments = new SelectList(_context.Departments.ToList(), "Id", "GroupName", viewModel.Document.DepartmentId);
 
             }
-            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "Name", viewModel.Document.PartyId);
-            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
-            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "Name");
-            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "Name");
+            ViewBag.Parties = new SelectList(_context.Parties.ToList(), "Id", "PartyName", viewModel.Document.PartyId);
+            ViewBag.TypeMailId = new SelectList(_context.TypeMails.ToList(), "Id", "TypeMailName");
+            ViewBag.Groups = new SelectList(_context.Groups.ToList(), "Id", "GroupName");
+            ViewBag.DepartmentList = new SelectList(_context.Departments.ToList(), "Id", "GroupName");
 
 
             //Asmi [Return ]:
-            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "Name", viewModel.Document.StatusId);
+            ViewBag.StatusId = new SelectList(_context.DocumentStatuses.ToList(), "Id", "StatusName", viewModel.Document.StatusId);
 
-            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name", viewModel.Document.KindId);
+            ViewBag.kinds = new SelectList(_context.Kinds.ToList(), "Id", "KindName", viewModel.Document.KindId);
 
 
             ViewBag.ResponsibleUserId = new SelectList(_context.Users.Where(a => !a.RoleName.Equals("Master")).ToList(), "Id", "FullName", viewModel.Document.ResponsibleUserId);
@@ -1263,6 +1269,7 @@ namespace ArchiveProject2019.Controllers
             }
             ViewBag.RelatedDepartments = ListSl;
 
+            
 
 
 
@@ -1362,7 +1369,7 @@ namespace ArchiveProject2019.Controllers
 
                                 if (ManagedAes.IsCipher)
                                 {
-                                    // Encrypt File Name.
+                                    // Encrypt File GroupName.
                                     fileStoredInDb.FileName = ManagedAes.EncryptText(imageName);
                                     // Encrypt File.
                                     var EncryptedImgAsByteArray = ManagedAes.EncryptArrayByte(imgAsByteArray);
@@ -1371,7 +1378,7 @@ namespace ArchiveProject2019.Controllers
                                 }
                                 else
                                 {
-                                    // File Name.
+                                    // File GroupName.
                                     fileStoredInDb.FileName = imageName;
                                     // File.
                                     fileStoredInDb.File = new byte[imgAsByteArray.Length];
@@ -1407,7 +1414,7 @@ namespace ArchiveProject2019.Controllers
 
                                         if (ManagedAes.IsCipher)
                                         {
-                                            // Encrypt File Name.
+                                            // Encrypt File GroupName.
                                             viewModel.FilesStoredInDbs[i].FileName = ManagedAes.EncryptText(FileName);
                                             // Encrypt File.
                                             viewModel.FilesStoredInDbs[i].File = ManagedAes.EncryptArrayByte(viewModel.FilesStoredInDbs[i].File);
@@ -1448,7 +1455,7 @@ namespace ArchiveProject2019.Controllers
 
                                 if (ManagedAes.IsCipher)
                                 {
-                                    // Encrypt File Name.
+                                    // Encrypt File GroupName.
                                     viewModel.FilesStoredInDbs[i].FileName = ManagedAes.EncryptText(FileName);
                                     // Encrypt File.
                                     viewModel.FilesStoredInDbs[i].File = ManagedAes.EncryptArrayByte(viewModel.FilesStoredInDbs[i].File);
@@ -1652,12 +1659,7 @@ namespace ArchiveProject2019.Controllers
                 SelectedDocumentDepartments = _context.DocumentDepartments.Where(a => a.DocumentId == viewModel.Document.Id).Select(a => a.DepartmentId.ToString()).ToList();
 
 
-                List<string> RelatedDep = new List<string>();
-                    if(RelatedDepartments!=null)
-                {
-
-                    RelatedDep=RelatedDepartments.ToList();
-                }
+                List<string> RelatedDep = RelatedDepartments.ToList();
                 RelatedDep.Add(viewModel.Document.DepartmentId.ToString());
                 if (RelatedDep != null)
                 {
@@ -2157,7 +2159,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentIndex")]
         public ActionResult Index(string id = "none",string Notf="none")
         {
@@ -2175,10 +2177,9 @@ namespace ArchiveProject2019.Controllers
                 ViewBag.Msg = null;
             }
 
-            ViewBag.Kinds = new SelectList(_context.Kinds.ToList(), "Id", "Name");
-
-            ViewBag.MailType = new SelectList(_context.TypeMails.ToList(), "Id", "Name");
-            ViewBag.Forms = new SelectList(_context.Forms.ToList(), "Id", "Name");
+            ViewBag.Kinds = new SelectList(_context.Kinds.ToList(), "Id", "KindName");
+            ViewBag.MailType = new SelectList(_context.TypeMails.ToList(), "Id", "TypeMailName");
+            ViewBag.Forms = new SelectList(_context.Forms.ToList(), "Id", "FormName");
 
             string currentUserId = this.User.Identity.GetUserId();
 
@@ -2214,7 +2215,7 @@ namespace ArchiveProject2019.Controllers
                     //Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
                     //Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
                     //Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
-                    //Document.Name = ManagedAes.DecryptText(Document.Name);
+                    //Document.GroupName = ManagedAes.DecryptText(Document.GroupName);
                     //Document.Notes = ManagedAes.DecryptText(Document.Notes);
                     //Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
                     //Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
@@ -2225,7 +2226,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [HttpPost]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentIndex")]
         public ActionResult Index(string RetrievalCount, string DocumentSubject, string DocumentModel, string OrderBY, string OrderType, string DocumentNumber, string DocumentForm, string DocumentKind, string DocumentMail, string DocFirstDate, string DocEndDate)
@@ -2293,11 +2294,6 @@ namespace ArchiveProject2019.Controllers
 
                 case "7":
                     MyDocId = UserDocumentsID.UserMyDepartmentDocument(currentUserId).ToList();
-
-                    break;
-
-                case "8":
-                    MyDocId = UserDocumentsID.UserDocumentTrend(currentUserId).ToList();
 
                     break;
 
@@ -2425,7 +2421,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RelateDocumentCreateList")]
         public ActionResult Relate(int? Id)
         {
@@ -2449,7 +2445,7 @@ namespace ArchiveProject2019.Controllers
             //    //document.FileUrl = ManagedAes.DecryptText(document.FileUrl);
             //    //document.MailingDate = ManagedAes.DecryptText(document.MailingDate);
             //    //document.MailingNumber = ManagedAes.DecryptText(document.MailingNumber);
-            //    //document.Name = ManagedAes.DecryptText(document.Name);
+            //    //document.GroupName = ManagedAes.DecryptText(document.GroupName);
             //    //document.Notes = ManagedAes.DecryptText(document.Notes);
             //    //document.NotificationDate = ManagedAes.DecryptText(document.NotificationDate);
             //    //document.Subject = ManagedAes.DecryptText(document.Subject);
@@ -2480,7 +2476,7 @@ namespace ArchiveProject2019.Controllers
                     //Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
                     //Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
                     //Document.MailingNumbefr = ManagedAes.DecryptText(Document.MailingNumber);
-                    //Document.Name = ManagedAes.DecryptText(Document.Name);
+                    //Document.GroupName = ManagedAes.DecryptText(Document.GroupName);
                     //Document.Notes = ManagedAes.DecryptText(Document.Notes);
                     //Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
                     //Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
@@ -2493,7 +2489,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RelateDocumentCreateList")]
         public ActionResult Relate(List<int> Documents, int DocId)
         {
@@ -2531,7 +2527,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDelete")]
         public ActionResult Delete(int? id)
         {
@@ -2554,7 +2550,7 @@ namespace ArchiveProject2019.Controllers
                 //document.FileUrl = ManagedAes.DecryptText(document.FileUrl);
                 //document.MailingDate = ManagedAes.DecryptText(document.MailingDate);
                 //document.MailingNumber = ManagedAes.DecryptText(document.MailingNumber);
-                //document.Name = ManagedAes.DecryptText(document.Name);
+                //document.GroupName = ManagedAes.DecryptText(document.GroupName);
                 //document.Notes = ManagedAes.DecryptText(document.Notes);
                 //document.NotificationDate = ManagedAes.DecryptText(document.NotificationDate);
                 //document.Subject = ManagedAes.DecryptText(document.Subject);
@@ -2581,7 +2577,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -2661,7 +2657,7 @@ namespace ArchiveProject2019.Controllers
 
         //Child:
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentRemoveChildRate")]
 
         public ActionResult RemoveChildRate(int? id)
@@ -2690,7 +2686,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        
+        [Authorize]
          [HttpPost, ActionName("RemoveChildRate")]
         [ValidateAntiForgeryToken]
 
@@ -2720,7 +2716,7 @@ namespace ArchiveProject2019.Controllers
         //Parent:
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentRemoveParentRate")]
 
         public ActionResult RemoveParentRate(int? id)
@@ -2753,7 +2749,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentRemoveParentRate")]
 
         public ActionResult RemoveParentRateConfirm(int? id)
@@ -2813,7 +2809,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentDetails")]
         public ActionResult Details(int? id)
         {
@@ -3049,7 +3045,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentIndex")]
         public ActionResult GetRelatedDocument(int id, string msg = "none")
         {
@@ -3090,7 +3086,7 @@ namespace ArchiveProject2019.Controllers
                     //Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
                     //Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
                     //Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
-                    //Document.Name = ManagedAes.DecryptText(Document.Name);
+                    //Document.GroupName = ManagedAes.DecryptText(Document.GroupName);
                     //Document.Notes = ManagedAes.DecryptText(Document.Notes);
                     //Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
                     //Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
@@ -3102,7 +3098,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentIndex")]
         public ActionResult GetReplayDocument(int id, string msg = "none")
         {
@@ -3144,7 +3140,7 @@ namespace ArchiveProject2019.Controllers
                     //Document.FileUrl = ManagedAes.DecryptText(Document.FileUrl);
                     //Document.MailingDate = ManagedAes.DecryptText(Document.MailingDate);
                     //Document.MailingNumber = ManagedAes.DecryptText(Document.MailingNumber);
-                    //Document.Name = ManagedAes.DecryptText(Document.Name);
+                    //Document.GroupName = ManagedAes.DecryptText(Document.GroupName);
                     //Document.Notes = ManagedAes.DecryptText(Document.Notes);
                     //Document.NotificationDate = ManagedAes.DecryptText(Document.NotificationDate);
                     //Document.UpdatedAt = ManagedAes.DecryptText(Document.UpdatedAt);
@@ -3166,7 +3162,7 @@ namespace ArchiveProject2019.Controllers
                 s1 = s1.Replace("-", "/");
                 return DateTime.ParseExact(s1, "yyyy/MM/dd", null) == s2;
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 return false;
 

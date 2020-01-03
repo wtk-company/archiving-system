@@ -15,7 +15,7 @@ namespace ArchiveProject2019.Controllers
 
         public ApplicationDbContext db = new ApplicationDbContext();
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionsUsersIndex")]
         public ActionResult Index(string Id, string msg = "none")
         {
@@ -85,7 +85,7 @@ namespace ArchiveProject2019.Controllers
             return View(UserPermissionsList.OrderByDescending(a=>a.CreatedAt).ToList());
         }
               [HttpPost]
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionsUsersIndex")]
         public ActionResult Index(List<string>Permissions)
         {

@@ -23,7 +23,7 @@ namespace ArchiveProject2019.Controllers
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         }
         //Reister New User:
-        
+        [Authorize]
         public ActionResult UserFullName()
         {
             string uid = User.Identity.GetUserId();
@@ -34,7 +34,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersRegister")]
         public ActionResult Register()
         {
@@ -64,7 +64,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
        
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersRegister")]
         public async Task<ActionResult> Register(RegisterViewModel model,IEnumerable<string>Groups)
 
@@ -191,7 +191,7 @@ namespace ArchiveProject2019.Controllers
             return View(model);
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersChangeProfile")]
         public ActionResult ChangeProfile()
         {
@@ -218,7 +218,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersChangeProfile")]
         public ActionResult ChangeProfile(EditUserNameAndPassword viewModel)
         {
@@ -280,7 +280,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersIndex")]
         public ActionResult Index(string Id="none")
 
@@ -304,7 +304,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersDetails")]
 
         public ActionResult Details(string id)
@@ -344,7 +344,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersEdit")]
 
         public ActionResult Edit(string id)
@@ -416,7 +416,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersEdit")]
         public ActionResult Edit( EditProfileViewModel EProfile, IEnumerable<string> Groups)
 
@@ -662,7 +662,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersDelete")]
         public ActionResult Delete(string  id)
 
@@ -696,7 +696,7 @@ namespace ArchiveProject2019.Controllers
      
         [HttpPost,ActionName("Delete")]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersDelete")]
 
         public ActionResult confirm(string Id)
@@ -759,7 +759,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersLockOut")]
         public ActionResult LockOut(string id)
         {
@@ -805,7 +805,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ActionName("LockOut")]
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersLockOut")]
 
         public ActionResult ConfirmLockOut(string Id)
@@ -838,7 +838,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersRegisterMasterUser")]
         public ActionResult RegisterMasterUser()
         {
@@ -863,7 +863,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [AllowAnonymous]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "UsersRegisterMasterUser")]
         public async Task<ActionResult> RegisterMasterUser(RegisterViewModel model)
         {

@@ -18,7 +18,7 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
       
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesIndex")]
         public ActionResult Index(string Id,string msg="none")
         {
@@ -61,7 +61,7 @@ namespace ArchiveProject2019.Controllers
             return View(permissionRoles.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesDetails")]
         public ActionResult Details(int? id)
         {
@@ -79,7 +79,7 @@ namespace ArchiveProject2019.Controllers
             return View(permissionRole);
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesCreate")]
         public ActionResult Create()
         {
@@ -108,7 +108,7 @@ namespace ArchiveProject2019.Controllers
      
         [HttpPost]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesCreate")]
 
         public ActionResult Create(string RoleId,List<int>Sel)
@@ -177,9 +177,9 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesActive")]
-        public ActionResult Active(int? id)
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesIs_Active")]
+        public ActionResult Is_Active(int? id)
         {
             ViewBag.Current = "Roles";
 
@@ -203,24 +203,24 @@ namespace ArchiveProject2019.Controllers
             return View(permissionRole);
         }
 
-        [HttpPost,ActionName("Active")]
+        [HttpPost,ActionName("Is_Active")]
         [ValidateAntiForgeryToken]
-        
-        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesActive")]
+        [Authorize]
+        [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesIs_Active")]
         public ActionResult confirm(int id)
         {
             ViewBag.Current = "Roles";
-            string ActiveState = "";
+            string Is_ActiveState = "";
             PermissionRole PermissionRole = db.PermissionRoles.Find(id);
             if(PermissionRole.Is_Active==true)
             {
                 PermissionRole.Is_Active = false;
-                ActiveState = "إلغاء التفعيل";
+                Is_ActiveState = "إلغاء التفعيل";
             }
             else
             {
                 PermissionRole.Is_Active = true;
-                ActiveState = " إعادةالتفعيل";
+                Is_ActiveState = " إعادةالتفعيل";
             }
 
             PermissionRole.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
@@ -248,18 +248,18 @@ namespace ArchiveProject2019.Controllers
                     CreatedAt = NotificationTime,
                     Is_Active = false,
                     UserId = user.Id,
-                    Message = "تمت  عملية  : " + ActiveState + " للصلاحية :" + PermissionName+" للدور :"+RoleName,
+                    Message = "تمت  عملية  : " + Is_ActiveState + " للصلاحية :" + PermissionName+" للدور :"+RoleName,
                     NotificationOwnerId = UserId
                 };
                 db.Notifications.Add(notification);
             }
             db.SaveChanges();
 
-            return RedirectToAction("Index", new { @id = Session["Role_Id"].ToString(), @msg = "ActiveSuccess" });
+            return RedirectToAction("Index", new { @id = Session["Role_Id"].ToString(), @msg = "Is_ActiveSuccess" });
 
 
         }
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesDelete")]
         public ActionResult Delete(int? id)
         {
@@ -287,7 +287,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionRolesDelete")]
         public ActionResult DeleteConfirmed(int id)
         {

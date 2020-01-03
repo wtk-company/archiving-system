@@ -22,7 +22,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
        [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusIndex")]
 
         public ActionResult Index(string Id = "none")
@@ -42,7 +42,7 @@ namespace ArchiveProject2019.Controllers
             return View(Status.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusCreate")]
 
         public ActionResult Create()
@@ -58,7 +58,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusCreate")]
 
         public ActionResult Create([Bind(Include = "Id,StatusName,CreatedAt")] DocumentStatus Status)
@@ -113,7 +113,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusEdit")]
 
         public ActionResult Edit(int? id)
@@ -139,7 +139,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusEdit")]
 
         public ActionResult Edit(DocumentStatus status,string OldName)
@@ -189,7 +189,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusDelete")]
 
         public ActionResult Delete(int? id)
@@ -214,7 +214,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusDelete")]
 
         public ActionResult Confirm(int? id)
@@ -254,7 +254,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusDetails")]
 
         public ActionResult Details(int? id)

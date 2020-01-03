@@ -25,7 +25,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RolesIndex")]
         public ActionResult Index(string Id="none")
         {
@@ -61,7 +61,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RolesCreate")]
         public ActionResult Create()
         {
@@ -73,7 +73,7 @@ namespace ArchiveProject2019.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RolesCreate")]
         public ActionResult Create(RoleViewModel RoleView)
         {
@@ -130,7 +130,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RolesEdit")]
         public ActionResult Edit(string id)
         {
@@ -164,7 +164,7 @@ namespace ArchiveProject2019.Controllers
         // POST: Roles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RolesEdit")]
         public ActionResult Edit(RoleViewModel RoleView, string RoleId ,string OldName)
         {
@@ -233,7 +233,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RolesDelete")]
         public ActionResult Delete(string id)
         {
@@ -282,7 +282,7 @@ namespace ArchiveProject2019.Controllers
      
         [HttpPost,ActionName("Delete")]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RolesDelete")]
         public ActionResult Confirm(string Id)
         {
@@ -327,7 +327,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "RolesDetails")]
         public ActionResult Details(string id)
         {

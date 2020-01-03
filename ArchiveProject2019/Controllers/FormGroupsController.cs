@@ -17,7 +17,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
@@ -57,7 +57,7 @@ namespace ArchiveProject2019.Controllers
         // GET: FormDepartments/Details/5
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsDetails")]
         public ActionResult Details(int? id)
         {
@@ -79,7 +79,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsCreate")]
         // GET: FormDepartments/Create
         public ActionResult Create(int? Id)
@@ -126,7 +126,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsCreate")]
         public ActionResult Create(int FormIdValue, List<int> Groups)
         {
@@ -193,7 +193,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -216,7 +216,7 @@ namespace ArchiveProject2019.Controllers
         
         [HttpPost]
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsEdit")]
         public ActionResult Edit(int Id)
         {
@@ -282,7 +282,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -301,7 +301,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        
+        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsDelete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
