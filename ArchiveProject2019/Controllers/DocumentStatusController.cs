@@ -61,13 +61,13 @@ namespace ArchiveProject2019.Controllers
         
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusCreate")]
 
-        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] DocumentStatus Status)
+        public ActionResult Create([Bind(Include = "Id,StatusName,CreatedAt")] DocumentStatus Status)
 
         {
             ViewBag.Current = "DocumentStatus";
 
 
-            if (_context.DocumentStatuses.Any(a => a.Name.Equals(Status.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.DocumentStatuses.Any(a => a.StatusName.Equals(Status.StatusName, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -94,9 +94,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة  حالة وثيقة جديدة   : " + Status.Name,
+                        Message = "تم إضافة  حالة وثيقة جديدة   : " + Status.StatusName,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -131,7 +131,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
-            ViewBag.OldName = status.Name;
+            ViewBag.OldName = status.StatusName;
             return View(status);
         }
 
@@ -148,7 +148,7 @@ namespace ArchiveProject2019.Controllers
 
             ViewBag.Current = "DocumentStatus";
 
-            if (_context.DocumentStatuses.Where(a => a.Id != status.Id).Any(a => a.Name.Equals(status.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.DocumentStatuses.Where(a => a.Id != status.Id).Any(a => a.StatusName.Equals(status.StatusName, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
@@ -171,9 +171,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم حالة الوثيقة من : " + OldName + " إلى :" + status.Name
+                        Message = "تم تعديل اسم حالة الوثيقة من : " + OldName + " إلى :" + status.StatusName
                         ,
                         NotificationOwnerId = UserId
                     };
@@ -239,9 +239,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف   حالة الوثائق : " + status.Name,
+                    Message = "تم حذف   حالة الوثائق : " + status.StatusName,
                     NotificationOwnerId = UserId
                 };
                 _context.Notifications.Add(notification);

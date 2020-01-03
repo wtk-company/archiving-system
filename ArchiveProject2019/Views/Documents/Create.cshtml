@@ -88,7 +88,7 @@
 
 
         @Html.HiddenFor(a => Model.Document.FormId)
-        @Html.HiddenFor(a => Model.Document.Name)
+        @Html.HiddenFor(a => Model.Document.DocName)
         @Html.HiddenFor(a => Model.DocId)
         @Html.HiddenFor(a => Model.IsReplay)
 
@@ -167,14 +167,11 @@
                 <div class="form-group">*@
             @Html.LabelFor(model => model.Document.TypeMailId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
-                @Html.DropDownListFor(model => model.Document.TypeMailId, (SelectList)ViewBag.TypeMailId, "اختر نوع البريد", htmlAttributes: new { @class = "form-control chosen-select", @id = "TOGGLETypeOfMail" })
+                @Html.DropDownListFor(model => model.Document.TypeMailId, (SelectList) ViewBag.TypeMailId, "اختر نوع البريد", htmlAttributes: new { @class = "form-control chosen-select", @id = "TOGGLETypeOfMail" })
                 @Html.ValidationMessageFor(model => model.Document.TypeMailId, "", new { @class = "text-danger" })
             </div>
             @*</div>*@
         </div>
-
-        }
-
 
 
         <div class="TakeMail">
@@ -251,7 +248,7 @@
             {
                 <div class="form-group">
                     <div class="control-label col-md-2">
-                        @Model.FieldsValues.Fields[i].Name
+                        @Model.FieldsValues.Fields[i].FieldName
                     </div>
                     <div class="col-md-10">
                         @switch (Model.FieldsValues.Fields[i].Type)
@@ -289,7 +286,7 @@
 
                 @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
                 @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
-                @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
+                @Html.HiddenFor(model => model.FieldsValues.Fields[i].FieldName)
             }
         }
 
@@ -338,7 +335,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("الملف", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <button type="button" class="btn btn-info" onclick="scanToJpg();">مسح ضوئي</button>
             </div>

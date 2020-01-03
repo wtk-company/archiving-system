@@ -24,9 +24,9 @@ function returnFalse() {
 
 // Support: IE9
 // See #13393 for more info
-function safeActiveElement() {
+function safeIs_ActiveElement() {
 	try {
-		return document.activeElement;
+		return document.Is_ActiveElement;
 	} catch ( err ) { }
 }
 
@@ -494,7 +494,7 @@ jQuery.event = {
 
 			// Fire native event if possible so blur/focus sequence is correct
 			trigger: function() {
-				if ( this !== safeActiveElement() && this.focus ) {
+				if ( this !== safeIs_ActiveElement() && this.focus ) {
 					this.focus();
 					return false;
 				}
@@ -503,7 +503,7 @@ jQuery.event = {
 		},
 		blur: {
 			trigger: function() {
-				if ( this === safeActiveElement() && this.blur ) {
+				if ( this === safeIs_ActiveElement() && this.blur ) {
 					this.blur();
 					return false;
 				}

@@ -59,12 +59,12 @@ namespace ArchiveProject2019.Controllers
 
         
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsCreate")]
-        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] Kind Kind)
+        public ActionResult Create([Bind(Include = "Id,KindName,CreatedAt")] Kind Kind)
 
         {
             ViewBag.Current = "Kinds";
 
-            if (_context.Kinds.Any(a => a.Name.Equals(Kind.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Kinds.Any(a => a.KindName.Equals(Kind.KindName, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -89,9 +89,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة نوع جديد من الوثائق : " + Kind.Name,
+                        Message = "تم إضافة نوع جديد من الوثائق : " + Kind.KindName,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -129,7 +129,7 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            ViewBag.OldName = kinds.Name;
+            ViewBag.OldName = kinds.KindName;
             return View(kinds);
         }
 
@@ -142,7 +142,7 @@ namespace ArchiveProject2019.Controllers
         public ActionResult Edit(Kind kinds,string OldName)
 
         {
-            if (_context.Kinds.Where(a => a.Id != kinds.Id).Any(a => a.Name.Equals(kinds.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Kinds.Where(a => a.Id != kinds.Id).Any(a => a.KindName.Equals(kinds.KindName, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
            
@@ -171,9 +171,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم نوع الوثائق من : " +OldName+" إلى :"+kinds.Name
+                        Message = "تم تعديل اسم نوع الوثائق من : " + OldName + " إلى :" + kinds.KindName
                         ,
                         NotificationOwnerId = UserId
                     };
@@ -244,9 +244,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف نوع من الوثائق : " + kind.Name,
+                    Message = "تم حذف نوع من الوثائق : " + kind.KindName,
                     NotificationOwnerId = UserId
                 };
                 _context.Notifications.Add(notification);

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -15,136 +16,138 @@ namespace ArchiveProject2019.Models
 
         public bool IsGeneralize { set; get; }
 
-        [Display(Name = "اسم الملف")]
+        [Display(Name = "DocName", ResourceType = typeof(main_lang))]
+        public string DocName { get; set; }
 
-        public string Name { get; set; }
-        
 
-        [Display(Name = " الملف")]
+        [Display(Name = "FileUrl", ResourceType = typeof(main_lang))]
         public string FileUrl { get; set; }
 
 
-        [Display(Name = "الموضوع")]
-        [Required(ErrorMessage = "يجب إختيار الموضوع")]
-   
+        [Display(Name = "Subject", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "SubjectRequired")]
         public string Subject { get; set; }
 
 
-        [Display(Name = "النوع")]
-        [Required(ErrorMessage ="يجب إختيار النوع")]
+
+        [Display(Name = "KindId", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "KindRequired")]
         public int KindId { set; get; }
         [ForeignKey("KindId")]
         public Kind Kind { set; get; }
 
 
-        [Display(Name = "حالة الوثيقة")]
-        [Required(ErrorMessage = "يجب إختيار الحالة")]
+        [Display(Name = "StatusId", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "StatusRequired")]
         public int StatusId { set; get; }
         [ForeignKey("StatusId")]
-        public DocumentStatus Status { set; get; }
+        public DocumentStatus DocStatus { set; get; }
 
 
-        [Display(Name = "رقم البريد")]
+        [Display(Name = "MailingNumber", ResourceType = typeof(main_lang))]
         public string MailingNumber { get; set; }
 
 
-        [Display(Name = "وضع العائلة")]
+        [Display(Name = "FamelyState", ResourceType = typeof(main_lang))]
         public int? FamelyState { get; set; }
 
 
-        [Display(Name = "تاريخ البريد")]
+        [Display(Name = "MailingDate", ResourceType = typeof(main_lang))]
         public string MailingDate { get; set; }
 
 
-        [Display(Name = "الوصف")]
-       
+        [Display(Name = "Description", ResourceType = typeof(main_lang))]
         public string Description { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        [Display(Name = "تاريخ إصدار الوثيقه")]
+        [Display(Name = "DocumentDate", ResourceType = typeof(main_lang))]
         public string DocumentDate { set; get; }
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "تاريخ الإنشاء")]
+        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
         public string  CreatedAt { get; set; }
 
 
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "تاريخ آخر تعديل")]
+        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
         public string UpdatedAt { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        [Display(Name = "تاريخ التنبيه")]
+        [Display(Name = "NotificationDate", ResourceType = typeof(main_lang))]
         public string NotificationDate { get; set; }
 
 
 
-        [Display(Name = "رقم الوثيقة")]
-        [Required(ErrorMessage = "يجب إختيار رقم الوثيقة ")]
-
+        [Display(Name = "DocumentNumber", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "DocumentNumberRequired")]
         public string DocumentNumber { set; get; }
 
 
-        [Display(Name = "العنوان")]
+
+        [Display(Name = "Address", ResourceType = typeof(main_lang))]
         public string Address { get; set; }
 
 
-        [Display(Name="ملاحظات")]
+        [Display(Name = "Address", ResourceType = typeof(main_lang))]
         public string Notes { set; get; }
 
+
         // Relate with User Table For Create By.
-        [Display(Name = " أنشأ بواسطة ")]
+        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
         public string CreatedById { set; get; }
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
 
-        [Display(Name = "آخر تعديل بواسطة")]
-        public string UpdateById { set; get; }
-        [ForeignKey("UpdateById")]
+        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
+        public string UpdatedById { set; get; }
+        [ForeignKey("UpdatedById")]
         public ApplicationUser UpdatedBy { set; get; }
 
 
 
+        [Display(Name = "NotificationUserId", ResourceType = typeof(main_lang))]
         public string NotificationUserId { set; get; }
 
-        [Display(Name ="المستخدم المسؤول")]
 
-        public string ResponsibleUserId{ set; get; }
+        [Display(Name = "ResponsibleUserId", ResourceType = typeof(main_lang))]
+        public string ResponsibleUserId { set; get; }
         [ForeignKey("ResponsibleUserId")]
         public ApplicationUser ResponsibleUser { set; get; }
 
 
+
+
         // Relate with Department Table
-        [Display(Name ="القسم")]
-        [Required(ErrorMessage ="يجب إختيار القسم")]
+        [Display(Name = "DepartmentId", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "DepartmentRequired")]
         public int DepartmentId { get; set; }
         [ForeignKey("DepartmentId")]
         public Department Department { get; set; }
 
 
         // Relate with Form Table
-        [Display(Name = "اسم النموذج")]
-        [Required(ErrorMessage ="يجب إختيار النموذج")]
+        [Display(Name = "FormId", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "FormRequired")]
         public int FormId { get; set; }
         [ForeignKey("FormId")]
         public Form Form { get; set; }
 
-        [Display(Name = "نوع البريد")]
-        [Required(ErrorMessage = "يجب إختيار نوع البريد")]
+
+        [Display(Name = "TypeMailId", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "TypeMailRequired")]
         public int TypeMailId { set; get; }
         [ForeignKey("TypeMailId")]
         public TypeMail TypeMail { set; get; }
 
 
         // Relate with Party Table For Create By.
-       
-        [Display(Name = "الجهة")]
+        [Display(Name = "PartyId", ResourceType = typeof(main_lang))]
         public int? PartyId { set; get; }
         [ForeignKey("PartyId")]
         public Party Party { set; get; }

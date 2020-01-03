@@ -111,7 +111,7 @@
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Updatedat)
+                @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
 
             <th>
@@ -128,36 +128,36 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Permission.Name)
-            </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Permission.PermissionName)
+                </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Is_Active)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Is_Active)
+                </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Updatedat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedBy.FullName)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedBy.FullName)
+                </td>
 
 
 
-            <td>
-                <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-active btn-xs btn-success"><span class="glyphicon glyphicon-check"></span></button>
-                <button data-form-id="@item.Id" title="إزالة الصلاحية" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
-            </td>
-        </tr>
+                <td>
+                    <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-Active btn-xs btn-success"><span class="glyphicon glyphicon-check"></span></button>
+                    <button data-form-id="@item.Id" title="إزالة الصلاحية" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                </td>
+            </tr>
         }
     </tbody>
 
@@ -211,7 +211,7 @@
 
 
 
-    $("#form").on("click", ".js-active", function () {
+    $("#form").on("click", ".js-Active", function () {
         $("#changeText").text("تعديل حقل معين");
 
                        var url = '@Url.Action("Active", "PermissionRoles")';

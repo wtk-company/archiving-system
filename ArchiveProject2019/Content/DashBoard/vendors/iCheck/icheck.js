@@ -86,7 +86,7 @@
         selector = settings.handle,
         hoverClass = settings.hoverClass || 'hover',
         focusClass = settings.focusClass || 'focus',
-        activeClass = settings.activeClass || 'active',
+        Is_ActiveClass = settings.Is_ActiveClass || 'Is_Active',
         labelHover = !!settings.labelHover,
         labelHoverClass = settings.labelHoverClass || 'hover',
 
@@ -260,7 +260,7 @@
           var type = event[_type],
 
             // mousedown|mouseup
-            toggle = /wn|up/.test(type) ? activeClass : hoverClass;
+            toggle = /wn|up/.test(type) ? Is_ActiveClass : hoverClass;
 
           // Do nothing if input is disabled
           if (!node[_disabled]) {
@@ -269,7 +269,7 @@
             if (type == _click) {
               operate(self, false, true);
 
-            // Active and hover states
+            // Is_Active and hover states
             } else {
 
               // State is on
@@ -280,7 +280,7 @@
 
               // State is off
               } else {
-                parent[_remove](toggle + ' ' + activeClass);
+                parent[_remove](toggle + ' ' + Is_ActiveClass);
               }
 
               // Label hover
@@ -308,26 +308,26 @@
   function operate(input, direct, method) {
     var node = input[0],
       state = /er/.test(method) ? _indeterminate : /bl/.test(method) ? _disabled : _checked,
-      active = method == _update ? {
+      Is_Active = method == _update ? {
         checked: node[_checked],
         disabled: node[_disabled],
         indeterminate: input.attr(_indeterminate) == 'true' || input.attr(_determinate) == 'false'
       } : node[state];
 
     // Check, disable or indeterminate
-    if (/^(ch|di|in)/.test(method) && !active) {
+    if (/^(ch|di|in)/.test(method) && !Is_Active) {
       on(input, state);
 
     // Uncheck, enable or determinate
-    } else if (/^(un|en|de)/.test(method) && active) {
+    } else if (/^(un|en|de)/.test(method) && Is_Active) {
       off(input, state);
 
     // Update
     } else if (method == _update) {
 
       // Handle states
-      for (var each in active) {
-        if (active[each]) {
+      for (var each in Is_Active) {
+        if (Is_Active[each]) {
           on(input, each, true);
         } else {
           off(input, each, true);
@@ -342,7 +342,7 @@
       }
 
       // Toggle checked state
-      if (active) {
+      if (Is_Active) {
         if (node[_type] !== _radio) {
           off(input, state);
         }

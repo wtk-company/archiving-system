@@ -266,7 +266,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				}
 			}
 			
-			//inject active styles, grouped by media type
+			//inject Active styles, grouped by media type
 			for( var i in styleBlocks ){
 				var ss		= doc.createElement( "style" ),
 					css		= styleBlocks[ i ].join( "\n" );
