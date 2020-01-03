@@ -1,0 +1,477 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Address" xml:space="preserve">
+    <value>عنوان الوثيقة</value>
+  </data>
+  <data name="CompanyAddress" xml:space="preserve">
+    <value>عنوان الشركة</value>
+  </data>
+  <data name="CompanyDate" xml:space="preserve">
+    <value>تاريخ الشركة</value>
+  </data>
+  <data name="CompanyDescription" xml:space="preserve">
+    <value>نبذة عن الشركة</value>
+  </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>إسم الشركة</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>تأكيد كلمة المرور</value>
+  </data>
+  <data name="ConfirmPasswordCompare" xml:space="preserve">
+    <value>كلمة السر و كلمة التأكيد غير متوافقتين</value>
+  </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>تاريخ الإنشاء</value>
+  </data>
+  <data name="CreatedById" xml:space="preserve">
+    <value>أُنشئ بواسطة</value>
+  </data>
+  <data name="DepartmentId" xml:space="preserve">
+    <value>القسم</value>
+  </data>
+  <data name="DepartmentRequired" xml:space="preserve">
+    <value>يجب إختيار القسم</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="DocName" xml:space="preserve">
+    <value>إسم الوثيقة</value>
+  </data>
+  <data name="DocStatus" xml:space="preserve">
+    <value>حالة الوثيقة</value>
+  </data>
+  <data name="DocumentDate" xml:space="preserve">
+    <value>تاريخ اصدار الوثيقة</value>
+  </data>
+  <data name="DocumentId" xml:space="preserve">
+    <value>الوثيقة</value>
+  </data>
+  <data name="DocumentNumber" xml:space="preserve">
+    <value>رقم الوثيقة</value>
+  </data>
+  <data name="DocumentNumberRequired" xml:space="preserve">
+    <value>يجب إختيار رقم الوثيقة</value>
+  </data>
+  <data name="DocumentRequired" xml:space="preserve">
+    <value>يجب إختيار الوثيقة</value>
+  </data>
+  <data name="Document_id" xml:space="preserve">
+    <value>إسم الوثيقة</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>صيغة البريد غير صحيحة</value>
+  </data>
+  <data name="EnableEdit" xml:space="preserve">
+    <value>إمكانية التعديل</value>
+  </data>
+  <data name="EnableRelate" xml:space="preserve">
+    <value>إمكانية الربط</value>
+  </data>
+  <data name="EnableReplay" xml:space="preserve">
+    <value>إمكانية الرد</value>
+  </data>
+  <data name="EnableSeal" xml:space="preserve">
+    <value>إمكانية التسديد</value>
+  </data>
+  <data name="FamelyState" xml:space="preserve">
+    <value>وضع العائلة</value>
+  </data>
+  <data name="FieldId" xml:space="preserve">
+    <value>اسم الحقل</value>
+  </data>
+  <data name="FieldName" xml:space="preserve">
+    <value>إسم الحقل</value>
+  </data>
+  <data name="FieldNameRequired" xml:space="preserve">
+    <value>يجب إدخال إسم الحقل</value>
+  </data>
+  <data name="FieldValue" xml:space="preserve">
+    <value>قيمة الحقل</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>الملف</value>
+  </data>
+  <data name="FileName" xml:space="preserve">
+    <value>إسم الملف</value>
+  </data>
+  <data name="FileUrl" xml:space="preserve">
+    <value>الملف</value>
+  </data>
+  <data name="FormId" xml:space="preserve">
+    <value>النموذج</value>
+  </data>
+  <data name="FormName" xml:space="preserve">
+    <value>إسم النموذج</value>
+  </data>
+  <data name="FormNameRequired" xml:space="preserve">
+    <value>يجب إدخال اسم النموذج</value>
+  </data>
+  <data name="FormRequired" xml:space="preserve">
+    <value>يجب إختيار النموذج</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>الإسم الثلاثي</value>
+  </data>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>يجب إدخال الإسم الثلاثي</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>الجنس</value>
+  </data>
+  <data name="GenderRequired" xml:space="preserve">
+    <value>يجب إختيار الجنس</value>
+  </data>
+  <data name="GroupId" xml:space="preserve">
+    <value>المجموعة</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>إسم المجموعة</value>
+  </data>
+  <data name="GroupNameRequired" xml:space="preserve">
+    <value>يجب إدخال إسم المجموعة</value>
+  </data>
+  <data name="IsRequired" xml:space="preserve">
+    <value>ضروري؟</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>نشط؟</value>
+  </data>
+  <data name="JobName" xml:space="preserve">
+    <value>الإسم الوظيفي</value>
+  </data>
+  <data name="JobNameRequired" xml:space="preserve">
+    <value>يجب إدخال الإسم الوظيفي</value>
+  </data>
+  <data name="JobTitleId" xml:space="preserve">
+    <value>الدور الوظيفي</value>
+  </data>
+  <data name="JobTitleRequired" xml:space="preserve">
+    <value> يجب إدخال الإسم الوظيفي</value>
+  </data>
+  <data name="KindId" xml:space="preserve">
+    <value>نوع الوثيقة</value>
+  </data>
+  <data name="KindName" xml:space="preserve">
+    <value>نوع الوثيقة</value>
+  </data>
+  <data name="KindRequired" xml:space="preserve">
+    <value>يجب إختيار النوع</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>الشعار</value>
+  </data>
+  <data name="MailingDate" xml:space="preserve">
+    <value>تاريخ البريد</value>
+  </data>
+  <data name="MailingNumber" xml:space="preserve">
+    <value>رقم البريد</value>
+  </data>
+  <data name="MaximumMember" xml:space="preserve">
+    <value>عدد الاعضاء الاعظمي</value>
+  </data>
+  <data name="MaximumMemberRange" xml:space="preserve">
+    <value>يجب أن يكون العدد الأعظمي مقبول</value>
+  </data>
+  <data name="MaximumMemberRequired" xml:space="preserve">
+    <value>يجب إدخال العدد الأعظمي</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>النص</value>
+  </data>
+  <data name="MobileNumber1" xml:space="preserve">
+    <value>موبايل أول</value>
+  </data>
+  <data name="MobileNumber2" xml:space="preserve">
+    <value>موبايل ثان</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="NameLength" xml:space="preserve">
+    <value>يجب أن يكون طول إسم النموذج اكبر محرفين وأصغر من 50</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>كلمة المرور الجديدة</value>
+  </data>
+  <data name="NewPasswordRequired" xml:space="preserve">
+    <value>يجب إدخال كلمة المرور الجديدة</value>
+  </data>
+  <data name="NewUserName" xml:space="preserve">
+    <value>إسم المستخدم الجديد</value>
+  </data>
+  <data name="NewUserNameRequired" xml:space="preserve">
+    <value>يجب إدخال إسم المستخدم الجديد</value>
+  </data>
+  <data name="Notes" xml:space="preserve">
+    <value>ملاحظات</value>
+  </data>
+  <data name="NotificationDate" xml:space="preserve">
+    <value>تاريه التنبيه</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>كلمة المرور الحالية</value>
+  </data>
+  <data name="OldPasswordRequired" xml:space="preserve">
+    <value>يجب إدخال كلمة المرور القديمة</value>
+  </data>
+  <data name="OldUserName" xml:space="preserve">
+    <value>إسم المستخدم الحالي</value>
+  </data>
+  <data name="OldUserNameRequired" xml:space="preserve">
+    <value>كلمة المرور القديمة مطلوبة</value>
+  </data>
+  <data name="PartyId" xml:space="preserve">
+    <value>الجهة</value>
+  </data>
+  <data name="PartyName" xml:space="preserve">
+    <value>إسم الجهة</value>
+  </data>
+  <data name="PartyNameRequired" xml:space="preserve">
+    <value>يجب إدخال إسم الجهة</value>
+  </data>
+  <data name="PartyRequired" xml:space="preserve">
+    <value>يجب إختيار الجهة</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="PasswordLength" xml:space="preserve">
+    <value>يجب أن يكون طول إسم النموذج اكبر محرفين وأصغر من 50</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>يجب إدخال كلمة المرور</value>
+  </data>
+  <data name="PermissionId" xml:space="preserve">
+    <value>إسم الصلاحية</value>
+  </data>
+  <data name="PermissionName" xml:space="preserve">
+    <value>الصلاحية</value>
+  </data>
+  <data name="PhoneNumber1" xml:space="preserve">
+    <value>رقم أرضي اول</value>
+  </data>
+  <data name="PhoneNumber2" xml:space="preserve">
+    <value>رقم أرضي ثان</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>تذكرني؟</value>
+  </data>
+  <data name="ResponsibleUserId" xml:space="preserve">
+    <value>المستخدم المسؤول</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>الدور</value>
+  </data>
+  <data name="RoleId" xml:space="preserve">
+    <value>الدور</value>
+  </data>
+  <data name="RoleName" xml:space="preserve">
+    <value>إسم الدور</value>
+  </data>
+  <data name="RoleNameRequired" xml:space="preserve">
+    <value>يجب إختيار إسم الدور</value>
+  </data>
+  <data name="RoleRequired" xml:space="preserve">
+    <value>يجب إختيار الدور</value>
+  </data>
+  <data name="SealId" xml:space="preserve">
+    <value>إسم الوثيقة</value>
+  </data>
+  <data name="StatusId" xml:space="preserve">
+    <value>حالة الوثيقة</value>
+  </data>
+  <data name="StatusName" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="StatusNameRequired" xml:space="preserve">
+    <value>إسم الحالة</value>
+  </data>
+  <data name="StatusRequired" xml:space="preserve">
+    <value>يجب إختيار الحالة</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>الموضوع</value>
+  </data>
+  <data name="SubjectRequired" xml:space="preserve">
+    <value>يجب إختيار الموضوع</value>
+  </data>
+  <data name="Symbol" xml:space="preserve">
+    <value>الرمز الوظيفي</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>النمط</value>
+  </data>
+  <data name="TypeMailId" xml:space="preserve">
+    <value>نوع البريد</value>
+  </data>
+  <data name="TypeMailName" xml:space="preserve">
+    <value>نوع البريد</value>
+  </data>
+  <data name="TypeMailNameRequired" xml:space="preserve">
+    <value>يجب إدخال إسم البريد</value>
+  </data>
+  <data name="TypeMailRequired" xml:space="preserve">
+    <value>يجب إختيار نمط البريد</value>
+  </data>
+  <data name="TypeOfDisplayDocument" xml:space="preserve">
+    <value>نمط إظهار الوثائق</value>
+  </data>
+  <data name="TypeOfDisplayDocumentRequired" xml:space="preserve">
+    <value>يجب إختيار نمط إظهار الوثائق</value>
+  </data>
+  <data name="TypeOfDisplayForm" xml:space="preserve">
+    <value>نمط إظهار النماذج</value>
+  </data>
+  <data name="TypeOfDisplayFormRequired" xml:space="preserve">
+    <value>يجب إختيار نمط إظهار النماذج</value>
+  </data>
+  <data name="UpdatedById" xml:space="preserve">
+    <value>عُدل بواسطة</value>
+  </data>
+  <data name="UpdatedAt" xml:space="preserve">
+    <value>تاريخ تعديل</value>
+  </data>
+  <data name="UserId" xml:space="preserve">
+    <value>إسم المستخدم</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>إسم المستخدم</value>
+  </data>
+  <data name="UserNameRequired" xml:space="preserve">
+    <value>يجب إدخال إسم المستخدم</value>
+  </data>
+  <data name="Is_Active" xml:space="preserve">
+    <value>نشط؟</value>
+  </data>
+  <data name="KindNameRequired" xml:space="preserve">
+    <value>يجب إدخال نوع الوثيقة</value>
+  </data>
+  <data name="DepartmentName" xml:space="preserve">
+    <value>إسم القسم</value>
+  </data>
+  <data name="DepartmentNameRequired" xml:space="preserve">
+    <value>يجب إدخال إسم القسم</value>
+  </data>
+</root>

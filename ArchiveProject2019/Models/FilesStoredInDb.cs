@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -13,17 +14,17 @@ namespace ArchiveProject2019.Models
         public int Id { get; set; }
 
 
-        [Display(Name = "اسم الملف")]
+        [Display(Name = "FileName", ResourceType = typeof(main_lang))]
         public string FileName { get; set; }
 
 
-        [Display(Name = "الملف")]
+        [Display(Name = "File", ResourceType = typeof(main_lang))]
         public byte[] File { get; set; }
 
 
         // Relate with Document Table
-        [Display(Name = "اسم الوثيقة")]
-        [Required(ErrorMessage = "يجب إختيار الوثيقة")]
+        [Display(Name = "DocumentId", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "DocumentRequired")]
         public int DocumentId { get; set; }
         [ForeignKey("DocumentId")]
         public Document Document { get; set; }

@@ -276,7 +276,7 @@ namespace ArchiveProject2019.HelperClasses
             
 
             //created by|| Updated by:
-           if(db.Users.Any(a=>a.CreatedById.Equals(id)||a.UpdatedByID.Equals(id)))
+           if(db.Users.Any(a=>a.CreatedById.Equals(id)||a.UpdatedById.Equals(id)))
             {
                 return false;
             }
@@ -290,12 +290,12 @@ namespace ArchiveProject2019.HelperClasses
                 return false;
             }
 
-            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdateById.Equals(id)))
+            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
             {
                 return false;
             }
 
-            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdateById.Equals(id)))
+            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
             {
                 return false;
             }
@@ -362,7 +362,7 @@ namespace ArchiveProject2019.HelperClasses
                 return false;
             }
 
-            if (db.Users.Any(a => a.CreatedById.Equals(id) || a.UpdatedByID.Equals(id)))
+            if (db.Users.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
             {
                 return false;
             }

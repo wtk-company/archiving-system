@@ -35,7 +35,7 @@
                 <div class="col-md-6 col-sm-12 col-xs-12 ">
                     <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" type="checkbox" value="@item.Id" name="Sel" />
                     <label>
-                        @item.Name
+                        @item.PermissionName
                     </label>
                 </div>
 
@@ -58,21 +58,21 @@
 
 
 
-@if (Model.Count() != 0)
-{
+                @if (Model.Count() != 0)
+                {
 
-    <div style="display:inline-block">
-        <label>
+                    <div style="display:inline-block">
+                        <label>
 
-            <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" id="checkAll" type="checkbox">تحديدالكل/عدم تحديد
+                            <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" id="checkAll" type="checkbox">تحديدالكل/عدم تحديد
 
-        </label>
-    </div>
-}
-<br />
-               
-            
-               
+                        </label>
+                    </div>
+                }
+                <br />
+
+
+
             </div>
 
         </div>
@@ -98,33 +98,33 @@
 
 
 
-    $(document).ready(function () {
+        $(document).ready(function () {
 
 
-        $("#checkAll").click(function () {
+            $("#checkAll").click(function () {
 
-            $("input[name='Sel']").prop("checked", this.checked);
-
-
-            $("input[name='Sel']").click(function () {
+                $("input[name='Sel']").prop("checked", this.checked);
 
 
-                if ($("input[name='Sel']").length == $("input[name='Sel']:checked").length) {
-                    $("#checkAll").prop("checked", "checked");
-                }
-                else {
-                    $("#checkAll").removeAttr("checked");
+                $("input[name='Sel']").click(function () {
 
-                }
+
+                    if ($("input[name='Sel']").length == $("input[name='Sel']:checked").length) {
+                        $("#checkAll").prop("checked", "checked");
+                    }
+                    else {
+                        $("#checkAll").removeAttr("checked");
+
+                    }
+
+                });
+
 
             });
 
 
+
         });
-
-        
-
-    });
 
     </script>
 }

@@ -3,7 +3,7 @@ namespace ArchiveProject2019.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class bbb : DbMigration
+    public partial class initial_____ : DbMigration
     {
         public override void Up()
         {
@@ -12,14 +12,14 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        Description = c.String(),
-                        Address = c.String(),
+                        CompanyName = c.String(),
+                        CompanyDescription = c.String(),
+                        CompanyAddress = c.String(),
                         PhoneNumber1 = c.String(),
                         PhoneNumber2 = c.String(),
                         MobileNumber1 = c.String(),
                         MobileNumber2 = c.String(),
-                        Mail = c.String(),
+                        Email = c.String(),
                         Logo = c.Binary(),
                         CompanyDate = c.String(),
                         CreatedAt = c.String(),
@@ -42,7 +42,7 @@ namespace ArchiveProject2019.Migrations
                         RoleName = c.String(),
                         JobTitleId = c.Int(),
                         UpdatedAt = c.String(),
-                        UpdatedByID = c.String(),
+                        UpdatedById = c.String(),
                         IsDefaultMaster = c.Boolean(nullable: false),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
@@ -109,7 +109,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
+                        JobName = c.String(nullable: false, maxLength: 50),
                         Symbol = c.String(maxLength: 50),
                         MaximumMember = c.Int(nullable: false),
                         TypeOfDisplayForm = c.Int(nullable: false),
@@ -178,7 +178,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        DocName = c.String(),
                         FileUrl = c.String(),
                         Subject = c.String(nullable: false),
                         KindId = c.Int(nullable: false),
@@ -195,7 +195,7 @@ namespace ArchiveProject2019.Migrations
                         Address = c.String(),
                         Notes = c.String(),
                         CreatedById = c.String(maxLength: 128),
-                        UpdateById = c.String(maxLength: 128),
+                        UpdatedById = c.String(maxLength: 128),
                         NotificationUserId = c.String(),
                         ResponsibleUserId = c.String(maxLength: 128),
                         DepartmentId = c.Int(nullable: false),
@@ -206,17 +206,17 @@ namespace ArchiveProject2019.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
                 .ForeignKey("dbo.Departments", t => t.DepartmentId, cascadeDelete: false)
+                .ForeignKey("dbo.DocumentStatus", t => t.StatusId, cascadeDelete: true)
                 .ForeignKey("dbo.Parties", t => t.PartyId)
                 .ForeignKey("dbo.Forms", t => t.FormId, cascadeDelete: true)
                 .ForeignKey("dbo.Kinds", t => t.KindId, cascadeDelete: true)
                 .ForeignKey("dbo.AspNetUsers", t => t.ResponsibleUserId)
-                .ForeignKey("dbo.DocumentStatus", t => t.StatusId, cascadeDelete: true)
                 .ForeignKey("dbo.TypeMails", t => t.TypeMailId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UpdateById)
+                .ForeignKey("dbo.AspNetUsers", t => t.UpdatedById)
                 .Index(t => t.KindId)
                 .Index(t => t.StatusId)
                 .Index(t => t.CreatedById)
-                .Index(t => t.UpdateById)
+                .Index(t => t.UpdatedById)
                 .Index(t => t.ResponsibleUserId)
                 .Index(t => t.DepartmentId)
                 .Index(t => t.FormId)
@@ -224,12 +224,28 @@ namespace ArchiveProject2019.Migrations
                 .Index(t => t.PartyId);
             
             CreateTable(
+                "dbo.DocumentStatus",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        StatusName = c.String(nullable: false, maxLength: 50),
+                        CreatedAt = c.String(),
+                        CreatedById = c.String(maxLength: 128),
+                        UpdatedAt = c.String(),
+                        UpdatedById = c.String(maxLength: 128),
+                        Type = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
+                .ForeignKey("dbo.AspNetUsers", t => t.UpdatedById)
+                .Index(t => t.CreatedById)
+                .Index(t => t.UpdatedById);
+            
+            CreateTable(
                 "dbo.DocumentGroups",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DocumentId = c.Int(nullable: false),
-                        GroupId = c.Int(nullable: false),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         EnableEdit = c.Boolean(nullable: false),
@@ -237,21 +253,23 @@ namespace ArchiveProject2019.Migrations
                         EnableSeal = c.Boolean(nullable: false),
                         EnableRelate = c.Boolean(nullable: false),
                         UpdatedAt = c.String(),
+                        DocumentId = c.Int(nullable: false),
+                        GroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
                 .ForeignKey("dbo.Documents", t => t.DocumentId, cascadeDelete: true)
                 .ForeignKey("dbo.Groups", t => t.GroupId, cascadeDelete: true)
+                .Index(t => t.CreatedById)
                 .Index(t => t.DocumentId)
-                .Index(t => t.GroupId)
-                .Index(t => t.CreatedById);
+                .Index(t => t.GroupId);
             
             CreateTable(
                 "dbo.Groups",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
+                        GroupName = c.String(nullable: false, maxLength: 50),
                         Description = c.String(maxLength: 50),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
@@ -291,25 +309,25 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DocumentId = c.Int(nullable: false),
-                        PartyId = c.Int(nullable: false),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
+                        DocumentId = c.Int(nullable: false),
+                        PartyId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
                 .ForeignKey("dbo.Documents", t => t.DocumentId, cascadeDelete: true)
                 .ForeignKey("dbo.Parties", t => t.PartyId, cascadeDelete: true)
+                .Index(t => t.CreatedById)
                 .Index(t => t.DocumentId)
-                .Index(t => t.PartyId)
-                .Index(t => t.CreatedById);
+                .Index(t => t.PartyId);
             
             CreateTable(
                 "dbo.Parties",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
+                        PartyName = c.String(nullable: false, maxLength: 50),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         UpdatedAt = c.String(),
@@ -362,7 +380,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
+                        FormName = c.String(nullable: false, maxLength: 50),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         Type = c.Int(nullable: false),
@@ -380,7 +398,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
+                        FieldName = c.String(nullable: false),
                         IsRequired = c.Boolean(nullable: false),
                         Type = c.String(nullable: false),
                         CreatedAt = c.String(),
@@ -421,7 +439,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
+                        KindName = c.String(nullable: false, maxLength: 50),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         UpdatedAt = c.String(),
@@ -495,29 +513,11 @@ namespace ArchiveProject2019.Migrations
                 .Index(t => t.SealId);
             
             CreateTable(
-                "dbo.DocumentStatus",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
-                        CreatedAt = c.String(),
-                        CreatedById = c.String(maxLength: 128),
-                        UpdatedAt = c.String(),
-                        UpdatedById = c.String(maxLength: 128),
-                        Type = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
-                .ForeignKey("dbo.AspNetUsers", t => t.UpdatedById)
-                .Index(t => t.CreatedById)
-                .Index(t => t.UpdatedById);
-            
-            CreateTable(
                 "dbo.TypeMails",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false, maxLength: 50),
+                        TypeMailName = c.String(nullable: false, maxLength: 50),
                         Type = c.Int(nullable: false),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
@@ -554,7 +554,7 @@ namespace ArchiveProject2019.Migrations
                         DepartmentId = c.Int(nullable: false),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
-                        Updatedat = c.String(),
+                        UpdatedAt = c.String(),
                         UpdatedById = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -577,7 +577,7 @@ namespace ArchiveProject2019.Migrations
                         GroupId = c.Int(nullable: false),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
-                        Updatedat = c.String(),
+                        UpdatedAt = c.String(),
                         UpdatedById = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -597,7 +597,7 @@ namespace ArchiveProject2019.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         CreatedAt = c.String(),
                         Message = c.String(),
-                        Active = c.Boolean(nullable: false),
+                        Is_Active = c.Boolean(nullable: false),
                         UserId = c.String(maxLength: 128),
                         NotificationOwnerId = c.String(maxLength: 128),
                     })
@@ -617,7 +617,7 @@ namespace ArchiveProject2019.Migrations
                         RoleId = c.String(maxLength: 128),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
-                        Updatedat = c.String(),
+                        UpdatedAt = c.String(),
                         UpdatedById = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -636,7 +636,7 @@ namespace ArchiveProject2019.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Action = c.String(),
-                        Name = c.String(),
+                        PermissionName = c.String(),
                         TypeUser = c.Boolean(nullable: false),
                         TypeMaster = c.Boolean(nullable: false),
                     })
@@ -702,13 +702,10 @@ namespace ArchiveProject2019.Migrations
             DropForeignKey("dbo.FormDepartments", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.FavouriteForms", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.FavouriteForms", "FormId", "dbo.Forms");
-            DropForeignKey("dbo.Documents", "UpdateById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Documents", "UpdatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.TypeMails", "UpdatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.Documents", "TypeMailId", "dbo.TypeMails");
             DropForeignKey("dbo.TypeMails", "CreatedById", "dbo.AspNetUsers");
-            DropForeignKey("dbo.DocumentStatus", "UpdatedById", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Documents", "StatusId", "dbo.DocumentStatus");
-            DropForeignKey("dbo.DocumentStatus", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.SealFiles", "SealId", "dbo.SealDocuments");
             DropForeignKey("dbo.SealDocuments", "DocumentId", "dbo.Documents");
             DropForeignKey("dbo.SealDocuments", "CreatedById", "dbo.AspNetUsers");
@@ -749,6 +746,9 @@ namespace ArchiveProject2019.Migrations
             DropForeignKey("dbo.DocumentGroups", "DocumentId", "dbo.Documents");
             DropForeignKey("dbo.DocumentGroups", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.DocumentDepartments", "DocumentId", "dbo.Documents");
+            DropForeignKey("dbo.DocumentStatus", "UpdatedById", "dbo.AspNetUsers");
+            DropForeignKey("dbo.Documents", "StatusId", "dbo.DocumentStatus");
+            DropForeignKey("dbo.DocumentStatus", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.Documents", "DepartmentId", "dbo.Departments");
             DropForeignKey("dbo.Documents", "CreatedById", "dbo.AspNetUsers");
             DropForeignKey("dbo.DocumentDepartments", "DepartmentId", "dbo.Departments");
@@ -790,8 +790,6 @@ namespace ArchiveProject2019.Migrations
             DropIndex("dbo.FavouriteForms", new[] { "UserId" });
             DropIndex("dbo.TypeMails", new[] { "UpdatedById" });
             DropIndex("dbo.TypeMails", new[] { "CreatedById" });
-            DropIndex("dbo.DocumentStatus", new[] { "UpdatedById" });
-            DropIndex("dbo.DocumentStatus", new[] { "CreatedById" });
             DropIndex("dbo.SealFiles", new[] { "SealId" });
             DropIndex("dbo.SealDocuments", new[] { "DocumentId" });
             DropIndex("dbo.SealDocuments", new[] { "CreatedById" });
@@ -815,24 +813,26 @@ namespace ArchiveProject2019.Migrations
             DropIndex("dbo.DocumentUsers", new[] { "DocumentId" });
             DropIndex("dbo.Parties", new[] { "UpdatedById" });
             DropIndex("dbo.Parties", new[] { "CreatedById" });
-            DropIndex("dbo.DocumentParties", new[] { "CreatedById" });
             DropIndex("dbo.DocumentParties", new[] { "PartyId" });
             DropIndex("dbo.DocumentParties", new[] { "DocumentId" });
+            DropIndex("dbo.DocumentParties", new[] { "CreatedById" });
             DropIndex("dbo.UserGroups", new[] { "UserId" });
             DropIndex("dbo.UserGroups", new[] { "GroupId" });
             DropIndex("dbo.UserGroups", new[] { "UpdatedById" });
             DropIndex("dbo.UserGroups", new[] { "CreatedById" });
             DropIndex("dbo.Groups", new[] { "UpdatedById" });
             DropIndex("dbo.Groups", new[] { "CreatedById" });
-            DropIndex("dbo.DocumentGroups", new[] { "CreatedById" });
             DropIndex("dbo.DocumentGroups", new[] { "GroupId" });
             DropIndex("dbo.DocumentGroups", new[] { "DocumentId" });
+            DropIndex("dbo.DocumentGroups", new[] { "CreatedById" });
+            DropIndex("dbo.DocumentStatus", new[] { "UpdatedById" });
+            DropIndex("dbo.DocumentStatus", new[] { "CreatedById" });
             DropIndex("dbo.Documents", new[] { "PartyId" });
             DropIndex("dbo.Documents", new[] { "TypeMailId" });
             DropIndex("dbo.Documents", new[] { "FormId" });
             DropIndex("dbo.Documents", new[] { "DepartmentId" });
             DropIndex("dbo.Documents", new[] { "ResponsibleUserId" });
-            DropIndex("dbo.Documents", new[] { "UpdateById" });
+            DropIndex("dbo.Documents", new[] { "UpdatedById" });
             DropIndex("dbo.Documents", new[] { "CreatedById" });
             DropIndex("dbo.Documents", new[] { "StatusId" });
             DropIndex("dbo.Documents", new[] { "KindId" });
@@ -864,7 +864,6 @@ namespace ArchiveProject2019.Migrations
             DropTable("dbo.FormDepartments");
             DropTable("dbo.FavouriteForms");
             DropTable("dbo.TypeMails");
-            DropTable("dbo.DocumentStatus");
             DropTable("dbo.SealFiles");
             DropTable("dbo.SealDocuments");
             DropTable("dbo.ReplayDocuments");
@@ -880,6 +879,7 @@ namespace ArchiveProject2019.Migrations
             DropTable("dbo.UserGroups");
             DropTable("dbo.Groups");
             DropTable("dbo.DocumentGroups");
+            DropTable("dbo.DocumentStatus");
             DropTable("dbo.Documents");
             DropTable("dbo.DocumentDepartments");
             DropTable("dbo.AspNetUserRoles");

@@ -4,7 +4,7 @@
     ViewBag.Title = "تعديل حالة الحساب";
     Layout = "~/Views/Shared/_Layout2.cshtml";
 }
-@if ( ViewBag.LockState=="A")
+@if (ViewBag.LockState == "A")
 {
 
     <h3>هل أنت متأكد من عملية فك قفل الحساب ؟</h3>
@@ -48,7 +48,7 @@ else
             @Html.DisplayFor(model => model.Gender)
         </dd>
         <dt>
-           @Html.DisplayName(" اسم المستخدم") 
+            @Html.DisplayName(" اسم المستخدم")
         </dt>
 
         <dd>

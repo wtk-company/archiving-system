@@ -15,16 +15,14 @@
     List<int> UserFormId = UsersDepartmentAndGroupsForms.GetUsersForms(CurrentUserId).Select(a => a.Id).ToList();
     UserFavoriteFormId = db.FavouriteForms.Where(a => a.UserId.Equals(CurrentUserId) && UserFormId.Contains(a.FormId)).Include(a => a.Form).ToList();
 }
-
 @if (ViewBag.Msg != null)
 {
-    
+
 
     if (ViewBag.Msg == "RemoveRateSuccess")
     {
         <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
-
             </span>
             تمت عملية فك الإرتباط بنجاح
 
@@ -34,7 +32,6 @@
     {
         <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
-
             </span>
             لا يمكن القيام بالعملية لعدم القدرة على ذلك
 
@@ -44,7 +41,6 @@
     {
         <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
-
             </span>
             لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
 
@@ -56,7 +52,6 @@
     {
         <div class="alert alert-info enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
-
             </span>
             تمت عملية الإضافة بنجاح
         </div>
@@ -67,7 +62,6 @@
     {
         <div class="alert alert-success enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
-
             </span>
             تمت عملية تعديل البيانات بنجاح
         </div>
@@ -77,7 +71,6 @@
     {
         <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
-
             </span>
             لا يمكن أن يكون الاسم مكرر، يجب إعادة الإدخال
 
@@ -89,7 +82,6 @@
     {
         <div class="alert alert-warning enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
-
             </span>
             لايمكن القيام بعمليةالحذف، العمليةغير مسموحة
 
@@ -99,7 +91,6 @@
     {
         <div class="alert alert-danger enterRemove" style="text-align:center;font-size:larger">
             <span class="glyphicon glyphicon-bell">
-
             </span>
             تمت عملية الحذف بنجاح
 
@@ -111,75 +102,48 @@
 
 }
 
-
 @Html.Partial("_StartView")
-
 <p>
-
     <a href="@Url.Action("Create","Documents", new {docId=-1,IsReplay=false,Standard=0 })" title="إضافةوثيقة تقليدية" class="btn btn-default">إضافةوثيقة تقليدية</a>
+    <a href="@Url.Action("Create","Documents", new {docId=-1,IsReplay=false,Standard=0,IsGeneralize=true })" title="إضافةوثيقة تعميم" class="btn btn-default">إضافةوثيقة تعميم</a>
 
     @foreach (var formId in UserFavoriteFormId)
     {
 
-        <a href="@Url.Action("Create", "Documents", new { docId = -1, IsReplay = false, Standard = formId.FormId })" title="@formId.Form.Name" class="btn btn-default">@formId.Form.Name</a>
+        <a href="@Url.Action("Create", "Documents", new { docId = -1, IsReplay = false, Standard = formId.FormId })" title="@formId.Form.FormName" class="btn btn-default">@formId.Form.FormName</a>
     }
     <button title="إضافةوثيقة جديدة" id="btnNewModel" class="btn btn-primary">إضافةوثيقة جديدة</button>
-
     <button title="تحديث المحتوى" id="btnRefreshModel" class="btn btn-default glyphicon glyphicon-refresh"></button>
-
 </p>
 
-
 <hr />
-
 
 @using (Ajax.BeginForm(new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "TID", InsertionMode = InsertionMode.Replace }))
 {
 
 
     <div class="row">
-
         <div class="col-md-3">
-
             @Html.Label("رقم الوثيقة", htmlAttributes: new { @class = "control-label" })
-
             <input type="text" placeholder="رقم الوثيقة ...." name="DocumentNumber" class="form-control" />
 
-
         </div>
 
-
         <div class="col-md-3">
-
             @Html.Label("نموذج الوثيقة", htmlAttributes: new { @class = "control-label" })
-
             @Html.DropDownList("DocumentForm", ViewBag.Forms as SelectList, "اختر النموذج", new { @class = "form-control" })
 
-
         </div>
-
         <div class="col-md-3">
-
             @Html.Label("نوع الوثيقة", htmlAttributes: new { @class = "control-label" })
-
             @Html.DropDownList("DocumentKind", ViewBag.Kinds as SelectList, "اختر النوع", new { @class = "form-control" })
 
-
         </div>
-
         <div class="col-md-3">
-
             @Html.Label("نوع البريد", htmlAttributes: new { @class = "control-label" })
-
             @Html.DropDownList("DocumentMail", ViewBag.MailType as SelectList, "اختر النوع", new { @class = "form-control" })
 
-
         </div>
-
-
-
-
-
 
 
 
@@ -188,32 +152,20 @@
     </div>
 
     <div class="row">
-
         <div class="col-md-3">
-
             @Html.Label("بداية تاريخ الوثيقة", htmlAttributes: new { @class = "control-label" })
-
             <input class="form-control" type="text" onfocusin="(this.type='date')" onfocusout="(this.type='text')" placeholder="من تاريخ الوثيقة" name="DocFirstDate" id="DocFirstDate">
         </div>
 
-
         <div class="col-md-3">
-
             @Html.Label("نهاية تاريخ الوثيقة", htmlAttributes: new { @class = "control-label" })
-
             <input class="form-control" type="text" onfocusin="(this.type='date')" onfocusout="(this.type='text')" placeholder="الى تاريخ الوثيقة" name="DocEndDate" id="DocEndDate">
         </div>
         <div class="col-md-6">
-
             @Html.Label("موضوع الوثيقة", htmlAttributes: new { @class = "control-label" })
-
             <input type="text" placeholder="موضوع الوثيقة ...." name="DocumentSubject" class="form-control" />
 
-
         </div>
-
-
-
 
 
 
@@ -223,22 +175,8 @@
 
     <div class="row">
 
-            <div class="col-md-3">
-                <select name="DocumentModel" class="form-control chosen-select">
-                    <option selected="selected" value="1">وثائقي المنشأة</option>
-                    <option value="7">وثائق القسم الخاص بي</option>
-                    <option value="2">كامل الوثائق المنبهة</option>
-                    <option value="6">تنبيهات اليوم الحالي</option>
-                    <option value="3">الوثائق المحولة للقسم</option>
-                    <option value="4">الوثائق المحولة للمجموعات</option>
-                    <option value="5"> كامل الوثائق المتاحة</option>
-                </select>
-            </div>
-
         <div class="col-md-3">
-
             @Html.Label("عدد الأسطر", htmlAttributes: new { @class = "control-label" })
-
             <select name="RetrievalCount" class="form-control chosen-select">
                 <option value="10">10</option>
                 <option value="25">25</option>
@@ -246,44 +184,36 @@
                 <option value="100">100</option>
             </select>
 
-
         </div>
-
         <div class="col-md-3">
             @Html.Label("عرض الوثائق", htmlAttributes: new { @class = "control-label" })
-
             <select name="DocumentModel" class="form-control chosen-select">
                 <option selected="selected" value="1">وثائقي المنشأة</option>
-                <option value="2">تنبيهاتي</option>
-                <option value="3">وثائق القسم</option>
-                <option value="4">وثائق المجموعات</option>
-                <option value="5"> كامل الوثائق المتاحة</option>
+                <option value="7">وثائق القسم الخاص بي</option>
 
+                <option value="2">كامل الوثائق المنبهة</option>
+                <option value="6">تنبيهات اليوم الحالي</option>
+                <option value="3">الوثائق المحولة للقسم</option>
+                <option value="8">الوثائق المحولة للمستخدم</option>
+                <option value="4">الوثائق المحولة للمجموعات</option>
+                <option value="5"> كامل الوثائق المتاحة</option>
             </select>
 
-
         </div>
-
-
 
         <div class="col-md-3">
             @Html.Label("ترتيب حسب", htmlAttributes: new { @class = "control-label" })
-
             <select name="OrderBY" class="form-control chosen-select">
                 <option value="1">رقم الوثيقة</option>
                 <option value="2">موضوع الوثيقة</option>
                 <option selected="selected" value="3">تاريخ الانشاء</option>
                 <option value="4">تاريخ الوثيقة</option>
 
-
             </select>
 
-
         </div>
-
         <div class="col-md-3">
             @Html.Label("نوع الترتيب", htmlAttributes: new { @class = "control-label" })
-
             <select name="OrderType" id="RetrievalCount" class="form-control chosen-select">
                 <option value="1">تنازلي</option>
                 <option selected="selected" value="2">تصاعدي</option>
@@ -292,11 +222,8 @@
 
 
 
-
-
-
     </div>
-        <br />
+    <br />
 
 
         <div class="row">
@@ -305,17 +232,13 @@
 
 
 }
-
 <br />
 <hr />
-
-    <div id="TID" style="margin-bottom:200px">
-
+<div id="TID" style="margin-bottom:200px">
 
     <table id="form" class="table table-striped  table-hover" style="text-align:center;font-size:12px">
         <thead>
             <tr>
-
 
                 <th>
                     @Html.DisplayNameFor(model => model.DocumentNumber)
@@ -323,11 +246,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Subject)
                 </th>
-
                 <th>
                     @Html.DisplayNameFor(model => model.CreatedAt)
                 </th>
-
                 <th>
                     @Html.DisplayNameFor(model => model.DocumentDate)
                 </th>
@@ -337,29 +258,23 @@
             </tr>
         </thead>
         <tbody>
-
             @foreach (var item in Model)
             {
                 <tr>
-
                     <td>
                         @Html.DisplayFor(model => item.DocumentNumber)
                     </td>
-
                     <td>
                         @Html.DisplayFor(modelItem => item.Subject)
                     </td>
-
                     <td>
                         @Html.DisplayFor(modelItem => item.CreatedAt)
                     </td>
-
 
                     <td>
                         @Html.DisplayFor(modelItem => item.DocumentDate)
                     </td>
                     <td>
-
 
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -367,7 +282,6 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
-
                                 @if (DocumentOperation.DocumentCanRelate(CurrentUserId, item.Id))
                                 {
                                     <li>
@@ -380,7 +294,6 @@
 
                                 }
 
-
                                 @if (DocumentOperation.DocumentCanSeal(CurrentUserId, item.Id))
                                 {
 
@@ -390,82 +303,49 @@
                                 }
                                 <li>
 
-
                                     @if (DocumentOperation.DocumentRemoveParent(CurrentUserId, item.Id) == true)
                                     {
-                                <li>
-
-                                    <a href="#" data-form-id="@item.Id" title=" تحرير الإرتباط الأعلى" class="btn-link js-RemoveRelateParent btn-sm">تحرير الإرتباط الأعلى  </a>
-
-                                </li>
+                                    <li>
+                                        <a href="#" data-form-id="@item.Id" title=" تحرير الإرتباط الأعلى" class="btn-link js-RemoveRelateParent btn-sm">تحرير الإرتباط الأعلى  </a>
+                                    </li>
                                     }
-
-
 
                                     @if (DocumentOperation.DocumentRemoveChild(CurrentUserId, item.Id) == true)
                                     {
-                                <li>
+                                        <li>
+                                            <a href="#" data-form-id="@item.Id" title=" تحرير الإرتباط الأدنى" class="btn-link js-RemoveRelateChild btn-sm">تحرير الإرتباط الأدنى  </a>
 
-                                    <a href="#" data-form-id="@item.Id" title=" تحرير الإرتباط الأدنى" class="btn-link js-RemoveRelateChild btn-sm">تحرير الإرتباط الأدنى  </a>
-
-
-                                </li>
+                                        </li>
                                     }
-
 
                                     @if (DocumentOperation.DocumentCanSeal(CurrentUserId, item.Id))
                                     {
-<li>
-                                    <a href="@Url.Action("Index","Seals",new { id=item.Id, IsCipher = ArchiveProject2019.Security.ManagedAes.IsCipher})" title="عرض تسديدات الوثيقة" class="btn-link  btn-sm">تسديدات الوثيقة</a>
+                                        <li>
+                                            <a href="@Url.Action("Index","Seals",new { id=item.Id, IsCipher = ArchiveProject2019.Security.ManagedAes.IsCipher})" title="عرض تسديدات الوثيقة" class="btn-link  btn-sm">تسديدات الوثيقة</a>
 
-
-                                </li>
+                                        </li>
                                     }
-                                @if (DocumentOperation.DocumentCanReplay(CurrentUserId, item.Id))
-                                {
+                                    @if (DocumentOperation.DocumentCanReplay(CurrentUserId, item.Id))
+                                    {
 
+                                        <li>
+                                            <a href="#" data-form-id="@item.Id" title="رد وثيقة" class="btn-link js-replay btn-sm">رد وثيقة</a>
+                                        </li>
+
+                                    }
                                     <li>
-
-                                        <a href="#" data-form-id="@item.Id" title="رد وثيقة" class="btn-link js-replay btn-sm">رد وثيقة</a>
-
+                                        <a href="@Url.Action("GetRelatedDocument","Documents",new { id=item.Id})" title="عرض الوثائق المرتبطة" class="btn-link  btn-sm">عرض الوثائق المرتبطة</a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("GetReplayDocument","Documents",new { id=item.Id})" title="عرض الرد" class="btn-link  btn-sm">عرض الوثائق الرد</a>
                                     </li>
 
-                                }
-                                <li>
 
-                                    <a href="@Url.Action("GetRelatedDocument","Documents",new { id=item.Id})" title="عرض الوثائق المرتبطة" class="btn-link  btn-sm">عرض الوثائق المرتبطة</a>
-
-                                </li>
-                                <li>
-
-                                    <a href="@Url.Action("GetReplayDocument","Documents",new { id=item.Id})" title="عرض الرد" class="btn-link  btn-sm">عرض الوثائق الرد</a>
-
-                                </li>
+                                </ul>
+                            </div>
 
 
-
-
-                            </ul>
-                        </div>
-
-
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                خيارات إضافية
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-
-
-                                @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                {
-                                    <li>
-
-                                        <a href="@Url.Action("Edit","Documents",new { id=item.Id})" title="تعديل الوثيقة" class="btn-link  btn-xs">تعديل الوثيقة</a>
-
-                                </li>
-                                }
-                            <div class="btn-group" role="group" >
+                            <div class="btn-group" role="group">
                                 <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     خيارات إضافية
                                     <span class="caret"></span>
@@ -473,109 +353,83 @@
                                 <ul class="dropdown-menu">
 
 
-
-
-                                    @if (DocumentOperation.DocumentCanDelete(CurrentUserId, item.Id)==true)
+                                    @if (DocumentOperation.DocumentCanDelete(CurrentUserId, item.Id) == true)
                                     {
-                                    <li>
-
-                                        <a href="#" data-form-id="@item.Id" title="حذف الوثيقة" class="btn-link js-Delete btn-sm">حذف الوثيقة </a>
-
-
-
-                                    </li>
-                                    }
-
-                                <li>
-
-                                    <a href="@Url.Action("Details","Documents",new { id=item.Id})" title="تفاصيل الوثيقة" class="btn-link js-Details  btn-xs">تفاصيل الوثيقة</a>
-
-                                </li>
-
-
-                                @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                {
-                                    <li>
-
-                                        <a href="@Url.Action("Create", "DocumentDepartments", new { id = item.Id })" title="إضافة الاقسام للوثيقة" class="btn-link btn-sm">إضافة اقسام للوثيقة</a>
-
-                                    </li>
-
-                                }
-                                <li>
-
-                                    <a href="@Url.Action("Index","DocumentDepartments",new { id=item.Id})" title="الاقسام الخاصة بالوثيقة" class="btn-link  btn-sm"> الأقسام الخاصة بالوثيقة </a>
-
-                                </li>
-
-                                @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                {
-                                    <li>
-
-                                        <a href="@Url.Action("Create", "DocumentGroups", new { id = item.Id })" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة مجموعات للوثيقة</a>
-
-                                    </li>
-                                }
-
-                                <li>
-
-                                    <a href="@Url.Action("Index","DocumentGroups",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> المجموعات الخاصة بالوثيقة </a>
-
-                                </li>
-
-
-                                @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                {
-                                    <li>
-
-                                        <a href="@Url.Action("Create", "DocumentUsers", new { id = item.Id })" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة عناصر للوثيقة</a>
-
-                                    </li>
-                                }
-
-                                <li>
-
-                                    <a href="@Url.Action("Index","DocumentUsers",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> العناصر الخاصة بالوثيقة </a>
-
-
-                                </li>
-
-
-                                @if (item.TypeMail.Type == 2)
-                                {
-                                    if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
-                                    {
-
                                         <li>
-                                            <a href="@Url.Action("Create", "DocumentParties", new { id = item.Id })" title="إضافة جهات مستهدفة" class="btn-link btn-sm">إضافة جهات مستهدفة</a>
+                                            <a href="#" data-form-id="@item.Id" title="حذف الوثيقة" class="btn-link js-Delete btn-sm">حذف الوثيقة </a>
+
                                         </li>
                                     }
                                     <li>
-                                        <a href="@Url.Action("Index","DocumentParties",new { id=item.Id})" title="الجهات المستهدفة" class="btn-link  btn-sm"> الجهات المستهدفة </a>
+                                        <a href="@Url.Action("Details","Documents",new { id=item.Id})" title="تفاصيل الوثيقة" class="btn-link js-Details  btn-xs">تفاصيل الوثيقة</a>
                                     </li>
-                                }
-                            </ul>
-                        </div>
 
+                                    @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Create", "DocumentDepartments", new { id = item.Id })" title="إضافة الاقسام للوثيقة" class="btn-link btn-sm">إضافة اقسام للوثيقة</a>
+                                        </li>
 
-                    </td>
-                </tr>
+                                    }
+
+                                    @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Edit", "Documents", new { id = item.Id })" title="تعديل الوثيقة" class="btn-link btn-sm">تعديل وثيقة</a>
+                                        </li>
+
+                                    }
+                                    <li>
+                                        <a href="@Url.Action("Index","DocumentDepartments",new { id=item.Id})" title="الاقسام الخاصة بالوثيقة" class="btn-link  btn-sm"> الأقسام الخاصة بالوثيقة </a>
+                                    </li>
+                                    @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Create", "DocumentGroups", new { id = item.Id })" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة مجموعات للوثيقة</a>
+                                        </li>
+                                    }
+                                    <li>
+                                        <a href="@Url.Action("Index","DocumentGroups",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> المجموعات الخاصة بالوثيقة </a>
+                                    </li>
+
+                                    @if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Create", "DocumentUsers", new { id = item.Id })" title="إضافة المجموعات للوثيقة" class="btn-link btn-sm">إضافة عناصر للوثيقة</a>
+                                        </li>
+                                    }
+                                    <li>
+                                        <a href="@Url.Action("Index","DocumentUsers",new { id=item.Id})" title="المجموعات الخاصة بالوثيقة" class="btn-link  btn-sm"> العناصر الخاصة بالوثيقة </a>
+
+                                    </li>
+
+                                    @if (item.TypeMail.Type == 2)
+                                    {
+                                        if (DocumentOperation.DocumentCanEdit(CurrentUserId, item.Id))
+                                        {
+
+                                            <li>
+                                                <a href="@Url.Action("Create", "DocumentParties", new { id = item.Id })" title="إضافة جهات مستهدفة" class="btn-link btn-sm">إضافة جهات مستهدفة</a>
+                                            </li>
+                                        }
+                                        <li>
+                                            <a href="@Url.Action("Index","DocumentParties",new { id=item.Id})" title="الجهات المستهدفة" class="btn-link  btn-sm"> الجهات المستهدفة </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+
+                        </td>
+                    </tr>
             }
 
-
-
         </tbody>
-
 
     </table>
 
 
-
-
 </div>
-
 @Html.Partial("_LastView")
-
 
 <div class="modal fade" tabindex="-1" id="NewModal"
      data-keyboard="true" data-backdrop="static">
@@ -586,13 +440,10 @@
                 <h4 id="changeText" class="modal-title"></h4>
             </div>
             <div class="modal-body" id="partialPlaceHolder" style="margin-top:30px">
-
             </div>
-
         </div>
     </div>
 </div>
-
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script>
 
@@ -637,7 +488,7 @@
 
 
 
-    
+
     $("#form").on("click", ".js-Delete", function () {
 
         $("#changeText").text("حذف الوثيقة");
@@ -650,7 +501,7 @@
         });
     });
 
-       
+
     $("#form").on("click", ".js-RemoveRelateParent", function () {
 
         $("#changeText").text("تحربر الارتباط الاعلى");
@@ -663,9 +514,9 @@
         });
     });
 
-    
 
-     
+
+
     $("#form").on("click", ".js-RemoveRelateChild", function () {
 
         $("#changeText").text("تحربر الارتباط الأدنى");
@@ -678,7 +529,7 @@
         });
     });
 
-    
+
 
 
 
@@ -689,8 +540,6 @@
 
 
 </script>
-
-
 
 <style>
     #RetrievalCount {

@@ -64,7 +64,7 @@ namespace ArchiveProject2019.Controllers
         {
             ViewBag.Current = "TypeMails";
 
-            if (_context.TypeMails.Any(a => a.Name.Equals(TypeMail.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.TypeMails.Any(a => a.TypeMailName.Equals(TypeMail.TypeMailName, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -91,9 +91,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة نوع جديد من البريد : " + TypeMail.Name,
+                        Message = "تم إضافة نوع جديد من البريد : " + TypeMail.TypeMailName,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -127,7 +127,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
-            ViewBag.OldName = mail.Name;
+            ViewBag.OldName = mail.TypeMailName;
             return View(mail);
         }
 
@@ -143,7 +143,7 @@ namespace ArchiveProject2019.Controllers
 
             ViewBag.Current = "TypeMails";
 
-            if (_context.TypeMails.Where(a => a.Id != mail.Id).Any(a => a.Name.Equals(mail.Name, StringComparison.OrdinalIgnoreCase)))
+            if (_context.TypeMails.Where(a => a.Id != mail.Id).Any(a => a.TypeMailName.Equals(mail.TypeMailName, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
@@ -166,9 +166,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم نوع البريد من : " + OldName + " إلى :" + mail.Name
+                        Message = "تم تعديل اسم نوع البريد من : " + OldName + " إلى :" + mail.TypeMailName
                         ,
                         NotificationOwnerId = UserId
                     };
@@ -232,9 +232,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف نوع من البريد : " + mail.Name,
+                    Message = "تم حذف نوع من البريد : " + mail.TypeMailName,
                     NotificationOwnerId = UserId
                 };
                 _context.Notifications.Add(notification);

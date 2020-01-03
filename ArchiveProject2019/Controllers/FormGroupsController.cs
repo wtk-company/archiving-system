@@ -163,7 +163,7 @@ namespace ArchiveProject2019.Controllers
                     };
                     db.FormGroups.Add(formgroup);
 
-                    GroupName = db.Groups.Find(formgroup.GroupId).Name;
+                    GroupName = db.Groups.Find(formgroup.GroupId).GroupName;
                     List<ApplicationUser> Users = db.UsersGroups.Where(a => a.GroupId == i).Include(a=>a.User).Select(a=>a.User).ToList();
                     foreach (ApplicationUser user in Users)
                     {
@@ -172,9 +172,9 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             CreatedAt = NotificationTime,
-                            Active = false,
+                            Is_Active = false,
                             UserId = user.Id,
-                            Message = "تم إضافة نموذج جديد للمجموعة :"+GroupName +"، النموذج: "+ db.Forms.Find(FormIdValue).Name,
+                            Message = "تم إضافة نموذج جديد للمجموعة :"+GroupName +"، النموذج: "+ db.Forms.Find(FormIdValue).FormName,
                             NotificationOwnerId = UserId
                         };
                         db.Notifications.Add(notification);
@@ -237,16 +237,16 @@ namespace ArchiveProject2019.Controllers
             }
 
             int Form_Id = formGroup.FormId;
-            formGroup.Updatedat = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            formGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
             if (formGroup.Is_Active == true)
             {
                 formGroup.Is_Active = false;
-                Message = "تم الغاء تفعيل النموذج في المجموعة :"+db.Groups.Find(formGroup.GroupId).Name;
+                Message = "تم الغاء تفعيل النموذج في المجموعة :"+db.Groups.Find(formGroup.GroupId).GroupName;
             }
             else
             {
                 formGroup.Is_Active = true;
-                Message = "تم  تفعيل النموذج في المجموعة :" + db.Groups.Find(formGroup.GroupId).Name;
+                Message = "تم  تفعيل النموذج في المجموعة :" + db.Groups.Find(formGroup.GroupId).GroupName;
 
             }
 
@@ -265,9 +265,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = Message + "، النموذج :" +db.Forms.Find(Form_Id).Name ,
+                    Message = Message + "، النموذج :" +db.Forms.Find(Form_Id).FormName ,
                     NotificationOwnerId = UserId
                 };
                 db.Notifications.Add(notification);
@@ -326,8 +326,8 @@ namespace ArchiveProject2019.Controllers
             FormGroup formGroup = db.FormGroups.Find(id);
 
             //Form name && group name:
-            FormName = db.Forms.Find(formGroup.FormId).Name;
-            GroupName = db.Groups.Find(formGroup.GroupId).Name;
+            FormName = db.Forms.Find(formGroup.FormId).FormName;
+            GroupName = db.Groups.Find(formGroup.GroupId).GroupName;
             //Group id for object:
             int groupId = formGroup.GroupId;
 
@@ -348,7 +348,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تم إزالة نموذج من المجموعة :" + GroupName + "، النموذج: " + FormName,
                     NotificationOwnerId = UserId
