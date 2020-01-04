@@ -239,6 +239,7 @@
     <Compile Include="HelperClasses\UserDocumentsID.cs" />
     <Compile Include="HelperClasses\UserRelatedDocumentsId.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
+<<<<<<< HEAD
     <Compile Include="Migrations\202001011051024_ah-force.cs" />
     <Compile Include="Migrations\202001011051024_ah-force.Designer.cs">
       <DependentUpon>202001011051024_ah-force.cs</DependentUpon>
