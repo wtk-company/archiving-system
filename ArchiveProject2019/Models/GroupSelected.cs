@@ -17,6 +17,7 @@ namespace ArchiveProject2019.Models
         {
 
             List<GroupSelected> GroupsSelected = new List<GroupSelected>();
+            GroupSelected Gs = null;
 
             ApplicationDbContext db = new ApplicationDbContext();
             IEnumerable<int> User_Group_Id = db.UsersGroups.Where(a => a.UserId.Equals(id)).Select(a => a.GroupId);
@@ -24,15 +25,15 @@ namespace ArchiveProject2019.Models
             IEnumerable<Group> Groups = db.Groups.ToList();
             foreach (Group G in Groups)
             {
-                var Gs = new GroupSelected()
+                Gs = new GroupSelected()
                 {
 
                     Id = G.Id,
-                    Name = G.GroupName,
+                    Name = G.Name,
                     Selected = User_Group_Id.Any(a => a == G.Id) ? true : false
                 };
-
                 GroupsSelected.Add(Gs);
+
             }
 
             return GroupsSelected;

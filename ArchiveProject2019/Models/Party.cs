@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -14,41 +13,36 @@ namespace ArchiveProject2019.Models
         public int Id { get; set; }
 
 
+        [Required(ErrorMessage = "يجب إدخال اسم الجهة")]
+        [Display(Name = "اسم الجهة")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
 
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "PartyNameRequired")]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
-        [Display(Name = "PartyName", ResourceType = typeof(main_lang))]
-        public string PartyName { get; set; }
-
+        public string Name { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ الإنشاء")]
         public string CreatedAt { get; set; }
 
 
-
         // Relate with User Table For Create By.
-        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = " أنشأ بواسطة ")]
         public string CreatedById { set; get; }
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
 
 
-        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
+
+        [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
 
-
-        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = "آخر تعديل  بواسطة")]
         public string UpdatedById { set; get; }
+
         [ForeignKey("UpdatedById")]
         public ApplicationUser UpdatedBy { set; get; }
-        
-        
-        
-        
         // Collections
         public ICollection<Document> Documents { set; get; }
         public ICollection<DocumentParty> DocumentParties { set; get; }

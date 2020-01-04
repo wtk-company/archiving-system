@@ -15,7 +15,7 @@ namespace ArchiveProject2019.Controllers
 
         public ApplicationDbContext db = new ApplicationDbContext();
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionsUsersIndex")]
         public ActionResult Index(string Id, string msg = "none")
         {
@@ -85,13 +85,13 @@ namespace ArchiveProject2019.Controllers
             return View(UserPermissionsList.OrderByDescending(a=>a.CreatedAt).ToList());
         }
               [HttpPost]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "PermissionsUsersIndex")]
         public ActionResult Index(List<string>Permissions)
         {
             if(Permissions==null)
             {
-                return RedirectToAction("Index",new { controller="PermissionsUsers",id= Session["User_Id"] ,msg="Is_ActiveError"});
+                return RedirectToAction("Index",new { controller="PermissionsUsers",id= Session["User_Id"] ,msg="ActiveError"});
             }
 
             string NotificationTime = string.Empty;
@@ -114,7 +114,7 @@ namespace ArchiveProject2019.Controllers
                     int PUserId = db.PermissionUsers.Where(a => a.UserId.Equals(UserId) && a.PermissionId == Permission_Id).FirstOrDefault().Id;
                     PermissionsUser PUser = db.PermissionUsers.Find(PUserId);
                     db.PermissionUsers.Remove(PUser);
-                    NotMessage = "تم  تفعيل الصلاحية: " + db.Permissions.Find(Permission_Id).PermissionName;
+                    NotMessage = "تم  تفعيل الصلاحية: " + db.Permissions.Find(Permission_Id).Name;
 
                 }
                 else
@@ -133,7 +133,7 @@ namespace ArchiveProject2019.Controllers
 
                         };
                         db.PermissionUsers.Add(PUser);
-                        NotMessage = "تم  تفعيل الصلاحية: "+db.Permissions.Find(Permission_Id).PermissionName;
+                        NotMessage = "تم  تفعيل الصلاحية: "+db.Permissions.Find(Permission_Id).Name;
                     }
                     else
                     {
@@ -147,7 +147,7 @@ namespace ArchiveProject2019.Controllers
                             Is_Active = false
 
                         };
-                        NotMessage = "تم  إلغاء الصلاحية: " + db.Permissions.Find(Permission_Id).PermissionName;
+                        NotMessage = "تم  إلغاء الصلاحية: " + db.Permissions.Find(Permission_Id).Name;
                         db.PermissionUsers.Add(PUser);
                     }
                    
@@ -164,7 +164,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = UserId,
                     Message = NotMessage,
                     NotificationOwnerId = UserNotId
@@ -175,7 +175,7 @@ namespace ArchiveProject2019.Controllers
             }
 
             db.SaveChanges();
-            return RedirectToAction("Index", new { controller = "PermissionsUsers", id = Session["User_Id"], msg = "Is_ActiveSuccess" });
+            return RedirectToAction("Index", new { controller = "PermissionsUsers", id = Session["User_Id"], msg = "ActiveSuccess" });
 
 
         }

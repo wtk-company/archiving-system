@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -13,26 +12,18 @@ namespace ArchiveProject2019.Models
         [Key]
         public int Id { get; set; }
 
-
-
-        [Display(Name = "FileName", ResourceType = typeof(main_lang))]
+        [Display(Name = "اسم الملف")]
         public string FileName { get; set; }
 
 
-
-
-        [Display(Name = "File", ResourceType = typeof(main_lang))]
+        [Display(Name = "الملف")]
         public byte[] File { get; set; }
 
-
-
-        [Display(Name = "FileUrl", ResourceType = typeof(main_lang))]
+        [Display(Name = "الملف")]
         public string FileUrl { get; set; }
 
-
-
         // Relate with SealDocument Table
-        [Display(Name = "SealId", ResourceType = typeof(main_lang))]
+        [Display(Name = "اسم الوثيقة")]
         [Required(ErrorMessage = "يجب إختيار الوثيقة")]
         public int SealId { get; set; }
         [ForeignKey("SealId")]

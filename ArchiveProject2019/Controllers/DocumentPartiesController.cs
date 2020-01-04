@@ -16,7 +16,7 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentPartyIndex")]
 
         public ActionResult Index(int? Id, string msg = "none")
@@ -50,7 +50,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentPartyCrete")]
         public ActionResult Create(int? Id)
         {
@@ -97,7 +97,7 @@ namespace ArchiveProject2019.Controllers
 
        [HttpPost]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentPartyCrete")]
         public ActionResult Create(int DocumentIdValue, List<int> Parties)
         {
@@ -133,7 +133,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentPartyDelete")]
         public ActionResult Delete(int? id)
         {
@@ -155,7 +155,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentPartyDelete")]
         public ActionResult DeleteConfirmed(int id)
         {

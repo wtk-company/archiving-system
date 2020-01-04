@@ -19,9 +19,7 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsIndex")]
-        //[AccessDeniedAuthorizeattribute(Roles = "xxx")]
         public ActionResult Index(string Id = "none")
         {
             ViewBag.Current = "Department";
@@ -43,9 +41,6 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        //Details:
-
-        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsDetails")]
         public ActionResult Details(int ?id)
         {
@@ -69,7 +64,6 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsUsers")]
         public ActionResult DepartmentUsers(int? Id)
         {
@@ -94,8 +88,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        //Create Department:
-        [Authorize]
+    
         [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsCreate")]
         public ActionResult Create(int id,int msg)
         {
@@ -111,7 +104,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+    
         [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt,CreatedById")] Department department)
         {
@@ -168,7 +161,7 @@ namespace ArchiveProject2019.Controllers
                     notification = new Notification() {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
                         Message = "تم إضافة قسم جديد: " + DepartmentListDisplay.CreateDepartmentDisplay(department.Id),
                         NotificationOwnerId= UserId
@@ -184,9 +177,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        // Edit Department:
-
-        [Authorize]
+   
         [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -213,7 +204,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+
         [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsEdit")]
         public ActionResult Edit([Bind(Include = "Id,Name,CreatedAt,CreatedById,ParentId")] Department department)
         {
@@ -261,7 +252,7 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
                         Message = "تم تعديل اسم القسم من: " + OldName+" إلى:"+Newname,
                         NotificationOwnerId = UserId
@@ -276,8 +267,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        //Delete Department:
-        [Authorize]
+     
         [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -309,7 +299,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost,ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+    
         [AccessDeniedAuthorizeattribute(ActionName = "DepartmentsDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -333,7 +323,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
                     Message = "تم حذف القسم : "+ DepartmentName,
                     NotificationOwnerId = UserId

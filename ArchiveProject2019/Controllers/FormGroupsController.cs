@@ -17,7 +17,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsIndex")]
         public ActionResult Index(int? Id, string msg = "none")
         {
@@ -57,7 +57,7 @@ namespace ArchiveProject2019.Controllers
         // GET: FormDepartments/Details/5
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsDetails")]
         public ActionResult Details(int? id)
         {
@@ -79,7 +79,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsCreate")]
         // GET: FormDepartments/Create
         public ActionResult Create(int? Id)
@@ -126,7 +126,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsCreate")]
         public ActionResult Create(int FormIdValue, List<int> Groups)
         {
@@ -163,7 +163,7 @@ namespace ArchiveProject2019.Controllers
                     };
                     db.FormGroups.Add(formgroup);
 
-                    GroupName = db.Groups.Find(formgroup.GroupId).GroupName;
+                    GroupName = db.Groups.Find(formgroup.GroupId).Name;
                     List<ApplicationUser> Users = db.UsersGroups.Where(a => a.GroupId == i).Include(a=>a.User).Select(a=>a.User).ToList();
                     foreach (ApplicationUser user in Users)
                     {
@@ -172,9 +172,9 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             CreatedAt = NotificationTime,
-                            Is_Active = false,
+                            Active = false,
                             UserId = user.Id,
-                            Message = "تم إضافة نموذج جديد للمجموعة :"+GroupName +"، النموذج: "+ db.Forms.Find(FormIdValue).FormName,
+                            Message = "تم إضافة نموذج جديد للمجموعة :"+GroupName +"، النموذج: "+ db.Forms.Find(FormIdValue).Name,
                             NotificationOwnerId = UserId
                         };
                         db.Notifications.Add(notification);
@@ -193,7 +193,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -216,7 +216,7 @@ namespace ArchiveProject2019.Controllers
         
         [HttpPost]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsEdit")]
         public ActionResult Edit(int Id)
         {
@@ -237,16 +237,16 @@ namespace ArchiveProject2019.Controllers
             }
 
             int Form_Id = formGroup.FormId;
-            formGroup.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            formGroup.Updatedat = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
             if (formGroup.Is_Active == true)
             {
                 formGroup.Is_Active = false;
-                Message = "تم الغاء تفعيل النموذج في المجموعة :"+db.Groups.Find(formGroup.GroupId).GroupName;
+                Message = "تم الغاء تفعيل النموذج في المجموعة :"+db.Groups.Find(formGroup.GroupId).Name;
             }
             else
             {
                 formGroup.Is_Active = true;
-                Message = "تم  تفعيل النموذج في المجموعة :" + db.Groups.Find(formGroup.GroupId).GroupName;
+                Message = "تم  تفعيل النموذج في المجموعة :" + db.Groups.Find(formGroup.GroupId).Name;
 
             }
 
@@ -265,9 +265,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
-                    Message = Message + "، النموذج :" +db.Forms.Find(Form_Id).FormName ,
+                    Message = Message + "، النموذج :" +db.Forms.Find(Form_Id).Name ,
                     NotificationOwnerId = UserId
                 };
                 db.Notifications.Add(notification);
@@ -282,7 +282,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -301,7 +301,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormGroupsDelete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -326,8 +326,8 @@ namespace ArchiveProject2019.Controllers
             FormGroup formGroup = db.FormGroups.Find(id);
 
             //Form name && group name:
-            FormName = db.Forms.Find(formGroup.FormId).FormName;
-            GroupName = db.Groups.Find(formGroup.GroupId).GroupName;
+            FormName = db.Forms.Find(formGroup.FormId).Name;
+            GroupName = db.Groups.Find(formGroup.GroupId).Name;
             //Group id for object:
             int groupId = formGroup.GroupId;
 
@@ -348,7 +348,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
                     Message = "تم إزالة نموذج من المجموعة :" + GroupName + "، النموذج: " + FormName,
                     NotificationOwnerId = UserId

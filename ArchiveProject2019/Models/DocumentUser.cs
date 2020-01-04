@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -14,15 +13,18 @@ namespace ArchiveProject2019.Models
         public int Id { get; set; }
 
 
-        [Display(Name = "DocumentId", ResourceType = typeof(main_lang))]
+        [Display(Name = "الوثيقة")]
         public int DocumentId { get; set; }
+
         [ForeignKey("DocumentId")]
+
         public virtual Document document { get; set; }
 
-
-        [Display(Name = "DocumentId", ResourceType = typeof(main_lang))]
+        [Display(Name = "اسم المستخدم")]
         public string UserId { set; get; }
+
         [ForeignKey("UserId")]
+
         public virtual ApplicationUser User { get; set; }
 
 
@@ -30,34 +32,36 @@ namespace ArchiveProject2019.Models
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ الإنشاء")]
         public string CreatedAt { get; set; }
 
         //Users Control:
-
-        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = " اسم الشخص المنشىء ")]
         public string CreatedById { set; get; }
+
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
 
-        [Display(Name = "EnableEdit", ResourceType = typeof(main_lang))]
+        [Display(Name = "امكانية التعديل")]
+
         public bool EnableEdit { set; get; }
 
 
-        [Display(Name = "EnableReplay", ResourceType = typeof(main_lang))]
+        [Display(Name = "امكانية الرد")]
+
         public bool EnableReplay { set; get; }
 
+        [Display(Name = "امكانية التسديد")]
 
-        [Display(Name = "EnableSeal", ResourceType = typeof(main_lang))]
         public bool EnableSeal { set; get; }
 
 
-        [Display(Name = "EnableRelate", ResourceType = typeof(main_lang))]
+        [Display(Name = "امكانية الربط")]
+
         public bool EnableRelate { set; get; }
 
-
-        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
     }

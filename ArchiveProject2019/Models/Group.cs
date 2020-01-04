@@ -4,8 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-using ArchiveProject2019.Resources;
-
 
 namespace ArchiveProject2019.Models
 {
@@ -14,51 +12,46 @@ namespace ArchiveProject2019.Models
         [Key]
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "يجب إدخال اسم المجموعة")]
+        [Display(Name = "اسم المجموعة")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
 
+        public string Name { get; set; }
 
-        [Display(Name = "GroupName", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "GroupNameRequired")]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
-        public string GroupName { get; set; }
-             
-
-
+     //   [Required(ErrorMessage = "يجب إدخال الوصف")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "طول الوصف يجب أن يكون على الأقل 3 محارف")]
-        [Display(Name = "Description", ResourceType = typeof(main_lang))]
+
+        [Display(Name = "الوصف")]
         public string Description { get; set; }
 
 
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ الإنشاء")]
         public string CreatedAt { get; set; }
-
-
-
-        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
+        
+        [Display(Name = " أنشأ بواسطة ")]
         public string CreatedById { set; get; }
+
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
 
 
+
         //Update Informations:
-        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
+
+        [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
-
-
-
-        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = "آخر تعديل  بواسطة")]
         public string UpdatedById { set; get; }
+
         [ForeignKey("UpdatedById")]
         public ApplicationUser UpdatedBy { set; get; }
 
 
-        /// 
-        /// Collections:
-        /// 
         public ICollection<UserGroup> UsersGroup { set; get; }
     }
 }

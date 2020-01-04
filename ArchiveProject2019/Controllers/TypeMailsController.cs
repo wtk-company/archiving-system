@@ -22,7 +22,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsIndex")]
 
         public ActionResult Index(string Id = "none")
@@ -42,7 +42,7 @@ namespace ArchiveProject2019.Controllers
             return View(TypeMails.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
         public ActionResult Create()
         {
@@ -57,14 +57,14 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] TypeMail TypeMail)
 
         {
             ViewBag.Current = "TypeMails";
 
-            if (_context.TypeMails.Any(a => a.TypeMailName.Equals(TypeMail.TypeMailName, StringComparison.OrdinalIgnoreCase)))
+            if (_context.TypeMails.Any(a => a.Name.Equals(TypeMail.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -91,9 +91,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة نوع جديد من البريد : " + TypeMail.TypeMailName,
+                        Message = "تم إضافة نوع جديد من البريد : " + TypeMail.Name,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -110,7 +110,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -127,7 +127,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
-            ViewBag.OldName = mail.TypeMailName;
+            ViewBag.OldName = mail.Name;
             return View(mail);
         }
 
@@ -135,7 +135,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsEdit")]
         public ActionResult Edit(TypeMail mail,string OldName)
 
@@ -143,7 +143,7 @@ namespace ArchiveProject2019.Controllers
 
             ViewBag.Current = "TypeMails";
 
-            if (_context.TypeMails.Where(a => a.Id != mail.Id).Any(a => a.TypeMailName.Equals(mail.TypeMailName, StringComparison.OrdinalIgnoreCase)))
+            if (_context.TypeMails.Where(a => a.Id != mail.Id).Any(a => a.Name.Equals(mail.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
@@ -166,9 +166,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم نوع البريد من : " + OldName + " إلى :" + mail.TypeMailName
+                        Message = "تم تعديل اسم نوع البريد من : " + OldName + " إلى :" + mail.Name
                         ,
                         NotificationOwnerId = UserId
                     };
@@ -184,7 +184,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -208,7 +208,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -232,9 +232,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف نوع من البريد : " + mail.TypeMailName,
+                    Message = "تم حذف نوع من البريد : " + mail.Name,
                     NotificationOwnerId = UserId
                 };
                 _context.Notifications.Add(notification);
@@ -248,7 +248,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
        [AccessDeniedAuthorizeattribute(ActionName = "TypeMailsDetails")]
         public ActionResult Details(int? id)
         {

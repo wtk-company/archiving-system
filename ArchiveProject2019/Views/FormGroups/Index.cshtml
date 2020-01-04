@@ -84,7 +84,7 @@
                 @Html.DisplayNameFor(model => model.GroupId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Form.FormName)
+                @Html.DisplayNameFor(model => model.Form.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Is_Active)
@@ -92,7 +92,7 @@
 
 
             <th>
-                @Html.DisplayNameFor(model => model.UpdatedAt)
+                @Html.DisplayNameFor(model => model.Updatedat)
             </th>
 
             <th>
@@ -111,21 +111,21 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Group.GroupName)
+                    @Html.DisplayFor(modelItem => item.Group.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Form.FormName)
+                    @Html.DisplayFor(modelItem => item.Form.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Is_Active)
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                    @Html.DisplayFor(modelItem => item.Updatedat)
                 </td>
 
                 <td>
-                    <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-Active btn-xs btn-success"><span class="glyphicon glyphicon-check"></span></button>
+                    <button data-form-id="@item.Id" title="تعديل التفعيل" class="js-active btn-xs btn-success"><span class="glyphicon glyphicon-check"></span></button>
                     <button data-form-id="@item.Id" title="إزالة المجموعة" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                     <button data-form-id="@item.Id" title=" تفاصيل اسناد المجموعة للنموذج" class="js-details btn-xs btn-default"><span class="glyphicon glyphicon-book"></span></button>
 
@@ -176,7 +176,7 @@
 
 
 
-    $("#form").on("click", ".js-Active", function () {
+    $("#form").on("click", ".js-active", function () {
         $("#changeText").text("تعديل حالة التفعيل ");
 
                        var url = '@Url.Action("Edit", "FormGroups")';

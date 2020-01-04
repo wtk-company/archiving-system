@@ -38,10 +38,10 @@
         pingServerFailed: "Failed to ping server.",
         pingServerFailedStatusCode: "Failed to ping server.  Server responded with status code {0}, stopping the connection.",
         pingServerFailedParse: "Failed to parse ping server response, stopping the connection.",
-        noConnectionTransport: "Connection is in an invalid state, there is no transport Active.",
+        noConnectionTransport: "Connection is in an invalid state, there is no transport active.",
         webSocketsInvalidState: "The Web Socket transport is in an invalid state, transitioning into reconnecting.",
         reconnectTimeout: "Couldn't reconnect within the configured timeout of {0} ms, disconnecting.",
-        reconnectWindowTimeout: "The client has been inActive since {0} and it has exceeded the inactivity timeout of {1} ms. Stopping the connection.",
+        reconnectWindowTimeout: "The client has been inactive since {0} and it has exceeded the inactivity timeout of {1} ms. Stopping the connection.",
         jsonpNotSupportedWithAccessToken: "The JSONP protocol does not support connections that require a Bearer token to connect, such as the Azure SignalR Service."
     };
 
@@ -327,7 +327,7 @@
         };
 
         that.drain = function () {
-            // Ensure that the connection is connected when we drain (do not want to drain while a connection is not Active)
+            // Ensure that the connection is connected when we drain (do not want to drain while a connection is not active)
             if (connection.state === $.signalR.connectionState.connected) {
                 while (buffer.length > 0) {
                     drainCallback(buffer.shift());
@@ -1105,7 +1105,7 @@
             checkIfAlive(connection);
         }
 
-        // Ensure that we successfully marked Active before continuing the heartbeat.
+        // Ensure that we successfully marked active before continuing the heartbeat.
         if (transportLogic.markActive(connection)) {
             connection._.beatHandle = window.setTimeout(function () {
                 beat(connection);
@@ -3091,7 +3091,7 @@
         if (!connection._subscribedToHubs) {
             connection._subscribedToHubs = true;
             connection.starting(function () {
-                // Set the connection's data object with all the hub proxies with Active subscriptions.
+                // Set the connection's data object with all the hub proxies with active subscriptions.
                 // These proxies will receive notifications from the server.
                 var subscribedHubs = [];
 

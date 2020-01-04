@@ -235,12 +235,12 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
 
     if ($parent.length) {
       var $input = this.$element.find('input')
-        .prop('checked', !this.$element.hasClass('Active'))
+        .prop('checked', !this.$element.hasClass('active'))
         .trigger('change')
-      if ($input.prop('type') === 'radio') $parent.find('.Active').removeClass('Active')
+      if ($input.prop('type') === 'radio') $parent.find('.active').removeClass('active')
     }
 
-    this.$element.toggleClass('Active')
+    this.$element.toggleClass('active')
   }
 
 
@@ -318,7 +318,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
     this.paused      =
     this.sliding     =
     this.interval    =
-    this.$Active     =
+    this.$active     =
     this.$items      = null
 
     this.options.pause == 'hover' && this.$element
@@ -345,22 +345,22 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
   }
 
   Carousel.prototype.getActiveIndex = function () {
-    this.$Active = this.$element.find('.item.Active')
-    this.$items  = this.$Active.parent().children()
+    this.$active = this.$element.find('.item.active')
+    this.$items  = this.$active.parent().children()
 
-    return this.$items.index(this.$Active)
+    return this.$items.index(this.$active)
   }
 
   Carousel.prototype.to = function (pos) {
     var that        = this
-    var ActiveIndex = this.getActiveIndex()
+    var activeIndex = this.getActiveIndex()
 
     if (pos > (this.$items.length - 1) || pos < 0) return
 
     if (this.sliding)       return this.$element.one('slid', function () { that.to(pos) })
-    if (ActiveIndex == pos) return this.pause().cycle()
+    if (activeIndex == pos) return this.pause().cycle()
 
-    return this.slide(pos > ActiveIndex ? 'next' : 'prev', $(this.$items[pos]))
+    return this.slide(pos > activeIndex ? 'next' : 'prev', $(this.$items[pos]))
   }
 
   Carousel.prototype.pause = function (e) {
@@ -387,8 +387,8 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
   }
 
   Carousel.prototype.slide = function (type, next) {
-    var $Active   = this.$element.find('.item.Active')
-    var $next     = next || $Active[type]()
+    var $active   = this.$element.find('.item.active')
+    var $next     = next || $active[type]()
     var isCycling = this.interval
     var direction = type == 'next' ? 'left' : 'right'
     var fallback  = type == 'next' ? 'first' : 'last'
@@ -405,13 +405,13 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
 
     var e = $.Event('slide.bs.carousel', { relatedTarget: $next[0], direction: direction })
 
-    if ($next.hasClass('Active')) return
+    if ($next.hasClass('active')) return
 
     if (this.$indicators.length) {
-      this.$indicators.find('.Active').removeClass('Active')
+      this.$indicators.find('.active').removeClass('active')
       this.$element.one('slid', function () {
         var $nextIndicator = $(that.$indicators.children()[that.getActiveIndex()])
-        $nextIndicator && $nextIndicator.addClass('Active')
+        $nextIndicator && $nextIndicator.addClass('active')
       })
     }
 
@@ -420,12 +420,12 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
       if (e.isDefaultPrevented()) return
       $next.addClass(type)
       $next[0].offsetWidth // force reflow
-      $Active.addClass(direction)
+      $active.addClass(direction)
       $next.addClass(direction)
-      $Active
+      $active
         .one($.support.transition.end, function () {
-          $next.removeClass([type, direction].join(' ')).addClass('Active')
-          $Active.removeClass(['Active', direction].join(' '))
+          $next.removeClass([type, direction].join(' ')).addClass('active')
+          $active.removeClass(['active', direction].join(' '))
           that.sliding = false
           setTimeout(function () { that.$element.trigger('slid') }, 0)
         })
@@ -433,8 +433,8 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
     } else {
       this.$element.trigger(e)
       if (e.isDefaultPrevented()) return
-      $Active.removeClass('Active')
-      $next.addClass('Active')
+      $active.removeClass('active')
+      $next.addClass('active')
       this.sliding = false
       this.$element.trigger('slid')
     }
@@ -554,13 +554,13 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
     this.$element.trigger(startEvent)
     if (startEvent.isDefaultPrevented()) return
 
-    var Actives = this.$parent && this.$parent.find('> .panel > .in')
+    var actives = this.$parent && this.$parent.find('> .panel > .in')
 
-    if (Actives && Actives.length) {
-      var hasData = Actives.data('bs.collapse')
+    if (actives && actives.length) {
+      var hasData = actives.data('bs.collapse')
       if (hasData && hasData.transitioning) return
-      Actives.collapse('hide')
-      hasData || Actives.data('bs.collapse', null)
+      actives.collapse('hide')
+      hasData || actives.data('bs.collapse', null)
     }
 
     var dimension = this.dimension()
@@ -1629,7 +1629,7 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
       || '') + ' .nav li > a'
     this.offsets        = $([])
     this.targets        = $([])
-    this.ActiveTarget   = null
+    this.activeTarget   = null
 
     this.refresh()
     this.process()
@@ -1670,15 +1670,15 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
     var maxScroll    = scrollHeight - this.$scrollElement.height()
     var offsets      = this.offsets
     var targets      = this.targets
-    var ActiveTarget = this.ActiveTarget
+    var activeTarget = this.activeTarget
     var i
 
     if (scrollTop >= maxScroll) {
-      return ActiveTarget != (i = targets.last()[0]) && this.activate(i)
+      return activeTarget != (i = targets.last()[0]) && this.activate(i)
     }
 
     for (i = offsets.length; i--;) {
-      ActiveTarget != targets[i]
+      activeTarget != targets[i]
         && scrollTop >= offsets[i]
         && (!offsets[i + 1] || scrollTop <= offsets[i + 1])
         && this.activate( targets[i] )
@@ -1686,27 +1686,27 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
   }
 
   ScrollSpy.prototype.activate = function (target) {
-    this.ActiveTarget = target
+    this.activeTarget = target
 
     $(this.selector)
-      .parents('.Active')
-      .removeClass('Active')
+      .parents('.active')
+      .removeClass('active')
 
     var selector = this.selector
       + '[data-target="' + target + '"],'
       + this.selector + '[href="' + target + '"]'
 
-    var Active = $(selector)
+    var active = $(selector)
       .parents('li')
-      .addClass('Active')
+      .addClass('active')
 
-    if (Active.parent('.dropdown-menu').length)  {
-      Active = Active
+    if (active.parent('.dropdown-menu').length)  {
+      active = active
         .closest('li.dropdown')
-        .addClass('Active')
+        .addClass('active')
     }
 
-    Active.trigger('activate')
+    active.trigger('activate')
   }
 
 
@@ -1789,9 +1789,9 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
       selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
     }
 
-    if ($this.parent('li').hasClass('Active')) return
+    if ($this.parent('li').hasClass('active')) return
 
-    var previous = $ul.find('.Active:last a')[0]
+    var previous = $ul.find('.active:last a')[0]
     var e        = $.Event('show.bs.tab', {
       relatedTarget: previous
     })
@@ -1812,18 +1812,18 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
   }
 
   Tab.prototype.activate = function (element, container, callback) {
-    var $Active    = container.find('> .Active')
+    var $active    = container.find('> .active')
     var transition = callback
       && $.support.transition
-      && $Active.hasClass('fade')
+      && $active.hasClass('fade')
 
     function next() {
-      $Active
-        .removeClass('Active')
-        .find('> .dropdown-menu > .Active')
-        .removeClass('Active')
+      $active
+        .removeClass('active')
+        .find('> .dropdown-menu > .active')
+        .removeClass('active')
 
-      element.addClass('Active')
+      element.addClass('active')
 
       if (transition) {
         element[0].offsetWidth // reflow for transition
@@ -1833,19 +1833,19 @@ if (!jQuery) { throw new Error("Bootstrap requires jQuery") }
       }
 
       if (element.parent('.dropdown-menu')) {
-        element.closest('li.dropdown').addClass('Active')
+        element.closest('li.dropdown').addClass('active')
       }
 
       callback && callback()
     }
 
     transition ?
-      $Active
+      $active
         .one($.support.transition.end, next)
         .emulateTransitionEnd(150) :
       next()
 
-    $Active.removeClass('in')
+    $active.removeClass('in')
   }
 
 

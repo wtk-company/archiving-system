@@ -10,7 +10,7 @@ using ArchiveProject2019.Models;
 
 namespace ArchiveProject2019.Controllers
 {
-    [Authorize]
+    
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

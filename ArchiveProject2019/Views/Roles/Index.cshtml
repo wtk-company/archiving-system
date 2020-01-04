@@ -97,7 +97,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RoleName)
+                @Html.DisplayNameFor(model => model.Name)
 
 
             </th>
@@ -105,13 +105,13 @@
                 @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
 
-
+           
             <th>
                 @Html.DisplayNameFor(model => model.UpdatedAt)
             </th>
 
 
-
+       
 
 
 
@@ -126,38 +126,38 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoleName)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
 
 
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedAt)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
 
 
-                <td>
+            <td>
 
-                    <button data-form-id="@item.Id" title="تفاصيل  الدور" class="js-Details  btn-xs btn-default "><span class="glyphicon glyphicon-book"></span></button>
+                <button data-form-id="@item.Id" title="تفاصيل  الدور" class="js-Details  btn-xs btn-default "><span class="glyphicon glyphicon-book"></span></button>
 
-                    <button data-form-id="@item.Id" title="تعديل اسم الدور" class="js-Edit  btn-xs btn-success "><span class="glyphicon glyphicon-edit"></span></button>
+                <button data-form-id="@item.Id" title="تعديل اسم الدور" class="js-Edit  btn-xs btn-success "><span class="glyphicon glyphicon-edit"></span></button>
 
-                    @if (CheckDelete.CheckRoleDelete(item.Id) == true)
+                @if (CheckDelete.CheckRoleDelete(item.Id) == true)
                 {
-                        <button data-form-id="@item.Id" title=" حذف الدور المحدد " class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                    <button data-form-id="@item.Id" title=" حذف الدور المحدد " class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
 
-                    }
+                }
 
-                    @Html.ActionLink("الصلاحيّات", "Index", new { controller = "PermissionRoles", Id = item.Id })
+                @Html.ActionLink("الصلاحيّات", "Index", new { controller = "PermissionRoles", Id = item.Id})
 
 
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 
@@ -223,7 +223,7 @@
 
 
 
-
+    
     $("#form").on("click", ".js-Details", function () {
 
         $("#changeText").text(" تفاصيل دور معين");

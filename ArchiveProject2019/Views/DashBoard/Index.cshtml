@@ -6,13 +6,13 @@
 
 <h2>@ViewBag.Title</h2>
 
-<div class="row">
+    <div class="row">
 
 
-    <div class="" style="width:100%">
+        <div class="" style="width:100%">
 
 
-        @if (Model.IsMasterRole == true)
+            @if (Model.IsMasterRole == true)
             {
 
 
@@ -26,7 +26,7 @@
                     <span class="count_top"><i class="fa fa-codepen"></i> @Html.DisplayNameFor(a => Model.AllGroupsCount)</span>
                     <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.AllGroupsCount)</div>
                 </div>
-
+             
                 <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                     <span class="count_top"><i class="fa fa-user"></i> @Html.DisplayNameFor(a => Model.TotalUserCount)</span>
                     <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.TotalUserCount)</div>
@@ -43,275 +43,275 @@
                     <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.TotalDocumentCount)</div>
                 </div>
             </div>
-        }
-        else
+            }
+            else
+            {
+
+                <div class="tile_count">
+                    <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-newspaper-o"></i> @Html.DisplayNameFor(a => Model.MyTotalDocument)</span>
+                        <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.MyTotalDocument)</div>
+
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-codepen"></i> @Html.DisplayNameFor(a => Model.MyGroupsCount)</span>
+                        <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.MyGroupsCount)</div>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-sitemap"></i> @Html.DisplayNameFor(a => Model.DepartmentsCount)</span>
+                        <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.DepartmentsCount)</div>
+
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-newspaper-o"></i> @Html.DisplayNameFor(a => Model.LastMyDocumentCreate)</span>
+                        <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.LastMyDocumentCreate)</div>
+
+                    </div>
+              
+                </div>
+            }
+        </div>
+
+
+
+
+
+        @if (Model.IsMasterRole == false)
         {
 
-            <div class="tile_count">
-                <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-newspaper-o"></i> @Html.DisplayNameFor(a => Model.MyTotalDocument)</span>
-                    <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.MyTotalDocument)</div>
-
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-codepen"></i> @Html.DisplayNameFor(a => Model.MyGroupsCount)</span>
-                    <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.MyGroupsCount)</div>
-                </div>
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-sitemap"></i> @Html.DisplayNameFor(a => Model.DepartmentsCount)</span>
-                    <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.DepartmentsCount)</div>
-
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-6 tile_stats_count">
-                    <span class="count_top"><i class="fa fa-newspaper-o"></i> @Html.DisplayNameFor(a => Model.LastMyDocumentCreate)</span>
-                    <div style="text-align:center;font-size:20px" class="count green">@Html.DisplayFor(a => Model.LastMyDocumentCreate)</div>
-
-                </div>
-
-            </div>
-        }
-    </div>
 
 
 
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel tile fixed_height_320">
+                    <div class="x_title">
+                        <h2>
+                            <i class="fa fa-tasks"></i>
+                            <b>
 
 
-    @if (Model.IsMasterRole == false)
-    {
+                               نماذجي المفضلة
+                            </b>
+
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="height:100%">
 
 
+                        <div class="" style="overflow:auto;height:100%">
 
-
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                    <h2>
-                        <i class="fa fa-tasks"></i>
-                        <b>
-
-
-                            نماذجي المفضلة
-                        </b>
-
-                    </h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-
-                        <li>
-                            <a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content" style="height:100%">
-
-
-                    <div class="" style="overflow:auto;height:100%">
-
-                        <table class="table  table-striped" style="text-align:center">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>@Html.DisplayNameFor(a => Model.FavoriteForm.FirstOrDefault().FormName)</th>
-
-
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @{
-                                    int ii = 1;
-                                }
-                                @foreach (var v in Model.FavoriteForm)
-                                {
+                            <table class="table  table-striped" style="text-align:center">
+                                <thead>
                                     <tr>
-                                        <td>@ii</td>
-                                        <td>@v.FormName</td>
+                                        <th>#</th>
+                                        <th>@Html.DisplayNameFor(a => Model.FavoriteForm.FirstOrDefault().Name)</th>
 
+                                      
 
                                     </tr>
-                                    ii++;
-                                }
+                                </thead>
+                                <tbody>
 
+                                    @{
+                                        int ii = 1;
+                                    }
+                                    @foreach (var v in Model.FavoriteForm)
+                                    {
+                                        <tr>
+                                            <td>@ii</td>
+                                            <td>@v.Name</td>
+                                         
 
-                            </tbody>
-                        </table>
-
-
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="x_panel tile fixed_height_320">
-                <div class="x_title">
-                    <h2>
-                        <i class="fa fa-codepen"></i>
-                        <b>
-
-
-                            مجموعاتي
-                        </b>
-
-                    </h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li>
-                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-
-                        <li>
-                            <a class="close-link"><i class="fa fa-close"></i></a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="x_content" style="height:100%">
-
-
-                    <div class="" style="overflow:auto;height:100%">
-
-                        <table class="table  table-striped" style="text-align:center">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>@Html.DisplayNameFor(a => Model.UserGroups.FirstOrDefault().Name)</th>
-
-                                    <th>@Html.DisplayNameFor(a => Model.UserGroups.FirstOrDefault().UsersCount)</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @{
-                                    int i = 1;
-                                }
-                                @foreach (var v in Model.UserGroups)
-                                {
-                                    <tr>
-                                        <td>@i</td>
-                                        <td>@v.Name</td>
-                                        <td>@v.UsersCount</td>
-                                    </tr>
-                                    i++;
-                                }
-
-
-                            </tbody>
-                        </table>
-
-
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
+                                        </tr>
+                                        ii++;
                                     }
 
 
-    <div class="col-md-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h2>
-                    <i class="fa fa-user"></i>
-                    <b>
+                                </tbody>
+                            </table>
 
 
-                        المعلومات الشخصية
-                    </b>
 
-                </h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
+                        </div>
 
-                    <li>
-                        <a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
-                <div class="clearfix"></div>
+                    </div>
+                </div>
             </div>
-            <div class="x_content jumbotron">
 
 
 
-                <h5>
-                    <i class="fa fa-user"></i>
-                    @Html.DisplayNameFor(a => Model.FullName):
-                    @Html.DisplayFor(a => Model.FullName)
-                </h5>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel tile fixed_height_320">
+                    <div class="x_title">
+                        <h2>
+                            <i class="fa fa-codepen"></i>
+                            <b>
 
 
-                <h5>
-                    <i class="fa fa-slack"></i>
-                    @Html.DisplayNameFor(a => Model.UserName):
-                    @Html.DisplayFor(a => Model.UserName)
-                </h5>
+                                مجموعاتي
+                            </b>
+
+                        </h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content" style="height:100%">
 
 
-                <h5>
-                    <i class="fa fa-envelope-o"></i>
-                    @Html.DisplayNameFor(a => Model.Email):
-                    @Html.DisplayFor(a => Model.Email)
-                </h5>
+                        <div class="" style="overflow:auto;height:100%">
+
+                            <table class="table  table-striped" style="text-align:center">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>@Html.DisplayNameFor(a => Model.UserGroups.FirstOrDefault().Name)</th>
+
+                                        <th>@Html.DisplayNameFor(a => Model.UserGroups.FirstOrDefault().UsersCount)</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @{
+                                        int i = 1;
+                                    }
+                                    @foreach (var v in Model.UserGroups)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@v.Name</td>
+                                            <td>@v.UsersCount</td>
+                                        </tr>
+                                        i++;
+                                    }
 
 
-                <h5>
-                    <i class="fa fa-male"></i>
-                    @Html.DisplayNameFor(a => Model.Gender):
-                    @Html.DisplayFor(a => Model.Gender)
-                </h5>
-
-
-                <h5>
-                    <i class="fa fa-clock-o"></i>
-                    @Html.DisplayNameFor(a => Model.UserCreateAt):
-                    @Html.DisplayFor(a => Model.UserCreateAt)
-                </h5>
-
-
-                <h5>
-                    <i class="fa fa-clock-o"></i>
-                    @Html.DisplayNameFor(a => Model.UserUpdate):
-                    @Html.DisplayFor(a => Model.UserUpdate)
-                </h5>
-
-                <h5>
-                    <i class="fa fa-users"></i>
-                    @Html.DisplayNameFor(a => Model.RoleName):
-                    @Html.DisplayFor(a => Model.RoleName)
-                </h5>
-
-                <h5>
-                    <i class="fa fa-clock-o"></i>
-                    @Html.DisplayNameFor(a => Model.DepartmentName):
-                    @Html.DisplayFor(a => Model.DepartmentName)
-                </h5>
+                                </tbody>
+                            </table>
 
 
 
+                        </div>
 
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
 
-    @* Company Info Start *@
+        }
 
 
-    @if (Model.Company != null)
-    {
         <div class="col-md-12">
             <div class="x_panel">
+                <div class="x_title">
+                    <h2>
+                        <i class="fa fa-user"></i>
+                        <b>
+
+
+                            المعلومات الشخصية
+                        </b>
+
+                    </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content jumbotron">
+
+
+
+                    <h5>
+                        <i class="fa fa-user"></i>
+                        @Html.DisplayNameFor(a => Model.FullName):
+                        @Html.DisplayFor(a => Model.FullName)
+                    </h5>
+
+
+                    <h5>
+                        <i class="fa fa-slack"></i>
+                        @Html.DisplayNameFor(a => Model.UserName):
+                        @Html.DisplayFor(a => Model.UserName)
+                    </h5>
+
+
+                    <h5>
+                        <i class="fa fa-envelope-o"></i>
+                        @Html.DisplayNameFor(a => Model.Email):
+                        @Html.DisplayFor(a => Model.Email)
+                    </h5>
+
+
+                    <h5>
+                        <i class="fa fa-male"></i>
+                        @Html.DisplayNameFor(a => Model.Gender):
+                        @Html.DisplayFor(a => Model.Gender)
+                    </h5>
+
+
+                    <h5>
+                        <i class="fa fa-clock-o"></i>
+                        @Html.DisplayNameFor(a => Model.UserCreateAt):
+                        @Html.DisplayFor(a => Model.UserCreateAt)
+                    </h5>
+
+
+                    <h5>
+                        <i class="fa fa-clock-o"></i>
+                        @Html.DisplayNameFor(a => Model.UserUpdate):
+                        @Html.DisplayFor(a => Model.UserUpdate)
+                    </h5>
+
+                    <h5>
+                        <i class="fa fa-users"></i>
+                        @Html.DisplayNameFor(a => Model.RoleName):
+                        @Html.DisplayFor(a => Model.RoleName)
+                    </h5>
+
+                    <h5>
+                        <i class="fa fa-clock-o"></i>
+                        @Html.DisplayNameFor(a => Model.DepartmentName):
+                        @Html.DisplayFor(a => Model.DepartmentName)
+                    </h5>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        @* Company Info Start *@
+
+
+        @if (Model.Company != null)
+        {
+            <div class="col-md-12">
+            <div class="x_panel" >
                 <div class="x_title">
                     <h2>
                         <i class=""></i>
@@ -334,37 +334,37 @@
                 </div>
                 <div class="x_content jumbotron">
 
-                    @if (Model.Company.CompanyName != null)
+                    @if (Model.Company.Name != null)
                     {
                         <h5 style="padding: 10px;">
                             <strong>
                                 <i class="glyphicon glyphicon-chevron-left"></i>
-                                @Html.DisplayNameFor(a => Model.Company.CompanyName):
-                                @Html.DisplayFor(a => Model.Company.CompanyName)
+                                @Html.DisplayNameFor(a => Model.Company.Name):
+                                @Html.DisplayFor(a => Model.Company.Name)
 
                             </strong>
                         </h5>
                     }
-                    @if (Model.Company.CompanyAddress != null)
+                    @if (Model.Company.Address != null)
                     {
                         <h4 style="padding: 10px;">
                             <strong>
                                 <i class="glyphicon glyphicon-chevron-left"></i>
-                                @Html.DisplayNameFor(a => Model.Company.CompanyAddress):
-                                @Html.DisplayFor(a => Model.Company.CompanyAddress)
+                                @Html.DisplayNameFor(a => Model.Company.Address):
+                                @Html.DisplayFor(a => Model.Company.Address)
 
                             </strong>
                         </h4>
                     }
 
 
-                    @if (Model.Company.Email != null)
+                    @if (Model.Company.Mail != null)
                     {
                         <h4 style="padding: 10px;">
                             <strong>
                                 <i class="glyphicon glyphicon-chevron-left"></i>
-                                @Html.DisplayNameFor(a => Model.Company.Email):
-                                @Html.DisplayFor(a => Model.Company.Email)
+                                @Html.DisplayNameFor(a => Model.Company.Mail):
+                                @Html.DisplayFor(a => Model.Company.Mail)
 
                             </strong>
                         </h4>
@@ -443,13 +443,13 @@
                         </h5>
                     }
 
-                    @if (Model.Company.CompanyDescription != null)
+                    @if (Model.Company.Description != null)
                     {
                         <h5 style="padding: 10px;">
                             <strong>
                                 <i class="glyphicon glyphicon-chevron-left"></i>
-                                @Html.DisplayNameFor(a => Model.Company.CompanyDescription):
-                                @Html.DisplayFor(a => Model.Company.CompanyDescription)
+                                @Html.DisplayNameFor(a => Model.Company.Description):
+                                @Html.DisplayFor(a => Model.Company.Description)
 
                             </strong>
                         </h5>
@@ -460,39 +460,39 @@
                     @if (Model.Company.Logo != null)
                     {
                         <div>
-                            <h5 style="padding: 10px;">
-                                <strong>
-                                    <i class="glyphicon glyphicon-chevron-left"></i>
-                                    @Html.DisplayNameFor(a => Model.Company.Logo):
-                                </strong>
+                        <h5 style="padding: 10px;">
+                            <strong>
+                                <i class="glyphicon glyphicon-chevron-left"></i>
+                                @Html.DisplayNameFor(a => Model.Company.Logo):
+                            </strong>
 
 
 
 
-                            </h5>
+                        </h5>
 
-                            @{
-                                var base64 = Convert.ToBase64String(Model.Company.Logo);
-                                var filesrc = String.Format("data:image/gif;base64,{0}", base64);
+                        @{
+                            var base64 = Convert.ToBase64String(Model.Company.Logo);
+                            var filesrc = String.Format("data:image/gif;base64,{0}", base64);
 
-                                <img src='@filesrc' class="thumbnail" style="border-radius: 30px; width: 400px; height: 300px;">
-                            }
-                        </div>
-                                }
+                            <img src='@filesrc' class="thumbnail" style="border-radius: 30px; width: 400px; height: 300px;">
+                        }
+                            </div>
+                    }
 
                 </div>
-
-            </div>
-
+                          
+                        </div>
+                 
         </div>
-                                }
+        }
+       
 
 
 
 
-
-    @if (Model.IsMasterRole == true)
-    {
+        @if (Model.IsMasterRole == true)
+        {
 
 
 
@@ -898,15 +898,19 @@
                 </div>
             </div>
         </div>
-    }
-</div>
+        }
+    </div>
 
 <style>
-    .fixed_height_320 {
-        height: 360px;
+
+
+    .fixed_height_320{
+
+        height:360px;
     }
 
-    .fixed_height_300 {
-        height: 330px;
+    .fixed_height_300{
+
+        height:330px;
     }
 </style>

@@ -19,7 +19,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsIndex")]
         public ActionResult Index(int? Id,string msg="none")
         {
@@ -56,7 +56,7 @@ namespace ArchiveProject2019.Controllers
 
         // GET: FormDepartments/Details/5
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDetails")]
         public ActionResult Details(int? id)
         {
@@ -77,7 +77,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsCreate")]
         public ActionResult Create(int ?Id)
         {
@@ -123,7 +123,7 @@ namespace ArchiveProject2019.Controllers
     
         [HttpPost]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsCreate")]
         public ActionResult Create(int FormIdValue,List<int>Departments)
         {
@@ -169,9 +169,9 @@ namespace ArchiveProject2019.Controllers
                         {
 
                             CreatedAt = NotificationTime,
-                            Is_Active = false,
+                            Active = false,
                             UserId = user.Id,
-                            Message = "تم إضافة نموذج جديد إلى القسم، النموذج :"+db.Forms.Find(FormIdValue).FormName,
+                            Message = "تم إضافة نموذج جديد إلى القسم، النموذج :"+db.Forms.Find(FormIdValue).Name,
                             NotificationOwnerId = UserId
                         };
                         db.Notifications.Add(notification);
@@ -192,7 +192,7 @@ namespace ArchiveProject2019.Controllers
 
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -214,7 +214,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsEdit")]
         public ActionResult Edit(int Id)
         {
@@ -236,7 +236,7 @@ namespace ArchiveProject2019.Controllers
             Notification notification = null;
 
             int Form_Id = formDepartment.FormId;
-            formDepartment.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
+            formDepartment.Updatedat = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
             if(formDepartment.Is_Active==true)
             {
                 formDepartment.Is_Active = false;
@@ -254,7 +254,7 @@ namespace ArchiveProject2019.Controllers
             db.Entry(formDepartment).State = EntityState.Modified;
              db.SaveChanges();
 
-            FormName = db.Forms.Find(formDepartment.FormId).FormName;
+            FormName = db.Forms.Find(formDepartment.FormId).Name;
             List<ApplicationUser> Users = db.Users.Where(a => a.DepartmentId == formDepartment.DepartmentId).ToList();
             foreach (ApplicationUser user in Users)
             {
@@ -263,7 +263,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
                     Message = Message+" "+FormName,
                     NotificationOwnerId = UserId
@@ -280,7 +280,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -304,7 +304,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormDepartmentsDelete")]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -321,7 +321,7 @@ namespace ArchiveProject2019.Controllers
             FormDepartment formDepartment = db.FormDepartments.Find(id);
             db.FormDepartments.Remove(formDepartment);
             int Form_id = formDepartment.FormId;
-            FormName = db.Forms.Find(formDepartment.FormId).FormName;
+            FormName = db.Forms.Find(formDepartment.FormId).Name;
             int DepartmentId = formDepartment.DepartmentId;
 
             List<ApplicationUser> Users = db.Users.Where(a => a.DepartmentId == DepartmentId).ToList();
@@ -332,7 +332,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
                     Message = "تم إزالةالنموذج من القسم، النموذج: " + " " + FormName,
                     NotificationOwnerId = UserId

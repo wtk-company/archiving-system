@@ -21,9 +21,7 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
-        // GET: Forms
-
-        [Authorize]
+      
         [AccessDeniedAuthorizeattribute(ActionName = "FormsIndex")]
         public ActionResult Index(string Id="none")
         {
@@ -44,7 +42,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsCreate")]
         public ActionResult Create()
         {
@@ -58,13 +56,13 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsCreate")]
         public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] Form form)
         {///
             ViewBag.Current = "Forms";
 
-            if (_context.Forms.Any(a => a.FormName.Equals(form.FormName, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Forms.Any(a => a.Name.Equals(form.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -93,9 +91,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة نموذج جديد : " + form.FormName
+                        Message = "تم إضافة نموذج جديد : " + form.Name
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -112,7 +110,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsEdit")]
         public ActionResult Edit(int? id)
         {
@@ -132,7 +130,7 @@ namespace ArchiveProject2019.Controllers
             }
 
 
-            ViewBag.Oldname = form.FormName;
+            ViewBag.Oldname = form.Name;
 
             return View(form);
         }
@@ -140,14 +138,14 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsEdit")]
         public ActionResult Edit([Bind(Include = "Id,Name,CreatedAt,CreatedById")] Form form,string OldName)
         {
             ViewBag.Current = "Forms";
 
 
-            if (_context.Forms.Where(a=>a.Id!=form.Id).Any(a=>a.FormName.Equals(form.FormName,StringComparison.OrdinalIgnoreCase)))
+            if (_context.Forms.Where(a=>a.Id!=form.Id).Any(a=>a.Name.Equals(form.Name,StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "EditError" });
 
@@ -181,9 +179,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم النموذج من :" + OldName + " إلى :" + form.FormName
+                        Message = "تم تعديل اسم النموذج من :" + OldName + " إلى :" + form.Name
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -198,7 +196,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsDelete")]
         public ActionResult Delete(int? id)
         {
@@ -230,7 +228,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "FormsDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -264,9 +262,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
-                    Message = "تم إزالة نموذج  : " + cat.FormName
+                    Message = "تم إزالة نموذج  : " + cat.Name
                    ,
                     NotificationOwnerId = UserId
                 };
@@ -278,7 +276,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
        [AccessDeniedAuthorizeattribute(ActionName = "FormsDetails")]
         public ActionResult Details(int? id)
         {

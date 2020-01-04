@@ -21,7 +21,7 @@ namespace ArchiveProject2019.Controllers
             _context = new ApplicationDbContext();
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesIndex")]
 
         public ActionResult Index(string Id = "none")
@@ -42,7 +42,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesCreate")]
         public ActionResult Create()
         {
@@ -52,18 +52,18 @@ namespace ArchiveProject2019.Controllers
             return View();
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesCreate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
 
 
-        public ActionResult Create([Bind(Include = "Id,PartyName,CreatedAt")] Party Party)
+        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] Party Party)
 
         {
             ViewBag.Current = "Partys";
 
-            if (_context.Parties.Any(a => a.PartyName.Equals(Party.PartyName, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Parties.Any(a => a.Name.Equals(Party.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -88,9 +88,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة نوع جديد من الجهات : " + Party.PartyName,
+                        Message = "تم إضافة نوع جديد من الجهات : " + Party.Name,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -106,7 +106,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesEdit")]
         public ActionResult Edit(int? id)
         {
@@ -123,17 +123,17 @@ namespace ArchiveProject2019.Controllers
             return RedirectToAction("HttpNotFoundError", "ErrorController");
 
             }
-            ViewBag.OldName = party.PartyName;
+            ViewBag.OldName = party.Name;
             return View(party);
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesEdit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Party party,string OldName)
         {
-            if (_context.Parties.Where(a => a.Id != party.Id).Any(a => a.PartyName.Equals(party.PartyName, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Parties.Where(a => a.Id != party.Id).Any(a => a.Name.Equals(party.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
@@ -157,9 +157,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم الجهة من :"+OldName+" إلى الاسم :" + party.PartyName,
+                        Message = "تم تعديل اسم الجهة من :"+OldName+" إلى الاسم :" + party.Name,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -175,7 +175,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
 
         public ActionResult Delete(int? id)
@@ -208,7 +208,7 @@ namespace ArchiveProject2019.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -230,9 +230,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف اسم الجهة  :" + party.PartyName,
+                    Message = "تم حذف اسم الجهة  :" + party.Name,
                     NotificationOwnerId = UserId
                 };
                 _context.Notifications.Add(notification);
@@ -244,7 +244,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
       [AccessDeniedAuthorizeattribute(ActionName = "ConcernedPartiesDetails")]
 
         public ActionResult Details(int? id)

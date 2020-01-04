@@ -17,7 +17,7 @@ namespace ArchiveProject2019.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesIndex")]
         public ActionResult Index(string Id="none")
         {
@@ -38,7 +38,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesDetails")]
         public ActionResult Details(int? id)
         {
@@ -57,7 +57,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesCreate")]
         public ActionResult Create()
         {
@@ -67,11 +67,11 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesCreate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,JobName,Symbol,MaximumMember")] JobTitle jobTitle)
+        public ActionResult Create([Bind(Include = "Id,Name,Symbol,MaximumMember")] JobTitle jobTitle)
         {
             ViewBag.Current = "JobTitles";
 
@@ -79,7 +79,7 @@ namespace ArchiveProject2019.Controllers
             {
 
                 //Dublicated
-                if(db.JobTitles.Any(a=>a.JobName.Equals(jobTitle.JobName,StringComparison.OrdinalIgnoreCase)))
+                if(db.JobTitles.Any(a=>a.Name.Equals(jobTitle.Name,StringComparison.OrdinalIgnoreCase)))
                 {
                     return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -103,9 +103,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة مسمى وظيفي جديد : " + jobTitle.JobName
+                        Message = "تم إضافة مسمى وظيفي جديد : " + jobTitle.Name
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -122,7 +122,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
         public ActionResult Edit(int? id)
         {
@@ -137,7 +137,7 @@ namespace ArchiveProject2019.Controllers
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
-            ViewBag.OldName = jobTitle.JobName;
+            ViewBag.OldName = jobTitle.Name;
 
             return View(jobTitle);
         }
@@ -147,9 +147,9 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
-        public ActionResult Edit([Bind(Include = "Id,JobName,Symbol,MaximumMember,CreatedAt,CreatedById")] JobTitle jobTitle,string OldName)
+        public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember,CreatedAt,CreatedById")] JobTitle jobTitle,string OldName)
         {
             ViewBag.Current = "JobTitles";
 
@@ -157,7 +157,7 @@ namespace ArchiveProject2019.Controllers
             {
 
 
-                if (db.Fields.Where(a => a.Id!=jobTitle.Id).Any(a => a.FieldName.Equals(jobTitle.JobName, StringComparison.OrdinalIgnoreCase)) == true)
+                if (db.Fields.Where(a => a.Id!=jobTitle.Id).Any(a => a.Name.Equals(jobTitle.Name, StringComparison.OrdinalIgnoreCase)) == true)
                 {
 
                     return RedirectToAction("Index", new {  Id = "EditError" });
@@ -202,9 +202,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل المسمى الوظيفي من :" + OldName + " إلى :" + jobTitle.JobName
+                        Message = "تم تعديل المسمى الوظيفي من :" + OldName + " إلى :" + jobTitle.Name
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -220,7 +220,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesDelete")]
         public ActionResult Delete(int? id)
         {
@@ -248,7 +248,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesDelete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -272,9 +272,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف المسمى الوظيفي  : " + jobTitle.JobName
+                    Message = "تم حذف المسمى الوظيفي  : " + jobTitle.Name
                    ,
                     NotificationOwnerId = UserId
                 };

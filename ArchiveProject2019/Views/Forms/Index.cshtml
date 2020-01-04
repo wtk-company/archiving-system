@@ -93,7 +93,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FormName)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
 
 
@@ -117,7 +117,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FormName)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
 
 
@@ -125,7 +125,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
-
+             
                 <td>
                     @Html.DisplayFor(modelItem => item.UpdatedAt)
                 </td>
@@ -138,57 +138,57 @@
                     @if (item.Type != 1)
                     {
 
-                        <button data-form-id="@item.Id" title="تفاصيل  النموذج" class="js-Details  btn-xs btn-default "><span class="glyphicon glyphicon-book"></span></button>
-                        <button data-form-id="@item.Id" title="تعديل اسم النموذج" class="js-Edit  btn-xs btn-success "><span class="glyphicon glyphicon-edit"></span></button>
+                    <button data-form-id="@item.Id" title="تفاصيل  النموذج" class="js-Details  btn-xs btn-default "><span class="glyphicon glyphicon-book"></span></button>
+                    <button data-form-id="@item.Id" title="تعديل اسم النموذج" class="js-Edit  btn-xs btn-success "><span class="glyphicon glyphicon-edit"></span></button>
 
 
 
 
 
-                        if (CheckDelete.checkFormDelete(item.Id) == true)
-                        {
-                            <button data-form-id="@item.Id" title="حذف النموذج المحدد" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
-                        }
+                    if (CheckDelete.checkFormDelete(item.Id) == true)
+                    {
+                        <button data-form-id="@item.Id" title="حذف النموذج المحدد" class="js-delete btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                    }
 
 
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                خيارات إضافية
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            خيارات إضافية
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
 
-                                    <a href="@Url.Action("Index", "Fields", new { id = item.Id })" title="الحقول الخاصة بالنموذج" class="btn-link btn-sm">الحقول الخاصة بالنموذج</a>
+                                <a href="@Url.Action("Index", "Fields", new { id = item.Id })" title="الحقول الخاصة بالنموذج" class="btn-link btn-sm">الحقول الخاصة بالنموذج</a>
 
-                                </li>
-                                <li>
+                            </li>
+                            <li>
 
-                                    <a href="@Url.Action("Create", "FormDepartments", new { id = item.Id })" title="إضافة أقسام" class="btn-link  btn-sm">إضافة أقسام</a>
+                                <a href="@Url.Action("Create", "FormDepartments", new { id = item.Id })" title="إضافة أقسام" class="btn-link  btn-sm">إضافة أقسام</a>
 
-                                </li>
+                            </li>
 
-                                <li>
+                            <li>
 
-                                    <a href="@Url.Action("Index", "FormDepartments", new { id = item.Id })" title="الأقسام المتوفرة" class="btn-link  btn-sm"> الأقسام المتوفرة</a>
+                                <a href="@Url.Action("Index", "FormDepartments", new { id = item.Id })" title="الأقسام المتوفرة" class="btn-link  btn-sm"> الأقسام المتوفرة</a>
 
-                                </li>
+                            </li>
 
-                                <li>
+                            <li>
 
-                                    <a href="@Url.Action("Create", "FormGroups", new { id = item.Id })" title="إضافة مجموعات للنموذج" class="btn-link  btn-sm">إضافة مجموعات</a>
+                                <a href="@Url.Action("Create", "FormGroups", new { id = item.Id })" title="إضافة مجموعات للنموذج" class="btn-link  btn-sm">إضافة مجموعات</a>
 
-                                </li>
+                            </li>
 
-                                <li>
+                            <li>
 
-                                    <a href="@Url.Action("Index", "FormGroups", new { id = item.Id })" title=" المجموعات الخاصة للنموذج" class="btn-link  btn-sm">المجموعات المتوفرة</a>
+                                <a href="@Url.Action("Index", "FormGroups", new { id = item.Id })" title=" المجموعات الخاصة للنموذج" class="btn-link  btn-sm">المجموعات المتوفرة</a>
 
-                                </li>
+                            </li>
 
 
-                            </ul>
-                        </div>
+                        </ul>
+                    </div>
 
 
 

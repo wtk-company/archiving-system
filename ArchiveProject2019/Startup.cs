@@ -43,7 +43,7 @@ namespace ArchiveProject2019
             ApplicationRoles role=new ApplicationRoles();
             if(!roleManager.RoleExists("Master"))
             {
-                role.Name = "Master";
+                role. Name = "Master";
                     
                 
 
@@ -87,7 +87,7 @@ namespace ArchiveProject2019
                 //Add Permission To DB:
                 if(!PermissionsDb.Any(a=>a.Action.Equals(myPermission.ActionName,StringComparison.OrdinalIgnoreCase)))
                 {
-                    per = new Permission() { PermissionName=myPermission.Name,Action=myPermission.ActionName,TypeUser=myPermission.Type,
+                    per = new Permission() { Name=myPermission.Name,Action=myPermission.ActionName,TypeUser=myPermission.Type,
                     TypeMaster=myPermission.TypeMaster};
 
                     db.Permissions.Add(per);
@@ -138,7 +138,7 @@ namespace ArchiveProject2019
             IEnumerable<TypeMail> Mails = TypeOfMailStartup.GetTypes();
             foreach(TypeMail m in Mails)
             {
-                if(!db.TypeMails.Any(a=>a.TypeMailName.Equals(m.TypeMailName)))
+                if(!db.TypeMails.Any(a=>a.Name.Equals(m.Name)))
                 {
                     db.TypeMails.Add(m);
                 }
@@ -156,7 +156,7 @@ namespace ArchiveProject2019
             IEnumerable<DocumentStatus> status = DocumentStatusStartUp.DocumentStatusList();
             foreach (DocumentStatus m in status)
             {
-                if (!db.DocumentStatuses.Any(a => a.StatusName.Equals(m.StatusName)))
+                if (!db.DocumentStatuses.Any(a => a.Name.Equals(m.Name)))
                 {
                     db.DocumentStatuses.Add(m);
                 }

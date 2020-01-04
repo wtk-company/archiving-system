@@ -14,7 +14,7 @@ namespace ArchiveProject2019.HelperClasses
 
             return new Form() {
 
-                FormName="النموذج التقليدي",
+                Name="النموذج التقليدي",
                 CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                 Type=1
 

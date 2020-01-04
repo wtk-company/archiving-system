@@ -88,11 +88,11 @@
 
 
         @Html.HiddenFor(a => Model.Document.FormId)
-        @Html.HiddenFor(a => Model.Document.DocName)
+        @Html.HiddenFor(a => Model.Document.Name)
         @Html.HiddenFor(a => Model.DocId)
         @Html.HiddenFor(a => Model.IsReplay)
 
-
+      
 
 
 
@@ -128,6 +128,8 @@
             </div>
         </div>
 
+        @if((bool) ViewBag.Gereralize==false){
+
         <div class="form-group">
             @*<div class="form-group">*@
             @Html.LabelFor(model => model.Document.KindId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -150,7 +152,7 @@
         </div>
 
 
-
+        
 
         <div class="form-group">
             @Html.LabelFor(model => model.Document.ResponsibleUserId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -170,6 +172,8 @@
             </div>
             @*</div>*@
         </div>
+
+        }
 
 
 
@@ -247,7 +251,7 @@
             {
                 <div class="form-group">
                     <div class="control-label col-md-2">
-                        @Model.FieldsValues.Fields[i].FieldName
+                        @Model.FieldsValues.Fields[i].Name
                     </div>
                     <div class="col-md-10">
                         @switch (Model.FieldsValues.Fields[i].Type)
@@ -285,7 +289,7 @@
 
                 @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
                 @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
-                @Html.HiddenFor(model => model.FieldsValues.Fields[i].FieldName)
+                @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
             }
         }
 
@@ -334,12 +338,12 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("الملف", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Document.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <button type="button" class="btn btn-info" onclick="scanToJpg();">مسح ضوئي</button>
             </div>
         </div>
-
+        
         <div id="images"></div>
         <hr />
 

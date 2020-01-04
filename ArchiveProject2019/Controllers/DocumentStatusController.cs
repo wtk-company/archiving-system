@@ -22,7 +22,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
        [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusIndex")]
 
         public ActionResult Index(string Id = "none")
@@ -42,7 +42,7 @@ namespace ArchiveProject2019.Controllers
             return View(Status.OrderByDescending(a=>a.CreatedAt).ToList());
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusCreate")]
 
         public ActionResult Create()
@@ -58,16 +58,16 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusCreate")]
 
-        public ActionResult Create([Bind(Include = "Id,StatusName,CreatedAt")] DocumentStatus Status)
+        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] DocumentStatus Status)
 
         {
             ViewBag.Current = "DocumentStatus";
 
 
-            if (_context.DocumentStatuses.Any(a => a.StatusName.Equals(Status.StatusName, StringComparison.OrdinalIgnoreCase)))
+            if (_context.DocumentStatuses.Any(a => a.Name.Equals(Status.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -94,9 +94,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة  حالة وثيقة جديدة   : " + Status.StatusName,
+                        Message = "تم إضافة  حالة وثيقة جديدة   : " + Status.Name,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -113,7 +113,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusEdit")]
 
         public ActionResult Edit(int? id)
@@ -131,7 +131,7 @@ namespace ArchiveProject2019.Controllers
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
 
-            ViewBag.OldName = status.StatusName;
+            ViewBag.OldName = status.Name;
             return View(status);
         }
 
@@ -139,7 +139,7 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusEdit")]
 
         public ActionResult Edit(DocumentStatus status,string OldName)
@@ -148,7 +148,7 @@ namespace ArchiveProject2019.Controllers
 
             ViewBag.Current = "DocumentStatus";
 
-            if (_context.DocumentStatuses.Where(a => a.Id != status.Id).Any(a => a.StatusName.Equals(status.StatusName, StringComparison.OrdinalIgnoreCase)))
+            if (_context.DocumentStatuses.Where(a => a.Id != status.Id).Any(a => a.Name.Equals(status.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
             if (ModelState.IsValid)
@@ -171,9 +171,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم حالة الوثيقة من : " + OldName + " إلى :" + status.StatusName
+                        Message = "تم تعديل اسم حالة الوثيقة من : " + OldName + " إلى :" + status.Name
                         ,
                         NotificationOwnerId = UserId
                     };
@@ -189,7 +189,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusDelete")]
 
         public ActionResult Delete(int? id)
@@ -214,7 +214,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusDelete")]
 
         public ActionResult Confirm(int? id)
@@ -239,9 +239,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف   حالة الوثائق : " + status.StatusName,
+                    Message = "تم حذف   حالة الوثائق : " + status.Name,
                     NotificationOwnerId = UserId
                 };
                 _context.Notifications.Add(notification);
@@ -254,7 +254,7 @@ namespace ArchiveProject2019.Controllers
         }
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentStatusDetails")]
 
         public ActionResult Details(int? id)

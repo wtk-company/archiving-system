@@ -1,4 +1,5 @@
-﻿using ArchiveProject2019.Models;
+﻿using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -25,9 +26,15 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+       // [AccessDeniedAuthorizeattribute(ActionName = "Access")]
+
         public ActionResult Index()
         {
+            //
+            if(false)
+            {
+                return RedirectToAction("ApplicationClosed", "ErrorController");
+            }
             return View();
         }
        

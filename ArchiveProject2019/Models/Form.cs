@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -13,33 +12,33 @@ namespace ArchiveProject2019.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "FormNameRequired")]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
-        [Display(Name = "FormName", ResourceType = typeof(main_lang))]
-        public string FormName { get; set; }
+        [Required(ErrorMessage ="يجب إدخال اسم الفورم")]
+        [Display(Name = "اسم النموذج ")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
 
+        public string Name { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ الإنشاء")]
         public string CreatedAt { get; set; }
 
+        [Display(Name = " اسم الشخص المنشىء ")]
 
-        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
         public string CreatedById { set; get; }
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
 
-        [Display(Name = "FormType", ResourceType = typeof(main_lang))]
         public int Type { set; get; }
 
-        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
 
 
-        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = "آخر تعديل  بواسطة")]
         public string UpdatedById { set; get; }
+
         [ForeignKey("UpdatedById")]
         public ApplicationUser UpdatedBy { set; get; }
 

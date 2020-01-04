@@ -64,6 +64,16 @@ namespace ArchiveProject2019.HelperClasses
         }
 
 
+
+        public static IEnumerable<int> UserDocumentTrend(string UserID)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            IEnumerable<int> myDoc = db.DocumentUsers.Where(a =>a.UserId.Equals(UserID)).Select(a => a.DocumentId);
+            return myDoc;
+
+        }
+
         public static IEnumerable<int> UserDocumentGroups(string UserID)
         {
             ApplicationDbContext db = new ApplicationDbContext();
@@ -96,6 +106,8 @@ namespace ArchiveProject2019.HelperClasses
             IEnumerable<int> Doc3 = UserDocumentGroups(UserId);
             IEnumerable<int> Doc4 = UserDeocumentNotification(UserId);
             IEnumerable<int> Doc5 = UserMyDepartmentDocument(UserId);
+            IEnumerable<int> Doc6 =UserDocumentTrend(UserId);
+
             IEnumerable<int> AllDoc = Doc1.Union(Doc2).Union(Doc3).Union(Doc4).Union(Doc5);
             return AllDoc;
 
@@ -172,7 +184,7 @@ namespace ArchiveProject2019.HelperClasses
                 s1 = s1.Replace("-", "/");
                 return DateTime.ParseExact(s1, "yyyy/MM/dd", null) == s2;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
 

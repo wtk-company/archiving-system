@@ -27,7 +27,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Document.Form.FormName)
+            @Html.DisplayFor(model => model.Document.Form.Name)
         </dd>
 
         <dt>
@@ -39,11 +39,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Document.Kind.KindName)
+            @Html.DisplayNameFor(model => model.Document.Kind.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Document.Kind.KindName)
+            @Html.DisplayFor(model => model.Document.Kind.Name)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Document.Subject)
@@ -61,11 +61,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Document.TypeMail.TypeMailName)
+            @Html.DisplayNameFor(model => model.Document.TypeMail.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Document.TypeMail.TypeMailName)
+            @Html.DisplayFor(model => model.Document.TypeMail.Name)
         </dd>
 
         @if (Model.Document.TypeMailId == 1)
@@ -86,11 +86,11 @@
                 @Html.DisplayFor(model => model.Document.MailingDate)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Document.Party.PartyName)
+                @Html.DisplayNameFor(model => model.Document.Party.Name)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.Document.Party.PartyName)
+                @Html.DisplayFor(model => model.Document.Party.Name)
             </dd>
         }
 
@@ -141,7 +141,7 @@
             else
             {
                 var urls = Model.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
-                var names = Model.Document.DocName.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                var names = Model.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
 
                 for (int i = 0; i < urls.Length; i++)
                 {

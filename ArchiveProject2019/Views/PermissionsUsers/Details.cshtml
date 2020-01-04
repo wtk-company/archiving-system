@@ -27,18 +27,18 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Permission.PermissionName)
+            @Html.DisplayFor(model => model.Permission.Name)
         </dd>
 
 
 
 
         <dt>
-            @Html.DisplayNameFor(model => model.Active)
+            @Html.DisplayNameFor(model => model.Is_Active)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Active)
+            @Html.DisplayFor(model => model.Is_Active)
         </dd>
 
 
@@ -49,7 +49,7 @@
 
 
         <dd>
-            @Html.DisplayFor(model => model.CreatedAt)
+            @Html.DisplayFor(model => model.CreatedBy.FullName)
         </dd>
 
         <dd>
@@ -57,7 +57,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CreatedAt)
+            @Html.DisplayNameFor(model => model.CreatedById)
         </dt>
     
 

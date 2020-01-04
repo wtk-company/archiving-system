@@ -23,7 +23,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsIndex")]
  
         public ActionResult Index(string Id = "none")
@@ -43,7 +43,7 @@ namespace ArchiveProject2019.Controllers
             return View(DocKinds.OrderBy(a=>a.CreatedAt).ToList());
         }
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsCreate")]
 
         public ActionResult Create()
@@ -57,14 +57,14 @@ namespace ArchiveProject2019.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsCreate")]
-        public ActionResult Create([Bind(Include = "Id,KindName,CreatedAt")] Kind Kind)
+        public ActionResult Create([Bind(Include = "Id,Name,CreatedAt")] Kind Kind)
 
         {
             ViewBag.Current = "Kinds";
 
-            if (_context.Kinds.Any(a => a.KindName.Equals(Kind.KindName, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Kinds.Any(a => a.Name.Equals(Kind.Name, StringComparison.OrdinalIgnoreCase)))
             {
                 return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -89,9 +89,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة نوع جديد من الوثائق : " + Kind.KindName,
+                        Message = "تم إضافة نوع جديد من الوثائق : " + Kind.Name,
                         NotificationOwnerId = UserId
                     };
                     _context.Notifications.Add(notification);
@@ -109,7 +109,7 @@ namespace ArchiveProject2019.Controllers
 
        
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsEdit")]
 
         public ActionResult Edit(int? id)
@@ -129,7 +129,7 @@ namespace ArchiveProject2019.Controllers
 
             }
 
-            ViewBag.OldName = kinds.KindName;
+            ViewBag.OldName = kinds.Name;
             return View(kinds);
         }
 
@@ -137,12 +137,12 @@ namespace ArchiveProject2019.Controllers
         [ValidateAntiForgeryToken]
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsEdit")]
         public ActionResult Edit(Kind kinds,string OldName)
 
         {
-            if (_context.Kinds.Where(a => a.Id != kinds.Id).Any(a => a.KindName.Equals(kinds.KindName, StringComparison.OrdinalIgnoreCase)))
+            if (_context.Kinds.Where(a => a.Id != kinds.Id).Any(a => a.Name.Equals(kinds.Name, StringComparison.OrdinalIgnoreCase)))
                 return RedirectToAction("Index", new { Id = "EditError" });
 
            
@@ -171,9 +171,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Is_Active = false,
+                        Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل اسم نوع الوثائق من : " + OldName + " إلى :" + kinds.KindName
+                        Message = "تم تعديل اسم نوع الوثائق من : " +OldName+" إلى :"+kinds.Name
                         ,
                         NotificationOwnerId = UserId
                     };
@@ -190,7 +190,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
 
         public ActionResult Delete(int? id)
@@ -223,7 +223,7 @@ namespace ArchiveProject2019.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDelete")]
         public ActionResult Confirm(int? id)
         {
@@ -244,9 +244,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Is_Active = false,
+                    Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف نوع من الوثائق : " + kind.KindName,
+                    Message = "تم حذف نوع من الوثائق : " + kind.Name,
                     NotificationOwnerId = UserId
                 };
                 _context.Notifications.Add(notification);
@@ -257,7 +257,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-        [Authorize]
+        
         [AccessDeniedAuthorizeattribute(ActionName = "DocumentKindsDetails")]
 
         public ActionResult Details(int? id)

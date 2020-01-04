@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -14,46 +13,48 @@ namespace ArchiveProject2019.Models
         public int Id { get; set; }
 
 
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "FieldNameRequired")]
-        [Display(Name = "FieldName", ResourceType = typeof(main_lang))]
-        public string FieldName { get; set; }
+        [Required(ErrorMessage ="يجب إدخال اسم الحقل")]
+        [Display(Name = "اسم الحقل")]
+        public string Name { get; set; }
 
 
-        [Display(Name = "IsRequired", ResourceType = typeof(main_lang))]
+        [Display(Name = "ضروري؟ ")]
         public bool IsRequired { set; get; }
 
 
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "FieldNameRequired")]
-        [Display(Name = "Type", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessage = "يجب إدخال انمط")]
+        [Display(Name = "النمط")]
         public string Type { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ الإنشاء")]
         public string CreatedAt { get; set; }
 
 
         // Relate with User Table For Create By.
-        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = " أنشأ بواسطة ")]
         public string CreatedById { set; get; }
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
 
+
+
         //Update Informations:
-        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
+
+        [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
 
-
-        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = "آخر تعديل  بواسطة")]
         public string UpdatedById { set; get; }
+
         [ForeignKey("UpdatedById")]
         public ApplicationUser UpdatedBy { set; get; }
 
-
         // Relate with Form Table
-        [Display(Name = "FormId", ResourceType = typeof(main_lang))]
+        [Display(Name = " النموذج")]
         public int FormId { get; set; }
         [ForeignKey("FormId")]
         public Form Form { get; set; }

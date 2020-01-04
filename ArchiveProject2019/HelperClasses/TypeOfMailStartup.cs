@@ -13,10 +13,10 @@ namespace ArchiveProject2019.HelperClasses
 
             return new List<TypeMail>() {
 
-                new TypeMail(){TypeMailName="وارد",Type=1,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
-                new TypeMail(){TypeMailName="صادر",Type=2,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
-                new TypeMail(){TypeMailName="داخلي",Type=3,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
-                new TypeMail(){TypeMailName="أرشيف",Type=4,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
+                new TypeMail(){Name="وارد",Type=1,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
+                new TypeMail(){Name="صادر",Type=2,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
+                new TypeMail(){Name="داخلي",Type=3,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
+                new TypeMail(){Name="أرشيف",Type=4,CreatedAt=DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss")},
 
 
             };

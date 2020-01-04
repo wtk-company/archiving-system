@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
-using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -14,48 +13,50 @@ namespace ArchiveProject2019.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "JobNameRequired")]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
-        [Display(Name = "JobName", ResourceType = typeof(main_lang))]
-        public string JobName { get; set; }
+        [Display(Name = "الاسم الوظيفي ")]
+        [Required(ErrorMessage = "يجب إدخال اسم القسم")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر من 2")]
+        public string Name { get; set; }
 
 
 
-        [Display(Name = "Symbol", ResourceType = typeof(main_lang))]
+        [Display(Name = "الرمز الوظيفي  ")]
+      
         [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "يجب أن يكون طول الاسم أكبر  من 2")]
         public string Symbol { get; set; }
 
+        [Display(Name = "العدد الأعظمي للأعضاء")]
 
-
-        [Display(Name = "MaximumMember", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "MaximumMemberRequired")]
-        [Range(1,100, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "MaximumMemberRange")]
+        [Required(ErrorMessage ="يجب إدخال العدد الأعظمي")]
+        [Range(1,100,ErrorMessage ="يجب أن يكون العدد منطقي")]
         public int MaximumMember { set; get; }
 
 
-
-        [Display(Name = "TypeOfDisplayForm", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "TypeOfDisplayFormRequired")]
+        [Display(Name="نمط إظهار النماذج")]
+        [Required(ErrorMessage ="يجب إختيار نمط إظهار النماذج")]
         public int TypeOfDisplayForm { set; get; }
 
 
 
 
-        [Display(Name = "TypeOfDisplayDocument", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "TypeOfDisplayDocumentRequired")]
-        public int TypeOfDisplayDocument { set; get; }
 
 
 
 
-        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "نمط إظهار الوثائق")]
+        [Required(ErrorMessage = "يجب إختيار نمط إظهار الوثائق")]
+        public int TypeOfDisplayDocument{ set; get; }
+
+
+
+
+
+        [Display(Name = "تاريخ الإنشاء")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string CreatedAt { get; set; }
-
-
-
-        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = "تم الإنشاء بواسطة ")]
         public string CreatedById { set; get; }
+
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
@@ -66,21 +67,22 @@ namespace ArchiveProject2019.Models
 
         //Update Informations:
 
-        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
 
 
 
-        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = "آخر تعديل  بواسطة")]
         public string UpdatedById { set; get; }
+
         [ForeignKey("UpdatedById")]
         public ApplicationUser UpdatedBy { set; get; }
-
-
-        /// 
-        /// Collections:
-        /// 
         public  ICollection<ApplicationUser> Users{ set; get; }
+
+
+
+
+
     }
 }

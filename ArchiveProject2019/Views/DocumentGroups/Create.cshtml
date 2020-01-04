@@ -28,7 +28,7 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.GroupName)
+                    @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th>
                     @Html.DisplayName("اختر المجموعة")
@@ -43,7 +43,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.GroupName)
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
                         <input style="width:20px;height:20px;opacity:0.5;vertical-align:middle;cursor:pointer" type="checkbox" name="Groups" value="@item.Id" />

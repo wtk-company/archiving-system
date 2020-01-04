@@ -12,7 +12,8 @@ namespace ArchiveProject2019.Models
         [Key]
         public int Id { get; set; }
 
-        
+
+       
         public string UserId { set; get; }
         [ForeignKey("UserId")]
         public ApplicationUser User { set; get; }
@@ -22,5 +23,8 @@ namespace ArchiveProject2019.Models
         public int FormId { set; get; }
         [ForeignKey("FormId")]
         public virtual Form Form { set; get; }
+
+
+
     }
 }

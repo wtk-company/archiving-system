@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -49,192 +48,181 @@ namespace ArchiveProject2019.Models
 
     public class LoginViewModel
     {
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "UserNameRequired")]
-        [Display(Name = "UserName", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessage = "يجب إدخال اسم المستخدم")]
+
+        [Display(Name = "اسم المستخدم")]
+       
         public string UserName { get; set; }
 
+        [Required(ErrorMessage = "يجب إدخال كلمة المرور ")]
 
-
-
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "PasswordRequired")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password", ResourceType = typeof(main_lang))]
+        [Display(Name = "كلمة المرور")]
         public string Password { get; set; }
 
-
-
-
-        [Display(Name = "RememberMe", ResourceType = typeof(main_lang))]
+        [Display(Name = "تذكرني")]
         public bool RememberMe { get; set; }
     }
 
     public class RegisterViewModel
     {
-        [EmailAddress(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "EmailRequired")]
-        [Display(Name = "Email", ResourceType = typeof(main_lang))]
+       // [Required(ErrorMessage ="يجب إدخال البريد الالكتروني")]
+        [EmailAddress(ErrorMessage ="يجب أن يكون بريد إلكتروني")]
+        [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; }
 
+
+
+
         
-
-        [Display(Name = "DepartmentId", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "DepartmentRequired")]
-        public int DepartmentId { get; set; }
-
+        [Display(Name = "القسم")]
+        [Required(ErrorMessage ="يجب إدخال القسم")]
+        public int DepartmentID { get; set; }
 
 
 
-        [Display(Name = "JobTitleId", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "JobTitleRequired")]
+
+        [Display(Name = "المسمى الوظيفي")]
+        [Required(ErrorMessage = "يجب إدخال المسمى الوظيفي")]
         public int JobTitleId { get; set; }
 
 
-        
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "FullNameRequired")]
-        [Display(Name = "FullName", ResourceType = typeof(main_lang))]
-        [StringLength(50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
+
+
+
+        [Required(ErrorMessage = "يجب إدخال الاسم الثلاثي ")]
+        [Display(Name = "الاسم الثلاثي")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "طول الاسم الثلاثي  يجب أن يكون بين 3 و 50 محرف")]
         public string FullName { get; set; }
 
 
-
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "UserNameRequired")]
-        [StringLength(50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
-        [Display(Name = "UserName", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessage = "يجب إدخال اسم المستخدم ")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "طول  اسم المستخدم يجب أن يكون بين 3 و 50 محرف")]
+        [Display(Name = "اسم المستخدم")]
         public string UserName { get; set; }
 
 
-        
-        [Display(Name = "Gender", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "GenderRequired")]
+
+
+        [Display(Name ="الجنس")]
+        [Required(ErrorMessage ="يجب إختيار الجنس")]
         public string Gender { set; get; }
 
 
-
-        [Display(Name = "Role", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "RoleRequired")]
+        [Display(Name ="الدور")]
+        [Required(ErrorMessage ="يجب إختيار الدور")]
         public string Role { set; get; }
 
 
 
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "PasswordRequired")]
-        [StringLength(50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "PasswordLength")]
+        [Required(ErrorMessage ="يجب إدخال كلمة السر")]
+        [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 5", MinimumLength =6 )]
         [DataType(DataType.Password)]
-        [Display(Name = "Password", ResourceType = typeof(main_lang))]
+        [Display(Name = "كلمة السر")]
         public string Password { get; set; }
 
-
-
         [DataType(DataType.Password)]
-        [Display(Name = "ConfirmPassword", ResourceType = typeof(main_lang))]
-        [Compare("ConfirmPassword", ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "ConfirmPasswordCompare")]
+        [Display(Name = "تأكيد كلمة السر")]
+        [Compare("Password", ErrorMessage = "كلمة السر وتأكيدها غير متوافقتين، يرجى إعادةالأدخال ")]
         public string ConfirmPassword { get; set; }
     }
 
     public class EditProfileViewModel
     {
         public string Id { set; get; }
-
-
-
-        [EmailAddress(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "EmailRequired")]
-        [Display(Name = "Email", ResourceType = typeof(main_lang))]
+        //[Required(ErrorMessage = "يجب إدخال البريد الالكتروني")]
+        [EmailAddress(ErrorMessage = "يجب أن يكون بريد إلكتروني")]
+        [Display(Name = "البريد الإلكتروني")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "يجب إدخال الاسم الثلاثي ")]
+        [Display(Name = "الاسم الثلاثي")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "طول الاسم الثلاثي  يجب أن يكون بين 3 و 50 محرف")]
 
-
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "FullNameRequired")]
-        [Display(Name = "FullName", ResourceType = typeof(main_lang))]
-        [StringLength(50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
         public string FullName { get; set; }
 
-
-
-
-        [Display(Name = "Gender", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "GenderRequired")]
+        [Display(Name = "الجنس")]
+        [Required(ErrorMessage = "يجب إختيار الجنس")]
         public string Gender { set; get; }
 
 
-
-
-        [Display(Name = "Role", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "RoleRequired")]
+        [Display(Name = "الدور")]
+        [Required(ErrorMessage = "يجب إختيار الدور")]
         public string Role { set; get; }
 
 
 
 
 
-        [Display(Name = "DepartmentId", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "DepartmentRequired")]
-        public int DepartmentId { get; set; }
+        [Display(Name = "القسم")]
+        [Required(ErrorMessage = "يجب إدخال القسم")]
+        public int DepartmentID { get; set; }
 
 
-        
-        [Display(Name = "JobTitleId", ResourceType = typeof(main_lang))]
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "JobTitleRequired")]
+
+
+        [Display(Name = "المسمى الوظيفي")]
+        [Required(ErrorMessage = "يجب إدخال المسمى الوظيفي")]
         public int JobTitleId { get; set; }
 
 
-
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "UserNameRequired")]
-        [StringLength(50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
-        [Display(Name = "UserName", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessage = "يجب إدخال اسم المستخدم ")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "طول  اسم المستخدم يجب أن يكون بين 3 و 50 محرف")]
+        [Display(Name = "اسم المستخدم")]
         public string UserName { get; set; }
 
 
 
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "PasswordRequired")]
-        [StringLength(50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "PasswordLength")]
+
+        [Required(ErrorMessage = "يجب إدخال كلمة السر")]
+        [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 5", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password", ResourceType = typeof(main_lang))]
+        [Display(Name = "كلمة السر")]
         public string Password { get; set; }
 
 
 
+
+
         [DataType(DataType.Password)]
-        [Display(Name = "ConfirmPassword", ResourceType = typeof(main_lang))]
-        [Compare("ConfirmPassword", ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "ConfirmPasswordCompare")]
+        [Display(Name = "تأكيد كلمة السر")]
+        [Compare("Password", ErrorMessage = "كلمة السر وتأكيدها غير متوافقتين، يرجى إعادةالأدخال ")]
         public string ConfirmPassword { get; set; }
     }
 
 
-    public class EditUserNameAndPassword
-    {
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "OldUserNameRequired")]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
-        [Display(Name = "OldUserName", ResourceType = typeof(main_lang))]
+    public class EditUserNameAndPassword {
+
+        [Display(Name = "اسم المستخدم الحالي")]
+        [Required(ErrorMessage = "يجب الإدخال")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "طول  اسم المستخدم يجب أن يكون بين 3 و 50 محرف")]
+
         public string OldUserName { set; get; }
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "طول  اسم المستخدم يجب أن يكون بين 3 و 50 محرف")]
 
-
-
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NewUserNameRequired")]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
-        [Display(Name = "NewUserName", ResourceType = typeof(main_lang))]
+        [Display(Name = "اسم المستخدم الجديد")]
+        [Required(ErrorMessage = "يجب إدخال الاسم")]
         public string NewUserName { set; get; }
 
 
 
 
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "OldPasswordRequired")]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "PasswordLength")]
-        [Display(Name = "OldPassword", ResourceType = typeof(main_lang))]
+        [Required(ErrorMessage = "يجب إدخال كلمة السر")]
+        [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 5", MinimumLength = 6)]
         [DataType(DataType.Password)]
+        [Display(Name = "كلمة السر الحالية")]
         public string OldPassword { get; set; }
 
+        [Required(ErrorMessage = "يجب إدخال كلمة السر")]
+        [StringLength(100, ErrorMessage = "يجب أن تكون طول كلمة السر أكبر من 5", MinimumLength = 6)]
 
-
-
-        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NewPasswordRequired")]
-        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "PasswordLength")]
-        [Display(Name = "NewPassword", ResourceType = typeof(main_lang))]
         [DataType(DataType.Password)]
+        [Display(Name = "كلمة السر الجديدة")]
         public string NewPassword { get; set; }
 
-
-        
         [DataType(DataType.Password)]
-        [Display(Name = "ConfirmPassword", ResourceType = typeof(main_lang))]
-        [Compare("ConfirmPassword", ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "ConfirmPasswordCompare")]
+        [Display(Name = "تأكيدكلمةالسر")]
+        [Compare("NewPassword", ErrorMessage = "كلمة السر وتأكيدها غير متوافقتين، يرجى إعادةالأدخال ")]
         public string ConfirmPassword { get; set; }
     }
     public class ResetPasswordViewModel
@@ -246,8 +234,8 @@ namespace ArchiveProject2019.Models
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [Display(Name = "Password")]
         [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]

@@ -8,8 +8,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using ArchiveProject2019.Resources;
-
 
 namespace ArchiveProject2019.Models
 {
@@ -17,58 +15,67 @@ namespace ArchiveProject2019.Models
     public class ApplicationUser : IdentityUser
     {
 
+     
+        [Display(Name ="الاسم الثلاثي")]
 
-        [Display(Name = "FullName", ResourceType = typeof(main_lang))]
+
         public string FullName { set; get; }
-
-
-        [Display(Name = "Gender", ResourceType = typeof(main_lang))]
+        [Display(Name = " الجنس")]
+  
         public string Gender { set; get; }
 
 
 
-        [Display(Name = "DepartmentId", ResourceType = typeof(main_lang))]
+        [Display(Name = "القسم")]
         public int? DepartmentId { set; get; }
+
+
+
         [ForeignKey("DepartmentId")]
+
         public virtual Department Department { set; get; }
 
 
-
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ الإنشاء")]
         public string CreatedAt { get; set; }
-
-
-
+        
         //Users Control:
-        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = " اسم الشخص المنشىء ")]
         public string CreatedById { set; get; }
+
+
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
+     
 
+        [Display(Name = " اسم الدور ")]
 
-        [Display(Name = "RoleName", ResourceType = typeof(main_lang))]
         public string RoleName { set; get; }
 
 
 
-        [Display(Name = "JobTitleId", ResourceType = typeof(main_lang))]
+
+
+        [Display(Name = "الدور الوظيفي")]
         public int? JobTitleId { set; get; }
+
+
+
         [ForeignKey("JobTitleId")]
+
         public virtual JobTitle jobTitle { set; get; }
 
 
 
-        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
+
+        [Display(Name = "تاريخ آخر تعديل ")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
         public string UpdatedAt { get; set; }
 
-
-
-
-        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
-        public string UpdatedById { set; get; }
+        [Display(Name = "آخر تعديل  بواسطة")]
+        public string UpdatedByID { set; get; }
 
 
         public bool IsDefaultMaster { set; get; }
@@ -90,24 +97,33 @@ namespace ArchiveProject2019.Models
         public ICollection<PermissionRole> PermissionRoles { set; get; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ الإنشاء")]
         public string CreatedAt { get; set; }
-
+        
         //Users Control:
-        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = " اسم الشخص المنشىء ")]
         public string CreatedById { set; get; }
+
+
+
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
 
-
         //Update Details:
+
+
+
+
+
+
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
+        [Display(Name = "تاريخ التعديل")]
         public string UpdatedAt { get; set; }
 
-        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
+        [Display(Name = "آخر تعديل  بواسطة")]
         public string UpdatedById { set; get; }
+
         [ForeignKey("UpdatedById")]
         public ApplicationUser UpdatedBy { set; get; }
 
