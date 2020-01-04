@@ -239,15 +239,9 @@
     <Compile Include="HelperClasses\UserDocumentsID.cs" />
     <Compile Include="HelperClasses\UserRelatedDocumentsId.cs" />
     <Compile Include="HelperClasses\UsersDepartmentAndGroupsForms.cs" />
-<<<<<<< HEAD
     <Compile Include="Migrations\202001011051024_ah-force.cs" />
     <Compile Include="Migrations\202001011051024_ah-force.Designer.cs">
       <DependentUpon>202001011051024_ah-force.cs</DependentUpon>
-=======
-    <Compile Include="Migrations\202001031513114_initial_____.cs" />
-    <Compile Include="Migrations\202001031513114_initial_____.Designer.cs">
-      <DependentUpon>202001031513114_initial_____.cs</DependentUpon>
->>>>>>> parent of 20763e7... last
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1132,17 +1126,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <EmbeddedResource Include="Migrations\202001011051024_ah-force.resx">
       <DependentUpon>202001011051024_ah-force.cs</DependentUpon>
-=======
-    <EmbeddedResource Include="Migrations\202001031513114_initial_____.resx">
-      <DependentUpon>202001031513114_initial_____.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\main_lang.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>main_lang.Designer.cs</LastGenOutput>
->>>>>>> parent of 20763e7... last
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
