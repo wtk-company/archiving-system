@@ -167,15 +167,19 @@
                 <div class="form-group">*@
             @Html.LabelFor(model => model.Document.TypeMailId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
-                @Html.DropDownListFor(model => model.Document.TypeMailId, (SelectList)ViewBag.TypeMailId, "اختر نوع البريد", htmlAttributes: new { @class = "form-control chosen-select", @id = "TOGGLETypeOfMail" })
+                @Html.DropDownListFor(model => model.Document.TypeMailId, (SelectList) ViewBag.TypeMailId, "اختر نوع البريد", htmlAttributes: new { @class = "form-control chosen-select", @id = "TOGGLETypeOfMail" })
                 @Html.ValidationMessageFor(model => model.Document.TypeMailId, "", new { @class = "text-danger" })
             </div>
             @*</div>*@
         </div>
 
+<<<<<<< HEAD
         }
 
 
+=======
+        
+>>>>>>> parent of 20763e7... last
 
         <div class="TakeMail">
             <div class="form-group">
