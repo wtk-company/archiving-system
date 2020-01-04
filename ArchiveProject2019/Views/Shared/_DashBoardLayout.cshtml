@@ -43,8 +43,24 @@
             background-color: White;
             z-index: 999;
         }
+
+        .chosen-container-multi .chosen-choices {
+            /*border-radius: 10px;*/
+            box-shadow: inset 0px 1px 2px rgba(0,0,0,0.3);
+            border: none;
+            height: 34px !important;
+            cursor: text;
+            margin-top: 30px;
+            padding-left: 15px;
+            border-bottom: 1px solid #ddd;
+            width: 285px;
+            text-indent: 0;
+            margin-left: 30px;
+            font-size: 16px;
+        }
     </style>
     @Styles.Render("~/Content/DashBoardCss")
+    
 
 </head>
 <!-- /header content -->
@@ -468,6 +484,10 @@
 
 @* this is for fill table with datatablejs *@
 <script>
+
+        $(".chosen").chosen({
+                display_disabled_options: true
+        })
 
 
         $(document).ready(function () {

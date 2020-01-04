@@ -7,13 +7,13 @@ namespace ArchiveProject2019.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class initial_____ : IMigrationMetadata
+    public sealed partial class raeedInitialModel : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial_____));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(raeedInitialModel));
         
         string IMigrationMetadata.Id
         {
-            get { return "202001031513114_initial_____"; }
+            get { return "202001040001582_raeedInitialModel"; }
         }
         
         string IMigrationMetadata.Source

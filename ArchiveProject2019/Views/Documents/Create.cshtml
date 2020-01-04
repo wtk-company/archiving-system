@@ -92,7 +92,7 @@
         @Html.HiddenFor(a => Model.DocId)
         @Html.HiddenFor(a => Model.IsReplay)
 
-      
+
 
 
 
@@ -165,13 +165,13 @@
                 <div class="form-group">*@
             @Html.LabelFor(model => model.Document.TypeMailId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
-                @Html.DropDownListFor(model => model.Document.TypeMailId, (SelectList) ViewBag.TypeMailId, "اختر نوع البريد", htmlAttributes: new { @class = "form-control chosen-select", @id = "TOGGLETypeOfMail" })
+                @Html.DropDownListFor(model => model.Document.TypeMailId, (SelectList)ViewBag.TypeMailId, "اختر نوع البريد", htmlAttributes: new { @class = "form-control chosen-select", @id = "TOGGLETypeOfMail" })
                 @Html.ValidationMessageFor(model => model.Document.TypeMailId, "", new { @class = "text-danger" })
             </div>
             @*</div>*@
         </div>
 
-        
+
 
         <div class="TakeMail">
             <div class="form-group">
@@ -339,7 +339,7 @@
                 <button type="button" class="btn btn-info" onclick="scanToJpg();">مسح ضوئي</button>
             </div>
         </div>
-        
+
         <div id="images"></div>
         <hr />
 
