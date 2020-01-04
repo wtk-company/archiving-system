@@ -71,7 +71,7 @@ namespace ArchiveProject2019.Controllers
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesCreate")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Symbol,MaximumMember")] JobTitle jobTitle)
+        public ActionResult Create([Bind(Include = "Id,JobName,Symbol,MaximumMember")] JobTitle jobTitle)
         {
             ViewBag.Current = "JobTitles";
 
@@ -79,7 +79,7 @@ namespace ArchiveProject2019.Controllers
             {
 
                 //Dublicated
-                if(db.JobTitles.Any(a=>a.Name.Equals(jobTitle.Name,StringComparison.OrdinalIgnoreCase)))
+                if(db.JobTitles.Any(a=>a.JobName.Equals(jobTitle.JobName,StringComparison.OrdinalIgnoreCase)))
                 {
                     return RedirectToAction("Index", new { Id = "CreateError" });
 
@@ -103,9 +103,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم إضافة مسمى وظيفي جديد : " + jobTitle.Name
+                        Message = "تم إضافة مسمى وظيفي جديد : " + jobTitle.JobName
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -137,7 +137,7 @@ namespace ArchiveProject2019.Controllers
             {
                 return RedirectToAction("HttpNotFoundError", "ErrorController");
             }
-            ViewBag.OldName = jobTitle.Name;
+            ViewBag.OldName = jobTitle.JobName;
 
             return View(jobTitle);
         }
@@ -149,7 +149,7 @@ namespace ArchiveProject2019.Controllers
 
         [Authorize]
         [AccessDeniedAuthorizeattribute(ActionName = "JobTitlesEdit")]
-        public ActionResult Edit([Bind(Include = "Id,Name,Symbol,MaximumMember,CreatedAt,CreatedById")] JobTitle jobTitle,string OldName)
+        public ActionResult Edit([Bind(Include = "Id,JobName,Symbol,MaximumMember,CreatedAt,CreatedById")] JobTitle jobTitle,string OldName)
         {
             ViewBag.Current = "JobTitles";
 
@@ -157,7 +157,7 @@ namespace ArchiveProject2019.Controllers
             {
 
 
-                if (db.Fields.Where(a => a.Id!=jobTitle.Id).Any(a => a.Name.Equals(jobTitle.Name, StringComparison.OrdinalIgnoreCase)) == true)
+                if (db.Fields.Where(a => a.Id!=jobTitle.Id).Any(a => a.FieldName.Equals(jobTitle.JobName, StringComparison.OrdinalIgnoreCase)) == true)
                 {
 
                     return RedirectToAction("Index", new {  Id = "EditError" });
@@ -202,9 +202,9 @@ namespace ArchiveProject2019.Controllers
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = user.Id,
-                        Message = "تم تعديل المسمى الوظيفي من :" + OldName + " إلى :" + jobTitle.Name
+                        Message = "تم تعديل المسمى الوظيفي من :" + OldName + " إلى :" + jobTitle.JobName
                        ,
                         NotificationOwnerId = UserId
                     };
@@ -272,9 +272,9 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
-                    Message = "تم حذف المسمى الوظيفي  : " + jobTitle.Name
+                    Message = "تم حذف المسمى الوظيفي  : " + jobTitle.JobName
                    ,
                     NotificationOwnerId = UserId
                 };

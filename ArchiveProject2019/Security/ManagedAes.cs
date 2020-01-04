@@ -11,9 +11,23 @@ namespace ArchiveProject2019.Security
 {
     public class ManagedAes
     {
+
+        public static bool IsSaveInDb = false;
+        public static bool IsCipher = false;
+
+
         // Encryption Key
         // private static string password = "wtk2019companypasswordwtkwtk2019companypasswordwtk";
         private static string password = "wtk2019companypassword";
+
+        public static byte[] DecodeUrlBase64(string s)
+        {
+            //s = s.Replace('-', '+').Replace('_', '/').PadRight(4 * ((s.Length + 3) / 4), '=');
+            var arrayOfString = s.Split(',');
+            return Convert.FromBase64String(arrayOfString[1]);
+        }
+
+
 
         /*
          * Core Encryption Code Start

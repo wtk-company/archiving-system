@@ -40,13 +40,13 @@ namespace ArchiveProject2019.Controllers
         {
             //Role
             ViewBag.Current = "Users";
-            ViewBag.Groups = new SelectList(db.Groups.ToList(), "Id", "Name");
+            ViewBag.Groups = new SelectList(db.Groups.ToList(), "Id", "GroupName");
 
             ViewBag.Role = new SelectList(db.Roles.Where(a => !a.Name.Equals("Master")).ToList(), "Name", "Name");
 
 
             ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name");
-            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name");
+            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "JobName");
 
 
 
@@ -74,11 +74,11 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Current = "Users";
 
             ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name");
-            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name");
+            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "JobName");
 
             ViewBag.Role = new SelectList(db.Roles.Where(a => !a.Name.Equals("Master")).ToList(), "Name", "Name", model.Role);
 
-            ViewBag.Groups = new SelectList(db.Groups.ToList(), "Id", "Name");
+            ViewBag.Groups = new SelectList(db.Groups.ToList(), "Id", "GroupName");
 
 
             if (ModelState.IsValid)
@@ -93,7 +93,7 @@ namespace ArchiveProject2019.Controllers
                     x = false;
                 }
 
-                if (CheckJobTitleDepartment.CheckJobTitleDepartmentCreateUser(model.DepartmentID, model.JobTitleId) == false)
+                if (CheckJobTitleDepartment.CheckJobTitleDepartmentCreateUser(model.DepartmentId, model.JobTitleId) == false)
                 {
 
                     ModelState.AddModelError("JobTitleId", "عددالأعضاء للقسم بالنسبة للمسمى الوظيفي وصل للحد الأعظمي");
@@ -125,7 +125,7 @@ namespace ArchiveProject2019.Controllers
                     Email = model.Email,
                     FullName = model.FullName,
                     Gender = model.Gender,
-                    DepartmentId = model.DepartmentID,
+                    DepartmentId = model.DepartmentId,
                     JobTitleId = model.JobTitleId,
                     CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss"),
                     CreatedById = this.User.Identity.GetUserId(),
@@ -158,12 +158,12 @@ namespace ArchiveProject2019.Controllers
 
                             NotificationTime= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                             db.UsersGroups.Add(UserGroup);
-                            GroupName = db.Groups.Find(UserGroup.GroupId).Name;
+                            GroupName = db.Groups.Find(UserGroup.GroupId).GroupName;
                             notification = new Notification()
                             {
 
                                 CreatedAt = NotificationTime,
-                                Active = false,
+                                Is_Active = false,
                                 UserId = user.Id,
                                 Message = "تم إضافتك   إلى المجموعة  :" + GroupName
              ,
@@ -331,11 +331,11 @@ namespace ArchiveProject2019.Controllers
                 UpdatedAt = User.UpdatedAt,
                 UserName = User.UserName,
                 DepartmentName = User.DepartmentId == null ? "" : db.Departments.Find(User.DepartmentId).Name,
-                JobTitle = User.JobTitleId == null ? "" : db.JobTitles.Find(User.JobTitleId).Name,
+                JobTitle = User.JobTitleId == null ? "" : db.JobTitles.Find(User.JobTitleId).JobName,
                 CreatedBy = string.IsNullOrEmpty(User.CreatedById) ? "" : UserManager.FindById(User.CreatedById).FullName,
                 RoleName = User.RoleName,
                 Email = User.Email,
-              UpdatedBy= User.UpdatedByID==null?"": db.Users.Find(User.UpdatedByID).FullName
+              UpdatedBy= User.UpdatedById==null?"": db.Users.Find(User.UpdatedById).FullName
             };
 
             return View(UserModel);
@@ -378,7 +378,7 @@ namespace ArchiveProject2019.Controllers
                 UserName=user.UserName,
                 Gender = user.Gender,
                 JobTitleId = user.JobTitleId == null ? 0 : user.JobTitleId.Value,
-                DepartmentID = user.DepartmentId == null ? 0 : user.DepartmentId.Value
+                DepartmentId = user.DepartmentId == null ? 0 : user.DepartmentId.Value
 
 
             };
@@ -394,7 +394,7 @@ namespace ArchiveProject2019.Controllers
                 var sl = new SelectListItem()
                 {
 
-                    Text = G.Name,
+                    Text = G.GroupName,
                     Value = G.Id.ToString(),
                     Selected = SelectedGroups.DefaultIfEmpty().Contains(G.Id) ? true : false
                 };
@@ -405,8 +405,8 @@ namespace ArchiveProject2019.Controllers
             ViewBag.Groups = ListSl;
 
 
-            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name", EProfile.DepartmentID);
-            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name", EProfile.JobTitleId);
+            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name", EProfile.DepartmentId);
+            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "JobName", EProfile.JobTitleId);
 
 
             return View(EProfile);
@@ -425,8 +425,8 @@ namespace ArchiveProject2019.Controllers
             string OldUserRole = db.Users.Find(EProfile.Id).RoleName;
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Id", "Name", EProfile.Role);
 
-            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name", EProfile.DepartmentID);
-            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "Name", EProfile.JobTitleId);
+            ViewBag.DepartmentID = new SelectList(DepartmentListDisplay.CreateDepartmentListDisplay(), "Id", "Name", EProfile.DepartmentId);
+            ViewBag.JobTitleId = new SelectList(db.JobTitles.ToList(), "Id", "JobName", EProfile.JobTitleId);
 
             List<int> SelectedGroups = new List<int>();
             SelectedGroups = db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id)).Select(a => a.GroupId).ToList();
@@ -437,7 +437,7 @@ namespace ArchiveProject2019.Controllers
                 sl = new SelectListItem()
                 {
 
-                    Text = G.Name,
+                    Text = G.GroupName,
                     Value = G.Id.ToString(),
                     Selected = SelectedGroups.DefaultIfEmpty().Contains(G.Id) ? true : false
                 };
@@ -477,7 +477,7 @@ namespace ArchiveProject2019.Controllers
 
                 if (!EProfile.Role.Equals("Master"))
                 {
-                    if (CheckJobTitleDepartment.CheckJobTitleDepartmentCreateUser(EProfile.DepartmentID, EProfile.JobTitleId, EProfile.Id) == false)
+                    if (CheckJobTitleDepartment.CheckJobTitleDepartmentCreateUser(EProfile.DepartmentId, EProfile.JobTitleId, EProfile.Id) == false)
                     {
 
                         ModelState.AddModelError("JobTitleId", "عددالأعضاء للقسم بالنسبة للمسمى الوظيفي وصل للحد الأعظمي");
@@ -520,7 +520,7 @@ namespace ArchiveProject2019.Controllers
                 user.PasswordHash = HashPassword;
 
                 user.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-               user.UpdatedByID = this.User.Identity.GetUserId();
+               user.UpdatedById = this.User.Identity.GetUserId();
                 
                 db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                 //Add User To Groups
@@ -537,7 +537,7 @@ namespace ArchiveProject2019.Controllers
                 {
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
                     UserId = user.Id,
                     Message = "تم تحديث معلوماتك الشخصية",
                     NotificationOwnerId = UserId
@@ -573,12 +573,12 @@ namespace ArchiveProject2019.Controllers
                         };
 
                         db.UsersGroups.Add(UserGroup);
-                        GroupName = db.Groups.Find(UserGroup.GroupId).Name;
+                        GroupName = db.Groups.Find(UserGroup.GroupId).GroupName;
                         notification = new Notification()
                         {
 
                             CreatedAt = NotificationTime,
-                            Active = false,
+                            Is_Active = false,
                             UserId = user.Id,
                             Message = "تم إضافتك   إلى المجموعة  :" + GroupName
           ,
@@ -596,12 +596,12 @@ namespace ArchiveProject2019.Controllers
                         deleteUserGroup = db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id) && a.GroupId.ToString().Equals(s)).SingleOrDefault();
 
                         db.UsersGroups.Remove(deleteUserGroup);
-                        GroupName = db.Groups.Find(deleteUserGroup.GroupId).Name;
+                        GroupName = db.Groups.Find(deleteUserGroup.GroupId).GroupName;
                         notification = new Notification()
                         {
 
                             CreatedAt = NotificationTime,
-                            Active = false,
+                            Is_Active = false,
                             UserId = user.Id,
                             Message = "تم إزالتك   من المجموعة  :" + GroupName
           ,
@@ -619,12 +619,12 @@ namespace ArchiveProject2019.Controllers
                     foreach (UserGroup ug in db.UsersGroups.Where(a => a.UserId.Equals(EProfile.Id)))
                     {
                         db.UsersGroups.Remove(ug);
-                        GroupName = db.Groups.Find(ug.GroupId).Name;
+                        GroupName = db.Groups.Find(ug.GroupId).GroupName;
                         notification = new Notification()
                         {
 
                             CreatedAt = NotificationTime,
-                            Active = false,
+                            Is_Active = false,
                             UserId = user.Id,
                             Message = "تم إزالتك   من المجموعة  :" + GroupName
           ,

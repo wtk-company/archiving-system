@@ -56,7 +56,7 @@ namespace ArchiveProject2019.Controllers
                 int HightGroupUsersC = db.UsersGroups.Count() == 0 ? 0 :
 
 
-                       db.UsersGroups.Include(a => a.Group).GroupBy(a => a.Group.Name).Select(a => new
+                       db.UsersGroups.Include(a => a.Group).GroupBy(a => a.Group.GroupName).Select(a => new
                        {
 
                            Key = a.Key,
@@ -69,7 +69,7 @@ namespace ArchiveProject2019.Controllers
                 if (HightGroupUsersC != 0)
                 {
                     List<string> GName = new List<string>();
-                    GName = db.UsersGroups.Include(a => a.Group).GroupBy(a => a.Group.Name).Select(a => new
+                    GName = db.UsersGroups.Include(a => a.Group).GroupBy(a => a.Group.GroupName).Select(a => new
                     {
 
                         Key = a.Key,
@@ -96,7 +96,7 @@ namespace ArchiveProject2019.Controllers
 
                 int HightFormUsingC = db.Documents.Count() == 0 ? 0 :
 
-                     db.Documents.Include(a => a.Form).GroupBy(a => a.Form.Name)
+                     db.Documents.Include(a => a.Form).GroupBy(a => a.Form.FormName)
                      .Select(a => new
                      {
 
@@ -108,7 +108,7 @@ namespace ArchiveProject2019.Controllers
                 if (HightFormUsingC != 0)
                 {
                     List<string> FName = new List<string>();
-                    FName = db.Documents.Include(a => a.Form).GroupBy(a => a.Form.Name)
+                    FName = db.Documents.Include(a => a.Form).GroupBy(a => a.Form.FormName)
                     .Select(a => new
                     {
 
@@ -148,7 +148,7 @@ namespace ArchiveProject2019.Controllers
 
                 int HightMailUsingC = db.Documents.Count() == 0 ? 0 :
 
-                    db.Documents.Include(a => a.TypeMail).GroupBy(a => a.TypeMail.Name)
+                    db.Documents.Include(a => a.TypeMail).GroupBy(a => a.TypeMail.TypeMailName)
                     .Select(a => new
                     {
 
@@ -160,7 +160,7 @@ namespace ArchiveProject2019.Controllers
                 if (HightMailUsingC != 0)
                 {
                     List<string> MName = new List<string>();
-                    MName = db.Documents.Include(a => a.TypeMail).GroupBy(a => a.TypeMail.Name)
+                    MName = db.Documents.Include(a => a.TypeMail).GroupBy(a => a.TypeMail.TypeMailName)
                     .Select(a => new
                     {
 
@@ -186,7 +186,7 @@ namespace ArchiveProject2019.Controllers
 
                 int HightDocumentKindUsingC = db.Documents.Include(a => a.Kind).Count(a => a.Kind != null) == 0 ? 0 :
 
-                  db.Documents.Include(a => a.Kind).GroupBy(a => a.Kind.Name)
+                  db.Documents.Include(a => a.Kind).GroupBy(a => a.Kind.KindName)
                   .Select(a => new
                   {
 
@@ -198,7 +198,7 @@ namespace ArchiveProject2019.Controllers
                 if (HightDocumentKindUsingC != 0)
                 {
                     List<string> MName = new List<string>();
-                    MName = db.Documents.Include(a => a.Kind).GroupBy(a => a.Kind.Name)
+                    MName = db.Documents.Include(a => a.Kind).GroupBy(a => a.Kind.KindName)
                     .Select(a => new
                     {
 
@@ -235,7 +235,7 @@ namespace ArchiveProject2019.Controllers
 
             info.DepartmentName = DepId == 0 ? "" : DepartmentListDisplay.CreateDepartmentDisplay(DepId);
             info.JobTitle = db.Users.Include(a => a.jobTitle).SingleOrDefault(a => a.Id.Equals(CurrentUserId)).JobTitleId == null ?
-             "" : db.Users.Include(a => a.jobTitle).SingleOrDefault(a => a.Id.Equals(CurrentUserId)).jobTitle.Name;
+             "" : db.Users.Include(a => a.jobTitle).SingleOrDefault(a => a.Id.Equals(CurrentUserId)).jobTitle.JobName;
 
 
             info.UserCreateAt = db.Users.Find(CurrentUserId).CreatedAt;
@@ -258,7 +258,7 @@ namespace ArchiveProject2019.Controllers
                 {
                     groupsUserInformation = new GroupsUserInformation();
 
-                    groupsUserInformation.Name = u.Group.Name;
+                    groupsUserInformation.Name = u.Group.GroupName;
                     groupsUserInformation.UsersCount = db.UsersGroups.Where(a => a.GroupId == u.GroupId).Count();
                     info.UserGroups.Add(groupsUserInformation);
                 }
@@ -378,7 +378,7 @@ namespace ArchiveProject2019.Controllers
             db.SaveChanges();
 
             string CurrentUserId = this.User.Identity.GetUserId();
-            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).OrderByDescending(a => a.CreatedAt).ToList();
+            List<Notification> Not = db.Notifications.Include(a => a.NotificationOwner).Where(a => a.UserId.Equals(CurrentUserId) && a.Is_Active == false).OrderByDescending(a => a.CreatedAt).ToList();
 
 
 
@@ -396,7 +396,7 @@ namespace ArchiveProject2019.Controllers
             string CurrentUserId = this.User.Identity.GetUserId();
 
             List<int> NotifId = db.Notifications.
-                Where(a => a.UserId.Equals(CurrentUserId) && a.Active == false).Select(a=>a.Id).ToList();
+                Where(a => a.UserId.Equals(CurrentUserId) && a.Is_Active == false).Select(a=>a.Id).ToList();
             foreach(int n in NotifId)
             {
                 Notification not = db.Notifications.Find(n);
@@ -454,7 +454,7 @@ namespace ArchiveProject2019.Controllers
 
 
                     CreatedAt = NotificationTime,
-                    Active = false,
+                    Is_Active = false,
             
                     Message  = "تنبيه للوثيقة :" + d.DocumentNumber + " "+" موضوع الوثيقة :" + d.Subject
                             + " ،عنوان الوثيقة :" + d.Address + "،وصف الوثيقة :" + d.Description
@@ -488,7 +488,7 @@ namespace ArchiveProject2019.Controllers
             s1 = s1.Replace("-", "/");
             return DateTime.ParseExact(s1, "yyyy/MM/dd", null) == s2;
             }
-            catch(Exception e)
+            catch(Exception )
             {
                 return false;
 

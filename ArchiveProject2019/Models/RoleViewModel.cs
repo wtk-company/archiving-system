@@ -3,33 +3,39 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
     public class RoleViewModel
     {
-
         public string Id { set; get; }
-        [Required(ErrorMessage = "يجب إدخال اسم الدور")]
-        [Display(Name = "اسم الدور ")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "طول الدور يجب أن يكون بين 3 و 50 محرف")]
 
-        public string Name { set; get; }
+
+
+        [Required(ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "RoleNameRequired")]
+        [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessageResourceType = typeof(main_lang), ErrorMessageResourceName = "NameLength")]
+        [Display(Name = "RoleName", ResourceType = typeof(main_lang))]
+        public string RoleName { set; get; }
+
         
-        [Display(Name = "تاريخ الإنشاء ")]
 
+        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
         public string CreatedAt { set; get; }
-        [Display(Name = " آخر تاريخ تحديث ")]
 
+
+        
+        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
         public string UpdatedAt { set; get; }
-        [Display(Name = "اسم المنشىء ")]
+        
 
+
+        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
         public string CreatedByFullName { set; get; }
-        [Display(Name = " آخر تحديث بواسطة")]
+        
 
+
+        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
         public string UpdatedByFullName { set; get; }
-
-
-
     }
 }

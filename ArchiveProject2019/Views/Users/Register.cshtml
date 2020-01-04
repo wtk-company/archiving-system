@@ -66,12 +66,12 @@
 
 
         <div class="form-group">
-            @Html.LabelFor(m => m.DepartmentID, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => m.DepartmentId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.DropDownList("DepartmentID", null, "اختر القسم",
 
        new { @class = "form-control", style = "padding:2px" })
-                @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
 
 
             </div>

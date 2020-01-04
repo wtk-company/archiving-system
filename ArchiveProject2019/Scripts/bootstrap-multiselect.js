@@ -406,7 +406,7 @@
             buttonContainer: '<div class="btn-group" />',
             dropRight: false,
             dropUp: false,
-            selectedClass: 'active',
+            selectedClass: 'Active',
             // Maximum height of the dropdown menu.
             // If maximum height is exceeded a scrollbar will be displayed.
             maxHeight: false,
@@ -471,7 +471,7 @@
             if (this.$select.attr('class') && this.options.inheritClass) {
                 this.$button.addClass(this.$select.attr('class'));
             }
-            // Adopt active state.
+            // Adopt Active state.
             if (this.$select.prop('disabled')) {
                 this.disable();
             }
@@ -630,7 +630,7 @@
                             this.$button.click();
                         }
 
-                        if (this.options.selectedClass === "active") {
+                        if (this.options.selectedClass === "Active") {
                             $optionsNotThis.closest("a").css("outline", "");
                         }
                     }

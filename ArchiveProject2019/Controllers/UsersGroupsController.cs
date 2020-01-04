@@ -104,12 +104,12 @@ namespace ArchiveProject2019.Controllers
 
 
                    NotificationTime= DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
-                    string GroupName = _context.Groups.Find(viewModel[i].GroupId).Name;
+                    string GroupName = _context.Groups.Find(viewModel[i].GroupId).GroupName;
                     notification = new Notification()
                     {
 
                         CreatedAt = NotificationTime,
-                        Active = false,
+                        Is_Active = false,
                         UserId = viewModel[i].UserId,
                         Message = "تم إضافتك   إلى المجموعة  :" + GroupName
                      ,
@@ -289,13 +289,13 @@ namespace ArchiveProject2019.Controllers
             string UserGroupId = UsersGroups.UserId;
             _context.UsersGroups.Remove(UsersGroups);
             _context.SaveChanges();
-            string GroupName = _context.Groups.Find(UsersGroups.GroupId).Name;
+            string GroupName = _context.Groups.Find(UsersGroups.GroupId).GroupName;
          
             notification = new Notification()
             {
 
                 CreatedAt = NotificationTime,
-                Active = false,
+                Is_Active = false,
                 UserId = UserGroupId,
                 Message = "تم إزالتك   من المجموعة  :" + GroupName
                 ,
