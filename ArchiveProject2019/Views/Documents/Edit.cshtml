@@ -22,7 +22,7 @@
 <div class="form-horizontal">
 
     @Html.HiddenFor(a => Model.Document.Id)
-    @Html.HiddenFor(a => Model.Document.DocName)
+    @Html.HiddenFor(a => Model.Document.Name)
     @Html.HiddenFor(a => Model.Document.FileUrl)
     @Html.HiddenFor(a => Model.Document.FormId)
     @Html.HiddenFor(a => a.Document.CreatedById)
@@ -195,7 +195,7 @@
 
             <div class="form-group">
                 <div class="control-label col-md-2">
-                    @Model.FieldsValues.Fields[i].FieldName
+                    @Model.FieldsValues.Fields[i].Name
                 </div>
 
                 <div class="col-md-11">
@@ -231,7 +231,7 @@
             @Html.HiddenFor(model => model.FieldsValues.Values[i].FieldId)
             @Html.HiddenFor(model => model.FieldsValues.Fields[i].IsRequired)
             @Html.HiddenFor(model => model.FieldsValues.Fields[i].Type)
-            @Html.HiddenFor(model => model.FieldsValues.Fields[i].FieldName)
+            @Html.HiddenFor(model => model.FieldsValues.Fields[i].Name)
         }
     }
 
@@ -274,7 +274,7 @@
             else
             {
                 var urls = Model.Document.FileUrl.Split(new string[] { "_##_" }, StringSplitOptions.None);
-                var names = Model.Document.DocName.Split(new string[] { "_##_" }, StringSplitOptions.None);
+                var names = Model.Document.Name.Split(new string[] { "_##_" }, StringSplitOptions.None);
 
                 <div id="fileForm">
                     @for (int i = 0; i < urls.Length; i++)
