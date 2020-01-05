@@ -47,9 +47,9 @@ namespace ArchiveProject2019.Models
                 new PermissionsControls() {Name=" تفاصيل اسناد الوثيقة للقسم",ActionName="DocumentDepartmentsDetails" ,Type=true,TypeMaster=false },
 
                 new PermissionsControls() {Name="تعديل إمكانية التعديل للوثيقة ضمن الاقسام",ActionName="DocumentDepartmentsActiveNonActiveEdit" ,Type=true,TypeMaster=false },
-                new PermissionsControls() {Name="تعديل إمكانية الرد للوثيقة ضمن الاقسام",ActionName="DocumentDepartmentsActiveNonActiveReplay" ,Type=true,TypeMaster=false },
-                new PermissionsControls() {Name="تعديل إمكانية التسديد للوثيقة ضمن الاقسام",ActionName="DocumentDepartmentsActiveNonActiveSeal" ,Type=true,TypeMaster=false },
-                new PermissionsControls() {Name=" تعديل إمكانية الربط للوثيقة ضمن الاقسام",ActionName="DocumentDepartmentsActiveNonActiveRelate" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name="تعديل إمكانية الرد للوثيقة ضمن الاقسام",ActionName="DocumentDepartmentsIs_ActiveNonIs_ActiveReplay" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name="تعديل إمكانية التسديد للوثيقة ضمن الاقسام",ActionName="DocumentDepartmentsIs_ActiveNonIs_ActiveSeal" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name=" تعديل إمكانية الربط للوثيقة ضمن الاقسام",ActionName="DocumentDepartmentsIs_ActiveNonIs_ActiveRelate" ,Type=true,TypeMaster=false },
 
 
 
@@ -63,10 +63,10 @@ namespace ArchiveProject2019.Models
                 new PermissionsControls() {Name="  إزالة الوثيقة من المستخدم",ActionName="DocumentUserDelete" ,Type=true,TypeMaster=false },
                 new PermissionsControls() {Name=" تفاصيل اسناد الوثيقة للمستخدم",ActionName="DocumentUserDelails" ,Type=true,TypeMaster=false },
 
-                new PermissionsControls() {Name="تعديل إمكانية التعديل للوثيقة ضمن المستخدمين",ActionName="DocumentUserActiveNonActiveEdit" ,Type=true,TypeMaster=false },
-                new PermissionsControls() {Name="تعديل إمكانية الرد للوثيقة ضمن المستخدمين",ActionName="DocumentUserActiveNonActiveReplay" ,Type=true,TypeMaster=false },
-                new PermissionsControls() {Name="تعديل إمكانية التسديد للوثيقة ضمن المستخدمين",ActionName="DocumentUserActiveNonActiveSeal" ,Type=true,TypeMaster=false },
-                new PermissionsControls() {Name=" تعديل إمكانية الربط للوثيقة ضمن المستخدمين",ActionName="DocumentUserActiveNonActiveRelate" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name="تعديل إمكانية التعديل للوثيقة ضمن المستخدمين",ActionName="DocumentUserIs_ActiveNonIs_ActiveEdit" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name="تعديل إمكانية الرد للوثيقة ضمن المستخدمين",ActionName="DocumentUserIs_ActiveNonIs_ActiveReplay" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name="تعديل إمكانية التسديد للوثيقة ضمن المستخدمين",ActionName="DocumentUserIs_ActiveNonIs_ActiveSeal" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name=" تعديل إمكانية الربط للوثيقة ضمن المستخدمين",ActionName="DocumentUserIs_ActiveNonIs_ActiveRelate" ,Type=true,TypeMaster=false },
 
 
 
@@ -74,15 +74,15 @@ namespace ArchiveProject2019.Models
 
 
 
-                new PermissionsControls() {Name="قائمة المجموعات الخاصة بالوثيقة ",ActionName="DocumentGroupsIndex",Type=true  ,TypeMaster=false  },
+                new PermissionsControls() {Name="قائمة المجموعات الخاصة بالوثيقة ",ActionName="DocumentGroups",Type=true  ,TypeMaster=false  },
                 new PermissionsControls() {Name="إضافة  وثيقة للمجموعات ",ActionName="DocumentGroupsCreate" ,Type=true  ,TypeMaster=false },
                 new PermissionsControls() {Name=" إزالة   وثيقة من المجموعات",ActionName="DocumentGroupsDelete" ,Type=true  ,TypeMaster=false },
                 new PermissionsControls() {Name="تفاصيل اسناد الوثيقة للمجموعات",ActionName="DocumentGroupsDetails" ,Type=true  ,TypeMaster=false },
 
-                new PermissionsControls() {Name="تعديل إمكانية التعديل للوثيقة ضمن المجموعات",ActionName="DocumentGroupsActiveNonActiveEdit" ,Type=true,TypeMaster=false },
-                new PermissionsControls() {Name="تعديل إمكانية الرد للوثيقة ضمن المجموعات",ActionName="DocumentGroupsActiveNonActiveReplay" ,Type=true,TypeMaster=false },
-                new PermissionsControls() {Name="تعديل إمكانية التسديد للوثيقة ضمن المجموعات",ActionName="DocumentGroupsActiveNonActiveSeal" ,Type=true,TypeMaster=false },
-                new PermissionsControls() {Name=" تعديل إمكانية الربط للوثيقة ضمن المجموعات",ActionName="DocumentGroupsActiveNonActiveRelate" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name="تعديل إمكانية التعديل للوثيقة ضمن المجموعات",ActionName="DocumentGroupsIs_ActiveNonIs_ActiveEdit" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name="تعديل إمكانية الرد للوثيقة ضمن المجموعات",ActionName="DocumentGroupsIs_ActiveNonIs_ActiveReplay" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name="تعديل إمكانية التسديد للوثيقة ضمن المجموعات",ActionName="DocumentGroupsIs_ActiveNonIs_ActiveSeal" ,Type=true,TypeMaster=false },
+                new PermissionsControls() {Name=" تعديل إمكانية الربط للوثيقة ضمن المجموعات",ActionName="DocumentGroupsIs_ActiveNonIs_ActiveRelate" ,Type=true,TypeMaster=false },
 
 
 
@@ -176,7 +176,7 @@ namespace ArchiveProject2019.Models
                 
                 new PermissionsControls() {Name="قائمة صلاحيات الادوار",ActionName="PermissionRolesIndex",Type=false,TypeMaster=true   },
                 new PermissionsControls() {Name="إضافة صلاحيات",ActionName="PermissionRolesCreate",Type=false ,TypeMaster=true  },
-                new PermissionsControls() {Name="تعديل حالة تفعيل الصلاحيات للدور",ActionName="PermissionRolesActive",Type=false,TypeMaster=true   },
+                new PermissionsControls() {Name="تعديل حالة تفعيل الصلاحيات للدور",ActionName="PermissionRolesIs_Active",Type=false,TypeMaster=true   },
                 new PermissionsControls() {Name="تفاصيل صلاحيات الدور",ActionName="PermissionRolesDetails",Type=false,TypeMaster=true   },
                 new PermissionsControls() {Name="إزالة صلاحيات من الادوار",ActionName="PermissionRolesDelete",Type=false ,TypeMaster=true  },
 
@@ -256,10 +256,10 @@ namespace ArchiveProject2019.Models
 
 
 
-                new PermissionsControls() {Name="مجموعات المستخدم",ActionName="InformationUserGroups",Type=true  ,TypeMaster=false },
-                new PermissionsControls() {Name=" نماذج المستخدم",ActionName="InformationUserForms",Type=true  ,TypeMaster=false },
-                new PermissionsControls() {Name="اضافة نماذج مفضلة",ActionName="InformationUserAddFavoriteForms",Type=true  ,TypeMaster=false },
-                new PermissionsControls() {Name="حذف نماذج مفضلة",ActionName="InformationUserDeleteFavoriteForms",Type=true  ,TypeMaster=false },
+                new PermissionsControls() {Name="مجموعات المستخدم",ActionName="InformationUserGroups",Type=false  ,TypeMaster=true },
+                new PermissionsControls() {Name=" نماذج المستخدم",ActionName="InformationUserForms",Type=false  ,TypeMaster=true },
+                new PermissionsControls() {Name="اضافة نماذج مفضلة",ActionName="InformationUserAddFavoriteForms",Type=false  ,TypeMaster=true },
+                new PermissionsControls() {Name="حذف نماذج مفضلة",ActionName="InformationUserDeleteFavoriteForms",Type=false  ,TypeMaster=true },
 
 
                 

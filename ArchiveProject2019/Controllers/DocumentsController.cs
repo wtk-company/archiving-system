@@ -371,7 +371,7 @@ namespace ArchiveProject2019.Controllers
 
 
 
-                    if (UploadFile!=null)
+                    if (UploadFile != null)
                     {
 
 
@@ -394,17 +394,20 @@ namespace ArchiveProject2019.Controllers
                                     file.SaveAs(path);
                                 }
 
+
                                 viewModel.Document.Name += FileName + "_##_";
                                 viewModel.Document.FileUrl += s1 + "_##_";
                             }
                         }
 
                         // Cut last 4 split string
-                        viewModel.Document.Name = viewModel.Document.Name.Substring(0, viewModel.Document.Name.Length - 4);
-                        viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
+                        if (viewModel.Document.Name != null)
+                        {
+                            viewModel.Document.Name = viewModel.Document.Name.Substring(0, viewModel.Document.Name.Length - 4);
+                            viewModel.Document.FileUrl = viewModel.Document.FileUrl.Substring(0, viewModel.Document.FileUrl.Length - 4);
+                        }
                     }
                 }
-
                 // Document Details:
                 viewModel.Document.CreatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
                 viewModel.Document.CreatedById = UserId;
@@ -1596,7 +1599,7 @@ namespace ArchiveProject2019.Controllers
                 }
 
                 //Document Update:
-                viewModel.Document.UpdateById = this.User.Identity.GetUserId();
+                viewModel.Document.UpdatedById = this.User.Identity.GetUserId();
 
                 viewModel.Document.UpdatedAt = DateTime.Now.ToString("dd/MM/yyyy-HH:mm:ss");
 

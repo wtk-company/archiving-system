@@ -290,12 +290,12 @@ namespace ArchiveProject2019.HelperClasses
                 return false;
             }
 
-            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdateById.Equals(id)))
+            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
             {
                 return false;
             }
 
-            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdateById.Equals(id)))
+            if (db.Documents.Any(a => a.CreatedById.Equals(id) || a.UpdatedById.Equals(id)))
             {
                 return false;
             }

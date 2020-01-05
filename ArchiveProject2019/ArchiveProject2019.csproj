@@ -282,6 +282,7 @@
     <Compile Include="Models\View.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\main_lang.Designer.cs" />
     <Compile Include="Security\IsAuthoriedHost.cs" />
     <Compile Include="Security\ManagedAes.cs" />
     <Compile Include="Startup.cs" />
@@ -1129,6 +1130,7 @@
     <EmbeddedResource Include="Migrations\202001011051024_ah-force.resx">
       <DependentUpon>202001011051024_ah-force.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\main_lang.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

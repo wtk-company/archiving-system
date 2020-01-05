@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using ArchiveProject2019.Resources;
 
 namespace ArchiveProject2019.Models
 {
@@ -11,46 +12,51 @@ namespace ArchiveProject2019.Models
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name ="حالة التّفعيل")]
+
+
+
+        [Display(Name = "Is_Active", ResourceType = typeof(main_lang))]
         public bool Is_Active { get; set; }
-        [Display(Name ="الصلاحية")]
+
+
+
+        [Display(Name = "PermissionId", ResourceType = typeof(main_lang))]
         public int PermissionId { get; set; }
-        [Display(Name = "الدور")]
-
-        public string RoleId { get; set; }
-
         [ForeignKey("PermissionId")]
-
         public virtual Permission Permission { get; set; }
 
-        [ForeignKey("RoleId")]
 
+
+        [Display(Name = "RoleId", ResourceType = typeof(main_lang))]
+        public string RoleId { get; set; }
+        [ForeignKey("RoleId")]
         public virtual ApplicationRoles Role { get; set; }
 
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "تاريخ الإنشاء")]
+        [Display(Name = "CreatedAt", ResourceType = typeof(main_lang))]
         public string CreatedAt { get; set; }
-        
-        //Users Control:
-        [Display(Name = " اسم الشخص المنشىء ")]
-        public string CreatedById { set; get; }
 
+
+
+        //Users Control:
+        [Display(Name = "CreatedById", ResourceType = typeof(main_lang))]
+        public string CreatedById { set; get; }
         [ForeignKey("CreatedById")]
         public ApplicationUser CreatedBy { set; get; }
 
 
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy-HH:mm:ss}")]
-        [Display(Name = "تاريخ أخر تحديث")]
+        [Display(Name = "UpdatedAt", ResourceType = typeof(main_lang))]
         public string Updatedat { get; set; }
-        [Display(Name = "آخر تعديل  بواسطة")]
-        public string UpdatedById { set; get; }
 
+
+
+        [Display(Name = "UpdatedById", ResourceType = typeof(main_lang))]
+        public string UpdatedById { set; get; }
         [ForeignKey("UpdatedById")]
         public ApplicationUser UpdatedBy { set; get; }
-
-
     }
 }
