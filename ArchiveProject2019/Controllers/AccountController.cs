@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ArchiveProject2019.Models;
 using ArchiveProject2019.HelperClasses;
+using ArchiveProject2019.Security;
 
 namespace ArchiveProject2019.Controllers
 {
@@ -64,10 +65,11 @@ namespace ArchiveProject2019.Controllers
         {
             ViewBag.ReturnUrl = returnUrl;
 
-            if (false)
+            if (!IsAuthoriedHost.checkAuthorize())
             {
                 return RedirectToAction("ApplicationClosed", "ErrorController");
             }
+
             return View();
         }
 

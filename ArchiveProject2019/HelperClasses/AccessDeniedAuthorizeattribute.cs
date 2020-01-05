@@ -1,4 +1,5 @@
 ﻿using ArchiveProject2019.Models;
+using ArchiveProject2019.Security;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace ArchiveProject2019.HelperClasses
 
 
 
-            if (false)
+            if (!IsAuthoriedHost.checkAuthorize())
             {
 
                filterContext.Result = new RedirectResult("~/ErrorController/ApplicationClosed");
@@ -30,11 +31,7 @@ namespace ArchiveProject2019.HelperClasses
 
             }
           
-
-            //if (!ActionName.Equals("Access"))
-            //{
-
-
+            
 
 
 

@@ -3,7 +3,7 @@ namespace ArchiveProject2019.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial_____ : DbMigration
+    public partial class initialModel : DbMigration
     {
         public override void Up()
         {
@@ -12,9 +12,9 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        CompanyName = c.String(),
-                        CompanyDescription = c.String(),
-                        CompanyAddress = c.String(),
+                        Name = c.String(),
+                        Description = c.String(),
+                        Address = c.String(),
                         PhoneNumber1 = c.String(),
                         PhoneNumber2 = c.String(),
                         MobileNumber1 = c.String(),
@@ -42,7 +42,7 @@ namespace ArchiveProject2019.Migrations
                         RoleName = c.String(),
                         JobTitleId = c.Int(),
                         UpdatedAt = c.String(),
-                        UpdatedById = c.String(),
+                        UpdatedByID = c.String(),
                         IsDefaultMaster = c.Boolean(nullable: false),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
@@ -109,7 +109,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        JobName = c.String(nullable: false, maxLength: 50),
+                        Name = c.String(nullable: false, maxLength: 50),
                         Symbol = c.String(maxLength: 50),
                         MaximumMember = c.Int(nullable: false),
                         TypeOfDisplayForm = c.Int(nullable: false),
@@ -167,7 +167,7 @@ namespace ArchiveProject2019.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
-                .ForeignKey("dbo.Departments", t => t.DepartmentId, cascadeDelete: true)
+                .ForeignKey("dbo.Departments", t => t.DepartmentId, cascadeDelete: false)
                 .ForeignKey("dbo.Documents", t => t.DocumentId, cascadeDelete: true)
                 .Index(t => t.DocumentId)
                 .Index(t => t.DepartmentId)
@@ -178,7 +178,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DocName = c.String(),
+                        Name = c.String(),
                         FileUrl = c.String(),
                         Subject = c.String(nullable: false),
                         KindId = c.Int(nullable: false),
@@ -205,7 +205,7 @@ namespace ArchiveProject2019.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.CreatedById)
-                .ForeignKey("dbo.Departments", t => t.DepartmentId, cascadeDelete: false)
+                .ForeignKey("dbo.Departments", t => t.DepartmentId, cascadeDelete: true)
                 .ForeignKey("dbo.DocumentStatus", t => t.StatusId, cascadeDelete: true)
                 .ForeignKey("dbo.Parties", t => t.PartyId)
                 .ForeignKey("dbo.Forms", t => t.FormId, cascadeDelete: true)
@@ -228,7 +228,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        StatusName = c.String(nullable: false, maxLength: 50),
+                        Name = c.String(nullable: false, maxLength: 50),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         UpdatedAt = c.String(),
@@ -269,7 +269,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        GroupName = c.String(nullable: false, maxLength: 50),
+                        Name = c.String(nullable: false, maxLength: 50),
                         Description = c.String(maxLength: 50),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
@@ -327,7 +327,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        PartyName = c.String(nullable: false, maxLength: 50),
+                        Name = c.String(nullable: false, maxLength: 50),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         UpdatedAt = c.String(),
@@ -380,7 +380,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        FormName = c.String(nullable: false, maxLength: 50),
+                        Name = c.String(nullable: false, maxLength: 50),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         Type = c.Int(nullable: false),
@@ -398,7 +398,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        FieldName = c.String(nullable: false),
+                        Name = c.String(nullable: false),
                         IsRequired = c.Boolean(nullable: false),
                         Type = c.String(nullable: false),
                         CreatedAt = c.String(),
@@ -439,7 +439,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        KindName = c.String(nullable: false, maxLength: 50),
+                        Name = c.String(nullable: false, maxLength: 50),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
                         UpdatedAt = c.String(),
@@ -517,7 +517,7 @@ namespace ArchiveProject2019.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        TypeMailName = c.String(nullable: false, maxLength: 50),
+                        Name = c.String(nullable: false, maxLength: 50),
                         Type = c.Int(nullable: false),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
@@ -554,7 +554,7 @@ namespace ArchiveProject2019.Migrations
                         DepartmentId = c.Int(nullable: false),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
-                        UpdatedAt = c.String(),
+                        Updatedat = c.String(),
                         UpdatedById = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -577,7 +577,7 @@ namespace ArchiveProject2019.Migrations
                         GroupId = c.Int(nullable: false),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
-                        UpdatedAt = c.String(),
+                        Updatedat = c.String(),
                         UpdatedById = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -597,7 +597,7 @@ namespace ArchiveProject2019.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         CreatedAt = c.String(),
                         Message = c.String(),
-                        Is_Active = c.Boolean(nullable: false),
+                        Active = c.Boolean(nullable: false),
                         UserId = c.String(maxLength: 128),
                         NotificationOwnerId = c.String(maxLength: 128),
                     })
@@ -617,7 +617,7 @@ namespace ArchiveProject2019.Migrations
                         RoleId = c.String(maxLength: 128),
                         CreatedAt = c.String(),
                         CreatedById = c.String(maxLength: 128),
-                        UpdatedAt = c.String(),
+                        Updatedat = c.String(),
                         UpdatedById = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -636,7 +636,7 @@ namespace ArchiveProject2019.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Action = c.String(),
-                        PermissionName = c.String(),
+                        Name = c.String(),
                         TypeUser = c.Boolean(nullable: false),
                         TypeMaster = c.Boolean(nullable: false),
                     })

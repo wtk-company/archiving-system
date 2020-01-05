@@ -1,6 +1,4 @@
-﻿using Quartz;
-using Quartz.Impl;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,25 +12,32 @@ using System.Collections;
 
 namespace ArchiveProject2019.Security
 {
-    public class IsAuthoriedHost : IJob
+    public class IsAuthoriedHost
     {
 
-        private string password = "wtkc2019";
-        public void Execute(IJobExecutionContext context)
+        private static string password = "wtkc2019";
+        private static string processorId = "wtkc2019";
+        private static string uuid = "wtkc2019";
+
+        public static bool checkAuthorize()
         {
-            var ff = getHash(GetCpuId(), UUID());
-            var dd = getHash(GetCpuId(), UUID());
-            if (dd == ff)
+            //string AuthoridHost = getHash(processorId, uuid);
+
+            var AuthoridHost = getHash(GetCpuId(), UUID());
+            var CurrentHost = getHash(GetCpuId(), UUID());
+
+            if (AuthoridHost.Equals(CurrentHost))
             {
-                //Debug.WriteLine("__HHHH__");
-                //Process.Start("iisreset /stop");
-                
+                return true;
             }
+
+            return false;
         }
-        public string getHash(string processorid, string uuid)
+
+        public static string getHash(string processorid, string uuid)
         {
             var passwordBytes = Encoding.UTF8.GetBytes(password + processorid + uuid + password);
-            return Convert.ToString( SHA256.Create().ComputeHash(passwordBytes));
+            return System.Text.Encoding.Default.GetString( SHA256.Create().ComputeHash(passwordBytes));
         }
 
         // get processor id
@@ -65,26 +70,5 @@ namespace ArchiveProject2019.Security
             return uuid;
         }
     }
-    public class AuthorizeHostScheduler
-    {
-        public static void Start()
-        {
-            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
-            scheduler.Start();
-
-            IJobDetail job = JobBuilder.Create<IsAuthoriedHost>().Build();
-
-            ITrigger trigger = TriggerBuilder.Create()
-                .StartNow()
-                .WithSimpleSchedule
-                  (s =>
-                     // fire every 1 hours
-                     s.WithIntervalInHours(1)
-                    .RepeatForever()
-                  )
-                .Build();
-
-            scheduler.ScheduleJob(job, trigger);
-        }
-    }
+    
 }
